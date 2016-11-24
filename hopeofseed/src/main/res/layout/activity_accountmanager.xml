@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/top"
+        layout="@layout/top" />
+
+    <RelativeLayout
+        android:id="@+id/rel_accountsetting"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/top">
+
+        <TextView
+            android:id="@+id/tv_accountsetting"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="账号管理" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_securitysetting"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rel_accountsetting">
+
+        <TextView
+            android:id="@+id/tv_securitysetting"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="账号安全" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_seedvariety"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rel_securitysetting">
+
+        <TextView
+            android:id="@+id/tvseedvariety"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="品种维护" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_signout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rel_seedvariety">
+
+        <TextView
+            android:id="@+id/tv_signout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="退出当前账号" />
+    </RelativeLayout>
+</RelativeLayout>

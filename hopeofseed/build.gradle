@@ -1,0 +1,69 @@
+apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
+android {
+    compileSdkVersion 24
+    buildToolsVersion '23.0.3'
+
+    defaultConfig {
+        applicationId "com.hopeofseed.hopeofseed"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            //不显示log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //是否混淆
+            minifyEnabled false
+            //Zipalign优化
+            zipAlignEnabled true
+            //移除无用的resource文件
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            //不显示log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            //是否混淆
+            minifyEnabled false
+            //Zipalign优化
+            zipAlignEnabled true
+            //移除无用的resource文件
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            jni.srcDirs = []
+            jniLibs.srcDir("libs")
+        }
+    }
+}
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "io.realm:realm-gradle-plugin:1.1.0"
+    }
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile fileTree(include: ['**.*'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:support-v4:24.1.1'
+    compile project(':lgm')
+    compile project(':library')
+    compile files('libs/jmessage-android-1.4.2.jar')
+    compile 'com.android.support:design:24.2.1'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.youth.banner:banner:1.4.1'
+    compile files('libs/BaiduLBS_Android.jar')
+    compile files('libs/Bughd_android_sdk_v1.3.7.jar')
+    compile files('libs/picasso-2.4.0.jar')
+    compile files('libs/pinyin4j-2.5.0.jar')
+}

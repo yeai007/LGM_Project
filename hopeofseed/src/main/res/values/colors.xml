@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="maincolor">#ffffff</color>
+    <color name="mainbgcolor">#f2f2f3</color>
+
+
+    <!--我的begin-->
+    <color name="text_title_color">#727171</color>
+    <color name="text_content_color">#c0c0c0</color>
+
+    <color name="text_menu_color">#595757</color>
+<!--我的end-->
+
+
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="textcolor_checked">#45C01A</color>
+    <color name="textcolor">#BEBEBE</color>
+    <color name="red">#fd8d8d</color>
+    <color name="green">#9cfda3</color>
+    <color name="blue">#8d9dfd</color>
+    <color name="white">#FFFFFF</color>
+    <color name="orange">#f37301</color>
+    <color name="black">#000000</color>
+    <color name="gray">#050505</color>
+    <color name="text_gray1">#777777</color>
+    <color name="text_gray2">#767676</color>
+    <color name="line">#DDDDDD</color>
+    <color name="background_gray1">#EBEBEB</color>
+    <color name="line_btn">#BBBBBB</color>
+    <color name="panel_black">#25272A</color>
+
+    <color name="background_gray2">#E6E6E6</color>
+    <color name="background_gray3">#D4D4D4</color>
+    <color name="background_gray4">#EFEFF4</color>
+
+    <color name="text_blue1">#1173CB</color>
+    <color name="text_blue2">#1173CA</color>
+
+    <color name="btn_red">#D63F41</color>
+    <color name="btn_red_hover">#E8484B</color>
+    <color name="btn_blue">#0F73CB</color>
+    <color name="btn_blue_hover">#1E86E4</color>
+    <color name="btn_text">#FFFFFF</color>
+    <color name="btn_text_hover">#CCFFFFFF</color>
+    <!--蒙版-->
+    <color name="colorMask">#66000000</color>
+
+    <!--自定义搜索框-->
+    <color name="myred">#eb4f38</color>
+    <color name="darkgray">#cccc</color>
+    <color name="color_white">#ffffff</color>
+    <color name="btn_press_color">#5677fc</color>
+    <color name="btn_pressed_color">#3ca0ec</color>
+    <!--搜索页标题拦-->
+    <color name="category_tab_text">#ff707070</color>
+    <color name="category_tab_text_dark">#fffafafa</color>
+    <color name="category_tab_highlight_text">#fffafafa</color>
+    <color name="category_tab_highlight_text_dark">#ffd43d3d</color>
+    <color name="category_tab_highlight_bg">#ffd43d3d</color>
+    <color name="category_tab_highlight_dark_bg">#fffafafa</color>
+
+    <color name="jmui_chat_detail_split_line_color">#d3d3d3</color>
+    <color name="software_textColor_selected">#FF1C94</color>
+    <color name="software_textColor_unselected">#000000</color>
+
+
+    <color name="province_line_border">#C7C7C7</color>
+
+    <color name="menu_item_back_pres_color">#3773cb</color>
+
+    <color name="jmui_jpush_blue">#3f80dc</color>
+    <color name="all_members_bg_color">#f0f1f3</color>
+    <color name="chat_detail_item_hit_color">#555555</color>
+    <!-- 主页面 -->
+    <color name="action_bar_txt_color">#969696</color>
+    <color name="actionbar_sel_color">#1c1c1c</color>
+    <color name="me_info_edit_color">#2d2d2d</color>
+    <color name="me_info_hint_color">#cfcdce</color>
+    <color name="actionbar_pres_color">#3f80dc</color>
+
+    <color name="actionbar_def_color">#3C3C3C</color>
+
+    <color name="main_view_split_line_color">#C8C8C8</color>
+    <color name="conv_list_split_line_color">#d6d6d6</color>
+    <color name="contacts_pinner_bg">#F2F8F8F8</color>
+    <color name="contacts_pinner_txt">#858585</color>
+    <color name="contacts_txt_color">#0479FB</color>
+    <color name="me_split_line_color">#d0d0d0</color>
+    <color name="msg_list_item_sel_color">#A3C2EF</color>
+    <color name="item_click_bg_color">#dddddd</color>
+    <color name="friend_content_text_color">#7f7f7f</color>
+    <color name="chat_text_color">#373334</color>
+    <color name="chat_detail_hit_color">#3C3C3C</color>
+
+    <color name="dialog_select_color">#d4d4d4</color>
+    <color name="finish_btn_unclickable_color">#b9ebb8</color>
+    <color name="finish_btn_clickable_color">#6fd66b</color>
+    <color name="default_cursor_color">#8db4eb</color>
+    <color name="menu_item_click_color">#346fc3</color>
+    <color name="me_no_picture_color">#e1e1e1</color>
+    <color name="jmui_reset_password_title_color">#4e4e4e</color>
+    <color name="translucent_background">#60000000</color>
+    <color name="header_normal">#ffe74c3c</color>
+    <color name="header_pressed">#ffc0392b</color>
+    <color name="menu_section_header">#FFDDDDDD</color>
+    <color name="letter_hint_start_color">#19892f</color>
+    <color name="leter_hint_end_color">#0ae936</color>
+    <color name="section_color">#f8f8f8</color>
+    <color name="section_text_color">#858585</color>
+    <color name="sidebar_text_color">#0a6afd</color>
+    <color name="select_friend_item_split_color">#dddddd</color>
+    <color name="network_disconnected_bg_color">#ffdfe0</color>
+
+</resources>

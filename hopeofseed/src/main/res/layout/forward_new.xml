@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:fillViewport="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/top"
+            layout="@layout/top_comright" />
+
+        <RelativeLayout
+            android:id="@+id/rel_share_new"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_below="@+id/et_share_mood"
+            android:background="#efefef">
+
+            <ImageView
+                android:id="@+id/img_share_new"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="20dp"
+                android:background="#efefef" />
+
+            <TextView
+                android:id="@+id/tv_share_new_title"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/img_share_new"
+                android:background="#efefef" />
+
+            <TextView
+                android:id="@+id/tv_share_new_content"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/tv_share_new_title"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/img_share_new"
+                android:background="#efefef" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/et_share_mood"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_below="@+id/top"
+            android:background="@null"
+            android:hint="写评论..."
+            android:gravity="top"
+            android:textColor="#000000" />
+
+        <LinearLayout
+            android:id="@+id/rel_input_menu"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/background_gray2">
+
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:text="@string/str_at"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>

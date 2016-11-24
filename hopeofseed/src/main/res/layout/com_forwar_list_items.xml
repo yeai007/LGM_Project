@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <com.hopeofseed.hopeofseed.ui.CircleImageView
+        android:id="@+id/user_img"
+        android:layout_width="40dp"
+        android:src="@drawable/default_avater"
+        android:layout_height="40dp" />
+
+    <TextView
+        android:id="@+id/tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_toRightOf="@+id/user_img"
+        android:textColor="#ff6600"
+        android:text="1111" />
+
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:layout_below="@+id/tv_username"
+        android:layout_toRightOf="@+id/user_img"
+        android:textColor="#898989"
+        android:text="1111" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_img"
+        android:layout_toRightOf="@+id/user_img"
+        android:textColor="#898989"
+        android:text="1111" />
+</RelativeLayout>

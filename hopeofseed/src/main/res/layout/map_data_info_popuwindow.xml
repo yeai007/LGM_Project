@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/map_info_name"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="公司名称"
+        android:textColor="#EE6A50" />
+
+    <TextView
+        android:id="@+id/map_info_address"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/map_info_name"
+        android:gravity="center_vertical"
+        android:text="公司地址"
+        android:textColor="#EE6A50" />
+
+    <Button
+        android:id="@+id/btn_show_info"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/map_info_address"
+        android:text="显示详细" />
+</RelativeLayout>

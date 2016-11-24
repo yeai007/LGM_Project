@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/top"
+        layout="@layout/top_comright" />
+
+    <RelativeLayout
+        android:id="@+id/rel_groupname"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/top">
+
+        <com.hopeofseed.hopeofseed.curView.fontTextView
+            android:id="@+id/ftv_gourpname"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="群名称" />
+
+        <EditText
+            android:id="@+id/tv_gourpname"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/ftv_gourpname"
+            android:background="@null"
+            android:gravity="center_vertical|right"
+            android:text="群名称" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_card"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rel_groupname">
+
+        <com.hopeofseed.hopeofseed.curView.fontTextView
+            android:id="@+id/ftv_card"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="群名片" />
+
+        <EditText
+            android:id="@+id/tv_card"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:gravity="center_vertical|right"
+            android:text="群名片" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_introduction"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rel_card">
+
+        <com.hopeofseed.hopeofseed.curView.fontTextView
+            android:id="@+id/ftv_introduction"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:text="群简介" />
+
+        <EditText
+            android:id="@+id/tv_introduction"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:gravity="center_vertical|right"
+            android:text="群简介" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_members"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rel_introduction">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/member_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gv_photo"
+            android:columnWidth="10dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="10dp" />
+
+    </RelativeLayout>
+
+    <com.hopeofseed.hopeofseed.curView.fontButton
+        android:id="@+id/del_group"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/rel_members"
+        android:text="退出群" />
+</RelativeLayout>

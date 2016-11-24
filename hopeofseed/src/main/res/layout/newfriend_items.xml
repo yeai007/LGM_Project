@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/img_user_head"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+
+    <com.hopeofseed.hopeofseed.curView.fontTextView
+        android:id="@+id/add_friend"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="关注"
+        android:textColor="@color/red" />
+
+    <com.hopeofseed.hopeofseed.curView.fontTextView
+        android:id="@+id/tv_username"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_toLeftOf="@+id/add_friend"
+        android:layout_toRightOf="@+id/img_user_head"
+        android:textColor="@color/red" />
+
+
+</RelativeLayout>

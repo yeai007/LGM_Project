@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="id" name="key_zambiaid"/>
+    <item type="id" name="key_content"/>
+    <item type="id" name="key_forward"/>
+    <item type="id" name="key_comment"/>
+    <item type="id" name="key_listid"/>
+    <item type="id" name="key_addnewfriend"/>
+    <item type="id" name="key_groupid"/>
+    <item type="id" name="key_jpushgroupid"/>
+
+    <item type="id" name="key_userid"/>
+    <item type="id" name="key_username"/>
+    <item type="id" name="ischeck"/>
+    <item name="key_comment_count" type="id" />
+    <item name="seedfriendfragment" type="id" />
+    <item name="tag_geneal" type="id" />
+    <item name="tag_forward" type="id" />
+    <item name="key_forward_content" type="id" />
+    <item name="record_id" type="id" />
+    <item name="record_user" type="id" />
+</resources>
