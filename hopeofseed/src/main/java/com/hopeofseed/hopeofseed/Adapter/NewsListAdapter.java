@@ -428,7 +428,7 @@ public class NewsListAdapter extends BaseAdapter {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
                 //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
-                Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
+           //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
                 switch (user_role) {
                     case 0:
                         Glide.with(mContext)

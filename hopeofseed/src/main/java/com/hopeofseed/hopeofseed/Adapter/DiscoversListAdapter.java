@@ -113,7 +113,7 @@ public class DiscoversListAdapter extends BaseAdapter {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
                 //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
-                Log.e(TAG, "gotResult: " + userInfo.getAvatar());
+               // Log.e(TAG, "gotResult: " + userInfo.getAvatar());
                 Glide.with(mContext)
                         .load(userInfo.getAvatarFile())
                         .centerCrop()

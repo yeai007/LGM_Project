@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +50,8 @@ import java.util.HashMap;
  * 修改备注：
  */
 public class DiscoverFragment extends Fragment implements NetCallBack, View.OnClickListener {
-
+    private static final String TAG = "DiscoverFragment";
     GridView gv_discover;
-    ArrayList<CompanyData> arr_CompanyData = new ArrayList<>();
     DiscoversGridViewAdapter discoversGridViewAdapter;
     ArrayList<String> arr_title = new ArrayList<>();
     public static final int SELECT_VARIETIES = 0;//找品种
@@ -61,7 +61,6 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
     public static final int SELECT_AUTHOR = 4;//找机构
     public static final int SELECT_SEED_FRIEND = 5;//找种友
     int LV_TYPE = 0;
-    ArrayList<CompanyData> arr_CompanyData_tmp = new ArrayList<>();
     ArrayList<NewsData> arr_NewsData = new ArrayList<>();
     NewsDataTmp newsDataTmp = new NewsDataTmp();
     GroupDataTmp groupDataTmp = new GroupDataTmp();
@@ -80,7 +79,7 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
         final View v = inflater.inflate(R.layout.fragment_discover, null);
         initData();
         initView(v);
-        initList(v);
+        initList();
         return v;
     }
 
@@ -118,15 +117,10 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
         discoversGridViewAdapter = new DiscoversGridViewAdapter(getActivity(), arr_title);
         gv_discover.setAdapter(discoversGridViewAdapter);
         gv_discover.setOnItemClickListener(GridListener);
-        getStarCompany();
+        getData();
     }
 
-    private void getStarCompany() {
-        HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
-        HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "getStarCompany.php", opt_map, CompanyDataTmp.class, this);
-    }
+
 
     private View.OnClickListener listener = new View.OnClickListener() {
         public void onClick(View v) {
@@ -173,10 +167,7 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-        if (rspBaseBean.RequestSign.equals("getStarCompany")) {
-            arr_CompanyData_tmp = ObjectUtil.cast(rspBaseBean.result);
-            updateView();
-        } else if (rspBaseBean.RequestSign.equals("getNews")) {
+if (rspBaseBean.RequestSign.equals("getNews")) {
 
             newsDataTmp = ObjectUtil.cast(rspBaseBean);
             updateHotView();
@@ -197,13 +188,6 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
         msg.arg1 = 1;
         msg.sendToTarget();
     }
-
-    private void updateView() {
-        Message msg = getStarCompanyHandle.obtainMessage();
-        msg.arg1 = 1;
-        msg.sendToTarget();
-    }
-
     @Override
     public void onError(String error) {
 
@@ -221,6 +205,7 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
                 case 0:
                     break;
                 case 1:
+                    Log.e(TAG, "handleMessage: update group" );
                     arr_GroupData.clear();
                     arr_GroupData.addAll(groupDataTmp.getDetail());
                     groupsListAdapter.notifyDataSetChanged();
@@ -239,6 +224,9 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
                 case 0:
                     break;
                 case 1:
+                    lv_group.setVisibility(View.GONE);
+                    lv_event.setVisibility(View.GONE);
+                    lv_hot.setVisibility(View.VISIBLE);
                     arr_NewsData.clear();
                     arr_NewsData.addAll(newsDataTmp.getDetail());
                     discoversListAdapter.notifyDataSetChanged();
@@ -250,28 +238,13 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
             }
         }
     };
-    private Handler getStarCompanyHandle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.arg1) {
-                case 0:
-                    break;
-                case 1:
-                    arr_CompanyData.clear();
-                    arr_CompanyData.addAll(arr_CompanyData_tmp);
-                    discoversGridViewAdapter.notifyDataSetChanged();
-                    break;
-                case 2:
 
-                    break;
-            }
-        }
-    };
 
 
     //*****************************************************8
-    private void initList(View v) {
-        getData();
+    private void initList() {
+
+        //getData();
         lv_hot.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -343,20 +316,23 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_hot:
+                lv_group.setVisibility(View.GONE);
+                lv_event.setVisibility(View.GONE);
                 lv_hot.setVisibility(View.VISIBLE);
-                lv_group.setVisibility(View.INVISIBLE);
-                lv_event.setVisibility(View.INVISIBLE);
+
                 getData();
                 break;
             case R.id.tv_event:
+                lv_group.setVisibility(View.GONE);
+                lv_hot.setVisibility(View.GONE);
                 lv_event.setVisibility(View.VISIBLE);
-                lv_group.setVisibility(View.INVISIBLE);
-                lv_hot.setVisibility(View.INVISIBLE);
+
                 break;
             case R.id.tv_group:
+                lv_hot.setVisibility(View.GONE);
+                lv_event.setVisibility(View.GONE);
                 lv_group.setVisibility(View.VISIBLE);
-                lv_hot.setVisibility(View.INVISIBLE);
-                lv_event.setVisibility(View.INVISIBLE);
+
                 getGroupData();
                 break;
         }

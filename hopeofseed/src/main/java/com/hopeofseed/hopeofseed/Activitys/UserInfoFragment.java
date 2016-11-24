@@ -104,7 +104,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
                 if (userInfo.getAvatarFile() != null) {
-                    Log.e(TAG, "gotResult: " + Const.JPUSH_PREFIX+String.valueOf(Const.currentUser.user_id));
+                  //  Log.e(TAG, "gotResult: " + Const.JPUSH_PREFIX+String.valueOf(Const.currentUser.user_id));
                     Glide.with(getActivity())
                             .load(userInfo.getAvatarFile())
                             .centerCrop()
