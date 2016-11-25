@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +29,11 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 
+import static com.hopeofseed.hopeofseed.R.id.img_user_avatar;
+import static com.hopeofseed.hopeofseed.R.id.tv_fans_sum;
+import static com.hopeofseed.hopeofseed.R.id.tv_follow_sum;
+import static com.hopeofseed.hopeofseed.R.id.tv_username;
+
 
 /**
  * 项目名称：LGM_Project
@@ -41,10 +47,9 @@ import cn.jpush.im.android.api.model.UserInfo;
 public class DistributorActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
     private static final String TAG = "DistributorActivity";
     String DistributorId;
-    ImageView img_user_avatar;
-    TextView tv_username, tv_follow_sum, tv_fans_sum,AppTitle;
+    EditText et_nickname, et_address, et_address_detail, et_tel, et_info;
+    TextView AppTitle;
     DistributorData mDistributorData = new DistributorData();
-    ArrayList<DistributorData> arr_DistributorDataTmp = new ArrayList<>();
 
 
     @Override
@@ -58,12 +63,18 @@ public class DistributorActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void initView() {
-        AppTitle=(TextView)findViewById(R.id.apptitle);
+        AppTitle = (TextView) findViewById(R.id.apptitle);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
-        img_user_avatar = (ImageView) findViewById(R.id.img_user_avatar);
-        tv_username = (TextView) findViewById(R.id.tv_username);
-        tv_follow_sum = (TextView) findViewById(R.id.tv_follow_sum);
-        tv_fans_sum = (TextView) findViewById(R.id.tv_fans_sum);
+        et_nickname = (EditText) findViewById(R.id.et_nickname);
+        et_nickname.setFocusable(false);
+        et_address = (EditText) findViewById(R.id.et_address);
+        et_address.setFocusable(false);
+        et_address_detail = (EditText) findViewById(R.id.et_address_detail);
+        et_address_detail.setFocusable(false);
+        et_tel = (EditText) findViewById(R.id.et_tel);
+        et_tel.setFocusable(false);
+        et_info = (EditText) findViewById(R.id.et_info);
+        et_info.setFocusable(false);
     }
 
     private void getData() {
@@ -110,23 +121,13 @@ public class DistributorActivity extends AppCompatActivity implements View.OnCli
         @Override
         public void handleMessage(Message msg) {
             AppTitle.setText(mDistributorData.getDistributorName());
-            tv_username.setText(mDistributorData.getDistributorName());
-            tv_follow_sum.setText(mDistributorData.getFllowed_count());
-            tv_fans_sum.setText(mDistributorData.getBeen_fllowed_count());
-            getUserJpushInfo(Const.JPUSH_PREFIX+mDistributorData.getUser_id());
+            et_nickname.setText(mDistributorData.getDistributorName());
+            et_address.setText(mDistributorData.getDistributorProvince() + " " + mDistributorData.getDistributorCity() + " " + mDistributorData.getDistributorZone());
+            et_address_detail.setText(mDistributorData.getDistributorAddressDetail());
+            et_tel.setText(mDistributorData.getDistributorTelephone());
+            et_info.setText(mDistributorData.getDistributorIntroduce());
         }
     };
 
-    private void getUserJpushInfo(String user_name) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                Glide.with(getApplicationContext())
-                        .load(userInfo.getAvatarFile())
-                        .centerCrop()
-                        .into(img_user_avatar);
-            }
-        });
-    }
 
 }

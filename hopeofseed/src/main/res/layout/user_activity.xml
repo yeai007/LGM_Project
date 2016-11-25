@@ -2,26 +2,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e3e3e3"
+    android:background="#f2f2f3"
     android:orientation="vertical">
 
     <include
         android:id="@+id/top"
-        layout="@layout/top_comright" />
+        layout="@layout/top_user_act" />
 
     <LinearLayout
         android:id="@+id/rel_user_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rel_user_avatar"
-        android:background="#069139"
+        android:layout_marginTop="10dp"
+        android:background="@color/maincolor"
         android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/rel_user_new"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-
             android:layout_weight="1">
 
             <TextView
@@ -31,7 +31,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="1851"
-                android:textColor="@color/white" />
+                android:textColor="@color/text_content_color" />
 
             <TextView
                 android:id="@+id/tv_word"
@@ -40,7 +40,7 @@
                 android:layout_below="@+id/tv_word_sum"
                 android:gravity="center"
                 android:text="文章"
-                android:textColor="@color/white" />
+                android:textColor="@color/text_content_color" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -56,7 +56,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text=""
-                android:textColor="@color/white" />
+                android:textColor="@color/text_content_color" />
 
             <TextView
                 android:id="@+id/tv_follow"
@@ -65,7 +65,7 @@
                 android:layout_below="@+id/tv_follow_sum"
                 android:gravity="center"
                 android:text="关注"
-                android:textColor="@color/white" />
+                android:textColor="@color/text_content_color" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -81,7 +81,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text=""
-                android:textColor="@color/white" />
+                android:textColor="@color/text_content_color" />
 
             <TextView
                 android:id="@+id/tv_fans"
@@ -90,7 +90,7 @@
                 android:layout_below="@+id/tv_fans_sum"
                 android:gravity="center"
                 android:text="粉丝"
-                android:textColor="@color/white" />
+                android:textColor="@color/text_content_color" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -131,24 +131,22 @@
 
     <RelativeLayout
         android:id="@+id/rel_user_avatar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
         android:layout_below="@+id/top"
-        android:background="#069139">
+        android:background="@color/maincolor">
 
         <RelativeLayout
             android:id="@+id/rel_img_user_avatar"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="10dp">
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp">
 
             <com.hopeofseed.hopeofseed.ui.CircleImageView
                 android:id="@+id/img_user_avatar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_centerInParent="true"
                 android:src="@drawable/default_avater" />
 
@@ -165,21 +163,43 @@
             android:id="@+id/tv_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rel_img_user_avatar"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text=""
-            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/rel_img_user_avatar"
+            android:textColor="@color/text_title_color"
             android:textSize="18sp" />
 
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/rel_img_user_avatar"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_content_color" />
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_more_info"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/rel_user_menu"
+        android:layout_marginTop="2dp"
+        android:background="@color/maincolor"
+        android:text="更多基本资料"
+        android:textColor="@color/text_title_color"
+        android:visibility="gone" />
+
     <LinearLayout
         android:id="@+id/rel_variety_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rel_user_menu"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
         <com.hopeofseed.hopeofseed.ui.CategoryTabStrip
             android:id="@+id/category_strip"
             android:layout_width="wrap_content"
@@ -188,6 +208,7 @@
             android:paddingLeft="6.0dip"
             android:paddingRight="6.0dip" />
     </LinearLayout>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"

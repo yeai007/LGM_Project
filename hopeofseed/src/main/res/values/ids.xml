@@ -19,4 +19,5 @@
     <item name="key_forward_content" type="id" />
     <item name="record_id" type="id" />
     <item name="record_user" type="id" />
+    <item name="key_title" type="id" />
 </resources>

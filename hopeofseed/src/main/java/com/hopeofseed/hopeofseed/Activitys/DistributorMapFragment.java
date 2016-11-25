@@ -118,7 +118,7 @@ public class DistributorMapFragment extends Fragment implements BDLocationListen
                     }
                 });
                 menuWindow.SetTitle(itemDis.getDistributorName());
-                menuWindow.SetAddress(itemDis.getEnterpriseProvince() + " " + itemDis.getEnterpriseCity() + " " + itemDis.getEnterpriseZone() + "\n" + itemDis.getDistributorAddressDetail());
+                menuWindow.SetAddress(itemDis.getDistributorProvince() + " " + itemDis.getDistributorCity() + " " + itemDis.getDistributorZone() + "\n" + itemDis.getDistributorAddressDetail());
                 //显示窗口
                 menuWindow.showAtLocation(v.findViewById(R.id.main), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
                 return false;

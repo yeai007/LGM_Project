@@ -28,7 +28,15 @@ public class UserDataNoRealm implements Parcelable {
      * fllowed_count : 1
      * been_fllowed_count : 0
      */
-
+    /**
+     * UserProvince :
+     * UserCity :
+     * UserZone :
+     * UserAddressDetail :
+     * UserSex :
+     * UserLastLat :
+     * UserLastLon :
+     */
     private String user_id;
     private String user_name;
     private String nickname;
@@ -39,8 +47,17 @@ public class UserDataNoRealm implements Parcelable {
     private String user_role;
     private String user_field;
     private String user_role_id;
+    private String UserProvince="";
+    private String UserCity="";
+    private String UserZone="";
+    private String UserAddressDetail="";
+    private String UserSex;
+    private String UserLastLat;
+    private String UserLastLon;
     private String fllowed_count;
     private String been_fllowed_count;
+
+
 
     public String getUser_id() {
         return user_id;
@@ -137,6 +154,61 @@ public class UserDataNoRealm implements Parcelable {
     public void setBeen_fllowed_count(String been_fllowed_count) {
         this.been_fllowed_count = been_fllowed_count;
     }
+    public String getUserProvince() {
+        return UserProvince;
+    }
+
+    public void setUserProvince(String UserProvince) {
+        this.UserProvince = UserProvince;
+    }
+
+    public String getUserCity() {
+        return UserCity;
+    }
+
+    public void setUserCity(String UserCity) {
+        this.UserCity = UserCity;
+    }
+
+    public String getUserZone() {
+        return UserZone;
+    }
+
+    public void setUserZone(String UserZone) {
+        this.UserZone = UserZone;
+    }
+
+    public String getUserAddressDetail() {
+        return UserAddressDetail;
+    }
+
+    public void setUserAddressDetail(String UserAddressDetail) {
+        this.UserAddressDetail = UserAddressDetail;
+    }
+
+    public String getUserSex() {
+        return UserSex;
+    }
+
+    public void setUserSex(String UserSex) {
+        this.UserSex = UserSex;
+    }
+
+    public String getUserLastLat() {
+        return UserLastLat;
+    }
+
+    public void setUserLastLat(String UserLastLat) {
+        this.UserLastLat = UserLastLat;
+    }
+
+    public String getUserLastLon() {
+        return UserLastLon;
+    }
+
+    public void setUserLastLon(String UserLastLon) {
+        this.UserLastLon = UserLastLon;
+    }
 
     @Override
     public int describeContents() {
@@ -155,6 +227,13 @@ public class UserDataNoRealm implements Parcelable {
         dest.writeString(this.user_role);
         dest.writeString(this.user_field);
         dest.writeString(this.user_role_id);
+        dest.writeString(this.UserProvince);
+        dest.writeString(this.UserCity);
+        dest.writeString(this.UserZone);
+        dest.writeString(this.UserAddressDetail);
+        dest.writeString(this.UserSex);
+        dest.writeString(this.UserLastLat);
+        dest.writeString(this.UserLastLon);
         dest.writeString(this.fllowed_count);
         dest.writeString(this.been_fllowed_count);
     }
@@ -173,11 +252,18 @@ public class UserDataNoRealm implements Parcelable {
         this.user_role = in.readString();
         this.user_field = in.readString();
         this.user_role_id = in.readString();
+        this.UserProvince = in.readString();
+        this.UserCity = in.readString();
+        this.UserZone = in.readString();
+        this.UserAddressDetail = in.readString();
+        this.UserSex = in.readString();
+        this.UserLastLat = in.readString();
+        this.UserLastLon = in.readString();
         this.fllowed_count = in.readString();
         this.been_fllowed_count = in.readString();
     }
 
-    public static final Parcelable.Creator<UserDataNoRealm> CREATOR = new Parcelable.Creator<UserDataNoRealm>() {
+    public static final Creator<UserDataNoRealm> CREATOR = new Creator<UserDataNoRealm>() {
         @Override
         public UserDataNoRealm createFromParcel(Parcel source) {
             return new UserDataNoRealm(source);

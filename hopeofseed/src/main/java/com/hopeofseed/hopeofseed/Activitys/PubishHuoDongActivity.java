@@ -63,8 +63,6 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
     }
 
     private void SubmitHuoDong() {
-
-
         Log.e(TAG, "getData: 获取经销商数据");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("HuoDongTitle", et_title.getText().toString());

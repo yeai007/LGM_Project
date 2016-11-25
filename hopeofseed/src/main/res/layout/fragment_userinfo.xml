@@ -213,11 +213,20 @@
                 android:layout_marginTop="5dp"
                 android:background="#ffffff">
 
+                <ImageView
+                    android:id="@+id/img_account_add_commodity"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/push_commodity" />
+
                 <TextView
                     android:id="@+id/tv_add_commodity"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/img_account_add_commodity"
                     android:gravity="center_vertical"
                     android:text="添加商品"
                     android:textColor="@color/text_menu_color"
@@ -232,11 +241,20 @@
                 android:layout_marginTop="5dp"
                 android:background="#ffffff">
 
+                <ImageView
+                    android:id="@+id/img_account_expert"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/corner_expert" />
+
                 <TextView
                     android:id="@+id/tv_expert"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/img_account_expert"
                     android:gravity="center_vertical"
                     android:text="申请成为专家"
                     android:textColor="@color/text_menu_color"

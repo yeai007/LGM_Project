@@ -2,12 +2,17 @@ package com.hopeofseed.hopeofseed.util;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.hopeofseed.hopeofseed.Adapter.NewsListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
+import com.hopeofseed.hopeofseed.R;
 
 import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
 
@@ -111,4 +116,5 @@ public class JpushUtil {
             }
         });
     }
+
 }

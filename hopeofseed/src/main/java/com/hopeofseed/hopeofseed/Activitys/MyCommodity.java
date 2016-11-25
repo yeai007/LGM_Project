@@ -97,7 +97,8 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setOnClickListener(this);
-        btn_topright.setText("维护经销商");
+        btn_topright.setVisibility(View.VISIBLE);
+        btn_topright.setText("维护");
         btn_add_commodity = (Button) findViewById(R.id.btn_add_commodity);
         btn_add_commodity.setOnClickListener(this);
     }

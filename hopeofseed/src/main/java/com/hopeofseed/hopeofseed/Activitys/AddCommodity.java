@@ -94,7 +94,8 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
     ArrayList<CommodityVarietyData> arr_Variety_Data_2 = new ArrayList<>();
     Sp_VarietyAdapter sp_VarietyAdapter_1, sp_VarietyAdapter_2;
     String varietyid;
-String Variety_1, Variety_2;
+    String Variety_1, Variety_2;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,6 +122,7 @@ String Variety_1, Variety_2;
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("添加");
+        btn_topright.setVisibility(View.VISIBLE);
         btn_topright.setOnClickListener(this);
         et_name = (EditText) findViewById(R.id.et_name);
         et_title = (EditText) findViewById(R.id.et_title);
@@ -156,8 +158,8 @@ String Variety_1, Variety_2;
     AdapterView.OnItemSelectedListener spTitleListener_1 = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            Variety_1=arrCommodityVarietyData_1.get(i).getVarietyname();
-            Log.e(TAG, "onItemSelected: Variety_1"+arrCommodityVarietyData_1.get(i).getVarietyname() );
+            Variety_1 = arrCommodityVarietyData_1.get(i).getVarietyname();
+            Log.e(TAG, "onItemSelected: Variety_1" + arrCommodityVarietyData_1.get(i).getVarietyname());
             arr_Variety_Data_2.clear();
             for (int j = 0; j < arrCommodityVarietyData_2.size(); j++) {
                 CommodityVarietyData varietyData = new CommodityVarietyData();
@@ -180,7 +182,7 @@ String Variety_1, Variety_2;
     AdapterView.OnItemSelectedListener spTitleListener_2 = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            Variety_2=arrCommodityVarietyData_2.get(i).getVarietyname();
+            Variety_2 = arrCommodityVarietyData_2.get(i).getVarietyname();
             varietyid = arr_Variety_Data_2.get(i).getVarietyid();
         }
 
@@ -250,8 +252,8 @@ String Variety_1, Variety_2;
                 addNewCommodity.commodity_variety = et_variety.getText().toString();
                 addNewCommodity.commodity_class = commodityclass;
                 addNewCommodity.images = images;
-                addNewCommodity.Variety_1=Variety_1;
-                addNewCommodity.Variety_2=Variety_2;
+                addNewCommodity.Variety_1 = Variety_1;
+                addNewCommodity.Variety_2 = Variety_2;
                 Boolean bRet = addNewCommodity.UploadImg();
                 Message msg = addNewCommodityHandle.obtainMessage();
                 if (bRet) {

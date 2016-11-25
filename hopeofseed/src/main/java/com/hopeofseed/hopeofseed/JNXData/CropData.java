@@ -48,6 +48,15 @@ public class CropData {
     private String BreedSkill;
     private String OwnerShip;
     private String F16;
+    /**
+     * CataImgId :
+     * CataImgName :
+     * CataImgUrl :
+     */
+
+    private String CataImgId;
+    private String CataImgName;
+    private String CataImgUrl;
 
     public String getCropId() {
         return CropId;
@@ -183,5 +192,29 @@ public class CropData {
 
     public void setF16(String F16) {
         this.F16 = F16;
+    }
+
+    public String getCataImgId() {
+        return CataImgId;
+    }
+
+    public void setCataImgId(String CataImgId) {
+        this.CataImgId = CataImgId;
+    }
+
+    public String getCataImgName() {
+        return CataImgName;
+    }
+
+    public void setCataImgName(String CataImgName) {
+        this.CataImgName = CataImgName;
+    }
+
+    public String getCataImgUrl() {
+        return CataImgUrl;
+    }
+
+    public void setCataImgUrl(String CataImgUrl) {
+        this.CataImgUrl = CataImgUrl;
     }
 }

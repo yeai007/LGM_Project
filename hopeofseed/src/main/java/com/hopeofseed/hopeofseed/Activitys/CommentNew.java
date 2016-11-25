@@ -53,7 +53,10 @@ public class CommentNew extends AppCompatActivity implements View.OnClickListene
     private void initView() {
         ((TextView) findViewById(R.id.apptitle)).setText("发评论");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
-        (findViewById(R.id.btn_topright)).setOnClickListener(this);
+        Button btn_topright = (Button) findViewById(R.id.btn_topright);
+        btn_topright.setOnClickListener(this);
+        btn_topright.setText("发送");
+        btn_topright.setVisibility(View.VISIBLE);
         et_comment = (EditText) findViewById(R.id.et_comment);
         btn_at = (Button) findViewById(R.id.btn_at);
     }

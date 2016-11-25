@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -20,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,17 +29,13 @@ import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
 import com.hopeofseed.hopeofseed.Adapter.NewsImageAdapter;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.JNXData.NewsData;
-import com.hopeofseed.hopeofseed.Adapter.CommentForwarAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.CommentOrForward;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CommentOrForwardTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.curView.InputPopupWindow;
-import com.hopeofseed.hopeofseed.curView.pulishDYNPopupWindow;
 import com.lgm.utils.DateTools;
 import com.lgm.utils.ObjectUtil;
 
@@ -53,9 +47,6 @@ import java.util.List;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
-
-import static com.hopeofseed.hopeofseed.R.id.vp_main;
-
 
 /**
  * 项目名称：LGM_Project
@@ -71,7 +62,7 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
     String NEW_ID;
     InputPopupWindow menuWindow;
     NewsData newsData = new NewsData();
-    TextView tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time;
+    TextView tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time, tv_title;
     RelativeLayout rel_forward, rel_comment, rel_zambia;
     ImageView img_user, img_corner;
     RecyclerView resultRecyclerView;
@@ -93,7 +84,6 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
         Intent intent = getIntent();
         NEW_ID = intent.getStringExtra("NEWID");
         Log.e(TAG, "onCreate: " + NEW_ID);
-
         initView();
         initViewPager();
         initData();
@@ -105,8 +95,9 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
         fragmentList = new ArrayList<>();
         mForwardListFragment = new ForwardListFragment(NEW_ID);
         mCommendListFragment = new CommendListFragment(NEW_ID);
-        fragmentList.add(mForwardListFragment);
         fragmentList.add(mCommendListFragment);
+        fragmentList.add(mForwardListFragment);
+
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragmentList);
         vp_main = (ViewPager) findViewById(R.id.vp_list);
         vp_main.addOnPageChangeListener(onPageChangeListener);
@@ -124,16 +115,15 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
         hu.httpPost(Const.BASE_URL + "getNewByID.php", opt_map, NewsDataTmp.class, this);
     }
 
-
     private void initView() {
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
-
-
         img_user = (ImageView) findViewById(R.id.img_user);
         img_corner = (ImageView) findViewById(R.id.img_corner);
         send_time = (TextView) findViewById(R.id.send_time);
         tv_content = (TextView) findViewById(R.id.tv_content);
         tv_zambia = (TextView) findViewById(R.id.tv_zambia);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+
         rel_forward = (RelativeLayout) findViewById(R.id.rel_forward);
         rel_comment = (RelativeLayout) findViewById(R.id.rel_comment);
         rel_comment.setOnClickListener(this);
@@ -157,7 +147,6 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
         }
     };
 
-
     @Override
     public void onClick(View view) {
         Intent intent;
@@ -178,12 +167,9 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
         }
 
         @Override
@@ -193,21 +179,23 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
                     vp_main.setCurrentItem(0);
                     break;
                 case 1://地图显示
-
                     break;
             }
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-
         }
     };
     Runnable updateTheNewData = new Runnable() {
         @Override
         public void run() {
-
             updateTime(newsData.getNewcreatetime());
+            if (newsData.getNewclass().equals("8")) {
+                tv_title.setText(newsData.getTitle());
+                tv_title.setVisibility(View.VISIBLE);
+
+            }
             tv_content.setText(newsData.getContent());
             user_name.setText(newsData.getNickname());
             String[] arrImage = newsData.getAssimgurl().split(";");
@@ -215,7 +203,6 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
             resultRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
             resultRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
             Log.e(TAG, "getView: imagessizi" + images.size());
-
             if (images.size() == 1) {
                 if (TextUtils.isEmpty(images.get(0))) {
                     resultRecyclerView.setVisibility(View.GONE);
@@ -276,7 +263,6 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
                                     .load(R.drawable.header_user_default)
                                     .centerCrop()
                                     .into(img_user);
-
                         } else {
                             Glide.with(getApplicationContext())
                                     .load(userInfo.getAvatarFile())
@@ -294,7 +280,6 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
                                     .load(R.drawable.header_distributor_default)
                                     .centerCrop()
                                     .into(img_user);
-
                         } else {
                             Glide.with(getApplicationContext())
                                     .load(userInfo.getAvatarFile())
@@ -312,7 +297,6 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
                                     .load(R.drawable.header_enterprise_default)
                                     .centerCrop()
                                     .into(img_user);
-
                         } else {
                             Glide.with(getApplicationContext())
                                     .load(userInfo.getAvatarFile())
@@ -330,7 +314,6 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
                                     .load(R.drawable.header_expert_default)
                                     .centerCrop()
                                     .into(img_user);
-
                         } else {
                             Glide.with(getApplicationContext())
                                     .load(userInfo.getAvatarFile())
@@ -348,7 +331,6 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
                                     .load(R.drawable.header_author_default)
                                     .centerCrop()
                                     .into(img_user);
-
                         } else {
                             Glide.with(getApplicationContext())
                                     .load(userInfo.getAvatarFile())
@@ -357,7 +339,6 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
                         }
                         break;
                 }
-
             }
         });
     }

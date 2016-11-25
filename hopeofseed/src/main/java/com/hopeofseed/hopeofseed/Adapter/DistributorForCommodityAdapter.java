@@ -78,8 +78,9 @@ public class DistributorForCommodityAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) view.getTag();
         }
-        holder.tv_address.setText(mData.getEnterpriseProvince()+" "+mData.getEnterpriseCity()+" "+mData.getEnterpriseZone()+"\n"+mData.getDistributorAddressDetail());
+
         holder.tv_distributor_name.setText(mData.getDistributorName());
+        holder.tv_address.setText(mData.getDistributorProvince()+" "+mData.getDistributorCity()+" "+mData.getDistributorZone()+"\n"+mData.getDistributorAddressDetail());
         getUserJpushInfo(Const.JPUSH_PREFIX+mData.getUser_id(), holder);
         holder.btn_commodity_setting.setOnClickListener(new View.OnClickListener() {
             @Override

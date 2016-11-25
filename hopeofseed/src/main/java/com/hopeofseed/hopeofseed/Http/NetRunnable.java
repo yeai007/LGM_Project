@@ -4,7 +4,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
+import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,7 +40,10 @@ public class NetRunnable implements Runnable {
         mUrl = url;
         mNetCallBack = netCallBack;
         mBeanType = beanType;
-        mGson = new Gson();
+        mGson = new GsonBuilder()
+                .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
         mParam = params;
         isPostFile = false;
     }

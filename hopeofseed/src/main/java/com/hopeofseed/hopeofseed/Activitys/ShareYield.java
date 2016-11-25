@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -62,7 +63,10 @@ public class ShareYield extends AppCompatActivity implements View.OnClickListene
     private void initView() {
         ((TextView) findViewById(R.id.apptitle)).setText("分享产量");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
-        (findViewById(R.id.btn_topright)).setOnClickListener(this);
+        Button btn_topright = (Button) findViewById(R.id.btn_topright);
+        btn_topright.setVisibility(View.VISIBLE);
+        btn_topright.setText("发送");
+        btn_topright.setOnClickListener(this);
         et_variety = (AutoCompleteTextView) findViewById(R.id.et_variety);
         mAutoTextDataAdapter = new AutoTextDataAdapter(getApplicationContext(), arr_CropData);
         et_variety.setAdapter(mAutoTextDataAdapter);

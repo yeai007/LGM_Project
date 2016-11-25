@@ -203,12 +203,12 @@ public class NewsFragment extends Fragment implements NetCallBack {
             menuWindow.dismiss();
             Intent intent;
             switch (v.getId()) {
-                case R.id.btn_publish_photo://拍照发布
+                case R.id.btn_publish_photo://发布活动
                     intent = new Intent(getActivity(), PubishHuoDongActivity.class);
                     startActivity(intent);
                     menuWindow.dismiss();
                     break;
-                case R.id.btn_publish_video://视频发布
+                case R.id.btn_publish_video://发布商品
                     intent = new Intent(getActivity(), MyCommodity.class);
                     intent.putExtra("commodityId", "0");
                     startActivity(intent);

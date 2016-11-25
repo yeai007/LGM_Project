@@ -31,9 +31,9 @@ public class DistributorData {
      * DistributorTelephone : 123456789
      * DistributorFlag : 1
      * DistributorIntroduce : 亿丰种业
-     * EnterpriseProvince :
-     * EnterpriseCity :
-     * EnterpriseZone :
+     * DistributorProvince :
+     * DistributorCity :
+     * DistributorZone :
      * DistributorAddressDetail : 工业北路
      * DistributorLat : 36.71058
      * DistributorLon : 117.086453
@@ -58,9 +58,9 @@ public class DistributorData {
     private String DistributorTelephone;
     private String DistributorFlag;
     private String DistributorIntroduce;
-    private String EnterpriseProvince;
-    private String EnterpriseCity;
-    private String EnterpriseZone;
+    private String DistributorProvince;
+    private String DistributorCity;
+    private String DistributorZone;
     private String DistributorAddressDetail;
     private String DistributorLat;
     private String DistributorLon;
@@ -217,28 +217,28 @@ public class DistributorData {
         this.DistributorIntroduce = DistributorIntroduce;
     }
 
-    public String getEnterpriseProvince() {
-        return EnterpriseProvince;
+    public String getDistributorProvince() {
+        return DistributorProvince;
     }
 
-    public void setEnterpriseProvince(String EnterpriseProvince) {
-        this.EnterpriseProvince = EnterpriseProvince;
+    public void setDistributorProvince(String DistributorProvince) {
+        this.DistributorProvince = DistributorProvince;
     }
 
-    public String getEnterpriseCity() {
-        return EnterpriseCity;
+    public String getDistributorCity() {
+        return DistributorCity;
     }
 
-    public void setEnterpriseCity(String EnterpriseCity) {
-        this.EnterpriseCity = EnterpriseCity;
+    public void setDistributorCity(String DistributorCity) {
+        this.DistributorCity = DistributorCity;
     }
 
-    public String getEnterpriseZone() {
-        return EnterpriseZone;
+    public String getDistributorZone() {
+        return DistributorZone;
     }
 
-    public void setEnterpriseZone(String EnterpriseZone) {
-        this.EnterpriseZone = EnterpriseZone;
+    public void setDistributorZone(String DistributorZone) {
+        this.DistributorZone = DistributorZone;
     }
 
     public String getDistributorAddressDetail() {

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -73,7 +74,10 @@ public class ShareExperience extends AppCompatActivity implements View.OnClickLi
     private void initView() {
         ((TextView) findViewById(R.id.apptitle)).setText("分享农技经验");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
-        (findViewById(R.id.btn_topright)).setOnClickListener(this);
+        Button btn_topright = (Button) findViewById(R.id.btn_topright);
+        btn_topright.setOnClickListener(this);
+        btn_topright.setText("发送");
+        btn_topright.setVisibility(View.VISIBLE);
         et_title = (EditText) findViewById(R.id.et_title);
         et_content = (EditText) findViewById(R.id.et_content);
         sp_class = (Spinner) findViewById(R.id.sp_class);
@@ -121,6 +125,7 @@ public class ShareExperience extends AppCompatActivity implements View.OnClickLi
             }
         }).start();*/
     }
+
     AdapterView.OnItemSelectedListener spTitleListtener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -143,10 +148,10 @@ public class ShareExperience extends AppCompatActivity implements View.OnClickLi
             updateView();
         } else if (rspBaseBean.RequestSign.equals("AddNewsExperience")) {
             if (rspBaseBean.resultNote.equals("success")) {
-                Log.e(TAG, "onSuccess: success" );
+                Log.e(TAG, "onSuccess: success");
                 this.finish();
             } else {
-                Log.e(TAG, "onSuccess: failed" );
+                Log.e(TAG, "onSuccess: failed");
                 this.finish();
             }
         }

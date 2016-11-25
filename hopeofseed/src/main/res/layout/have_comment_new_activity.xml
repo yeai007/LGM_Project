@@ -69,14 +69,29 @@
                 android:textSize="15sp" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rel_content"
+        <TextView
+            android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rel_title"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp">
+            android:gravity="center_vertical"
+            android:text="未填写信息内容"
+            android:textColor="@color/text_title_color"
+            android:textSize="15sp"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/rel_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="#efefef">
+
 
             <TextView
                 android:id="@+id/tv_content"

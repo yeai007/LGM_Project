@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +30,10 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 
+import static com.hopeofseed.hopeofseed.R.id.img_user_avatar;
+import static com.hopeofseed.hopeofseed.R.id.tv_fans_sum;
+import static com.hopeofseed.hopeofseed.R.id.tv_follow_sum;
+import static com.hopeofseed.hopeofseed.R.id.tv_username;
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
@@ -41,10 +46,10 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  * 修改备注：
  */
 public class EnterpriseActivity extends AppCompatActivity implements NetCallBack, View.OnClickListener {
-    ImageView img_user_avatar;
-    TextView tv_username, tv_follow_sum, tv_fans_sum, AppTitle;
+    TextView AppTitle;
     String EnterpriseId;
     EnterpriseData mEnterpriseData = new EnterpriseData();
+    EditText et_nickname, et_address, et_address_detail, et_tel, et_info;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,10 +64,16 @@ public class EnterpriseActivity extends AppCompatActivity implements NetCallBack
     private void initView() {
         AppTitle = (TextView) findViewById(R.id.apptitle);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
-        img_user_avatar = (ImageView) findViewById(R.id.img_user_avatar);
-        tv_username = (TextView) findViewById(R.id.tv_username);
-        tv_follow_sum = (TextView) findViewById(R.id.tv_follow_sum);
-        tv_fans_sum = (TextView) findViewById(R.id.tv_fans_sum);
+        et_nickname = (EditText) findViewById(R.id.et_nickname);
+        et_nickname.setFocusable(false);
+        et_address = (EditText) findViewById(R.id.et_address);
+        et_address.setFocusable(false);
+        et_address_detail = (EditText) findViewById(R.id.et_address_detail);
+        et_address_detail.setFocusable(false);
+        et_tel = (EditText) findViewById(R.id.et_tel);
+        et_tel.setFocusable(false);
+        et_info = (EditText) findViewById(R.id.et_info);
+        et_info.setFocusable(false);
     }
 
     private void getData() {
@@ -108,22 +119,13 @@ public class EnterpriseActivity extends AppCompatActivity implements NetCallBack
         @Override
         public void handleMessage(Message msg) {
             AppTitle.setText(mEnterpriseData.getEnterpriseName());
-            tv_username.setText(mEnterpriseData.getEnterpriseName());
-            tv_follow_sum.setText(mEnterpriseData.getFllowed_count());
-            tv_fans_sum.setText(mEnterpriseData.getBeen_fllowed_count());
-            getUserJpushInfo(Const.JPUSH_PREFIX+mEnterpriseData.getUser_id());
+            et_nickname.setText(mEnterpriseData.getEnterpriseName());
+            et_address.setText(mEnterpriseData.getEnterpriseProvince() + " " + mEnterpriseData.getEnterpriseCity() + " " + mEnterpriseData.getEnterpriseZone());
+            et_address_detail.setText(mEnterpriseData.getEnterpriseAddressDetail());
+            et_tel.setText(mEnterpriseData.getEnterpriseTelephone());
+            et_info.setText(mEnterpriseData.getEnterpriseIntroduce());
         }
     };
 
-    private void getUserJpushInfo(String user_name) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                Glide.with(getApplicationContext())
-                        .load(userInfo.getAvatarFile())
-                        .centerCrop()
-                        .into(img_user_avatar);
-            }
-        });
-    }
+
 }

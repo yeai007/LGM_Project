@@ -40,6 +40,7 @@ import com.lgm.utils.DateTools;
 
 import static com.hopeofseed.hopeofseed.R.id.rel_content;
 import static com.hopeofseed.hopeofseed.R.id.tv_content;
+import static com.hopeofseed.hopeofseed.R.id.tv_title;
 
 
 /**
@@ -156,7 +157,7 @@ public class NewsListAdapter extends BaseAdapter {
                     holder1.img_user = (ImageView) view.findViewById(R.id.img_user_avatar);
                     holder1.img_corner = (ImageView) view.findViewById(R.id.img_corner);
                     holder1.tv_content = (TextView) view.findViewById(R.id.tv_content);
-                    holder1.tv_title = (TextView) view.findViewById(R.id.tv_title);
+                    holder1.tv_title = (TextView) view.findViewById(tv_title);
                     holder1.tv_zambia = (TextView) view.findViewById(R.id.tv_zambia);
                     holder1.rel_forward = (RelativeLayout) view.findViewById(R.id.rel_forward);
                     holder1.rel_comment = (RelativeLayout) view.findViewById(R.id.rel_comment);
@@ -251,7 +252,10 @@ public class NewsListAdapter extends BaseAdapter {
                 holder1.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
                 holder1.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder1.rel_comment.setTag(R.id.key_comment, itemData.getId());
+                holder1.tv_title.setTag(R.id.key_title, itemData.getId());
+                holder1.tv_title.setOnClickListener(pullToListViewItemOnClickListener);
                 holder1.rel_content.setTag(R.id.key_forward_content, itemData.getFromid());
+
                 holder1.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
                 holder1.rel_zambia.setTag(R.id.key_listid, i);
                 holder1.tv_content.setTag(R.id.key_content, itemData.getId());
@@ -369,15 +373,29 @@ public class NewsListAdapter extends BaseAdapter {
                     intent.putExtra("username", String.valueOf(view.getTag(R.id.key_username)));
                     mContext.startActivity(intent);
                     break;
-                case tv_content:
-                    Log.e(TAG, "onClick: " + String.valueOf(view.getTag(R.id.key_content)));
-                    intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
 
+                case R.id.tv_title:
+                    Log.e(TAG, "onClick: " + String.valueOf(view.getTag(R.id.key_content)));
+                   /* intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
+
+                    intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_content)));
+                    mContext.startActivity(intent);*/
+                    intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
+                    intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_title)));
+                    mContext.startActivity(intent);
+                    break;
+                case R.id.tv_content:
+                    Log.e(TAG, "onClick: " + String.valueOf(view.getTag(R.id.key_content)));
+                   /* intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
+
+                    intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_content)));
+                    mContext.startActivity(intent);*/
+                    intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
                     intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_content)));
                     mContext.startActivity(intent);
                     break;
                 case rel_content:
-                    Log.e(TAG, "onClick: rel_content" );
+                    Log.e(TAG, "onClick: rel_content");
                     intent = new Intent(mContext.getApplicationContext(), ForwardNew.class);
                     intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_forward_content)));
                     mContext.startActivity(intent);
@@ -428,7 +446,7 @@ public class NewsListAdapter extends BaseAdapter {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
                 //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
-           //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
+                //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
                 switch (user_role) {
                     case 0:
                         Glide.with(mContext)

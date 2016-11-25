@@ -12,27 +12,31 @@ package com.hopeofseed.hopeofseed.JNXData;
 public class EnterpriseData {
 
     /**
-     * user_id : 36
-     * user_name : 15628801370
-     * nickname : 用户01370
-     * user_mobile : 0
+     * user_id : 48
+     * user_name : sdxfzyyxgs123
+     * nickname : 山东祥丰种业有限公司
+     * user_mobile : 0537-6993888
      * user_email :
-     * createtime : 2016-10-20 06:34:19
+     * createtime : 2016-11-11 09:44:24
      * user_permation : 0
-     * user_role : 1
-     * user_field : 水稻
-     * user_role_id : 1
+     * user_role : 2
+     * user_field :
+     * user_role_id : 3
      * fllowed_count : 0
-     * been_fllowed_count : 1
-     * EnterpriseId : 0000000001
-     * EnterpriseName : 亿丰种业有限公司(生产企业)
-     * EnterpriseTrademark :
+     * been_fllowed_count : 0
+     * EnterpriseId : 0000000003
+     * EnterpriseName : 山东祥丰种业有限公司
+     * EnterpriseBusScrope : 小麦,大豆,玉米,棉花,花生
      * EnterpriseLevel : 1
-     * EnterpriseTelephone : 123456789
-     * EnterpriseAddress : 11
-     * EnterpriseAddressDetail : 工业北路
+     * EnterpriseTelephone : 0537-6993888
+     * EnterpriseProvince : 山东省
+     * EnterpriseCity : 济宁市
+     * EnterpriseZone : 嘉祥县
+     * EnterpriseAddressDetail : 嘉祥县建设北路49号
      * EnterpriseFlag : 1
-     * EnterpriseIntroduce : 亿丰种业
+     * EnterpriseIntroduce : 山东祥丰种业有限公司是一家集科研、生产、经营为一体的民营企业。注册资金3000万元，建筑面积13000平方米，拥有种子加工设备20台，新建3套种子生产线，种子检测设备齐全。公司下设：育种生产部，种子销售部，科技服务部，维权部;质检中心，财务部，办公室等近10个部门。本公司是国家在黄淮流域的优质专用大豆良种繁育生产加工储备中心和优质小麦繁育良种繁育加工储备中心，山东济宁农业产业化重点龙头企业。山东省和济宁市种子协会常务理事单位，中国大豆产业协会常务理事单位，山东省农科院科技示范基地单位。公司始终坚持;诚信为
+     * EnterpriseLat : 35.421505
+     * EnterpriseLon : 116.343502
      */
 
     private String user_id;
@@ -49,13 +53,17 @@ public class EnterpriseData {
     private String been_fllowed_count;
     private String EnterpriseId;
     private String EnterpriseName;
-    private String EnterpriseTrademark;
+    private String EnterpriseBusScrope;
     private String EnterpriseLevel;
     private String EnterpriseTelephone;
-    private String EnterpriseAddress;
+    private String EnterpriseProvince;
+    private String EnterpriseCity;
+    private String EnterpriseZone;
     private String EnterpriseAddressDetail;
     private String EnterpriseFlag;
     private String EnterpriseIntroduce;
+    private String EnterpriseLat;
+    private String EnterpriseLon;
 
     public String getUser_id() {
         return user_id;
@@ -169,12 +177,12 @@ public class EnterpriseData {
         this.EnterpriseName = EnterpriseName;
     }
 
-    public String getEnterpriseTrademark() {
-        return EnterpriseTrademark;
+    public String getEnterpriseBusScrope() {
+        return EnterpriseBusScrope;
     }
 
-    public void setEnterpriseTrademark(String EnterpriseTrademark) {
-        this.EnterpriseTrademark = EnterpriseTrademark;
+    public void setEnterpriseBusScrope(String EnterpriseBusScrope) {
+        this.EnterpriseBusScrope = EnterpriseBusScrope;
     }
 
     public String getEnterpriseLevel() {
@@ -193,12 +201,28 @@ public class EnterpriseData {
         this.EnterpriseTelephone = EnterpriseTelephone;
     }
 
-    public String getEnterpriseAddress() {
-        return EnterpriseAddress;
+    public String getEnterpriseProvince() {
+        return EnterpriseProvince;
     }
 
-    public void setEnterpriseAddress(String EnterpriseAddress) {
-        this.EnterpriseAddress = EnterpriseAddress;
+    public void setEnterpriseProvince(String EnterpriseProvince) {
+        this.EnterpriseProvince = EnterpriseProvince;
+    }
+
+    public String getEnterpriseCity() {
+        return EnterpriseCity;
+    }
+
+    public void setEnterpriseCity(String EnterpriseCity) {
+        this.EnterpriseCity = EnterpriseCity;
+    }
+
+    public String getEnterpriseZone() {
+        return EnterpriseZone;
+    }
+
+    public void setEnterpriseZone(String EnterpriseZone) {
+        this.EnterpriseZone = EnterpriseZone;
     }
 
     public String getEnterpriseAddressDetail() {
@@ -223,5 +247,21 @@ public class EnterpriseData {
 
     public void setEnterpriseIntroduce(String EnterpriseIntroduce) {
         this.EnterpriseIntroduce = EnterpriseIntroduce;
+    }
+
+    public String getEnterpriseLat() {
+        return EnterpriseLat;
+    }
+
+    public void setEnterpriseLat(String EnterpriseLat) {
+        this.EnterpriseLat = EnterpriseLat;
+    }
+
+    public String getEnterpriseLon() {
+        return EnterpriseLon;
+    }
+
+    public void setEnterpriseLon(String EnterpriseLon) {
+        this.EnterpriseLon = EnterpriseLon;
     }
 }

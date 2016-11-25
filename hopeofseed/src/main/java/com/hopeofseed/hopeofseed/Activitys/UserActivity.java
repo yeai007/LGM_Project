@@ -5,11 +5,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -21,6 +21,7 @@ import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.DistributorData;
 import com.hopeofseed.hopeofseed.JNXData.FragmentListDatas;
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataNoRealmTmp;
@@ -49,7 +50,7 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  */
 public class UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
     ImageView img_user_avatar, img_corner;
-    TextView tv_username, tv_follow_sum, tv_fans_sum;
+    TextView tv_username, tv_follow_sum, tv_fans_sum, tv_address, appTitle;
     String UserId;
     UserDataNoRealm mUserDataNoRealm = new UserDataNoRealm();
     RelativeLayout rel_follow, rel_fans;
@@ -65,22 +66,30 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         UserId = intent.getStringExtra("userid");
         initView();
-
         getData();
     }
 
     private void setFrament() {
-        int[] fregments = {6,7,8,9,10};
+        int[] fregments = {6, 7, 8, 9, 10};
         ListFragmentConfig lfc = new ListFragmentConfig();
         fragmentList.addAll(lfc.getCommUser(fregments));
     }
 
     private void initView() {
+        appTitle = (TextView) findViewById(R.id.apptitle);
+        appTitle.setVisibility(View.GONE);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
+        Button btn_topright = (Button) findViewById(R.id.btn_topright);
+        btn_topright.setText("更多资料");
+        btn_topright.setVisibility(View.VISIBLE);
+        btn_topright.setOnClickListener(this);
         tv_username = (TextView) findViewById(R.id.tv_username);
         tv_follow_sum = (TextView) findViewById(R.id.tv_follow_sum);
         tv_fans_sum = (TextView) findViewById(R.id.tv_fans_sum);
         rel_fans = (RelativeLayout) findViewById(R.id.rel_fans);
+        tv_address = (TextView) findViewById(R.id.tv_address);
+
+
         rel_fans.setOnClickListener(this);
         rel_follow = (RelativeLayout) findViewById(R.id.rel_follow);
         rel_follow.setOnClickListener(this);
@@ -105,6 +114,19 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 finish();
                 break;
             case R.id.btn_topright:
+                switch (Integer.parseInt(mUserDataNoRealm.getUser_role())) {
+                    case 1:
+                        intent = new Intent(UserActivity.this, DistributorActivity.class);
+                        intent.putExtra("ID", mUserDataNoRealm.getUser_role_id());
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        intent = new Intent(UserActivity.this, EnterpriseActivity.class);
+                        intent.putExtra("EnterpriseId", mUserDataNoRealm.getUser_role_id());
+                        startActivity(intent);
+                        break;
+                }
+
                 break;
             case R.id.rel_follow://关注
                 intent = new Intent(UserActivity.this, MyFollowed.class);
@@ -167,12 +189,13 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public void handleMessage(Message msg) {
             Log.e(TAG, "handleMessage: updateview");
-
+            appTitle.setText(mUserDataNoRealm.getNickname());
             tv_username.setText(mUserDataNoRealm.getNickname());
             tv_follow_sum.setText(mUserDataNoRealm.getFllowed_count());
             tv_fans_sum.setText(mUserDataNoRealm.getBeen_fllowed_count());
+            tv_address.setText(mUserDataNoRealm.getUserProvince() + " " + mUserDataNoRealm.getUserCity() + " " + mUserDataNoRealm.getUserZone());
             updateCorner();
-            getUserJpushInfo(Const.JPUSH_PREFIX+mUserDataNoRealm.getUser_id());
+            getUserJpushInfo(Const.JPUSH_PREFIX + mUserDataNoRealm.getUser_id());
 
         }
     };

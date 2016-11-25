@@ -61,7 +61,7 @@ public class DistributorAdapter extends BaseAdapter {
             TextView tv_distributor_address=(TextView)view.findViewById(R.id.tv_distributor_address);
             Log.e(TAG, "getView: "+mData.getDistributorName());
             tv_distributor_name.setText(mData.getDistributorName());
-            tv_distributor_address.setText("地址："+mData.getEnterpriseProvince()+" "+mData.getEnterpriseCity()+" "+mData.getEnterpriseZone()+" "+mData.getDistributorAddressDetail());
+            tv_distributor_address.setText("地址："+mData.getDistributorProvince()+" "+mData.getDistributorCity()+" "+mData.getDistributorZone()+" "+mData.getDistributorAddressDetail());
         }
         return view;
     }
