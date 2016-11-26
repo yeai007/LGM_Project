@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Activitys.DistributorActivity;
 import com.hopeofseed.hopeofseed.Activitys.EnterpriseActivity;
+import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.Adapter.EnterpriseAdapter;
 import com.hopeofseed.hopeofseed.Adapter.ProblemDataAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
@@ -48,11 +49,11 @@ public class EnterpriseFragment extends Fragment {
 
     private int position;
     PullToRefreshListView lv_list;
-     EnterpriseAdapter mEnterpriseAdapter;
-     ArrayList<EnterpriseData> arr_EnterpriseData = new ArrayList<>();
-     ArrayList<EnterpriseData> arr_EnterpriseDataTmp = new ArrayList<>();
+    EnterpriseAdapter mEnterpriseAdapter;
+    ArrayList<EnterpriseData> arr_EnterpriseData = new ArrayList<>();
+    ArrayList<EnterpriseData> arr_EnterpriseDataTmp = new ArrayList<>();
 
-    static String Str_search="";
+    static String Str_search = "";
    /* public static EnterpriseFragment newInstance(int position, String search) {
         Str_search = search;
         EnterpriseFragment f = new EnterpriseFragment();
@@ -84,7 +85,7 @@ public class EnterpriseFragment extends Fragment {
         lv_list.setOnItemClickListener(myListener);
     }
 
-    private  void getData(String Str_search) {
+    private void getData(String Str_search) {
         Log.e(TAG, "getData: 获取经销商数据");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
@@ -93,7 +94,7 @@ public class EnterpriseFragment extends Fragment {
         hu.httpPost(Const.BASE_URL + "GetSearchEnterpriseData.php", opt_map, EnterpriseDataTmp.class, netCallBack);
     }
 
-     NetCallBack netCallBack = new NetCallBack() {
+    NetCallBack netCallBack = new NetCallBack() {
         @Override
         public void onSuccess(RspBaseBean rspBaseBean) {
             EnterpriseDataTmp enterpriseDataTmp = ObjectUtil.cast(rspBaseBean);
@@ -113,12 +114,12 @@ public class EnterpriseFragment extends Fragment {
         }
     };
 
-    private  void updateView() {
+    private void updateView() {
         Message msg = updateViewHandle.obtainMessage();
         msg.sendToTarget();
     }
 
-    private  Handler updateViewHandle = new Handler() {
+    private Handler updateViewHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             arr_EnterpriseData.clear();
@@ -129,13 +130,13 @@ public class EnterpriseFragment extends Fragment {
     private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent intent = new Intent(getActivity(), EnterpriseActivity.class);
-            intent.putExtra("EnterpriseId", String.valueOf(arr_EnterpriseData.get(i - 1).getEnterpriseId()));
+            Intent intent = new Intent(getActivity(), UserActivity.class);
+            intent.putExtra("userid", String.valueOf(arr_EnterpriseData.get(i - 1).getUser_id()));
             startActivity(intent);
         }
     };
 
-    public  void Search(String text) {
+    public void Search(String text) {
         Str_search = text;
         getData(Str_search);
     }

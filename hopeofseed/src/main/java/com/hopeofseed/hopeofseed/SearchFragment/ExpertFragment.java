@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Activitys.CropActivity;
 import com.hopeofseed.hopeofseed.Activitys.ExpertActivity;
+import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.Adapter.ExpertDataAdapter;
 import com.hopeofseed.hopeofseed.Adapter.ProblemDataAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
@@ -127,8 +128,8 @@ public class ExpertFragment extends Fragment {
     private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent intent = new Intent(getActivity(), ExpertActivity.class);
-            intent.putExtra("ExpertId", String.valueOf(arr_ExpertData.get(i - 1).getExpertId()));
+            Intent intent = new Intent(getActivity(), UserActivity.class);
+            intent.putExtra("userid", String.valueOf(arr_ExpertData.get(i - 1).getUser_id()));
             startActivity(intent);
         }
     };

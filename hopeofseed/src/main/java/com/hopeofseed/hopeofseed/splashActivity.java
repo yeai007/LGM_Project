@@ -114,7 +114,7 @@ public class splashActivity extends AppCompatActivity {
         RealmResults<UserData> results1 =
                 myRealm.where(UserData.class).equalTo("iscurrent", 1).findAll();
         Log.e(TAG, "initUserData: " + results1.size());
-        if (results1.size() == 0) {
+        if (results1.size() == 0||results1.get(0).getUser_id()==0) {
             toLogin();
         } else {
             Const.currentUser.user_id = results1.get(0).getUser_id();

@@ -18,12 +18,16 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Adapter.UsersPagerAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
+import com.hopeofseed.hopeofseed.DataForHttp.GetMyFollow;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.DistributorData;
+import com.hopeofseed.hopeofseed.JNXData.FollowedFriend;
 import com.hopeofseed.hopeofseed.JNXData.FragmentListDatas;
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
+import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.FollowedFriendTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataNoRealmTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.CategoryTabStrip;
@@ -58,6 +62,12 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     CategoryTabStrip tabs;
     UsersPagerAdapter mUsersPagerAdapter;
     ArrayList<FragmentListDatas> fragmentList = new ArrayList<>();
+    Button btn_submit_followed, btn_createchat, btn_func_menu;
+    ArrayList<FollowedFriend> arr_FollowedFriendTmp = new ArrayList<>();
+    ArrayList<String> arrFans = new ArrayList<>();
+    int isFriend = 0;
+    Handler mHandler = new Handler();
+    int isAddOrDel = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,11 +95,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         btn_topright.setOnClickListener(this);
         tv_username = (TextView) findViewById(R.id.tv_username);
         tv_follow_sum = (TextView) findViewById(R.id.tv_follow_sum);
+        btn_submit_followed = (Button) findViewById(R.id.btn_submit_followed);
+        btn_submit_followed.setOnClickListener(this);
         tv_fans_sum = (TextView) findViewById(R.id.tv_fans_sum);
         rel_fans = (RelativeLayout) findViewById(R.id.rel_fans);
         tv_address = (TextView) findViewById(R.id.tv_address);
-
-
         rel_fans.setOnClickListener(this);
         rel_follow = (RelativeLayout) findViewById(R.id.rel_follow);
         rel_follow.setOnClickListener(this);
@@ -115,6 +125,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_topright:
                 switch (Integer.parseInt(mUserDataNoRealm.getUser_role())) {
+                    case 0:
+                        intent = new Intent(UserActivity.this, UserBliedActivity.class);
+                        intent.putExtra("ID", mUserDataNoRealm.getUser_id());
+                        startActivity(intent);
+                        break;
                     case 1:
                         intent = new Intent(UserActivity.this, DistributorActivity.class);
                         intent.putExtra("ID", mUserDataNoRealm.getUser_role_id());
@@ -123,6 +138,16 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                     case 2:
                         intent = new Intent(UserActivity.this, EnterpriseActivity.class);
                         intent.putExtra("EnterpriseId", mUserDataNoRealm.getUser_role_id());
+                        startActivity(intent);
+                        break;
+                    case 3:
+                        intent = new Intent(UserActivity.this, ExpertActivity.class);
+                        intent.putExtra("ExpertId", mUserDataNoRealm.getUser_role_id());
+                        startActivity(intent);
+                        break;
+                    case 4:
+                        intent = new Intent(UserActivity.this, AuthorActivity.class);
+                        intent.putExtra("AuthorId", mUserDataNoRealm.getUser_role_id());
                         startActivity(intent);
                         break;
                 }
@@ -138,8 +163,17 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 intent.putExtra("UserId", UserId);
                 startActivity(intent);
                 break;
+            case R.id.btn_submit_followed://添加关注或取消关注
+                AddOrDelFollowed();
+                break;
+            case R.id.btn_createchat:
+                break;
+            case R.id.btn_func_menu:
+                break;
+
         }
     }
+
 
     private void getUserJpushInfo(String user_name) {
         JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
@@ -155,6 +189,23 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
+    private void AddOrDelFollowed() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        opt_map.put("AddUserId", mUserDataNoRealm.getUser_id());
+        opt_map.put("isAddOrDel", String.valueOf(isAddOrDel));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "AddNewFriend.php", opt_map, CommResultTmp.class, this);
+    }
+
+    private void getIsFriend() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        opt_map.put("AddUserId", mUserDataNoRealm.getUser_id());
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "GetIsFriend.php", opt_map, CommResultTmp.class, this);
+    }
+
     private void getData() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", UserId);
@@ -164,15 +215,26 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-        Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
-        mUserDataNoRealm = ((UserDataNoRealmTmp) ObjectUtil.cast(rspBaseBean)).getDetail().get(0);
-
-        updateView();
+        if (rspBaseBean.RequestSign.equals("GetIsFriend")) {
+            Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
+            CommResultTmp mCommResultTmp = ObjectUtil.cast(rspBaseBean);
+            Log.e(TAG, "onSuccess: " + rspBaseBean.resultNote + mCommResultTmp.getDetail());
+            isFriend = Integer.valueOf(mCommResultTmp.getDetail());
+            Log.e(TAG, "onSuccess:isFriend " + isFriend);
+            mHandler.post(updateFollowedStatus);
+        } else if (rspBaseBean.RequestSign.equals("AddNewFriend")) {
+            CommResultTmp mCommResultTmp = ObjectUtil.cast(rspBaseBean);
+            Log.e(TAG, "onSuccess: " + rspBaseBean.resultNote + mCommResultTmp.getDetail());
+        } else {
+            Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
+            mUserDataNoRealm = ((UserDataNoRealmTmp) ObjectUtil.cast(rspBaseBean)).getDetail().get(0);
+            updateView();
+        }
     }
 
     @Override
     public void onError(String error) {
-
+        Log.e(TAG, "onError: " + error);
     }
 
     @Override
@@ -185,6 +247,32 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         msg.sendToTarget();
     }
 
+    Runnable updateFollowedStatus = new Runnable() {
+        @Override
+        public void run() {
+            Log.e(TAG, "run: swich" + isFriend);
+            switch (isFriend) {
+                case 0://双方未关注
+                    btn_submit_followed.setText("未关注");
+                    isAddOrDel = 1;
+                    break;
+                case 1://当前关注用户，用户未关注当前页帐号
+                    btn_submit_followed.setText("未关注");
+                    isAddOrDel = 1;
+                    break;
+                case 2://用户关注当前页帐号
+                    btn_submit_followed.setText("已关注");
+                    isAddOrDel = 0;
+                    Toast.makeText(getApplicationContext(),"已经关注",Toast.LENGTH_SHORT).show();
+                    break;
+
+                case 3://双向关注
+                    btn_submit_followed.setText("互相关注(好友)");
+                    isAddOrDel = 0;
+                    break;
+            }
+        }
+    };
     private Handler updateViewHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -196,7 +284,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             tv_address.setText(mUserDataNoRealm.getUserProvince() + " " + mUserDataNoRealm.getUserCity() + " " + mUserDataNoRealm.getUserZone());
             updateCorner();
             getUserJpushInfo(Const.JPUSH_PREFIX + mUserDataNoRealm.getUser_id());
-
+            getIsFriend();
         }
     };
 

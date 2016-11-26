@@ -57,6 +57,15 @@ public class ExpertData {
     private String ExpertAddressDetail;
     private String ExpertFlag;
     private String ExpertIntroduce;
+    /**
+     * ExpertProvince : 山东省
+     * ExpertCity : 济南市
+     * ExpertZone : 历城区
+     */
+
+    private String ExpertProvince;
+    private String ExpertCity;
+    private String ExpertZone;
 
     public String getUser_id() {
         return user_id;
@@ -224,5 +233,29 @@ public class ExpertData {
 
     public void setExpertIntroduce(String ExpertIntroduce) {
         this.ExpertIntroduce = ExpertIntroduce;
+    }
+
+    public String getExpertProvince() {
+        return ExpertProvince;
+    }
+
+    public void setExpertProvince(String ExpertProvince) {
+        this.ExpertProvince = ExpertProvince;
+    }
+
+    public String getExpertCity() {
+        return ExpertCity;
+    }
+
+    public void setExpertCity(String ExpertCity) {
+        this.ExpertCity = ExpertCity;
+    }
+
+    public String getExpertZone() {
+        return ExpertZone;
+    }
+
+    public void setExpertZone(String ExpertZone) {
+        this.ExpertZone = ExpertZone;
     }
 }

@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.CropData;
 import com.hopeofseed.hopeofseed.JNXData.DistributorData;
 import com.hopeofseed.hopeofseed.R;
@@ -15,7 +18,12 @@ import com.hopeofseed.hopeofseed.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.GetUserInfoCallback;
+import cn.jpush.im.android.api.model.UserInfo;
+
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+import static com.hopeofseed.hopeofseed.R.id.tv_name;
 
 /**
  * 项目名称：LGM_Project
@@ -56,12 +64,51 @@ public class DistributorDataAdapter extends BaseAdapter {
         LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
         DistributorData mData;
         mData = mlist.get(i);
-        view = _LayoutInflater.inflate(R.layout.search_distributor_items, null);
-        if (view != null) {
-            TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
+        ViewHolder viewHolder;
+        if (view == null) {
+            viewHolder = new ViewHolder();
+            view = _LayoutInflater.inflate(R.layout.distributor_items, null);
+            viewHolder.tv_name = (TextView) view.findViewById(R.id.tv_distributor_name);
+            viewHolder.tv_address = (TextView) view.findViewById(R.id.tv_distributor_address);
+            viewHolder.img_user_avatar = (ImageView) view.findViewById(R.id.img_user_avatar);
             Log.e(TAG, "getView: " + mData.getDistributorName());
-            tv_name.setText(mData.getDistributorName());
+            view.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
         }
+
+        viewHolder.tv_name.setText(mData.getDistributorName());
+        viewHolder.tv_address.setText(mData.getDistributorProvince() + "  " + mData.getDistributorCity() + " " + mData.getDistributorZone());
+        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), viewHolder);
         return view;
+    }
+
+    class ViewHolder {
+
+        ImageView img_user_avatar, img_corner;
+        TextView tv_name, tv_address;
+
+    }
+
+    private void getUserJpushInfo(String user_name, final ViewHolder holder) {
+        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, UserInfo userInfo) {
+
+                if (userInfo.getAvatarFile() == null) {
+                    Glide.with(mContext)
+                            .load(R.drawable.header_user_default)
+                            .centerCrop()
+                            .into(holder.img_user_avatar);
+
+                } else {
+                    Glide.with(mContext)
+                            .load(userInfo.getAvatarFile())
+                            .centerCrop()
+                            .into(holder.img_user_avatar);
+                }
+
+            }
+        });
     }
 }

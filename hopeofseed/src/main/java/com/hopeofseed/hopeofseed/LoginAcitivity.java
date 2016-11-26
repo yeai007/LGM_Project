@@ -187,7 +187,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         updateRealm.commitTransaction();
         /*******************************
          * */
-        UserData o = mUserDataTmp.getDetail().get(0);
+        UserData o = mUserDataTmp.getDetail();
         o.setIsCurrent(1);
         updateRealm.beginTransaction();
         UserData newdata = updateRealm.copyToRealmOrUpdate(o);

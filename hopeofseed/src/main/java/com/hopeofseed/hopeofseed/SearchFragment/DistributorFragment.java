@@ -131,8 +131,8 @@ public class DistributorFragment extends Fragment {
     private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent intent = new Intent(getActivity(), DistributorActivity.class);
-            intent.putExtra("ID", String.valueOf(arr_DistributorData.get(i - 1).getDistributorId()));
+            Intent intent = new Intent(getActivity(), UserActivity.class);
+            intent.putExtra("userid", String.valueOf(arr_DistributorData.get(i - 1).getUser_id()));
             startActivity(intent);
         }
     };

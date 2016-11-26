@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +28,14 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 
+import static com.hopeofseed.hopeofseed.R.id.et_address;
+import static com.hopeofseed.hopeofseed.R.id.et_address_detail;
+import static com.hopeofseed.hopeofseed.R.id.et_info;
+import static com.hopeofseed.hopeofseed.R.id.et_nickname;
+import static com.hopeofseed.hopeofseed.R.id.et_tel;
+import static com.hopeofseed.hopeofseed.R.id.tv_fans_sum;
+import static com.hopeofseed.hopeofseed.R.id.tv_follow_sum;
+import static com.hopeofseed.hopeofseed.R.id.tv_username;
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
@@ -41,8 +50,9 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 public class ExpertActivity extends AppCompatActivity implements NetCallBack, View.OnClickListener {
     String ExpertId;
     ExpertData mExpertData = new ExpertData();
-    ImageView img_user_avatar;
-    TextView tv_username, tv_follow_sum, tv_fans_sum, Apptitle;
+
+    TextView Apptitle;
+    EditText et_nickname, et_address, et_address_detail, et_info;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,10 +68,14 @@ public class ExpertActivity extends AppCompatActivity implements NetCallBack, Vi
         Apptitle = (TextView) findViewById(R.id.apptitle);
         Apptitle.setText("专家");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
-        img_user_avatar = (ImageView) findViewById(R.id.img_user_avatar);
-        tv_username = (TextView) findViewById(R.id.tv_username);
-        tv_follow_sum = (TextView) findViewById(R.id.tv_follow_sum);
-        tv_fans_sum = (TextView) findViewById(R.id.tv_fans_sum);
+        et_nickname = (EditText) findViewById(R.id.et_nickname);
+        et_nickname.setFocusable(false);
+        et_address = (EditText) findViewById(R.id.et_address);
+        et_address.setFocusable(false);
+        et_address_detail = (EditText) findViewById(R.id.et_address_detail);
+        et_address_detail.setFocusable(false);
+        et_info = (EditText) findViewById(R.id.et_info);
+        et_info.setFocusable(false);
     }
 
     private void getData() {
@@ -99,10 +113,10 @@ public class ExpertActivity extends AppCompatActivity implements NetCallBack, Vi
         @Override
         public void handleMessage(Message msg) {
             Apptitle.setText(mExpertData.getNickname());
-            tv_username.setText(mExpertData.getNickname());
-            tv_follow_sum.setText(mExpertData.getFllowed_count());
-            tv_fans_sum.setText(mExpertData.getBeen_fllowed_count());
-            getUserJpushInfo(Const.JPUSH_PREFIX+mExpertData.getUser_id());
+            et_nickname.setText(mExpertData.getExpertName());
+            et_address.setText(mExpertData.getExpertProvince() + " " + mExpertData.getExpertCity() + " " + mExpertData.getExpertZone());
+            et_address_detail.setText(mExpertData.getExpertAddressDetail());
+            et_info.setText(mExpertData.getExpertIntroduce());
 
         }
     };
@@ -115,17 +129,5 @@ public class ExpertActivity extends AppCompatActivity implements NetCallBack, Vi
                 finish();
                 break;
         }
-    }
-
-    private void getUserJpushInfo(String user_name) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                Glide.with(getApplicationContext())
-                        .load(userInfo.getAvatarFile())
-                        .centerCrop()
-                        .into(img_user_avatar);
-            }
-        });
     }
 }

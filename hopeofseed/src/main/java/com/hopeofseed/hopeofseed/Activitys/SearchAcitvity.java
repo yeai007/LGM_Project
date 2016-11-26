@@ -320,8 +320,6 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
         } else if (rspBaseBean.RequestSign.equals("GetSearchResult")) {
             updateView();
         }
-
-
     }
 
     @Override

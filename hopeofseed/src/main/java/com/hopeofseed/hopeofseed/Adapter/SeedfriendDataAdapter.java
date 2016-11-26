@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.R;
 
@@ -80,12 +81,11 @@ public class SeedfriendDataAdapter extends BaseAdapter {
         Log.e(TAG, "getView: " + mData.getNickname());
         viewHolder.tv_name.setText(mData.getNickname());
         viewHolder.tv_address.setText(mData.getUserProvince() + " " + mData.getUserCity() + " " + mData.getUserZone());
-        getUserJpushInfo(mData.getUser_id(), viewHolder, Integer.parseInt(mData.getUser_role()));
+        getUserJpushInfo(Const.JPUSH_PREFIX+mData.getUser_id(), viewHolder, Integer.parseInt(mData.getUser_role()));
         return view;
     }
 
     class ViewHolder {
-
         ImageView img_user_avatar, img_corner;
         TextView tv_name, tv_address,tv_user_role;
 
@@ -103,6 +103,10 @@ public class SeedfriendDataAdapter extends BaseAdapter {
                                 .load(R.drawable.corner_user_default)
                                 .centerCrop()
                                 .into(holder.img_corner);
+                        Glide.with(mContext)
+                                .load(R.drawable.header_user_default)
+                                .centerCrop()
+                                .into(holder.img_user_avatar);
                         if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
                                     .load(R.drawable.header_user_default)
@@ -123,6 +127,10 @@ public class SeedfriendDataAdapter extends BaseAdapter {
                                 .load(R.drawable.corner_distributor)
                                 .centerCrop()
                                 .into(holder.img_corner);
+                        Glide.with(mContext)
+                                .load(R.drawable.header_distributor_default)
+                                .centerCrop()
+                                .into(holder.img_user_avatar);
                         if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
                                     .load(R.drawable.header_distributor_default)
@@ -142,6 +150,10 @@ public class SeedfriendDataAdapter extends BaseAdapter {
                                 .load(R.drawable.corner_enterprise)
                                 .centerCrop()
                                 .into(holder.img_corner);
+                        Glide.with(mContext)
+                                .load(R.drawable.header_enterprise_default)
+                                .centerCrop()
+                                .into(holder.img_user_avatar);
                         if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
                                     .load(R.drawable.header_enterprise_default)
@@ -161,6 +173,10 @@ public class SeedfriendDataAdapter extends BaseAdapter {
                                 .load(R.drawable.corner_expert)
                                 .centerCrop()
                                 .into(holder.img_corner);
+                        Glide.with(mContext)
+                                .load(R.drawable.header_expert_default)
+                                .centerCrop()
+                                .into(holder.img_user_avatar);
                         if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
                                     .load(R.drawable.header_expert_default)
@@ -180,6 +196,11 @@ public class SeedfriendDataAdapter extends BaseAdapter {
                                 .load(R.drawable.corner_author)
                                 .centerCrop()
                                 .into(holder.img_corner);
+                        Glide.with(mContext)
+                                .load(R.drawable.header_author_default)
+                                .centerCrop()
+                                .into(holder.img_user_avatar);
+
                         if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
                                     .load(R.drawable.header_author_default)

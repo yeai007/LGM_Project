@@ -16,10 +16,27 @@ import android.widget.Toast;
 import com.hopeofseed.hopeofseed.DataForHttp.GetPhoneCode;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.DataForHttp.UserRegister;
+import com.hopeofseed.hopeofseed.Http.HttpUtils;
+import com.hopeofseed.hopeofseed.Http.NetCallBack;
+import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.NewsData;
+import com.hopeofseed.hopeofseed.JNXData.UserData;
+import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataNoRealmTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataTmp;
+import com.hopeofseed.hopeofseed.LoginAcitivity;
 import com.hopeofseed.hopeofseed.R;
+import com.lgm.utils.ObjectUtil;
 import com.lgm.utils.TimeCountUtil;
 
+import java.util.HashMap;
 import java.util.Random;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
+import static com.hopeofseed.hopeofseed.Activitys.SelectVarieties.Str_search;
+import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 项目名称：liguangming
@@ -30,12 +47,13 @@ import java.util.Random;
  * 修改时间：2016/8/23 14:25
  * 修改备注：
  */
-public class RegisterAcitivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterAcitivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
     String TAG = "RegisterAcitivity";
     EditText et_username, et_password, et_phonecode;
     Button btn_register, get_code;
     String phone_code = "";
-
+    Handler mHandler = new Handler();
+String RegisterError="注册失败";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,42 +156,84 @@ public class RegisterAcitivity extends AppCompatActivity implements View.OnClick
     };
 
     protected void UserRegister(final String username, final String password, final String phonecode) {
-        // TODO Auto-generated method stub
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                UserRegister userRegister = new UserRegister();
-                userRegister.UserName = username;
-                userRegister.PassWord = password;
-                userRegister.PhoneCode = phonecode;
-                Boolean bRet = userRegister.RunData();
-                Message msg = loginUserHandle.obtainMessage();
-                if (bRet) {
-                    msg.arg1 = userRegister.dataMessage.arg1;
-                } else {
-                    msg.arg1 = 0;
-                }
-                msg.sendToTarget();
-            }
-        }).start();
+        Log.e(TAG, "getData: 获取经销商数据");
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserName", username);
+        opt_map.put("PassWord", password);
+        opt_map.put("PhoneCode", phonecode);
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "app_register.php", opt_map, UserDataTmp.class, this);
     }
 
-    private Handler loginUserHandle = new Handler() {
+    @Override
+    public void onSuccess(RspBaseBean rspBaseBean) {
+        if (rspBaseBean.RequestSign.equals("AppRegister")) {
+            Log.e(TAG, "onRegister: 成功");
+            updateRealmData(rspBaseBean);
+        }
+    }
+
+    @Override
+    public void onError(final String error) {
+        Log.e(TAG, "onError: "+error);
+        RegisterError=error;
+        mHandler.post(showError);
+
+    }
+
+    @Override
+    public void onFail() {
+
+    }
+    Runnable showError = new Runnable() {
         @Override
-        public void handleMessage(Message msg) {
-            switch (msg.arg1) {
-                case 0:
-                    break;
-                case 1:
-                    Intent intent = new Intent(RegisterAcitivity.this, HomePageActivity.class);
-                    startActivity(intent);
-                    Log.e(TAG, "handleMessage: " + Const.currentUser.user_name + Const.currentUser.password);
-                    break;
-                case 2:
-                    Toast.makeText(getApplicationContext(), "注册失败", Toast.LENGTH_LONG).show();
-                    Log.e(TAG, "handleMessage: " + Const.currentUser.user_name + Const.currentUser.password);
-                    break;
-            }
+        public void run() {
+            Toast.makeText(getApplicationContext(), RegisterError, Toast.LENGTH_SHORT).show();
+        }
+    };
+    private void updateRealmData(RspBaseBean rspBaseBean) {
+        Realm updateRealm = Realm.getDefaultInstance();
+        updateRealm.beginTransaction();//开启事务
+        UserData updateUserData = updateRealm.where(UserData.class)
+                .equalTo("iscurrent", 1)//查询出name为name1的User对象
+                .findFirst();//修改查询出的第一个对象的名字
+        if (updateUserData != null) {
+            updateUserData.setIsCurrent(0);
+        }
+        updateRealm.commitTransaction();
+        Log.e(TAG, "updateRealmData: 1");
+        UserDataTmp mUserDataTmp = new UserDataTmp();
+        mUserDataTmp=ObjectUtil.cast(rspBaseBean);
+        mUserDataTmp.getDetail().setIsCurrent(1);
+        UserData mUserDataTmp1 = new UserData();
+        mUserDataTmp1 = mUserDataTmp.getDetail();
+        Realm insertRealm = Realm.getDefaultInstance();
+        insertRealm.beginTransaction();
+        UserData insertUserData = insertRealm.copyToRealmOrUpdate(mUserDataTmp1);
+        insertRealm.commitTransaction();
+        Log.e(TAG, "updateRealmData: 2");
+        Const.currentUser.user_id = insertUserData.getUser_id();
+        Const.currentUser.user_name = insertUserData.getUser_name();
+        Const.currentUser.password = insertUserData.getPassword();
+        Const.currentUser.nickname = insertUserData.getNickname();
+        Const.currentUser.user_mobile = insertUserData.getUser_mobile();
+        Const.currentUser.user_email = insertUserData.getUser_email();
+        Const.currentUser.createtime = insertUserData.getCreatetime();
+        Const.currentUser.user_permation = insertUserData.getUser_permation();
+        Const.currentUser.user_role = insertUserData.getUser_role();
+        Const.currentUser.user_role_id = insertUserData.getUser_role_id();
+        Const.currentUser.user_field = insertUserData.getUser_field();
+        Const.currentUser.iscurrent = insertUserData.getIsCurrent();
+        Log.e(TAG, "updateRealmData: " + Const.currentUser.toString());
+        mHandler.post(updateResult);
+
+    }
+
+    Runnable updateResult = new Runnable() {
+        @Override
+        public void run() {
+            Intent intent = new Intent(RegisterAcitivity.this, HomePageActivity.class);
+            startActivity(intent);
         }
     };
 }

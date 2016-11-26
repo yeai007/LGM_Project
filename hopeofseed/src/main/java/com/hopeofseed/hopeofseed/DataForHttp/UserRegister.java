@@ -128,9 +128,9 @@ public class UserRegister extends JsonBase {
     @Override
     public void PacketData() {
         try {
-            opt_map.put("UserName", UserName);
-            opt_map.put("PassWord", PassWord);
-            opt_map.put("PhoneCode", PhoneCode);
+                opt_map.put("UserName", UserName);
+                opt_map.put("PassWord", PassWord);
+                opt_map.put("PhoneCode", PhoneCode);
         } catch (Exception e) {
             Log.e(LogTAG, e.getMessage());
         }

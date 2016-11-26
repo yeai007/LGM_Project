@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,10 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 
+import static com.hopeofseed.hopeofseed.R.id.img_user_avatar;
+import static com.hopeofseed.hopeofseed.R.id.tv_fans_sum;
+import static com.hopeofseed.hopeofseed.R.id.tv_follow_sum;
+import static com.hopeofseed.hopeofseed.R.id.tv_username;
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
@@ -43,8 +48,8 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  * 修改备注：
  */
 public class AuthorActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
-    ImageView img_user_avatar;
-    TextView tv_username, tv_follow_sum, tv_fans_sum, AppTitle;
+    TextView AppTitle;
+    EditText et_nickname, et_address, et_address_detail, et_info;
     AuthorData mAuthorData = new AuthorData();
     String AuthorId;
 
@@ -62,10 +67,14 @@ public class AuthorActivity extends AppCompatActivity implements View.OnClickLis
     private void initView() {
         AppTitle = (TextView) findViewById(R.id.apptitle);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
-        img_user_avatar = (ImageView) findViewById(R.id.img_user_avatar);
-        tv_username = (TextView) findViewById(R.id.tv_username);
-        tv_follow_sum = (TextView) findViewById(R.id.tv_follow_sum);
-        tv_fans_sum = (TextView) findViewById(R.id.tv_fans_sum);
+        et_nickname = (EditText) findViewById(R.id.et_nickname);
+        et_nickname.setFocusable(false);
+        et_address = (EditText) findViewById(R.id.et_address);
+        et_address.setFocusable(false);
+        et_address_detail = (EditText) findViewById(R.id.et_address_detail);
+        et_address_detail.setFocusable(false);
+        et_info = (EditText) findViewById(R.id.et_info);
+        et_info.setFocusable(false);
     }
 
     @Override
@@ -80,17 +89,6 @@ public class AuthorActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void getUserJpushInfo(String user_name) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                Glide.with(getApplicationContext())
-                        .load(userInfo.getAvatarFile())
-                        .centerCrop()
-                        .into(img_user_avatar);
-            }
-        });
-    }
 
     private void getData() {
         Log.e(TAG, "getData: 获取经销商数据");
@@ -127,10 +125,10 @@ public class AuthorActivity extends AppCompatActivity implements View.OnClickLis
         public void handleMessage(Message msg) {
             Log.e(TAG, "handleMessage: updateview");
             AppTitle.setText(mAuthorData.getAuthorName());
-            tv_username.setText(mAuthorData.getAuthorName());
-            tv_follow_sum.setText(mAuthorData.getFllowed_count());
-            tv_fans_sum.setText(mAuthorData.getBeen_fllowed_count());
-            getUserJpushInfo(Const.JPUSH_PREFIX+mAuthorData.getUser_id());
+            et_nickname.setText(mAuthorData.getAuthorName());
+            et_address.setText(mAuthorData.getAuthorProvince() + " " + mAuthorData.getAuthorCity() + " " + mAuthorData.getAuthorZone());
+            et_address_detail.setText(mAuthorData.getAuthorAddressDetail());
+            et_info.setText(mAuthorData.getAuthorIntroduce());
 
         }
     };

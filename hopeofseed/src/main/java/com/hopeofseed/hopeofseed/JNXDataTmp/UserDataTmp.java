@@ -1,6 +1,8 @@
 package com.hopeofseed.hopeofseed.JNXDataTmp;
+
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
+
 import java.util.ArrayList;
 
 /**
@@ -12,14 +14,14 @@ import java.util.ArrayList;
  * 修改时间：2016/10/26 17:35
  * 修改备注：
  */
-public class UserDataTmp extends RspBaseBean{
-    private ArrayList<UserData> detail = new ArrayList<>();
+public class UserDataTmp extends RspBaseBean {
+    private UserData detail = new UserData();
 
-    public ArrayList<UserData> getDetail() {
+    public UserData getDetail() {
         return detail;
     }
 
-    public void setDetail(ArrayList<UserData> detail) {
+    public void setDetail(UserData detail) {
         this.detail = detail;
     }
 }

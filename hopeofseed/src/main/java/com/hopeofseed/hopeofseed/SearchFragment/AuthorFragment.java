@@ -49,10 +49,11 @@ public class AuthorFragment extends Fragment {
 
     private int position;
     PullToRefreshListView lv_list;
-     AuthorDataAdapter mAuthorDataAdapter;
-     ArrayList<AuthorData> arr_AuthorData = new ArrayList<>();
-     ArrayList<AuthorData> arr_AuthorDataTmp = new ArrayList<>();
-    static  String Str_search="";
+    AuthorDataAdapter mAuthorDataAdapter;
+    ArrayList<AuthorData> arr_AuthorData = new ArrayList<>();
+    ArrayList<AuthorData> arr_AuthorDataTmp = new ArrayList<>();
+    static String Str_search = "";
+
     public static AuthorFragment newInstance(int position, String search) {
         Str_search = search;
         AuthorFragment f = new AuthorFragment();
@@ -84,7 +85,7 @@ public class AuthorFragment extends Fragment {
         lv_list.setOnItemClickListener(myListener);
     }
 
-    private  void getData(String Str_search) {
+    private void getData(String Str_search) {
         Log.e(TAG, "getData: 获取机构数据");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
@@ -93,7 +94,7 @@ public class AuthorFragment extends Fragment {
         hu.httpPost(Const.BASE_URL + "GetSearchAuthorData.php", opt_map, AuthorDataTmp.class, netCallBack);
     }
 
-     NetCallBack netCallBack = new NetCallBack() {
+    NetCallBack netCallBack = new NetCallBack() {
         @Override
         public void onSuccess(RspBaseBean rspBaseBean) {
             Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
@@ -113,12 +114,12 @@ public class AuthorFragment extends Fragment {
         }
     };
 
-    private  void updateView() {
+    private void updateView() {
         Message msg = updateViewHandle.obtainMessage();
         msg.sendToTarget();
     }
 
-    private  Handler updateViewHandle = new Handler() {
+    private Handler updateViewHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             Log.e(TAG, "handleMessage: updateview");
@@ -131,13 +132,14 @@ public class AuthorFragment extends Fragment {
     private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent intent = new Intent(getActivity(), AuthorActivity.class);
-            intent.putExtra("AuthorId", String.valueOf(arr_AuthorData.get(i - 1).getAuthorId()));
+            Intent intent = new Intent(getActivity(), UserActivity.class);
+            intent.putExtra("userid", String.valueOf(arr_AuthorData.get(i - 1).getUser_id()));
             startActivity(intent);
             Toast.makeText(getActivity(), arr_AuthorData.get(i - 1).getAuthorName(), Toast.LENGTH_SHORT).show();
         }
     };
-    public  void Search(String text) {
+
+    public void Search(String text) {
         Str_search = text;
         getData(Str_search);
     }

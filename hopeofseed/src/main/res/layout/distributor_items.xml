@@ -12,24 +12,37 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp">
 
-        <com.hopeofseed.hopeofseed.ui.CircleImageView
-            android:id="@+id/img_user"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/default_avater" />
+        <RelativeLayout
+            android:id="@+id/rel_img_user_avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true">
+
+            <com.hopeofseed.hopeofseed.ui.CircleImageView
+                android:id="@+id/img_user_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:src="@drawable/default_avater" />
+
+            <ImageView
+                android:id="@+id/img_corner"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/corner_distributor" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_distributor_name"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/img_user"
+            android:layout_toRightOf="@+id/rel_img_user_avatar"
             android:gravity="left|center_vertical"
             android:text="用户"
-            android:textColor="#ff6600" />
+            android:textColor="#333333" />
 
         <TextView
             android:id="@+id/tv_distributor_address"
@@ -37,9 +50,9 @@
             android:layout_height="30dp"
             android:layout_below="@+id/tv_distributor_name"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/img_user"
+            android:layout_toRightOf="@+id/rel_img_user_avatar"
             android:gravity="left|center_vertical"
             android:text="用户"
-            android:textColor="#ff6600" />
+            android:textColor="#cbcbcb" />
     </RelativeLayout>
 </RelativeLayout>
