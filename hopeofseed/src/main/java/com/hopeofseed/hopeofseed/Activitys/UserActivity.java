@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Adapter.UsersPagerAdapter;
+import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.DataForHttp.GetMyFollow;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
@@ -31,6 +32,8 @@ import com.hopeofseed.hopeofseed.JNXDataTmp.FollowedFriendTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataNoRealmTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.CategoryTabStrip;
+import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
+import com.hopeofseed.hopeofseed.ui.entity.Event;
 import com.hopeofseed.hopeofseed.util.ListFragmentConfig;
 import com.lgm.utils.ObjectUtil;
 
@@ -39,7 +42,9 @@ import java.util.HashMap;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
+import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.UserInfo;
+import cn.jpush.im.android.eventbus.EventBus;
 
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
@@ -68,6 +73,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     int isFriend = 0;
     Handler mHandler = new Handler();
     int isAddOrDel = 0;
+    UserInfo mUserInfo;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -97,6 +103,8 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         tv_follow_sum = (TextView) findViewById(R.id.tv_follow_sum);
         btn_submit_followed = (Button) findViewById(R.id.btn_submit_followed);
         btn_submit_followed.setOnClickListener(this);
+        btn_createchat = (Button) findViewById(R.id.btn_createchat);
+        btn_createchat.setOnClickListener(this);
         tv_fans_sum = (TextView) findViewById(R.id.tv_fans_sum);
         rel_fans = (RelativeLayout) findViewById(R.id.rel_fans);
         tv_address = (TextView) findViewById(R.id.tv_address);
@@ -167,6 +175,17 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 AddOrDelFollowed();
                 break;
             case R.id.btn_createchat:
+/*                intent = new Intent(UserActivity.this, ChatActivity.class);
+                intent.putExtra("fromGroup", false);
+                intent.putExtra(Application.GROUP_ID, Long.parseLong(arrUserMessageData.get(i - 1).getMessageFrom()));
+                intent.putExtra(Application.GROUP_NAME, arrUserMessageData.get(i - 1).getMessageTitle());
+                Log.e(TAG, "onItemClick: 发送参数" + arrUserMessageData.get(i - 1).getMessageFrom() + arrUserMessageData.get(i - 1).getMessageTitle());
+                startActivity(intent);*/
+                if (mUserInfo == null) {
+                    Toast.makeText(getApplicationContext(), "该用户暂不支持留言", Toast.LENGTH_SHORT).show();
+                } else {
+                    createChat();
+                }
                 break;
             case R.id.btn_func_menu:
                 break;
@@ -174,11 +193,37 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    private void createChat() {
+        /**
+         * 如果是从群聊跳转过来，使用startActivity启动聊天界面，如果是单聊跳转过来，setResult然后
+         * finish掉此界面
+         */
+        Intent intent = new Intent();
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra(Application.TARGET_ID, mUserInfo.getUserName());
+        intent.putExtra(Application.TARGET_APP_KEY, mUserInfo.getAppKey());
+        intent.setClass(this, ChatActivity.class);
+        startActivity(intent);
+/*
+        Intent intent = new Intent();
+        intent.putExtra("returnChatActivity", true);
+        intent.putExtra(Application.NICKNAME, Const.currentUser.nickname);
+        setResult(Application.RESULT_CODE_FRIEND_INFO, intent);*/
+        Conversation conv = JMessageClient.getSingleConversation(mUserInfo.getUserName(), mUserInfo.getAppKey());
+        //如果会话为空，使用EventBus通知会话列表添加新会话
+        if (conv == null) {
+            conv = Conversation.createSingleConversation(mUserInfo.getUserName(), mUserInfo.getAppKey());
+            EventBus.getDefault().post(new Event.StringEvent(mUserInfo.getUserName(), mUserInfo.getAppKey()));
+        }
+        // finish();
+    }
+
 
     private void getUserJpushInfo(String user_name) {
         JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
+                mUserInfo = userInfo;
                 if (userInfo.getAvatarFile() != null) {
                     Glide.with(getApplicationContext())
                             .load(userInfo.getAvatarFile())
@@ -225,6 +270,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         } else if (rspBaseBean.RequestSign.equals("AddNewFriend")) {
             CommResultTmp mCommResultTmp = ObjectUtil.cast(rspBaseBean);
             Log.e(TAG, "onSuccess: " + rspBaseBean.resultNote + mCommResultTmp.getDetail());
+            getIsFriend();
         } else {
             Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
             mUserDataNoRealm = ((UserDataNoRealmTmp) ObjectUtil.cast(rspBaseBean)).getDetail().get(0);
@@ -263,7 +309,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 case 2://用户关注当前页帐号
                     btn_submit_followed.setText("已关注");
                     isAddOrDel = 0;
-                    Toast.makeText(getApplicationContext(),"已经关注",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "已经关注", Toast.LENGTH_SHORT).show();
                     break;
 
                 case 3://双向关注

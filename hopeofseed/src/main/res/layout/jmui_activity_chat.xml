@@ -14,15 +14,15 @@
             android:id="@+id/jmui_menu_title_bar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/jmui_jpush_blue">
+            android:background="#ffffff">
 
             <ImageButton
                 android:id="@+id/jmui_return_btn"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
-                android:src="@drawable/jmui_back_btn"
-                android:background="@drawable/jmui_back_btn_bg"/>
+                android:background="@drawable/img_topleft"
+                android:src="@drawable/jmui_back_btn" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -34,27 +34,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxWidth="190dp"
-                    android:textColor="#FFFFFF"
                     android:singleLine="true"
-                    android:textSize="20sp"/>
+                    android:textColor="@color/text_title_color"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/jmui_group_num_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
                     android:singleLine="true"
-                    android:textSize="20sp"/>
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
             <ImageButton
                 android:id="@+id/jmui_right_btn"
                 android:layout_width="40dp"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/jmui_chat_detail"
-                android:background="@drawable/jmui_back_btn_bg" />
+                android:layout_alignParentTop="true"
+                android:background="@drawable/jmui_back_btn_bg"
+                android:scaleType="centerInside"
+                android:src="@drawable/group_right_icon" />
 
         </RelativeLayout>
 
@@ -72,13 +75,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#F0F1F3"
+                android:divider="@null"
                 android:listSelector="@android:color/transparent"
                 android:transcriptMode="normal"
-                android:divider="@null"
+                listViewAttr:isAutoLoadOnBottom="false"
                 listViewAttr:isDropDownStyle="true"
-                listViewAttr:isOnBottomStyle="false"
-                listViewAttr:isAutoLoadOnBottom="false">
-            </com.hopeofseed.hopeofseed.ui.chatting.DropDownListView>
+                listViewAttr:isOnBottomStyle="false"></com.hopeofseed.hopeofseed.ui.chatting.DropDownListView>
         </LinearLayout>
 
 
@@ -107,7 +109,7 @@
                     android:layout_marginBottom="2dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    android:background="@drawable/jmui_voice"/>
+                    android:background="@drawable/jmui_voice" />
 
 
                 <RelativeLayout
@@ -123,12 +125,12 @@
                         android:layout_marginRight="5dp"
                         android:layout_toLeftOf="@+id/jmui_expression_btn"
                         android:background="@drawable/jmui_chat_input_bg"
-                        android:gravity="start"
                         android:cursorVisible="true"
-                        android:textCursorDrawable="@drawable/jmui_text_cursor_bg"
+                        android:gravity="start"
+                        android:inputType="textMultiLine"
                         android:padding="5dp"
                         android:textColor="#000000"
-                        android:inputType="textMultiLine"/>
+                        android:textCursorDrawable="@drawable/jmui_text_cursor_bg" />
 
                     <ImageButton
                         android:id="@+id/jmui_expression_btn"
@@ -137,15 +139,15 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/jmui_expression1"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
 
                     <com.hopeofseed.hopeofseed.ui.chatting.RecordVoiceButton
                         android:id="@+id/jmui_voice_btn"
                         android:layout_width="match_parent"
                         android:layout_height="34dp"
-                        android:layout_marginRight="5dp"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
+                        android:layout_marginRight="5dp"
                         android:background="@drawable/jmui_voice_bg"
                         android:gravity="center"
                         android:padding="5dp"
@@ -169,9 +171,9 @@
                         android:layout_height="30dp"
                         android:background="@drawable/jmui_register_btn_bg"
                         android:gravity="center_horizontal|center_vertical"
+                        android:padding="5dp"
                         android:text="@string/jmui_send"
                         android:textColor="@android:color/white"
-                        android:padding="5dp"
                         android:textSize="14sp"
                         android:visibility="gone" />
 

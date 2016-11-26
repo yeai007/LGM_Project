@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rel_user_avatar"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="@color/maincolor"
         android:orientation="horizontal">
 
@@ -170,7 +170,6 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:clipToPadding="false"
-            android:visibility="gone"
             android:paddingLeft="6.0dip"
             android:paddingRight="6.0dip" />
     </LinearLayout>
@@ -185,37 +184,40 @@
     <LinearLayout
         android:id="@+id/lin_menu_botton"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:orientation="horizontal"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_submit_followed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@null"
+            android:background="@drawable/rel_shape_item"
             android:gravity="center"
-            android:text="已关注" />
+            android:text="已关注"
+            android:textColor="@color/text_title_color" />
 
         <Button
             android:id="@+id/btn_createchat"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@null"
+            android:background="@drawable/rel_shape_item"
             android:gravity="center"
-            android:text="聊天" />
+            android:text="留言"
+            android:textColor="@color/text_title_color" />
 
         <Button
             android:id="@+id/btn_func_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@null"
+            android:background="@drawable/rel_shape_item"
             android:gravity="center"
-            android:text="功能" />
+            android:text="功能"
+            android:textColor="@color/text_title_color" />
     </LinearLayout>
 </RelativeLayout>

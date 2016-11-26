@@ -16,6 +16,10 @@ import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
 
+import static com.hopeofseed.hopeofseed.Data.Const.mUserInfo;
+import static com.hopeofseed.hopeofseed.R.id.img_corner;
+import static com.hopeofseed.hopeofseed.R.id.img_user;
+
 /**
  * 项目名称：LGM_Project
  * 类描述：
@@ -117,4 +121,14 @@ public class JpushUtil {
         });
     }
 
+    private void getUserJpushInfo(String user_name, final int user_role) {
+        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, UserInfo userInfo) {
+                //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
+                Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
+                Const.mUserInfo = userInfo;
+            }
+        });
+    }
 }

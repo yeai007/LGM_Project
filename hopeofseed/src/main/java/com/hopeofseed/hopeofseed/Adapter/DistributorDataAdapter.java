@@ -1,6 +1,8 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.CropData;
+import com.hopeofseed.hopeofseed.JNXData.DistributorCommodity;
+import com.hopeofseed.hopeofseed.JNXData.DistributorCommodityArray;
 import com.hopeofseed.hopeofseed.JNXData.DistributorData;
 import com.hopeofseed.hopeofseed.R;
 
@@ -36,9 +40,9 @@ import static com.hopeofseed.hopeofseed.R.id.tv_name;
  */
 public class DistributorDataAdapter extends BaseAdapter {
     Context mContext;
-    List<DistributorData> mlist;
+    List<DistributorCommodityArray> mlist;
 
-    public DistributorDataAdapter(Context context, ArrayList<DistributorData> list) {
+    public DistributorDataAdapter(Context context, ArrayList<DistributorCommodityArray> list) {
         super();
         this.mContext = context;
         this.mlist = list;
@@ -62,7 +66,7 @@ public class DistributorDataAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
-        DistributorData mData;
+        DistributorCommodityArray mData;
         mData = mlist.get(i);
         ViewHolder viewHolder;
         if (view == null) {
@@ -72,11 +76,14 @@ public class DistributorDataAdapter extends BaseAdapter {
             viewHolder.tv_address = (TextView) view.findViewById(R.id.tv_distributor_address);
             viewHolder.img_user_avatar = (ImageView) view.findViewById(R.id.img_user_avatar);
             Log.e(TAG, "getView: " + mData.getDistributorName());
+            viewHolder.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
+            viewHolder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-
+        CommodityImageAdapter gridAdapter = new CommodityImageAdapter(mContext, mData.getCommodityData());
+        viewHolder.resultRecyclerView.setAdapter(gridAdapter);
         viewHolder.tv_name.setText(mData.getDistributorName());
         viewHolder.tv_address.setText(mData.getDistributorProvince() + "  " + mData.getDistributorCity() + " " + mData.getDistributorZone());
         getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), viewHolder);
@@ -87,6 +94,7 @@ public class DistributorDataAdapter extends BaseAdapter {
 
         ImageView img_user_avatar, img_corner;
         TextView tv_name, tv_address;
+        RecyclerView resultRecyclerView;
 
     }
 

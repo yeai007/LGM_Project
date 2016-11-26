@@ -5,6 +5,8 @@ import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.JNXData.CurrentUser;
 import com.lgm.utils.AppUtil;
 
+import cn.jpush.im.android.api.model.UserInfo;
+
 /**
  * 项目名称：liguangming
  * 类描述：
@@ -24,4 +26,5 @@ public class Const {
     public static double  LocLat;
     public  static double LocLng;
     public static  String InputCathe;
+    public static UserInfo mUserInfo;
 }
