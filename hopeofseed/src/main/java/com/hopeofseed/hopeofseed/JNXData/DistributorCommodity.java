@@ -74,7 +74,7 @@ public class DistributorCommodity {
     private String DistributorLat;
     private String DistributorLon;
     private String user_id;
-
+    private String Distance;
     public String getCommodityId() {
         return CommodityId;
     }
@@ -306,6 +306,16 @@ public class DistributorCommodity {
     public void setDistributorLon(String DistributorLon) {
         this.DistributorLon = DistributorLon;
     }
+
+    public String getDistance() {
+        return Distance;
+    }
+
+    public void setDistance(String Distance) {
+        this.Distance = Distance;
+    }
+
+
 
     public String getUser_id() {
         return user_id;

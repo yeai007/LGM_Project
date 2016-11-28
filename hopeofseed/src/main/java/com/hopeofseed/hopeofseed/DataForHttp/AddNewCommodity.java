@@ -63,7 +63,8 @@ public class AddNewCommodity extends JsonBase {
                 opt_map_file.put(String.valueOf(i), new File(images.get(i)));
             }
         }
-        try {
+        Log.e(TAG, "PacketData: filesize" + opt_map_file.size());
+
             opt_map.put("commodity_title", commodity_title);
             opt_map.put("commodity_name", commodity_name);
             opt_map.put("commodity_price", commodity_price);
@@ -74,10 +75,6 @@ public class AddNewCommodity extends JsonBase {
             opt_map.put("OwnerClass", Const.currentUser.user_role);
             opt_map.put("Variety_1", Variety_1);
             opt_map.put("Variety_2", Variety_2);
-        } catch (Exception e) {
-            Log.e(LogTAG, e.getMessage());
-        }
-
     }
 
 }

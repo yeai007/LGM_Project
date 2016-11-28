@@ -3,7 +3,6 @@ package com.hopeofseed.hopeofseed.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,11 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
-import com.hopeofseed.hopeofseed.JNXData.ExperienceData;
 import com.hopeofseed.hopeofseed.JNXData.ExpertEnterperiseData;
-import com.hopeofseed.hopeofseed.JNXData.ProblemData;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * 项目名称：LGM_Project
@@ -30,11 +25,11 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  * 修改时间：2016/10/17 15:09
  * 修改备注：
  */
-public class ExperienceDataAdapter extends BaseAdapter {
+public class SelectExpertDataAdapter extends BaseAdapter {
     Context mContext;
-    List<ExperienceData> mlist;
+    List<ExpertEnterperiseData> mlist;
 
-    public ExperienceDataAdapter(Context context, ArrayList<ExperienceData> list) {
+    public SelectExpertDataAdapter(Context context, ArrayList<ExpertEnterperiseData> list) {
         super();
         this.mContext = context;
         this.mlist = list;
@@ -58,12 +53,12 @@ public class ExperienceDataAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
-        final ExperienceData mData;
+        final ExpertEnterperiseData mData;
         mData = mlist.get(i);
         ViewHolder viewHolder;
         if (view == null) {
             viewHolder = new ViewHolder();
-            view = _LayoutInflater.inflate(R.layout.search_enterprise_noexpert_items, null);
+            view = _LayoutInflater.inflate(R.layout.search_enterprise_items, null);
             viewHolder.tv_title = (TextView) view.findViewById(R.id.tv_title);
             viewHolder.tv_content = (TextView) view.findViewById(R.id.tv_content);
             viewHolder.tv_name = (TextView) view.findViewById(R.id.tv_name);
@@ -71,7 +66,7 @@ public class ExperienceDataAdapter extends BaseAdapter {
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.tv_name.setText("【" + mData.getNickname() + "】");
+        viewHolder.tv_name.setText("【" + mData.getExpertName() + "】");
         viewHolder.tv_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

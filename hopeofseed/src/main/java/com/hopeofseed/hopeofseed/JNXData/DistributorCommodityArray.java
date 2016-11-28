@@ -70,6 +70,7 @@ public class DistributorCommodityArray {
     private String DistributorLat;
     private String DistributorLon;
     private String user_id;
+    private String Distance;
 
     public String getDistributorId() {
         return DistributorId;
@@ -181,5 +182,13 @@ public class DistributorCommodityArray {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getDistance() {
+        return Distance;
+    }
+
+    public void setDistance(String distance) {
+        this.Distance = distance;
     }
 }

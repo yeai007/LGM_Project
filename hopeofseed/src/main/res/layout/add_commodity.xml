@@ -225,6 +225,7 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/bg_edittext"
             android:gravity="left|top"
+
             android:hint="输入商品描述" />
     </RelativeLayout>
 </ScrollView>

@@ -9,15 +9,10 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
 import com.hopeofseed.hopeofseed.JNXData.CropData;
-import com.hopeofseed.hopeofseed.JNXData.ProblemData;
-import com.hopeofseed.hopeofseed.JNXData.SortsData;
 import com.hopeofseed.hopeofseed.R;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
@@ -48,7 +43,7 @@ public class AutoTextDataAdapter extends BaseAdapter implements Filterable {
 
     @Override
     public Object getItem(int i) {
-        return mlist.get(i).getVarietyName();
+        return mlist.get(i);
     }
 
     @Override

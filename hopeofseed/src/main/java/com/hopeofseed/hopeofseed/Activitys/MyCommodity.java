@@ -112,7 +112,7 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.btn_topright:
                 //维护供应商
-                intent = new Intent(MyCommodity.this, EnterPriseCommodity.class);
+                intent = new Intent(MyCommodity.this, EnterpriseCommodityActivity.class);
                 startActivity(intent);
                 break;
             case R.id.btn_add_commodity:

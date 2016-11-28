@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.NewsListAdapter;
@@ -33,6 +34,7 @@ import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
 import com.hopeofseed.hopeofseed.curView.pulishDYNPopupWindow;
 import com.hopeofseed.hopeofseed.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -94,7 +96,7 @@ public class NewsFragment extends Fragment implements NetCallBack {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Log.e(TAG, "onItemClick: " + String.valueOf(l));
-           // Toast.makeText(getActivity(), String.valueOf(l), Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getActivity(), String.valueOf(l), Toast.LENGTH_SHORT).show();
         }
     };
 

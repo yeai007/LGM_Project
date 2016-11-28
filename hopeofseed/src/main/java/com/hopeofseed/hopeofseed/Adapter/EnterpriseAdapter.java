@@ -1,20 +1,26 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.EnterpriseData;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.GetUserInfoCallback;
+import cn.jpush.im.android.api.model.UserInfo;
+
 
 /**
  * 项目名称：LGM_Project
@@ -55,12 +61,48 @@ public class EnterpriseAdapter extends BaseAdapter {
         LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
         EnterpriseData mData;
         mData = mlist.get(i);
-        view = _LayoutInflater.inflate(R.layout.distributor_items, null);
-        if (view != null) {
-            TextView tv_distributor_name = (TextView) view.findViewById(R.id.tv_distributor_name);
-            Log.e(TAG, "getView: "+mData.getEnterpriseName());
-            tv_distributor_name.setText(mData.getEnterpriseName());
+        ViewHolder viewHolder;
+        if (view == null) {
+            viewHolder = new ViewHolder();
+            view = _LayoutInflater.inflate(R.layout.enterprise_items, null);
+            viewHolder.tv_name = (TextView) view.findViewById(R.id.tv_name);
+            viewHolder.img_user_avatar=(ImageView) view.findViewById(R.id.img_user_avatar);
+            viewHolder.tv_address=(TextView)view.findViewById(R.id.tv_address);
+            viewHolder.tv_address_detail=(TextView)view.findViewById(R.id.tv_address_detail);
+            view.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
         }
+        viewHolder.tv_address.setText(mData.getEnterpriseProvince() + "  " + mData.getEnterpriseCity() + " " + mData.getEnterpriseZone());
+        viewHolder.tv_address_detail.setText(mData.getEnterpriseAddressDetail());
+        viewHolder.tv_name.setText(mData.getEnterpriseName());
+        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), viewHolder);
         return view;
+    }
+
+    class ViewHolder {
+        ImageView img_user_avatar;
+        TextView tv_name, tv_address, tv_address_detail;
+    }
+    private void getUserJpushInfo(String user_name, final ViewHolder holder) {
+        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, UserInfo userInfo) {
+
+                if (userInfo.getAvatarFile() == null) {
+                    Glide.with(mContext)
+                            .load(R.drawable.header_enterprise_default)
+                            .centerCrop()
+                            .into(holder.img_user_avatar);
+
+                } else {
+                    Glide.with(mContext)
+                            .load(userInfo.getAvatarFile())
+                            .centerCrop()
+                            .into(holder.img_user_avatar);
+                }
+
+            }
+        });
     }
 }

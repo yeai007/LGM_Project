@@ -101,7 +101,7 @@ public class CommendListAdapterNew extends BaseAdapter {
             viewHolder.tv_huifu.setVisibility(View.GONE);
             viewHolder.tv_to_user_name.setVisibility(View.GONE);
         } else {
-            viewHolder.user_name.setText(mData.getNickname() );
+            viewHolder.user_name.setText(mData.getNickname());
             viewHolder.tv_huifu.setText("回复");
             viewHolder.tv_to_user_name.setText(mData.getTo_nickname() + ":");
             viewHolder.tv_huifu.setVisibility(View.VISIBLE);

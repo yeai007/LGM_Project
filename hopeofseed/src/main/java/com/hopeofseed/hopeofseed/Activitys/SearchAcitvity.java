@@ -19,7 +19,10 @@ import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.HotSearchData;
+import com.hopeofseed.hopeofseed.JNXData.HotSearchDataNoRealm;
 import com.hopeofseed.hopeofseed.JNXDataTmp.BeanTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.HotSearchDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.SearchResultDataTmp;
 import com.hopeofseed.hopeofseed.SearchFragment.AuthorFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.ComFragment;
@@ -133,6 +136,7 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
         }
         initData();
         initViews();
+        updateHintData();
         updateData();
         initPager();
     }
@@ -206,11 +210,21 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
      * 获取热搜版data 和adapter
      */
     private void getHintData() {
-        hintData = new ArrayList<>(hintSize);
-        for (int i = 1; i <= hintSize; i++) {
-            hintData.add("热搜版" + i + "：Android自定义View");
+
+        hintData=new ArrayList<>();
+        List<HotSearchData> mlist = null;
+        mlist = myRealm.where(HotSearchData.class).findAll();
+        for (int i = 0; i < mlist.size(); i++) {
+            HotSearchDataNoRealm bnr = new HotSearchDataNoRealm();
+            bnr.setHotSearchId(mlist.get(i).getHotSearchId());
+            bnr.setHotSearchLevel(mlist.get(i).getHotSearchLevel());
+            bnr.setHotSearchOrder(mlist.get(i).getHotSearchOrder());
+            bnr.setHotSearchStr(mlist.get(i).getHotSearchStr());
+            hintData.add(bnr.getHotSearchStr());
         }
-        hintAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, hintData);
+
+        hintAdapter = new ArrayAdapter<>(this, R.layout.simple_list_item_1, hintData);
+
     }
 
     /**
@@ -290,6 +304,28 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
     /**
      * **********更新搜索库数据************
      */
+    private void updateHintData() {
+        Log.e(TAG, "getData: 获取搜索库数据");
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "GetHotSearchData.php", opt_map, HotSearchDataTmp.class, this);
+    }
+
+    private void updateHintRealmData(RspBaseBean rspBaseBean) {
+        HotSearchDataTmp mHotSearchDataTmp = ObjectUtil.cast(rspBaseBean);
+        Realm insertRealm = Realm.getDefaultInstance();
+        RealmResults<HotSearchData> results_del = insertRealm.where(HotSearchData.class).findAll();
+        insertRealm.beginTransaction();
+        results_del.deleteAllFromRealm();
+        insertRealm.commitTransaction();
+        for (HotSearchData o : mHotSearchDataTmp.getDetail()) {
+            insertRealm.beginTransaction();
+            HotSearchData mHotSearchData = insertRealm.copyToRealmOrUpdate(o);
+            insertRealm.commitTransaction();
+        }
+    }
+
     private void updateData() {
         Log.e(TAG, "getData: 获取搜索库数据");
         HashMap<String, String> opt_map = new HashMap<>();
@@ -319,6 +355,8 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
             updateRealmData(rspBaseBean);
         } else if (rspBaseBean.RequestSign.equals("GetSearchResult")) {
             updateView();
+        } else if (rspBaseBean.RequestSign.equals("GetHotSearchData")) {
+            updateHintRealmData(rspBaseBean);
         }
     }
 
@@ -353,7 +391,7 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
             catalogs.add("用户");
             catalogs.add("品种");
             catalogs.add("经销商");
-            catalogs.add("专家");
+            catalogs.add("专家分享");
             catalogs.add("企业");
             catalogs.add("机构");
             catalogs.add("农技");

@@ -439,7 +439,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name="com.hopeofseed.hopeofseed.Activitys.EnterPriseCommodity"
+            android:name="com.hopeofseed.hopeofseed.Activitys.EnterpriseCommodityActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lgm.widget.SquareRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.hopeofseed.hopeofseed.curView.SquareImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:background="@drawable/imageview_shape"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tv_commodity_name"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="名称"
+        android:background="#e0000000"
+        android:textColor="@color/white" />
+</com.lgm.widget.SquareRelativeLayout>

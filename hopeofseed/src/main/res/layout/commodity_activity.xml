@@ -1,130 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainbgcolor"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/top"
-        layout="@layout/top_comright" />
-
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/top"
         android:orientation="vertical">
 
+        <include
+            android:id="@+id/top"
+            layout="@layout/top_comright" />
+
         <RelativeLayout
+            android:id="@+id/rel_banner"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/top"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/rel_banner"
+            <com.youth.banner.Banner
+                android:id="@+id/banner"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="vertical">
+                android:layout_height="match_parent" />
+        </RelativeLayout>
 
-                <com.youth.banner.Banner
-                    android:id="@+id/banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rel_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rel_banner"
+            android:background="#ffffff"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/bg_edittext"
+                android:gravity="left|center"
+                android:hint=""
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <RelativeLayout
-                android:id="@+id/rel_content"
+                android:id="@+id/rel_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/rel_banner"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
+                android:layout_height="30dp"
+                android:layout_below="@+id/tv_title"
+                android:background="@drawable/bg_edittext">
+
+                <TextView
+                    android:id="@+id/tv_variety"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_edittext"
+                    android:gravity="left|center"
+                    android:hint=""
+                    android:textSize="16sp"
+                    android:textColor="@color/red"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tv_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="商品名称"
-                    android:textColor="#ff6600"
-                    android:textSize="16sp" />
-
-                <LinearLayout
-                    android:id="@+id/lin_variety"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_name"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:text="所属品种："
-                        android:textSize="16sp"
-
-                        />
-
-                    <TextView
-                        android:id="@+id/tv_variety"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lin_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lin_variety"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="80dp"
-                        android:layout_height="wrap_content"
-                        android:text="价格："
-                        android:textSize="16sp"
-
-                        />
-
-                    <TextView
-                        android:id="@+id/tv_price"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=""
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lin_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/lin_price"
-                    android:layout_marginTop="10dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="描述："
-                        android:textSize="16sp"
-
-                        />
-
-                    <TextView
-                        android:id="@+id/tv_desc"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="商品描述" />
-                </LinearLayout>
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@+id/tv_variety"
+                    android:background="@drawable/bg_edittext"
+                    android:gravity="left|center"
+                    android:hint=""
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/rel_name"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:hint="￥" />
+
+            <EditText
+                android:id="@+id/et_discribe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_price"
+                android:layout_marginLeft="10dp"
+                android:focusable="false"
+                android:minLines="3"
+                android:background="#ffffff"
+                android:gravity="left|top"
+                android:textSize="14sp"
+                android:hint="" />
         </RelativeLayout>
-    </ScrollView>
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>

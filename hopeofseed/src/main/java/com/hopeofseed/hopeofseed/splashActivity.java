@@ -14,9 +14,14 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.mapapi.model.LatLng;
 import com.hopeofseed.hopeofseed.Activitys.HomePageActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
+import com.hopeofseed.hopeofseed.Services.LocationService;
 
 import java.io.File;
 import java.util.Locale;
@@ -31,7 +36,7 @@ import io.realm.RealmResults;
  * @Date:2016/5/3
  * @Copyright:2014-2016 Moogeek
  */
-public class splashActivity extends AppCompatActivity {
+public class splashActivity extends AppCompatActivity implements BDLocationListener {
     private static final String TAG = "splashActivity";
     private static String KEY_APP_KEY = "JPUSH_APPKEY";
     private static final String SHAREDPREFERENCES_NAME = "first_pref";//登录次数标记，存储与系统中
@@ -41,6 +46,7 @@ public class splashActivity extends AppCompatActivity {
     private static final long SPLASH_DELAY_MILLIS = 3000;//延时时间，用于延时页面显示
     Realm myRealm = Realm.getDefaultInstance();
     private static String APP_KEY;
+    private LocationService locationService;
     private File cache;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +55,7 @@ public class splashActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         initFirst();
-
+        initLocation();
         //创建缓存目录，系统一运行就得创建缓存目录的，
         cache = new File(Environment.getExternalStorageDirectory(), "hopeofseed/images");
 
@@ -161,4 +167,45 @@ public class splashActivity extends AppCompatActivity {
         }
         return APP_KEY;
     }
+    /**
+     * 获取位置信息
+     * */
+    private void initLocation() {
+        // -----------location config ------------
+        locationService = ((Application) getApplication()).locationService;
+        //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
+        locationService.registerListener(this);
+        //注册监听
+        int type = getIntent().getIntExtra("from", 0);
+        if (type == 0) {
+            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+        } else if (type == 1) {
+            locationService.setLocationOption(locationService.getOption());
+        }
+        locationService.start();// 定位SDK
+    }
+
+    @Override
+    public void onReceiveLocation(BDLocation bdLocation) {
+        if (bdLocation == null)
+            return;
+        //Receive Location
+        //经纬度
+        double lati = bdLocation.getLatitude();
+        double longa = bdLocation.getLongitude();
+        //打印出当前位置
+        Log.i("TAG", "location.getAddrStr()=" + bdLocation.getAddrStr());
+        //打印出当前城市
+        Log.i("TAG", "location.getCity()=" + bdLocation.getCity());
+        //返回码
+        int i = bdLocation.getLocType();
+        //LatLng llA = new LatLng(36.710353, 117.086401);
+        LatLng llA = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
+        Const.LocLat = bdLocation.getLatitude();
+        Const.LocLng = bdLocation.getLongitude();
+
+/*        getNearByData(llA);*/
+        locationService.stop();
+    }
+
 }

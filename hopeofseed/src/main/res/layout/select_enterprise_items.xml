@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:src="@drawable/header_distributor_default" />
+                android:src="@drawable/header_enterprise_default" />
 
             <ImageView
                 android:id="@+id/img_corner"
@@ -32,11 +32,11 @@
                 android:layout_height="20dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/corner_distributor" />
+                android:src="@drawable/corner_enterprise" />
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_distributor_name"
+            android:id="@+id/tv_enterprise_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -48,24 +48,12 @@
             android:textSize="14sp"
             android:textColor="#333333" />
 
-        <TextView
-            android:id="@+id/tv_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:focusable="false"
-            android:gravity="left|center_vertical"
-            android:text="1.1km"
-            android:textSize="12sp"
-            android:textColor="#cbcbcb" />
 
         <TextView
-            android:id="@+id/tv_distributor_address"
+            android:id="@+id/tv_enterprise_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_distributor_name"
+            android:layout_below="@+id/tv_enterprise_name"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/rel_img_user_avatar"
@@ -76,10 +64,10 @@
             android:textColor="#cbcbcb" />
 
         <TextView
-            android:id="@+id/tv_distributor_address_detail"
+            android:id="@+id/tv_enterprise_address_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_distributor_address"
+            android:layout_below="@+id/tv_enterprise_address"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/rel_img_user_avatar"
             android:gravity="left|center_vertical"

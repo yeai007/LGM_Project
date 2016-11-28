@@ -1,19 +1,32 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.hopeofseed.hopeofseed.Activitys.UserActivity;
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.AuthorData;
+import com.hopeofseed.hopeofseed.JNXData.EnterpriseCommodityArray;
 import com.hopeofseed.hopeofseed.JNXData.ProblemData;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.GetUserInfoCallback;
+import cn.jpush.im.android.api.model.UserInfo;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
@@ -56,12 +69,43 @@ public class AuthorDataAdapter extends BaseAdapter {
         LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
         AuthorData mData;
         mData = mlist.get(i);
-        view = _LayoutInflater.inflate(R.layout.search_crop_items, null);
-        if (view != null) {
-            TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
-            Log.e(TAG, "getView: " + mData.getAuthorName());
-            tv_name.setText(mData.getAuthorName());
+        ViewHolder viewHolder;
+        if (view == null) {
+            viewHolder = new ViewHolder();
+            view = _LayoutInflater.inflate(R.layout.search_author_items, null);
+            viewHolder.tv_name = (TextView) view.findViewById(R.id.tv_name);
+            viewHolder.tv_address = (TextView) view.findViewById(R.id.tv_address);
+            viewHolder.img_user_avatar = (ImageView) view.findViewById(R.id.img_user_avatar);
+            view.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) view.getTag();
         }
+        viewHolder.tv_name.setText(mData.getAuthorName());
+        viewHolder.tv_address.setText(mData.getAuthorProvince() + " " + mData.getAuthorCity() + " " + mData.getAuthorZone());
+        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), viewHolder);
         return view;
+    }
+
+    class ViewHolder {
+        ImageView img_user_avatar;
+        TextView tv_name, tv_address;
+
+    }
+
+    private void getUserJpushInfo(String user_name, final ViewHolder holder) {
+        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, UserInfo userInfo) {
+
+                if (!(userInfo.getAvatarFile() == null)) {
+
+                    Glide.with(mContext)
+                            .load(userInfo.getAvatarFile())
+                            .centerCrop()
+                            .into(holder.img_user_avatar);
+                }
+
+            }
+        });
     }
 }

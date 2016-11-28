@@ -89,4 +89,21 @@ public class ObjectUtil {
             return "";
         }
     }
+
+    /*
+    * @desc double类型保留i位小数
+    * @author lgm
+    * @time 2016/8/18 9:30
+    * */
+    public static Double roundDouble(double dou, int i) {
+        Double d = null;
+        try {
+            double factor = Math.pow(10, i);
+            d = Math.floor(dou * factor + 0.5) / factor;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return dou;
+        }
+        return d;
+    }
 }

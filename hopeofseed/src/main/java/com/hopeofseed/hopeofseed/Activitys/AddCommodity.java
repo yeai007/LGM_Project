@@ -1,14 +1,12 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,36 +25,32 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hopeofseed.hopeofseed.Adapter.AutoTextDataAdapter;
 import com.hopeofseed.hopeofseed.Adapter.Sp_VarietyAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.DataForHttp.AddNewCommodity;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.CommodityData;
 import com.hopeofseed.hopeofseed.JNXData.CommodityVarietyData;
 import com.hopeofseed.hopeofseed.JNXData.CropData;
-import com.hopeofseed.hopeofseed.JNXData.SortsData;
-import com.hopeofseed.hopeofseed.JNXData.VarietyData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CommodityDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommodityVarietyDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CropDataTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.SortsDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
 import com.lgm.utils.ObjectUtil;
-
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static cn.jpush.im.android.api.model.UserInfo.Gender.male;
+import java.util.List;
+import me.shaohui.advancedluban.Luban;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import static com.hopeofseed.hopeofseed.Activitys.PubishMainActivity.verifyStoragePermissions;
-
 /**
  * 项目名称：liguangming
  * 类描述：
@@ -95,6 +89,11 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
     Sp_VarietyAdapter sp_VarietyAdapter_1, sp_VarietyAdapter_2;
     String varietyid;
     String Variety_1, Variety_2;
+    //上传文件
+    ArrayList<File> arrFile = new ArrayList<>();
+    long start;
+    pushFileResultTmp mCommResultTmp;
+    Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -130,7 +129,6 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
         et_price = (EditText) findViewById(R.id.et_price);
         TextView appTitle = (TextView) findViewById(R.id.apptitle);
         appTitle.setText("添加商品");
-
         images.add("add");
         resultRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
         resultRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
@@ -142,7 +140,28 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
         et_variety = (AutoCompleteTextView) findViewById(R.id.et_variety);
         mAutoTextDataAdapter = new AutoTextDataAdapter(getApplicationContext(), arr_CropData);
         et_variety.setAdapter(mAutoTextDataAdapter);
+        et_variety.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                Object obj = parent.getItemAtPosition(position);
+                CropData itemCropData = ObjectUtil.cast(obj);
+                et_variety.setText(itemCropData.getVarietyName());
+                Log.e(TAG, "onItemClick: " + itemCropData.getCropCategory1() + "--" + itemCropData.getCropCategory2());
+                for (int i = 0; i < arrCommodityVarietyData_1.size(); i++) {
+                    if (arrCommodityVarietyData_1.get(i).getVarietyname().trim().equals(itemCropData.getCropCategory1().trim())) {
+                        sp_variety_1.setSelection(i);
+                        break;
+                    }
+                }
+                for (int i = 0; i < arr_Variety_Data_2.size(); i++) {
+                    if (arr_Variety_Data_2.get(i).getVarietyname().trim().equals(itemCropData.getCropCategory2().trim())) {
+                        sp_variety_2.setSelection(i);
+                        break;
+                    }
+                }
+            }
+        });
         //品种分类添加
         sp_variety_1 = (Spinner) findViewById(R.id.sp_variety_1);
         sp_variety_2 = (Spinner) findViewById(R.id.sp_variety_2);
@@ -169,9 +188,7 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
                 }
             }
             Log.e(TAG, "onItemSelected: " + arr_Variety_Data_2.size());
-//            sp_VarietyAdapter_2 = new Sp_VarietyAdapter(getApplicationContext(), arr_Variety_Data_2);
             sp_VarietyAdapter_2.notifyDataSetChanged();
-            //sp_variety_2.setAdapter(sp_VarietyAdapter_2);
         }
 
         @Override
@@ -192,13 +209,6 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    private void getVarietyData() {
-
-        HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
-        HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "getVariety.php", opt_map, CommodityVarietyDataTmp.class, this);
-    }
 
     private class OnCheckedChangeListenerImp implements RadioGroup.OnCheckedChangeListener {
 
@@ -230,7 +240,11 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_topright:
-                addNewCommodity();
+                try {
+                    addNewCommodity();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 break;
 
             case R.id.btn_topleft:
@@ -239,63 +253,83 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void addNewCommodity() {
-        // TODO Auto-generated method stub
+    private void addNewCommodity() throws IOException {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                AddNewCommodity addNewCommodity = new AddNewCommodity();
-                addNewCommodity.commodity_title = et_title.getText().toString();
-                addNewCommodity.commodity_name = et_name.getText().toString();
-                addNewCommodity.commodity_price = et_price.getText().toString();
-                addNewCommodity.commodity_describe = et_discribe.getText().toString();
-                addNewCommodity.commodity_variety = et_variety.getText().toString();
-                addNewCommodity.commodity_class = commodityclass;
-                addNewCommodity.images = images;
-                addNewCommodity.Variety_1 = Variety_1;
-                addNewCommodity.Variety_2 = Variety_2;
-                Boolean bRet = addNewCommodity.UploadImg();
-                Message msg = addNewCommodityHandle.obtainMessage();
-                if (bRet) {
-                    msg.arg1 = 1;
-                } else {
-                    msg.arg1 = 0;
+                for (int i = 0; i < images.size(); i++) {
+                    Log.e(TAG, "run: " + images.get(i));
+                    if (images.get(i).equals("add")) {
+                    } else {
+                        arrFile.add(new File(images.get(i)));
+                    }
                 }
-                msg.sendToTarget();
+                Log.e(TAG, "images: " + images);
+                Luban.get(getApplicationContext()).setMaxSize(128)
+                        .putGear(Luban.CUSTOM_GEAR)
+                        .load(arrFile)                     // load all images
+                        .asListObservable().doOnRequest(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        start = System.currentTimeMillis();
+                        Log.e(TAG, "call: start" + System.currentTimeMillis());
+                    }
+                })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<List<File>>() {
+                            @Override
+                            public void call(final List<File> fileList) {
+                                for (int i = 0; i < fileList.size(); i++) {
+                                    Log.e(TAG, "call: " + fileList.get(i).getName());
+                                }
+                                Log.e(TAG, "call: " + fileList);
+                                addNewCommodityImage(fileList);
+                            }
+                        });
             }
         }).start();
     }
 
-    private Handler addNewCommodityHandle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.arg1) {
-                case 0:
-                    finish();
-                    break;
-                case 1:
-                    finish();
-                    break;
-            }
-        }
-    };
+    private void addNewCommodityImage(List<File> fileList) {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("commodity_title", et_title.getText().toString());
+        opt_map.put("commodity_name", et_name.getText().toString());
+        opt_map.put("commodity_price", et_price.getText().toString());
+        opt_map.put("commodity_describe", et_discribe.getText().toString());
+        opt_map.put("commodity_variety", et_variety.getText().toString());
+        opt_map.put("commodity_class", commodityclass);
+        opt_map.put("userid", String.valueOf(Const.currentUser.user_id));
+        opt_map.put("OwnerClass", Const.currentUser.user_role);
+        opt_map.put("Variety_1", Variety_1);
+        opt_map.put("Variety_2", Variety_2);
+        HttpUtils hu = new HttpUtils();
+        hu.httpPostFiles(Const.BASE_URL + "addCommodity.php", opt_map, fileList, pushFileResultTmp.class, this);
+    }
+
+    private void getVarietyData() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "getVariety.php", opt_map, CommodityVarietyDataTmp.class, this);
+    }
+
+    private void initData() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "GetVarietyAutoData.php", opt_map, CropDataTmp.class, this);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TO_SELECT_PHOTO && resultCode == RESULT_OK && null != data) {
 
             final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-
             verifyStoragePermissions(this);
-
-
             Uri selectedImage = data.getData();
             mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
-
-
             images.add(mPicturePath);
             gridAdapter.notifyDataSetChanged();
-            Log.e(TAG, "onActivityResult: " + images);
         }
     }
 
@@ -341,7 +375,7 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getApplicationContext(), images.get(getPosition()), Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(getApplicationContext(), images.get(getPosition()), Toast.LENGTH_SHORT).show();
                 if (images.get(getPosition()).equals("add")) {
                     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("image/*");
@@ -351,12 +385,6 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void initData() {
-        HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
-        HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "GetVarietyAutoData.php", opt_map, CropDataTmp.class, this);
-    }
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
@@ -378,6 +406,9 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
             CommodityVarietyDataTmp mCommodityVarietyDataTmp = ObjectUtil.cast(rspBaseBean);
             arrCommodityVarietyData = mCommodityVarietyDataTmp.getDetail();
             updateSpinner();
+        } else if (rspBaseBean.RequestSign.equals("pushCommodity")) {
+            mCommResultTmp = ObjectUtil.cast(rspBaseBean);
+            mHandler.post(resultPushFile);
         }
     }
 
@@ -402,6 +433,18 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
         msg.sendToTarget();
     }
 
+    Runnable resultPushFile = new Runnable() {
+        @Override
+        public void run() {
+            if (mCommResultTmp.getDetail().getContent().equals("上传成功")) {
+                Toast.makeText(getApplicationContext(), mCommResultTmp.getDetail().getContent(), Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(getApplicationContext(), mCommResultTmp.getDetail().getContent(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    };
     private Handler updateSortsHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {

@@ -8,8 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +22,6 @@ import android.widget.Toast;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.CommodityListAdapter;
-import com.hopeofseed.hopeofseed.Adapter.GalleryAdapter;
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
@@ -49,7 +46,7 @@ import java.util.List;
  * 修改时间：2016/9/27 11:52
  * 修改备注：
  */
-public class EnterPriseCommodity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
+public class EnterpriseCommodityActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
     private static final String TAG = "MyCommodity";
     PullToRefreshListView lv_groups;
     CommodityListAdapter groupListAadpter;
@@ -197,7 +194,7 @@ public class EnterPriseCommodity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.btn_topright:
                 //添加商品
-                intent = new Intent(EnterPriseCommodity.this, AddCommodity.class);
+                intent = new Intent(EnterpriseCommodityActivity.this, AddCommodity.class);
                 intent.putExtra("commodityId", "0");
                 startActivity(intent);
                 break;

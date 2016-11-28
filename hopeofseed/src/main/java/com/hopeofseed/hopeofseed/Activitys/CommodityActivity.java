@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,10 +40,12 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  * 修改备注：
  */
 public class CommodityActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
-    TextView tv_name, tv_variety, tv_desc, tv_price;
+    TextView tv_title, tv_variety, tv_name, tv_price;
+    EditText et_discribe;
     String CommodityId;
     CommodityData mCommodityData = new CommodityData();
     Banner banner;
+    TextView apptitle;
     /**
      * ViewPager当前显示页的下标
      */
@@ -60,13 +63,14 @@ public class CommodityActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initView() {
-        TextView apptitle = (TextView) findViewById(R.id.apptitle);
+        apptitle = (TextView) findViewById(R.id.apptitle);
         apptitle.setText("商品详情");
-        tv_name = (TextView) findViewById(R.id.tv_name);
+        tv_title = (TextView) findViewById(R.id.tv_title);
         tv_variety = (TextView) findViewById(R.id.tv_variety);
-        tv_desc = (TextView) findViewById(R.id.tv_desc);
+        tv_name = (TextView) findViewById(R.id.tv_name);
         tv_price = (TextView) findViewById(R.id.tv_price);
-        Button btn_topright=(Button)findViewById(R.id.btn_topright);
+        et_discribe = (EditText) findViewById(R.id.et_discribe);
+        Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setOnClickListener(this);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         images = getResources().getStringArray(R.array.url2);
@@ -109,7 +113,7 @@ public class CommodityActivity extends AppCompatActivity implements View.OnClick
     private Handler updateViewHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            String[] arrImage = mCommodityData.getCommodityImgs().split(",");
+            String[] arrImage = mCommodityData.getCommodityImgs().split(";");
             for (int i = 0; i < arrImage.length; i++) {
                 Log.e(TAG, "handleMessage: " + arrImage[i]);
                 arrImage[i] = Const.IMG_URL + arrImage[i];
@@ -117,10 +121,12 @@ public class CommodityActivity extends AppCompatActivity implements View.OnClick
             }
 
             banner.setImages(Arrays.asList(arrImage)).setImageLoader(new GlideImageLoader()).start();
+            apptitle.setText(mCommodityData.getCommodityTitle());
+            tv_title.setText(mCommodityData.getCommodityTitle());
             tv_name.setText(mCommodityData.getCommodityName());
-            tv_variety.setText(mCommodityData.getCommodityVariety());
-            tv_desc.setText(mCommodityData.getCommodityDescribe());
-            tv_price.setText(mCommodityData.getCommodityPrice());
+            tv_variety.setText("【" + mCommodityData.getCommodityVariety() + "】");
+            et_discribe.setText(mCommodityData.getCommodityDescribe());
+            tv_price.setText("￥ " + mCommodityData.getCommodityPrice());
         }
     };
 
