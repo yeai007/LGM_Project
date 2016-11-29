@@ -342,8 +342,6 @@ public class NewsListAdapter extends BaseAdapter {
                     view.setTag(R.id.tag_problem, holder5);
                     break;
             }
-
-
         } else {
             /*holder0 = (Viewholder0) view.getTag();*/
             //根据不同的type来获得tag
