@@ -24,4 +24,8 @@
     <item name="key_commodity_address_userid" type="id" />
     <item name="key_commodity_name_userid" type="id" />
     <item name="key_commodity_title_id" type="id" />
+    <item name="tag_experise" type="id" />
+    <item name="tag_share_field" type="id" />
+    <item name="tag_commodity" type="id" />
+    <item name="tag_problem" type="id" />
 </resources>

@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/rel_title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp">
+
+        <RelativeLayout
+            android:id="@+id/rel_img_user_avatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp">
+
+            <com.hopeofseed.hopeofseed.ui.CircleImageView
+                android:id="@+id/img_user_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:src="@drawable/default_avater" />
+
+            <ImageView
+                android:id="@+id/img_corner"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/corner_distributor" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/rel_img_user_avatar"
+            android:gravity="left|center_vertical"
+            android:text="用户"
+            android:textColor="#333333"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/send_time"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_below="@+id/user_name"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/rel_img_user_avatar"
+            android:gravity="left|center_vertical"
+            android:text="发表时间"
+            android:textColor="#cbcbcb"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rel_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_title"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:gravity="center_vertical"
+            android:text="未发表信息标题"
+            android:textColor="@color/text_title_color"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:gravity="center_vertical"
+            android:text="未填写信息内容"
+            android:textColor="@color/text_title_color"
+            android:textSize="15sp" />
+
+        <RelativeLayout
+            android:id="@+id/rel_assimg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_content"
+            android:layout_marginTop="10dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/result_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:columnWidth="70dp"
+                android:horizontalSpacing="10dp"
+                android:numColumns="auto_fit"
+                android:verticalSpacing="10dp" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lin_func"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rel_forward"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/rel_shape_item"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/img_forward"
+                android:layout_width="12dp"
+                android:layout_height="10dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/forward_img" />
+
+            <TextView
+                android:id="@+id/tv_forward"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/img_forward"
+                android:gravity="center"
+                android:text="@string/str_forward"
+                android:textColor="#cbcbcb" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_comment"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/rel_shape_item"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/img_comment"
+                android:layout_width="13dp"
+                android:layout_height="12dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/comment_img" />
+
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/img_comment"
+                android:gravity="center"
+                android:text="@string/str_comment"
+                android:textColor="#cbcbcb" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_zambia"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/rel_shape_item"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/img_zambia"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/zambia_img" />
+
+            <TextView
+                android:id="@+id/tv_zambia"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/img_zambia"
+                android:layout_toRightOf="@+id/img_zambia"
+                android:gravity="center"
+                android:textColor="#898989" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/lin_func"
+        android:background="#e3e3e3" />
+
+</RelativeLayout>

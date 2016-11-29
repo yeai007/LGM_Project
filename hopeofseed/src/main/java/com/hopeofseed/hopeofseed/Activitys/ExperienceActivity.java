@@ -96,8 +96,8 @@ public class ExperienceActivity extends AppCompatActivity implements NetCallBack
         public void handleMessage(Message msg) {
             Log.e(TAG, "handleMessage: updateview");
 
-            tv_title.setText(mExperienceData.getExperienceTitle());
-            tv_content.setText(mExperienceData.getExperienceContent());
+            tv_title.setText(mExperienceData.getExperienceTitle().replace("\\n", "\n"));
+            tv_content.setText(mExperienceData.getExperienceContent().replace("\\n", "\n"));
 
 
         }

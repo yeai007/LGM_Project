@@ -102,28 +102,12 @@ public class ShareExperience extends AppCompatActivity implements View.OnClickLi
         Log.e(TAG, "getData: 获取经销商数据");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("StrTitle", et_title.getText().toString());
-        opt_map.put("StrContent", et_content.getText().toString());
+        opt_map.put("StrContent", et_content.getText().toString().replace("\n","\\n"));
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         opt_map.put("ClassName", ClassName);
         opt_map.put("ClassId", ClassId);
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "AddNewsExperience.php", opt_map, CommHttpResultTmp.class, this);
-       /* new Thread(new Runnable() {
-            @Override
-            public void run() {
-                AddNesExperienceData addNesExperienceData = new AddNesExperienceData();
-                addNesExperienceData.StrTitle = et_title.getText().toString();
-                addNesExperienceData.StrContent = et_content.getText().toString();
-                Boolean bRet = addNesExperienceData.RunData();
-                Message msg = getNewsHandle.obtainMessage();
-                if (bRet) {
-                    msg.arg1 = 1;
-                } else {
-                    msg.arg1 = 0;
-                }
-                msg.sendToTarget();
-            }
-        }).start();*/
     }
 
     AdapterView.OnItemSelectedListener spTitleListtener = new AdapterView.OnItemSelectedListener() {

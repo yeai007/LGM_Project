@@ -192,7 +192,7 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
         btn_topright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(PubishMainActivity.this, "sender", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(PubishMainActivity.this, "sender", Toast.LENGTH_SHORT).show();
                 //发送纯文字信息
                 //+6 sendWords();
                 //发送图片和文字
@@ -214,6 +214,9 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
                 for (int i = 0; i < images.size(); i++) {
                     Log.e(TAG, "run: " + images.get(i));
                     if (images.get(i).equals("add")) {
+                        if (images.size() == 1) {
+                            SendWordAndImage(null);
+                        }
                     } else {
                         arrFile.add(new File(images.get(i)));
                     }
@@ -248,13 +251,17 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         opt_map.put("WordsStr", et_message.getText().toString().trim());
+        opt_map.put("LocLat", String.valueOf(Const.LocLat));
+        opt_map.put("LocLng", String.valueOf(Const.LocLng));
+        opt_map.put("Province",Const.Province);
+        opt_map.put("City",Const.City);
+        opt_map.put("Zone",Const.Zone);
         HttpUtils hu = new HttpUtils();
         hu.httpPostFiles(Const.BASE_URL + "send_WordAndImg.php", opt_map, fileList, pushFileResultTmp.class, this);
     }
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-        Log.e(TAG, "onSuccess: " + rspBaseBean);
         mCommResultTmp = ObjectUtil.cast(rspBaseBean);
         mHandler.post(resultPushFile);
     }
@@ -281,7 +288,6 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
     };
 
     private class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
-
         @Override
         public GridAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_result, parent, false);

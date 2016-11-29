@@ -1,5 +1,6 @@
 package com.hopeofseed.hopeofseed;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -25,9 +27,14 @@ import com.hopeofseed.hopeofseed.Services.LocationService;
 
 import java.io.File;
 import java.util.Locale;
+
 import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
 import io.realm.RealmResults;
+
+import static com.hopeofseed.hopeofseed.Data.Const.City;
+import static com.hopeofseed.hopeofseed.Data.Const.GetShareData;
+import static com.hopeofseed.hopeofseed.Data.Const.Province;
 
 /**
  * @FileName:smamoo.mgkj.smamootwo
@@ -48,6 +55,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
     private static String APP_KEY;
     private LocationService locationService;
     private File cache;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -59,7 +67,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         //创建缓存目录，系统一运行就得创建缓存目录的，
         cache = new File(Environment.getExternalStorageDirectory(), "hopeofseed/images");
 
-        if(!cache.exists()){
+        if (!cache.exists()) {
             cache.mkdirs();
         }
     }
@@ -120,7 +128,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         RealmResults<UserData> results1 =
                 myRealm.where(UserData.class).equalTo("iscurrent", 1).findAll();
         Log.e(TAG, "initUserData: " + results1.size());
-        if (results1.size() == 0||results1.get(0).getUser_id()==0) {
+        if (results1.size() == 0 || results1.get(0).getUser_id() == 0) {
             toLogin();
         } else {
             Const.currentUser.user_id = results1.get(0).getUser_id();
@@ -135,6 +143,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             Log.e(TAG, "initUserData: " + Const.currentUser.user_id + Const.currentUser.user_name);
             Intent intent = new Intent(splashActivity.this, HomePageActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 
@@ -167,10 +176,14 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         }
         return APP_KEY;
     }
+
     /**
      * 获取位置信息
-     * */
+     */
     private void initLocation() {
+        Const.GetShareData(getApplicationContext());
+
+
         // -----------location config ------------
         locationService = ((Application) getApplication()).locationService;
         //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
@@ -203,8 +216,17 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         LatLng llA = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
         Const.LocLat = bdLocation.getLatitude();
         Const.LocLng = bdLocation.getLongitude();
+        if (bdLocation.getCity() != null) {
+            Const.Province = bdLocation.getProvince();
+            Const.City = bdLocation.getCity();
+            Const.Zone = bdLocation.getDistrict();
+            Const.UserLocation = bdLocation.getCity();
+        }
+        Log.e(TAG, "onReceiveLocation: " + Province + City + Const.Zone);
+        if (!Province.equals("")) {
+            Const.SetShareData(getApplicationContext());
+        }
 
-/*        getNearByData(llA);*/
         locationService.stop();
     }
 

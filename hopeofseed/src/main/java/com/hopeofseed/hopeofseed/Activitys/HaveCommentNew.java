@@ -121,6 +121,7 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
         img_corner = (ImageView) findViewById(R.id.img_corner);
         send_time = (TextView) findViewById(R.id.send_time);
         tv_content = (TextView) findViewById(R.id.tv_content);
+        tv_content.setOnClickListener(this);
         tv_zambia = (TextView) findViewById(R.id.tv_zambia);
         tv_title = (TextView) findViewById(R.id.tv_title);
 
@@ -164,6 +165,26 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
                 intent.putExtra("NEWID", NEW_ID);
                 startActivity(intent);
                 break;
+            case R.id.tv_content:
+                if (Integer.parseInt(newsData.getNewclass()) == 3) {
+                    intent = new Intent(this, ExperienceActivity.class);
+                    intent.putExtra("ExperienceId", newsData.getInfoid());
+                    startActivity(intent);
+                } else if (Integer.parseInt(newsData.getNewclass()) == 4) {
+                    intent = new Intent(this, YieldActivity.class);
+                    intent.putExtra("YieldId", newsData.getInfoid());
+                    startActivity(intent);
+                } else if (Integer.parseInt(newsData.getNewclass()) == 6) {
+                    intent = new Intent(this, CommodityActivity.class);
+                    intent.putExtra("CommodityId", newsData.getInfoid());
+                    startActivity(intent);
+                }
+                else if (Integer.parseInt(newsData.getNewclass()) == 5) {
+                    intent = new Intent(this, ProblemActivity.class);
+                    intent.putExtra("ProblemId", newsData.getInfoid());
+                    startActivity(intent);
+                }
+                break;
         }
     }
 
@@ -197,6 +218,10 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
 
             }
             tv_content.setText(newsData.getContent());
+            tv_content.setSingleLine(false);
+            tv_content.setMaxLines(3);
+            tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+
             user_name.setText(newsData.getNickname());
             String[] arrImage = newsData.getAssimgurl().split(";");
             List<String> images = java.util.Arrays.asList(arrImage);

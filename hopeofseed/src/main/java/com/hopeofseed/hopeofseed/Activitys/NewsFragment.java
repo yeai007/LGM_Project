@@ -38,6 +38,8 @@ import com.hopeofseed.hopeofseed.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * 项目名称：liguangming
@@ -79,7 +81,7 @@ public class NewsFragment extends Fragment implements NetCallBack {
     private void initView(View v) {
         (v.findViewById(R.id.btn_topright)).setOnClickListener(listener);
         btn_topleft = (TextView) v.findViewById(R.id.btn_topleft);
-        btn_topleft.setText("济南");
+        btn_topleft.setText(Const.UserLocation.replace("市", ""));
         btn_topleft.setOnClickListener(listener);
         lv_news = (PullToRefreshListView) v.findViewById(R.id.lv_news);
         newListAadpter = new NewsListAdapter(getActivity(), arr_NewsData);
@@ -154,6 +156,7 @@ public class NewsFragment extends Fragment implements NetCallBack {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         opt_map.put("classid", String.valueOf(classid));
+        opt_map.put("UserLocation", String.valueOf(Const.UserLocation));
         opt_map.put("PageNo", String.valueOf(PageNo));
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "get_News.php", opt_map, NewsDataTmp.class, this);
@@ -196,7 +199,20 @@ public class NewsFragment extends Fragment implements NetCallBack {
 
     private void selectArea() {
         Intent intent = new Intent(getActivity(), SelectArea.class);
-        startActivity(intent);
+        startActivityForResult(intent, 115);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (resultCode) { //resultCode为回传的标记，我在B中回传的是RESULT_OK
+            case RESULT_OK:
+                if (!Const.UserLocation.equals("")) {
+                    btn_topleft.setText(Const.UserLocation.replace("市", ""));
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     //为弹出窗口实现监听类
@@ -279,14 +295,10 @@ public class NewsFragment extends Fragment implements NetCallBack {
         public void run() {
             if (PageNo == 0) {
                 arr_NewsData.clear();
-                arr_NewsData.addAll(arr_NewsDataTmp);
-                newListAadpter.notifyDataSetChanged();
-                lv_news.onRefreshComplete();
-            } else {
-                arr_NewsData.addAll(arr_NewsDataTmp);
-                newListAadpter.notifyDataSetChanged();
-                lv_news.onRefreshComplete();
             }
+            arr_NewsData.addAll(arr_NewsDataTmp);
+            newListAadpter.notifyDataSetChanged();
+            lv_news.onRefreshComplete();
         }
     };
 

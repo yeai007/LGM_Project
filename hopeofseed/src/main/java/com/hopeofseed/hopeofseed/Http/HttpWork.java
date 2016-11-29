@@ -114,31 +114,30 @@ public class HttpWork {
 
     public static String postFiles(String url, HashMap<String, String> param, List<File> mFileParam) {
         ArrayList<HttpParams.FileWrapper> fileWrappers = new ArrayList<HttpParams.FileWrapper>();
-        for (File file : mFileParam) {
-            HttpParams.FileWrapper fileWrapper = new HttpParams.FileWrapper(file, file.getName(), null);
-            fileWrappers.add(fileWrapper);
+        if (!(mFileParam == null)) {
+            for (File file : mFileParam) {
+                HttpParams.FileWrapper fileWrapper = new HttpParams.FileWrapper(file, file.getName(), null);
+                fileWrappers.add(fileWrapper);
+            }
         }
         String result =
                 null;
         try {
-            Response response = OkGo.post(url)
-                    .params(param)
-                    .addFileWrapperParams("file[]", fileWrappers)
-                    .execute();
+            Response response = null;
+            if (!(mFileParam == null)) {
+                 response = OkGo.post(url)
+                        .params(param)
+                        .addFileWrapperParams("file[]", fileWrappers)
+                        .execute();
+            }
+            else
+            {
+                response = OkGo.post(url)
+                        .params(param)
+                        .execute();
+            }
             if (response.isSuccessful()) {
-                result  = response.body().string();
-              /*  if (is == null) {
-                    Log.d("HttpConnection", "InputStream:null");
-                }
-                InputStreamReader in = new InputStreamReader(is);
-                BufferedReader buffer = new BufferedReader(in);
-                String inputLine = null;
-                while (((inputLine = buffer.readLine()) != null)) {
-                    result += inputLine;
-                }
-*/
-
-//                result = response.networkResponse().toString();
+                result = response.body().string();
             } else {
                 result = "网络出错";
             }

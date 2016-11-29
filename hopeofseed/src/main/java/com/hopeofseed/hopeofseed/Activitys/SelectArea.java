@@ -1,6 +1,7 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,6 +40,9 @@ import com.hopeofseed.hopeofseed.Services.LocationService;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.hopeofseed.hopeofseed.Data.Const.City;
+import static com.hopeofseed.hopeofseed.Data.Const.Province;
+
 /**
  * 项目名称：liguangming
  * 类描述：
@@ -67,14 +71,13 @@ public class SelectArea extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selectarea);
         // initLocation();
-
         initView();
         getCityData();
-
     }
 
     private void initView() {
         tv_now_local = (TextView) findViewById(R.id.tv_now_local);
+        tv_now_local.setText(Const.UserLocation);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         (findViewById(R.id.btn_reget_location)).setOnClickListener(this);
         sideBar = (SideBar) findViewById(R.id.sidrbar);
@@ -98,7 +101,6 @@ public class SelectArea extends AppCompatActivity implements View.OnClickListene
         lv_city = (ListView) findViewById(R.id.lv_city);
         mCityListAdapter = new CityListAdapter(getApplicationContext(), arrCityData);
         lv_city.setAdapter(mCityListAdapter);
-
         lv_city.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -121,7 +123,9 @@ public class SelectArea extends AppCompatActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_topleft:
-                finish();
+                Intent intent = new Intent();
+                setResult(RESULT_OK, intent); //intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
+                finish();//此处一定要调用finish()方法
                 break;
             case R.id.btn_reget_location:
                 operatingAnim.setInterpolator(lin);
@@ -159,16 +163,13 @@ public class SelectArea extends AppCompatActivity implements View.OnClickListene
         public void handleMessage(Message msg) {
             switch (msg.arg1) {
                 case 0:
-
                     break;
                 case 1:
                     arrCityData.clear();
                     arrCityData.addAll(arrCityDataTmp);
-                    Log.e("11111", "handleMessage: go" + arrCityData.size());
                     mCityListAdapter.notifyDataSetChanged();
                     break;
                 case 2:
-
                     break;
             }
         }
@@ -195,8 +196,8 @@ public class SelectArea extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onStop() {
         // TODO Auto-generated method stub
-       // locationService.unregisterListener(this); //注销掉监听
-      //  locationService.stop(); //停止定位服务
+        // locationService.unregisterListener(this); //注销掉监听
+        //  locationService.stop(); //停止定位服务
         super.onStop();
     }
 
@@ -204,16 +205,17 @@ public class SelectArea extends AppCompatActivity implements View.OnClickListene
     public void onReceiveLocation(BDLocation bdLocation) {
         if (bdLocation == null)
             return;
-//Receive Location
-        //经纬度
-        double lati = bdLocation.getLatitude();
-        double longa = bdLocation.getLongitude();
-        //打印出当前位置
-        Log.i("TAG", "location.getAddrStr()=" + bdLocation.getAddrStr());
-        //打印出当前城市
-        Log.i("TAG", "location.getCity()=" + bdLocation.getCity());
-        //返回码
         int i = bdLocation.getLocType();
+        Const.LocLat = bdLocation.getLatitude();
+        Const.LocLng = bdLocation.getLongitude();
+        Const.Province = bdLocation.getProvince();
+        Const.City = bdLocation.getCity();
+        Const.Zone = bdLocation.getDistrict();
+        Const.UserLocation = bdLocation.getCity();
+        Log.e(TAG, "onReceiveLocation: " + Province + City + Const.Zone);
+        if (!Province.equals("")) {
+            Const.SetShareData(getApplicationContext());
+        }
         tv_now_local.setText(bdLocation.getCity());
         img_loading.clearAnimation();
         locationService.stop();

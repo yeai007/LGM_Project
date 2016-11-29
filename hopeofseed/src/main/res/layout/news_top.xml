@@ -7,13 +7,14 @@
 
     <RelativeLayout
         android:id="@+id/rel_left"
-        android:layout_width="72dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
         android:layout_gravity="center_vertical">
 
         <TextView
             android:id="@+id/btn_topleft"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:background="@null"
             android:textColor="#00d873"

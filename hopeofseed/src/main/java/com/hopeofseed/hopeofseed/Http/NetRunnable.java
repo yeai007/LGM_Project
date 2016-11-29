@@ -53,7 +53,10 @@ public class NetRunnable implements Runnable {
         mUrl = url;
         mNetCallBack = netCallBack;
         mBeanType = beanType;
-        mGson = new Gson();
+        mGson = new GsonBuilder()
+                .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
         mParam = params;
         mFileParam = fileParam;
         isPostFile = true;

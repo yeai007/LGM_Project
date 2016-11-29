@@ -56,6 +56,10 @@ public class NewsListAdapter extends BaseAdapter {
     private static final String TAG = "NewsListAdapter";
     private static int CLASS_GENERAL = 0;
     private static int CLASS_FORWARD = 1;
+    private static int CLASS_EXPERISE = 2;
+    private static int CLASS_SHARE_FIELD = 3;
+    private static int CLASS_COMMODITY = 4;
+    private static int CLASS_PROBLEM = 5;
     Context mContext;
     List<NewsData> mList;
 
@@ -83,12 +87,13 @@ public class NewsListAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 6;
     }
 
     @Override
     public int getItemViewType(int position) {
         int type_class = Integer.parseInt(mList.get(position).getNewclass());
+        Log.e(TAG, "getItemViewType:type_class " + type_class);
         int result = 0;
         switch (type_class) {
             case 0:
@@ -96,6 +101,18 @@ public class NewsListAdapter extends BaseAdapter {
                 break;
             case 8:
                 result = CLASS_FORWARD;
+                break;
+            case 3:
+                result = CLASS_EXPERISE;
+                break;
+            case 4:
+                result = CLASS_SHARE_FIELD;
+                break;
+            case 6:
+                result = CLASS_COMMODITY;
+                break;
+            case 5:
+                result = CLASS_PROBLEM;
                 break;
             default:
                 result = CLASS_GENERAL;
@@ -112,6 +129,10 @@ public class NewsListAdapter extends BaseAdapter {
         //创建两种不同种类的viewholder0变量
         Viewholder0 holder0 = null;
         Viewholder1 holder1 = null;
+        Viewholder2 holder2 = null;
+        Viewholder3 holder3 = null;
+        Viewholder4 holder4 = null;
+        Viewholder5 holder5 = null;
         int type = getItemViewType(i);
         NewsData itemData;
         itemData = mList.get(i);
@@ -120,8 +141,14 @@ public class NewsListAdapter extends BaseAdapter {
         if (view == null) {
             holder0 = new Viewholder0();
             holder1 = new Viewholder1();
+            holder2 = new Viewholder2();
+            holder3 = new Viewholder3();
+            holder4 = new Viewholder4();
+            holder5 = new Viewholder5();
+            Log.e(TAG, "getView: type" + type);
             switch (type) {
                 case 0:
+                    Log.e(TAG, "getView: 0");
                     view = _LayoutInflater
                             .inflate(R.layout.newlist_items, null);
                     holder0.img_user = (ImageView) view.findViewById(R.id.img_user_avatar);
@@ -139,8 +166,9 @@ public class NewsListAdapter extends BaseAdapter {
                     holder0.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
 
                     Log.e(TAG, "getView: imagessizi" + images.size());
-
-                    if (images.size() == 1) {
+                    if (images.size() == 0) {
+                        holder0.resultRecyclerView.setVisibility(View.GONE);
+                    } else if (images.size() == 1) {
                         if (TextUtils.isEmpty(images.get(0))) {
                             holder0.resultRecyclerView.setVisibility(View.GONE);
                         } else {
@@ -152,6 +180,7 @@ public class NewsListAdapter extends BaseAdapter {
                     view.setTag(R.id.tag_geneal, holder0);
                     break;
                 case 1:
+                    Log.e(TAG, "getView: 1");
                     view = _LayoutInflater
                             .inflate(R.layout.newlist_items_forwad, null);
                     holder1.img_user = (ImageView) view.findViewById(R.id.img_user_avatar);
@@ -169,8 +198,9 @@ public class NewsListAdapter extends BaseAdapter {
                     holder1.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
                     holder1.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
                     Log.e(TAG, "getView: imagessizi" + images.size());
-
-                    if (images.size() == 1) {
+                    if (images.size() == 0) {
+                        holder1.resultRecyclerView.setVisibility(View.GONE);
+                    } else if (images.size() == 1) {
                         if (TextUtils.isEmpty(images.get(0))) {
                             holder1.resultRecyclerView.setVisibility(View.GONE);
                         } else {
@@ -180,6 +210,136 @@ public class NewsListAdapter extends BaseAdapter {
                         holder1.resultRecyclerView.setVisibility(View.VISIBLE);
                     }
                     view.setTag(R.id.tag_forward, holder1);
+                    break;
+                case 2:
+                    Log.e(TAG, "getView: 2");
+                    view = _LayoutInflater
+                            .inflate(R.layout.newlist_items_exprise, null);
+                    holder2.img_user = (ImageView) view.findViewById(R.id.img_user_avatar);
+                    holder2.img_corner = (ImageView) view.findViewById(R.id.img_corner);
+                    holder2.tv_content = (TextView) view.findViewById(tv_content);
+                    holder2.tv_zambia = (TextView) view.findViewById(R.id.tv_zambia);
+                    holder2.rel_forward = (RelativeLayout) view.findViewById(R.id.rel_forward);
+                    holder2.rel_comment = (RelativeLayout) view.findViewById(R.id.rel_comment);
+                    holder2.rel_zambia = (RelativeLayout) view.findViewById(R.id.rel_zambia);
+                    holder2.send_time = (TextView) view.findViewById(R.id.send_time);
+                    holder2.user_name = (TextView) view.findViewById(R.id.user_name);
+                    holder2.tv_forward = (TextView) view.findViewById(R.id.tv_forward);
+                    holder2.tv_comment = (TextView) view.findViewById(R.id.tv_comment);
+                    holder2.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
+                    holder2.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+
+                    Log.e(TAG, "getView: imagessizi" + images.size());
+                    if (images.size() == 0) {
+                        holder2.resultRecyclerView.setVisibility(View.GONE);
+                    } else if (images.size() == 1) {
+                        if (TextUtils.isEmpty(images.get(0))) {
+                            holder2.resultRecyclerView.setVisibility(View.GONE);
+                        } else {
+                            holder2.resultRecyclerView.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        holder2.resultRecyclerView.setVisibility(View.VISIBLE);
+                    }
+                    view.setTag(R.id.tag_experise, holder2);
+                    break;
+                case 3:
+                    Log.e(TAG, "getView: 3");
+                    view = _LayoutInflater
+                            .inflate(R.layout.newlist_items_share_field, null);
+                    holder3.img_user = (ImageView) view.findViewById(R.id.img_user_avatar);
+                    holder3.img_corner = (ImageView) view.findViewById(R.id.img_corner);
+                    holder3.tv_content = (TextView) view.findViewById(tv_content);
+                    holder3.tv_zambia = (TextView) view.findViewById(R.id.tv_zambia);
+                    holder3.rel_forward = (RelativeLayout) view.findViewById(R.id.rel_forward);
+                    holder3.rel_comment = (RelativeLayout) view.findViewById(R.id.rel_comment);
+                    holder3.rel_zambia = (RelativeLayout) view.findViewById(R.id.rel_zambia);
+                    holder3.send_time = (TextView) view.findViewById(R.id.send_time);
+                    holder3.user_name = (TextView) view.findViewById(R.id.user_name);
+                    holder3.tv_forward = (TextView) view.findViewById(R.id.tv_forward);
+                    holder3.tv_comment = (TextView) view.findViewById(R.id.tv_comment);
+                    holder3.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
+                    holder3.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+
+                    Log.e(TAG, "getView: imagessizi" + images.size());
+                    if (images.size() == 0) {
+                        holder3.resultRecyclerView.setVisibility(View.GONE);
+                    } else if (images.size() == 1) {
+                        if (TextUtils.isEmpty(images.get(0))) {
+                            holder3.resultRecyclerView.setVisibility(View.GONE);
+                        } else {
+                            holder3.resultRecyclerView.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        holder3.resultRecyclerView.setVisibility(View.VISIBLE);
+                    }
+                    view.setTag(R.id.tag_share_field, holder3);
+                    break;
+                case 4:
+                    Log.e(TAG, "getView: 3");
+                    view = _LayoutInflater
+                            .inflate(R.layout.newlist_items_commodity, null);
+                    holder4.img_user = (ImageView) view.findViewById(R.id.img_user_avatar);
+                    holder4.img_corner = (ImageView) view.findViewById(R.id.img_corner);
+                    holder4.tv_content = (TextView) view.findViewById(tv_content);
+                    holder4.tv_zambia = (TextView) view.findViewById(R.id.tv_zambia);
+                    holder4.rel_forward = (RelativeLayout) view.findViewById(R.id.rel_forward);
+                    holder4.rel_comment = (RelativeLayout) view.findViewById(R.id.rel_comment);
+                    holder4.rel_zambia = (RelativeLayout) view.findViewById(R.id.rel_zambia);
+                    holder4.send_time = (TextView) view.findViewById(R.id.send_time);
+                    holder4.user_name = (TextView) view.findViewById(R.id.user_name);
+                    holder4.tv_forward = (TextView) view.findViewById(R.id.tv_forward);
+                    holder4.tv_comment = (TextView) view.findViewById(R.id.tv_comment);
+                    holder4.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
+                    holder4.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+
+                    Log.e(TAG, "getView: imagessizi" + images.size());
+                    if (images.size() == 0) {
+                        holder4.resultRecyclerView.setVisibility(View.GONE);
+                    } else if (images.size() == 1) {
+                        if (TextUtils.isEmpty(images.get(0))) {
+                            holder4.resultRecyclerView.setVisibility(View.GONE);
+                        } else {
+                            holder4.resultRecyclerView.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        holder4.resultRecyclerView.setVisibility(View.VISIBLE);
+                    }
+                    view.setTag(R.id.tag_commodity, holder4);
+                    break;
+
+                case 5:
+                    Log.e(TAG, "getView: 3");
+                    view = _LayoutInflater
+                            .inflate(R.layout.newlist_items_problem, null);
+                    holder5.img_user = (ImageView) view.findViewById(R.id.img_user_avatar);
+                    holder5.img_corner = (ImageView) view.findViewById(R.id.img_corner);
+                    holder5.tv_content = (TextView) view.findViewById(tv_content);
+                    holder5.tv_zambia = (TextView) view.findViewById(R.id.tv_zambia);
+                    holder5.tv_title = (TextView) view.findViewById(R.id.tv_title);
+                    holder5.rel_forward = (RelativeLayout) view.findViewById(R.id.rel_forward);
+                    holder5.rel_comment = (RelativeLayout) view.findViewById(R.id.rel_comment);
+                    holder5.rel_zambia = (RelativeLayout) view.findViewById(R.id.rel_zambia);
+                    holder5.send_time = (TextView) view.findViewById(R.id.send_time);
+                    holder5.user_name = (TextView) view.findViewById(R.id.user_name);
+                    holder5.tv_forward = (TextView) view.findViewById(R.id.tv_forward);
+                    holder5.tv_comment = (TextView) view.findViewById(R.id.tv_comment);
+                    holder5.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
+                    holder5.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+
+                    Log.e(TAG, "getView: imagessizi" + images.size());
+                    if (images.size() == 0) {
+                        holder5.resultRecyclerView.setVisibility(View.GONE);
+                    } else if (images.size() == 1) {
+                        if (TextUtils.isEmpty(images.get(0))) {
+                            holder5.resultRecyclerView.setVisibility(View.GONE);
+                        } else {
+                            holder5.resultRecyclerView.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        holder5.resultRecyclerView.setVisibility(View.VISIBLE);
+                    }
+                    view.setTag(R.id.tag_problem, holder5);
                     break;
             }
 
@@ -194,6 +354,17 @@ public class NewsListAdapter extends BaseAdapter {
                 case 1:
                     holder1 = (Viewholder1) view.getTag(R.id.tag_forward);
                     break;
+                case 2:
+                    holder2 = (Viewholder2) view.getTag(R.id.tag_experise);
+                    break;
+                case 3:
+                    holder3 = (Viewholder3) view.getTag(R.id.tag_share_field);
+                    break;
+                case 4:
+                    holder4 = (Viewholder4) view.getTag(R.id.tag_commodity);
+
+                case 5:
+                    holder5 = (Viewholder5) view.getTag(R.id.tag_problem);
             }
         }
         //根据不同的type设置数据
@@ -204,6 +375,9 @@ public class NewsListAdapter extends BaseAdapter {
                 updateTime(itemData.getNewcreatetime(), holder0);
 
                 holder0.tv_content.setText(itemData.getContent().replace("\\n", "\n"));
+                holder0.tv_content.setSingleLine(false);
+                holder0.tv_content.setMaxLines(3);
+                holder0.tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
                 if (itemData.getNickname().equals("")) {
                     holder0.user_name.setText(itemData.getNickname());
                 } else {
@@ -234,6 +408,9 @@ public class NewsListAdapter extends BaseAdapter {
                 holder1.resultRecyclerView.setAdapter(gridAdapter1);
                 updateTime(itemData.getNewcreatetime(), holder1);
                 holder1.tv_content.setText(itemData.getContent().replace("\\n", "\n"));
+                holder1.tv_content.setSingleLine(false);
+                holder1.tv_content.setMaxLines(3);
+                holder1.tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
                 if (itemData.getNickname().equals("")) {
                     holder1.user_name.setText(itemData.getNickname());
                 } else {
@@ -265,6 +442,142 @@ public class NewsListAdapter extends BaseAdapter {
                     holder1.tv_zambia.setText("赞" + itemData.getZambia_count().replaceAll("^(0+)", ""));
                 }
                 getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder1, Integer.parseInt(itemData.getUser_role()));
+                break;
+            case 2:
+                NewsImageAdapter gridAdapter2 = new NewsImageAdapter(mContext, images);
+                holder2.resultRecyclerView.setAdapter(gridAdapter2);
+                updateTime(itemData.getNewcreatetime(), holder2);
+
+                holder2.tv_content.setText(itemData.getContent().replace("\\n", "\n"));
+                holder2.tv_content.setSingleLine(false);
+                holder2.tv_content.setMaxLines(3);
+                holder2.tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+                if (itemData.getNickname().equals("")) {
+                    holder2.user_name.setText(itemData.getNickname());
+                } else {
+                    holder2.user_name.setText(itemData.getNickname());
+                }
+                holder2.user_name.setTag(R.id.key_userid, itemData.getUser_id());
+                holder2.user_name.setTag(R.id.key_username, itemData.getUser_name());
+                holder2.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
+                holder2.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
+                holder2.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
+                holder2.user_name.setOnClickListener(pullToListViewItemOnClickListener);
+                holder2.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
+                holder2.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
+                holder2.rel_forward.setTag(R.id.key_forward, itemData.getId());
+                holder2.rel_comment.setTag(R.id.key_comment, itemData.getId());
+                holder2.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
+                holder2.rel_zambia.setTag(R.id.key_listid, i);
+                holder2.tv_content.setTag(R.id.key_content, itemData.getId());
+                holder2.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
+                holder2.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
+                if (Integer.parseInt(itemData.getZambia_count()) > 0) {
+                    holder2.tv_zambia.setText("赞" + itemData.getZambia_count().replaceAll("^(0+)", ""));
+                }
+                getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder2, Integer.parseInt(itemData.getUser_role()));
+                break;
+            case 3:
+                NewsImageAdapter gridAdapter3 = new NewsImageAdapter(mContext, images);
+                holder3.resultRecyclerView.setAdapter(gridAdapter3);
+                updateTime(itemData.getNewcreatetime(), holder3);
+
+                holder3.tv_content.setText(itemData.getContent().replace("\\n", "\n"));
+                holder3.tv_content.setSingleLine(false);
+                holder3.tv_content.setMaxLines(3);
+                holder3.tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+                if (itemData.getNickname().equals("")) {
+                    holder3.user_name.setText(itemData.getNickname());
+                } else {
+                    holder3.user_name.setText(itemData.getNickname());
+                }
+                holder3.user_name.setTag(R.id.key_userid, itemData.getUser_id());
+                holder3.user_name.setTag(R.id.key_username, itemData.getUser_name());
+                holder3.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
+                holder3.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
+                holder3.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
+                holder3.user_name.setOnClickListener(pullToListViewItemOnClickListener);
+                holder3.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
+                holder3.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
+                holder3.rel_forward.setTag(R.id.key_forward, itemData.getId());
+                holder3.rel_comment.setTag(R.id.key_comment, itemData.getId());
+                holder3.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
+                holder3.rel_zambia.setTag(R.id.key_listid, i);
+                holder3.tv_content.setTag(R.id.key_content, itemData.getId());
+                holder3.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
+                holder3.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
+                if (Integer.parseInt(itemData.getZambia_count()) > 0) {
+                    holder3.tv_zambia.setText("赞" + itemData.getZambia_count().replaceAll("^(0+)", ""));
+                }
+                getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder3, Integer.parseInt(itemData.getUser_role()));
+                break;
+            case 4:
+                NewsImageAdapter gridAdapter4 = new NewsImageAdapter(mContext, images);
+                holder4.resultRecyclerView.setAdapter(gridAdapter4);
+                updateTime(itemData.getNewcreatetime(), holder4);
+
+                holder4.tv_content.setText(itemData.getContent().replace("\\n", "\n"));
+                holder4.tv_content.setSingleLine(false);
+                holder4.tv_content.setMaxLines(3);
+                holder4.tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+                if (itemData.getNickname().equals("")) {
+                    holder4.user_name.setText(itemData.getNickname());
+                } else {
+                    holder4.user_name.setText(itemData.getNickname());
+                }
+                holder4.user_name.setTag(R.id.key_userid, itemData.getUser_id());
+                holder4.user_name.setTag(R.id.key_username, itemData.getUser_name());
+                holder4.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
+                holder4.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
+                holder4.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
+                holder4.user_name.setOnClickListener(pullToListViewItemOnClickListener);
+                holder4.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
+                holder4.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
+                holder4.rel_forward.setTag(R.id.key_forward, itemData.getId());
+                holder4.rel_comment.setTag(R.id.key_comment, itemData.getId());
+                holder4.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
+                holder4.rel_zambia.setTag(R.id.key_listid, i);
+                holder4.tv_content.setTag(R.id.key_content, itemData.getId());
+                holder4.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
+                holder4.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
+                if (Integer.parseInt(itemData.getZambia_count()) > 0) {
+                    holder4.tv_zambia.setText("赞" + itemData.getZambia_count().replaceAll("^(0+)", ""));
+                }
+                getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder4, Integer.parseInt(itemData.getUser_role()));
+                break;
+            case 5:
+                NewsImageAdapter gridAdapter5 = new NewsImageAdapter(mContext, images);
+                holder5.resultRecyclerView.setAdapter(gridAdapter5);
+                updateTime(itemData.getNewcreatetime(), holder5);
+                holder5.tv_title.setText(itemData.getTitle().replace("\\n", "\n"));
+                holder5.tv_content.setText(itemData.getContent().replace("\\n", "\n"));
+                holder5.tv_content.setSingleLine(false);
+                holder5.tv_content.setMaxLines(3);
+                holder5.tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+                if (itemData.getNickname().equals("")) {
+                    holder5.user_name.setText(itemData.getNickname());
+                } else {
+                    holder5.user_name.setText(itemData.getNickname());
+                }
+                holder5.user_name.setTag(R.id.key_userid, itemData.getUser_id());
+                holder5.user_name.setTag(R.id.key_username, itemData.getUser_name());
+                holder5.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
+                holder5.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
+                holder5.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
+                holder5.user_name.setOnClickListener(pullToListViewItemOnClickListener);
+                holder5.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
+                holder5.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
+                holder5.rel_forward.setTag(R.id.key_forward, itemData.getId());
+                holder5.rel_comment.setTag(R.id.key_comment, itemData.getId());
+                holder5.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
+                holder5.rel_zambia.setTag(R.id.key_listid, i);
+                holder5.tv_content.setTag(R.id.key_content, itemData.getId());
+                holder5.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
+                holder5.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
+                if (Integer.parseInt(itemData.getZambia_count()) > 0) {
+                    holder5.tv_zambia.setText("赞" + itemData.getZambia_count().replaceAll("^(0+)", ""));
+                }
+                getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder5, Integer.parseInt(itemData.getUser_role()));
                 break;
         }
         return view;
@@ -298,7 +611,7 @@ public class NewsListAdapter extends BaseAdapter {
         }
     }
 
-    private void updateTime(String time, Viewholder1 holder0) {
+    private void updateTime(String time, Viewholder1 holder) {
         Long[] longDiff = null;
         String NowTime = null;
         try {
@@ -315,14 +628,126 @@ public class NewsListAdapter extends BaseAdapter {
         Log.e(TAG, "getView: diffHour:" + diffMinutes);
         if (Integer.parseInt(diffDay) == 0 && Integer.parseInt(diffHour) == 0) {
             if (Integer.parseInt(diffMinutes) < 5) {
-                holder0.send_time.setText("刚刚");
+                holder.send_time.setText("刚刚");
             } else {
-                holder0.send_time.setText(diffMinutes + "分钟前");
+                holder.send_time.setText(diffMinutes + "分钟前");
             }
         } else if (Integer.parseInt(diffDay) == 0 && Integer.parseInt(diffHour) > 0) {
-            holder0.send_time.setText(diffHour + "小时前");
+            holder.send_time.setText(diffHour + "小时前");
         } else {
-            holder0.send_time.setText(DateTools.StringDateTimeToDateNoYear(time));
+            holder.send_time.setText(DateTools.StringDateTimeToDateNoYear(time));
+        }
+    }
+
+    private void updateTime(String time, Viewholder2 holder) {
+        Long[] longDiff = null;
+        String NowTime = null;
+        try {
+            NowTime = DateTools.getNowTime();
+            longDiff = DateTools.getDiffTime(NowTime, time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String diffDay = String.valueOf(longDiff[1]);
+        Log.e(TAG, "getView: diffDay:" + diffDay);
+        String diffHour = String.valueOf(longDiff[2]);
+        Log.e(TAG, "getView: diffHour:" + diffHour);
+        String diffMinutes = String.valueOf(longDiff[3]);
+        Log.e(TAG, "getView: diffHour:" + diffMinutes);
+        if (Integer.parseInt(diffDay) == 0 && Integer.parseInt(diffHour) == 0) {
+            if (Integer.parseInt(diffMinutes) < 5) {
+                holder.send_time.setText("刚刚");
+            } else {
+                holder.send_time.setText(diffMinutes + "分钟前");
+            }
+        } else if (Integer.parseInt(diffDay) == 0 && Integer.parseInt(diffHour) > 0) {
+            holder.send_time.setText(diffHour + "小时前");
+        } else {
+            holder.send_time.setText(DateTools.StringDateTimeToDateNoYear(time));
+        }
+    }
+
+    private void updateTime(String time, Viewholder3 holder) {
+        Long[] longDiff = null;
+        String NowTime = null;
+        try {
+            NowTime = DateTools.getNowTime();
+            longDiff = DateTools.getDiffTime(NowTime, time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String diffDay = String.valueOf(longDiff[1]);
+        Log.e(TAG, "getView: diffDay:" + diffDay);
+        String diffHour = String.valueOf(longDiff[2]);
+        Log.e(TAG, "getView: diffHour:" + diffHour);
+        String diffMinutes = String.valueOf(longDiff[3]);
+        Log.e(TAG, "getView: diffHour:" + diffMinutes);
+        if (Integer.parseInt(diffDay) == 0 && Integer.parseInt(diffHour) == 0) {
+            if (Integer.parseInt(diffMinutes) < 5) {
+                holder.send_time.setText("刚刚");
+            } else {
+                holder.send_time.setText(diffMinutes + "分钟前");
+            }
+        } else if (Integer.parseInt(diffDay) == 0 && Integer.parseInt(diffHour) > 0) {
+            holder.send_time.setText(diffHour + "小时前");
+        } else {
+            holder.send_time.setText(DateTools.StringDateTimeToDateNoYear(time));
+        }
+    }
+
+    private void updateTime(String time, Viewholder4 holder) {
+        Long[] longDiff = null;
+        String NowTime = null;
+        try {
+            NowTime = DateTools.getNowTime();
+            longDiff = DateTools.getDiffTime(NowTime, time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String diffDay = String.valueOf(longDiff[1]);
+        Log.e(TAG, "getView: diffDay:" + diffDay);
+        String diffHour = String.valueOf(longDiff[2]);
+        Log.e(TAG, "getView: diffHour:" + diffHour);
+        String diffMinutes = String.valueOf(longDiff[3]);
+        Log.e(TAG, "getView: diffHour:" + diffMinutes);
+        if (Integer.parseInt(diffDay) == 0 && Integer.parseInt(diffHour) == 0) {
+            if (Integer.parseInt(diffMinutes) < 5) {
+                holder.send_time.setText("刚刚");
+            } else {
+                holder.send_time.setText(diffMinutes + "分钟前");
+            }
+        } else if (Integer.parseInt(diffDay) == 0 && Integer.parseInt(diffHour) > 0) {
+            holder.send_time.setText(diffHour + "小时前");
+        } else {
+            holder.send_time.setText(DateTools.StringDateTimeToDateNoYear(time));
+        }
+    }
+
+    private void updateTime(String time, Viewholder5 holder) {
+        Long[] longDiff = null;
+        String NowTime = null;
+        try {
+            NowTime = DateTools.getNowTime();
+            longDiff = DateTools.getDiffTime(NowTime, time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        String diffDay = String.valueOf(longDiff[1]);
+        Log.e(TAG, "getView: diffDay:" + diffDay);
+        String diffHour = String.valueOf(longDiff[2]);
+        Log.e(TAG, "getView: diffHour:" + diffHour);
+        String diffMinutes = String.valueOf(longDiff[3]);
+        Log.e(TAG, "getView: diffHour:" + diffMinutes);
+        if (Integer.parseInt(diffDay) == 0 && Integer.parseInt(diffHour) == 0) {
+            if (Integer.parseInt(diffMinutes) < 5) {
+                holder.send_time.setText("刚刚");
+            } else {
+                holder.send_time.setText(diffMinutes + "分钟前");
+            }
+        } else if (Integer.parseInt(diffDay) == 0 && Integer.parseInt(diffHour) > 0) {
+            holder.send_time.setText(diffHour + "小时前");
+        } else {
+            holder.send_time.setText(DateTools.StringDateTimeToDateNoYear(time));
         }
     }
 
@@ -338,6 +763,34 @@ public class NewsListAdapter extends BaseAdapter {
         ImageView img_user, img_corner;
         TextView tv_title, tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time;
         RelativeLayout rel_forward, rel_comment, rel_zambia, rel_content;
+    }
+
+    class Viewholder2 {
+        RecyclerView resultRecyclerView;
+        ImageView img_user, img_corner;
+        TextView tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time;
+        RelativeLayout rel_forward, rel_comment, rel_zambia;
+    }
+
+    class Viewholder3 {
+        RecyclerView resultRecyclerView;
+        ImageView img_user, img_corner;
+        TextView tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time;
+        RelativeLayout rel_forward, rel_comment, rel_zambia;
+    }
+
+    class Viewholder4 {
+        RecyclerView resultRecyclerView;
+        ImageView img_user, img_corner;
+        TextView tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time;
+        RelativeLayout rel_forward, rel_comment, rel_zambia;
+    }
+
+    class Viewholder5 {
+        RecyclerView resultRecyclerView;
+        ImageView img_user, img_corner;
+        TextView tv_title, tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time;
+        RelativeLayout rel_forward, rel_comment, rel_zambia;
     }
 
     View.OnClickListener pullToListViewItemOnClickListener = new View.OnClickListener() {
@@ -386,10 +839,6 @@ public class NewsListAdapter extends BaseAdapter {
                     break;
                 case R.id.tv_content:
                     Log.e(TAG, "onClick: " + String.valueOf(view.getTag(R.id.key_content)));
-                   /* intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
-
-                    intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_content)));
-                    mContext.startActivity(intent);*/
                     intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
                     intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_content)));
                     mContext.startActivity(intent);
@@ -550,6 +999,418 @@ public class NewsListAdapter extends BaseAdapter {
             public void gotResult(int i, String s, UserInfo userInfo) {
                 //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
                 Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
+                switch (user_role) {
+                    case 0:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_user_default)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_user_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 1:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_distributor)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_distributor_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 2:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_enterprise)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_enterprise_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 3:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_expert)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_expert_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 4:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_author)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_author_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                }
+
+            }
+        });
+    }
+
+    private void getUserJpushInfo(String user_name, final Viewholder2 holder0, final int user_role) {
+        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, UserInfo userInfo) {
+                //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
+                //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
+                switch (user_role) {
+                    case 0:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_user_default)
+                                .centerCrop()
+                                .into(holder0.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_user_default)
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+                        }
+                        break;
+                    case 1:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_distributor)
+                                .centerCrop()
+                                .into(holder0.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_distributor_default)
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+                        }
+                        break;
+                    case 2:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_enterprise)
+                                .centerCrop()
+                                .into(holder0.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_enterprise_default)
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+                        }
+                        break;
+                    case 3:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_expert)
+                                .centerCrop()
+                                .into(holder0.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_expert_default)
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+                        }
+                        break;
+                    case 4:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_author)
+                                .centerCrop()
+                                .into(holder0.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_author_default)
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+                        }
+                        break;
+                }
+
+            }
+        });
+    }
+
+    private void getUserJpushInfo(String user_name, final Viewholder3 holder, final int user_role) {
+        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, UserInfo userInfo) {
+                //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
+                //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
+                switch (user_role) {
+                    case 0:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_user_default)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_user_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 1:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_distributor)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_distributor_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 2:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_enterprise)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_enterprise_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 3:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_expert)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_expert_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 4:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_author)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_author_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                }
+
+            }
+        });
+    }
+
+    private void getUserJpushInfo(String user_name, final Viewholder4 holder, final int user_role) {
+        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, UserInfo userInfo) {
+                //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
+                //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
+                switch (user_role) {
+                    case 0:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_user_default)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_user_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 1:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_distributor)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_distributor_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 2:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_enterprise)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_enterprise_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 3:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_expert)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_expert_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                    case 4:
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_author)
+                                .centerCrop()
+                                .into(holder.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.header_author_default)
+                                    .centerCrop()
+                                    .into(holder.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user);
+                        }
+                        break;
+                }
+
+            }
+        });
+    }
+
+    private void getUserJpushInfo(String user_name, final Viewholder5 holder, final int user_role) {
+        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, UserInfo userInfo) {
+                //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
+                //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
                 switch (user_role) {
                     case 0:
                         Glide.with(mContext)
