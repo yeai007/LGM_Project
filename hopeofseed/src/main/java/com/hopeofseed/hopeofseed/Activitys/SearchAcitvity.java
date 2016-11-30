@@ -211,7 +211,7 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
      */
     private void getHintData() {
 
-        hintData=new ArrayList<>();
+        hintData = new ArrayList<>();
         List<HotSearchData> mlist = null;
         mlist = myRealm.where(HotSearchData.class).findAll();
         for (int i = 0; i < mlist.size(); i++) {

@@ -73,6 +73,7 @@ public class ForwardNew extends AppCompatActivity implements View.OnClickListene
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setOnClickListener(this);
         btn_topright.setText("发送");
+        btn_topright.setVisibility(View.VISIBLE);
         img_share_new = (ImageView) findViewById(R.id.img_share_new);
         tv_share_new_title = (TextView) findViewById(R.id.tv_share_new_title);
         tv_share_new_content = (TextView) findViewById(R.id.tv_share_new_content);

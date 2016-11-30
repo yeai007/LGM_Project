@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item type="id" name="key_zambiaid"/>
-    <item type="id" name="key_content"/>
-    <item type="id" name="key_forward"/>
-    <item type="id" name="key_comment"/>
-    <item type="id" name="key_listid"/>
-    <item type="id" name="key_addnewfriend"/>
-    <item type="id" name="key_groupid"/>
-    <item type="id" name="key_jpushgroupid"/>
+    <item name="key_zambiaid" type="id" />
+    <item name="key_content" type="id" />
+    <item name="key_forward" type="id" />
+    <item name="key_comment" type="id" />
+    <item name="key_listid" type="id" />
+    <item name="key_addnewfriend" type="id" />
+    <item name="key_groupid" type="id" />
+    <item name="key_jpushgroupid" type="id" />
 
-    <item type="id" name="key_userid"/>
-    <item type="id" name="key_username"/>
-    <item type="id" name="ischeck"/>
+    <item name="key_userid" type="id" />
+    <item name="key_username" type="id" />
+    <item name="ischeck" type="id" />
     <item name="key_comment_count" type="id" />
     <item name="seedfriendfragment" type="id" />
     <item name="tag_geneal" type="id" />
@@ -28,4 +28,6 @@
     <item name="tag_share_field" type="id" />
     <item name="tag_commodity" type="id" />
     <item name="tag_problem" type="id" />
+    <item name="key_title_new_class" type="id" />
+    <item name="key_content_new_class" type="id" />
 </resources>

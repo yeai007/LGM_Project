@@ -78,7 +78,7 @@ public class ExperienceFragment extends Fragment {
         lv_list = (PullToRefreshListView) v.findViewById(R.id.lv_list);
         mExperienceDataAdapter = new ExperienceDataAdapter(getActivity(), arr_ExperienceData);
         lv_list.setAdapter(mExperienceDataAdapter);
-        lv_list.setOnItemClickListener(myListener);
+        //lv_list.setOnItemClickListener(myListener);
     }
 
     private  void getData(String Str_search) {

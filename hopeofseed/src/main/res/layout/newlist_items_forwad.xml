@@ -85,7 +85,7 @@
         android:id="@+id/lin_func"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rel_content"
+        android:layout_below="@+id/rel_share_new"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
@@ -178,52 +178,39 @@
         android:layout_below="@+id/lin_func"
         android:background="#e3e3e3" />
 
+
     <RelativeLayout
-        android:id="@+id/rel_content"
+        android:id="@+id/rel_share_new"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#efefef"
+        android:layout_height="80dp"
         android:layout_below="@+id/rel_word"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:background="#efefef">
+
+        <ImageView
+            android:id="@+id/img_share_new"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
+            android:background="#efefef" />
 
         <TextView
-            android:id="@+id/tv_content"
+            android:id="@+id/tv_share_new_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_height="30dp"
+            android:layout_below="@+id/tv_share_new_title"
             android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical"
-            android:text="未填写信息内容"
-            android:textColor="@color/text_title_color"
-            android:textSize="15sp" />
+            android:layout_toRightOf="@+id/img_share_new"
+            android:background="#efefef" />
 
-        <RelativeLayout
-            android:id="@+id/rel_assimg"
+        <TextView
+            android:id="@+id/tv_share_new_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="10dp">
+            android:layout_height="30dp"
+            android:background="#efefef"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/img_share_new"
+            android:layout_toEndOf="@+id/img_share_new" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/result_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:columnWidth="70dp"
-                android:horizontalSpacing="10dp"
-                android:numColumns="auto_fit"
-                android:verticalSpacing="10dp" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:layout_below="@+id/result_recycler" />
-        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

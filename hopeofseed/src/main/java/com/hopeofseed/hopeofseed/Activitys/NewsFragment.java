@@ -174,6 +174,7 @@ public class NewsFragment extends Fragment implements NetCallBack {
         arr_TopClass.add("附近");
         arr_TopClass.add("农技经验");
         arr_TopClass.add("产量表现");
+        arr_TopClass.add("问题");
         arr_TopClass.add("商品活动");
         arr_TopClass.add("专家分享");
     }

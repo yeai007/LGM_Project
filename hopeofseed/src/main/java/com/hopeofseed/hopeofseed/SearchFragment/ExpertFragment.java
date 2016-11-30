@@ -87,7 +87,7 @@ public class ExpertFragment extends Fragment {
         lv_list.setMode(PullToRefreshBase.Mode.BOTH);
         mExpertDataAdapter = new SelectExpertDataAdapter(getActivity(), arr_ExpertData);
         lv_list.setAdapter(mExpertDataAdapter);
-        lv_list.setOnItemClickListener(myListener);
+       // lv_list.setOnItemClickListener(myListener);
     }
 
     private void getData(String Str_search) {

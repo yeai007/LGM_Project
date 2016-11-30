@@ -26,11 +26,11 @@ public class ObjectUtil {
         return (T) obj;
     }
 
-    /*
-    * @desc UTF-8转GBK
-    * @author lgm
-    * @time 2016/8/10 15:13
-    * */
+    /**
+     * @desc UTF-8转GBK
+     * @author lgm
+     * @time 2016/8/10 15:13
+     */
     public static String UTFtoGBK(String strUtf) {
         String strGBK = null;
         try {
@@ -41,22 +41,22 @@ public class ObjectUtil {
         return strGBK;
     }
 
-    /*
-* @desc 去除双引号
-* @author lgm
-* @time 2016/8/10 15:13
-* */
+    /**
+     * @desc 去除双引号
+     * @author lgm
+     * @time 2016/8/10 15:13
+     */
     public static String RemoveQuotes(String oldStr) {
         String newStr = null;
         newStr = oldStr.replaceAll("\"", "\\\"");
         return newStr;
     }
 
-    /*
-    * @desc String 字符串转换
-    * @author lgm 
-    * @time 2016/8/18 8:54
-    * */
+    /**
+     * @desc String 字符串转换
+     * @author lgm
+     * @time 2016/8/18 8:54
+     */
     public static String md5(String string) {
         byte[] hash;
         try {
@@ -75,11 +75,11 @@ public class ObjectUtil {
         return hex.toString();
     }
 
-    /*
-    * @desc xml转JSON
-    * @author lgm
-    * @time 2016/8/18 9:30
-    * */
+    /**
+     * @desc xml转JSON
+     * @author lgm
+     * @time 2016/8/18 9:30
+     */
     public static String xml2JSON(String xml) {
         try {
             JSONObject obj = XML.toJSONObject(xml);
@@ -90,11 +90,11 @@ public class ObjectUtil {
         }
     }
 
-    /*
-    * @desc double类型保留i位小数
-    * @author lgm
-    * @time 2016/8/18 9:30
-    * */
+    /**
+     * @desc double类型保留i位小数
+     * @author lgm
+     * @time 2016/8/18 9:30
+     */
     public static Double roundDouble(double dou, int i) {
         Double d = null;
         try {
@@ -105,5 +105,14 @@ public class ObjectUtil {
             return dou;
         }
         return d;
+    }
+
+    /**
+     * @desc String去除开头的0
+     * @author lgm
+     * @time 2016/8/18 9:30
+     */
+    public static String RemoveOpenZero(String str) {
+        return str.replaceAll("^(0+)", "");
     }
 }

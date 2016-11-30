@@ -8,13 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.JNXData.ExperienceData;
 import com.hopeofseed.hopeofseed.JNXData.ExpertEnterperiseData;
 import com.hopeofseed.hopeofseed.JNXData.ProblemData;
 import com.hopeofseed.hopeofseed.R;
+import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,19 +70,30 @@ public class ExperienceDataAdapter extends BaseAdapter {
             viewHolder.tv_title = (TextView) view.findViewById(R.id.tv_title);
             viewHolder.tv_content = (TextView) view.findViewById(R.id.tv_content);
             viewHolder.tv_name = (TextView) view.findViewById(R.id.tv_name);
+            viewHolder.rel_content = (RelativeLayout) view.findViewById(R.id.rel_content);
+            viewHolder.tv_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext.getApplicationContext(), UserActivity.class);
+                    intent.putExtra("userid", mData.getUser_id());
+                    mContext.startActivity(intent);
+                }
+            });
+            viewHolder.rel_content.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
+                    intent.putExtra("UserRole", Integer.parseInt(mData.getUser_role()));
+                    intent.putExtra("InfoId", ObjectUtil.RemoveOpenZero(mData.getExperienceId()));
+                    mContext.startActivity(intent);
+                }
+            });
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.tv_name.setText("【" + mData.getNickname() + "】");
-        viewHolder.tv_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext.getApplicationContext(), UserActivity.class);
-                intent.putExtra("userid", mData.getUser_id());
-                mContext.startActivity(intent);
-            }
-        });
+
         viewHolder.tv_title.setText(mData.getExperienceTitle());
         viewHolder.tv_content.setText(mData.getExperienceContent());
         viewHolder.tv_content.setSingleLine(false);
@@ -90,5 +104,6 @@ public class ExperienceDataAdapter extends BaseAdapter {
 
     class ViewHolder {
         TextView tv_title, tv_content, tv_name;
+        RelativeLayout rel_content;
     }
 }

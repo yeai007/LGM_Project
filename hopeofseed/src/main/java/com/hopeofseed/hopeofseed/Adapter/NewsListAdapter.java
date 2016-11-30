@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.CommentNew;
+import com.hopeofseed.hopeofseed.Activitys.CommodityActivity;
 import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
 import com.hopeofseed.hopeofseed.Activitys.NewsInfoActivity;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
@@ -26,9 +27,7 @@ import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Activitys.ForwardNew;
 
-
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
@@ -38,8 +37,10 @@ import cn.jpush.im.android.api.model.UserInfo;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.DateTools;
 
-import static com.hopeofseed.hopeofseed.R.id.rel_content;
+import static com.hopeofseed.hopeofseed.R.id.img_share_new;
 import static com.hopeofseed.hopeofseed.R.id.tv_content;
+import static com.hopeofseed.hopeofseed.R.id.tv_share_new_content;
+import static com.hopeofseed.hopeofseed.R.id.tv_share_new_title;
 import static com.hopeofseed.hopeofseed.R.id.tv_title;
 
 
@@ -162,6 +163,11 @@ public class NewsListAdapter extends BaseAdapter {
                     holder0.user_name = (TextView) view.findViewById(R.id.user_name);
                     holder0.tv_forward = (TextView) view.findViewById(R.id.tv_forward);
                     holder0.tv_comment = (TextView) view.findViewById(R.id.tv_comment);
+                    holder0.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder0.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder0.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder0.user_name.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder0.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
                     holder0.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
                     holder0.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
 
@@ -183,32 +189,28 @@ public class NewsListAdapter extends BaseAdapter {
                     Log.e(TAG, "getView: 1");
                     view = _LayoutInflater
                             .inflate(R.layout.newlist_items_forwad, null);
+
                     holder1.img_user = (ImageView) view.findViewById(R.id.img_user_avatar);
                     holder1.img_corner = (ImageView) view.findViewById(R.id.img_corner);
-                    holder1.tv_content = (TextView) view.findViewById(R.id.tv_content);
-                    holder1.tv_title = (TextView) view.findViewById(tv_title);
+                    holder1.tv_title = (TextView) view.findViewById(R.id.tv_title);
                     holder1.tv_zambia = (TextView) view.findViewById(R.id.tv_zambia);
                     holder1.rel_forward = (RelativeLayout) view.findViewById(R.id.rel_forward);
                     holder1.rel_comment = (RelativeLayout) view.findViewById(R.id.rel_comment);
                     holder1.rel_zambia = (RelativeLayout) view.findViewById(R.id.rel_zambia);
+
                     holder1.send_time = (TextView) view.findViewById(R.id.send_time);
                     holder1.user_name = (TextView) view.findViewById(R.id.user_name);
                     holder1.tv_forward = (TextView) view.findViewById(R.id.tv_forward);
                     holder1.tv_comment = (TextView) view.findViewById(R.id.tv_comment);
-                    holder1.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
-                    holder1.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
-                    Log.e(TAG, "getView: imagessizi" + images.size());
-                    if (images.size() == 0) {
-                        holder1.resultRecyclerView.setVisibility(View.GONE);
-                    } else if (images.size() == 1) {
-                        if (TextUtils.isEmpty(images.get(0))) {
-                            holder1.resultRecyclerView.setVisibility(View.GONE);
-                        } else {
-                            holder1.resultRecyclerView.setVisibility(View.VISIBLE);
-                        }
-                    } else {
-                        holder1.resultRecyclerView.setVisibility(View.VISIBLE);
-                    }
+                    holder1.img_share_new = (ImageView) view.findViewById(img_share_new);
+                    holder1.rel_share_new = (RelativeLayout) view.findViewById(R.id.rel_share_new);
+                    holder1.tv_share_new_title = (TextView) view.findViewById(tv_share_new_title);
+                    holder1.tv_share_new_content = (TextView) view.findViewById(tv_share_new_content);
+                    holder1.rel_share_new.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder1.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder1.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder1.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder1.user_name.setOnClickListener(pullToListViewItemOnClickListener);
                     view.setTag(R.id.tag_forward, holder1);
                     break;
                 case 2:
@@ -217,7 +219,8 @@ public class NewsListAdapter extends BaseAdapter {
                             .inflate(R.layout.newlist_items_exprise, null);
                     holder2.img_user = (ImageView) view.findViewById(R.id.img_user_avatar);
                     holder2.img_corner = (ImageView) view.findViewById(R.id.img_corner);
-                    holder2.tv_content = (TextView) view.findViewById(tv_content);
+                    holder2.tv_title = (TextView) view.findViewById(R.id.tv_title);
+                    holder2.tv_content = (TextView) view.findViewById(R.id.tv_content);
                     holder2.tv_zambia = (TextView) view.findViewById(R.id.tv_zambia);
                     holder2.rel_forward = (RelativeLayout) view.findViewById(R.id.rel_forward);
                     holder2.rel_comment = (RelativeLayout) view.findViewById(R.id.rel_comment);
@@ -226,6 +229,11 @@ public class NewsListAdapter extends BaseAdapter {
                     holder2.user_name = (TextView) view.findViewById(R.id.user_name);
                     holder2.tv_forward = (TextView) view.findViewById(R.id.tv_forward);
                     holder2.tv_comment = (TextView) view.findViewById(R.id.tv_comment);
+                    holder2.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder2.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder2.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder2.user_name.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder2.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
                     holder2.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
                     holder2.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
 
@@ -258,6 +266,11 @@ public class NewsListAdapter extends BaseAdapter {
                     holder3.user_name = (TextView) view.findViewById(R.id.user_name);
                     holder3.tv_forward = (TextView) view.findViewById(R.id.tv_forward);
                     holder3.tv_comment = (TextView) view.findViewById(R.id.tv_comment);
+                    holder3.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder3.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder3.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder3.user_name.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder3.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
                     holder3.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
                     holder3.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
 
@@ -290,6 +303,11 @@ public class NewsListAdapter extends BaseAdapter {
                     holder4.user_name = (TextView) view.findViewById(R.id.user_name);
                     holder4.tv_forward = (TextView) view.findViewById(R.id.tv_forward);
                     holder4.tv_comment = (TextView) view.findViewById(R.id.tv_comment);
+                    holder4.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder4.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder4.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder4.user_name.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder4.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
                     holder4.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
                     holder4.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
 
@@ -309,7 +327,7 @@ public class NewsListAdapter extends BaseAdapter {
                     break;
 
                 case 5:
-                    Log.e(TAG, "getView: 3");
+                    Log.e(TAG, "getView: 5");
                     view = _LayoutInflater
                             .inflate(R.layout.newlist_items_problem, null);
                     holder5.img_user = (ImageView) view.findViewById(R.id.img_user_avatar);
@@ -324,6 +342,11 @@ public class NewsListAdapter extends BaseAdapter {
                     holder5.user_name = (TextView) view.findViewById(R.id.user_name);
                     holder5.tv_forward = (TextView) view.findViewById(R.id.tv_forward);
                     holder5.tv_comment = (TextView) view.findViewById(R.id.tv_comment);
+                    holder5.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder5.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder5.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder5.user_name.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder5.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
                     holder5.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
                     holder5.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
 
@@ -383,17 +406,14 @@ public class NewsListAdapter extends BaseAdapter {
                 }
                 holder0.user_name.setTag(R.id.key_userid, itemData.getUser_id());
                 holder0.user_name.setTag(R.id.key_username, itemData.getUser_name());
-                holder0.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
-                holder0.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
-                holder0.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
-                holder0.user_name.setOnClickListener(pullToListViewItemOnClickListener);
-                holder0.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
+
                 holder0.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
                 holder0.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder0.rel_comment.setTag(R.id.key_comment, itemData.getId());
                 holder0.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
                 holder0.rel_zambia.setTag(R.id.key_listid, i);
                 holder0.tv_content.setTag(R.id.key_content, itemData.getId());
+                holder0.tv_content.setTag(R.id.key_content_new_class, itemData.getNewclass());
                 holder0.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder0.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
                 if (Integer.parseInt(itemData.getZambia_count()) > 0) {
@@ -402,13 +422,16 @@ public class NewsListAdapter extends BaseAdapter {
                 getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder0, Integer.parseInt(itemData.getUser_role()));
                 break;
             case 1:
-                NewsImageAdapter gridAdapter1 = new NewsImageAdapter(mContext, images);
-                holder1.resultRecyclerView.setAdapter(gridAdapter1);
+                String[] arrImageForward = itemData.getAssimgurl().split(";");
+                List<String> arrImageForward1 = java.util.Arrays.asList(arrImageForward);
+                if (images.size() > 0) {
+                    Glide.with(mContext)
+                            .load(Const.IMG_URL + arrImageForward1.get(0))
+                            .centerCrop()
+                            .into(holder1.img_share_new);
+                } else {
+                }
                 updateTime(itemData.getNewcreatetime(), holder1);
-                holder1.tv_content.setText(itemData.getContent().replace("\\n", "\n"));
-                holder1.tv_content.setSingleLine(false);
-                holder1.tv_content.setMaxLines(3);
-                holder1.tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
                 if (itemData.getNickname().equals("")) {
                     holder1.user_name.setText(itemData.getNickname());
                 } else {
@@ -417,23 +440,15 @@ public class NewsListAdapter extends BaseAdapter {
                 holder1.tv_title.setText(itemData.getTitle());
                 holder1.user_name.setTag(R.id.key_userid, itemData.getUser_id());
                 holder1.user_name.setTag(R.id.key_username, itemData.getUser_name());
-                holder1.rel_content = (RelativeLayout) view.findViewById(R.id.rel_content);
-                holder1.rel_content.setOnClickListener(pullToListViewItemOnClickListener);
-                holder1.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
-                holder1.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
-                holder1.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
-                holder1.user_name.setOnClickListener(pullToListViewItemOnClickListener);
-                holder1.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
                 holder1.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
                 holder1.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder1.rel_comment.setTag(R.id.key_comment, itemData.getId());
                 holder1.tv_title.setTag(R.id.key_title, itemData.getId());
-                holder1.tv_title.setOnClickListener(pullToListViewItemOnClickListener);
-                holder1.rel_content.setTag(R.id.key_forward_content, itemData.getFromid());
-
+                holder1.rel_share_new.setTag(R.id.key_forward_content, itemData.getFromid());
                 holder1.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
                 holder1.rel_zambia.setTag(R.id.key_listid, i);
-                holder1.tv_content.setTag(R.id.key_content, itemData.getId());
+                holder1.tv_share_new_title.setText(itemData.getTitle());
+                holder1.tv_share_new_content.setText(itemData.getContent());
                 holder1.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder1.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
                 if (Integer.parseInt(itemData.getZambia_count()) > 0) {
@@ -445,7 +460,7 @@ public class NewsListAdapter extends BaseAdapter {
                 NewsImageAdapter gridAdapter2 = new NewsImageAdapter(mContext, images);
                 holder2.resultRecyclerView.setAdapter(gridAdapter2);
                 updateTime(itemData.getNewcreatetime(), holder2);
-
+                holder2.tv_title.setText(itemData.getTitle());
                 holder2.tv_content.setText(itemData.getContent().replace("\\n", "\n"));
                 holder2.tv_content.setSingleLine(false);
                 holder2.tv_content.setMaxLines(3);
@@ -457,17 +472,16 @@ public class NewsListAdapter extends BaseAdapter {
                 }
                 holder2.user_name.setTag(R.id.key_userid, itemData.getUser_id());
                 holder2.user_name.setTag(R.id.key_username, itemData.getUser_name());
-                holder2.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
-                holder2.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
-                holder2.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
-                holder2.user_name.setOnClickListener(pullToListViewItemOnClickListener);
-                holder2.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
+
                 holder2.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
                 holder2.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder2.rel_comment.setTag(R.id.key_comment, itemData.getId());
                 holder2.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
                 holder2.rel_zambia.setTag(R.id.key_listid, i);
                 holder2.tv_content.setTag(R.id.key_content, itemData.getId());
+                holder2.tv_title.setTag(R.id.key_title, itemData.getId());
+                holder2.tv_content.setTag(R.id.key_content_new_class, itemData.getNewclass());
+                holder2.tv_title.setTag(R.id.key_title_new_class, itemData.getNewclass());
                 holder2.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder2.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
                 if (Integer.parseInt(itemData.getZambia_count()) > 0) {
@@ -491,17 +505,14 @@ public class NewsListAdapter extends BaseAdapter {
                 }
                 holder3.user_name.setTag(R.id.key_userid, itemData.getUser_id());
                 holder3.user_name.setTag(R.id.key_username, itemData.getUser_name());
-                holder3.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
-                holder3.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
-                holder3.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
-                holder3.user_name.setOnClickListener(pullToListViewItemOnClickListener);
-                holder3.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
+
                 holder3.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
                 holder3.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder3.rel_comment.setTag(R.id.key_comment, itemData.getId());
                 holder3.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
                 holder3.rel_zambia.setTag(R.id.key_listid, i);
                 holder3.tv_content.setTag(R.id.key_content, itemData.getId());
+                holder3.tv_content.setTag(R.id.key_content_new_class, itemData.getNewclass());
                 holder3.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder3.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
                 if (Integer.parseInt(itemData.getZambia_count()) > 0) {
@@ -525,17 +536,14 @@ public class NewsListAdapter extends BaseAdapter {
                 }
                 holder4.user_name.setTag(R.id.key_userid, itemData.getUser_id());
                 holder4.user_name.setTag(R.id.key_username, itemData.getUser_name());
-                holder4.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
-                holder4.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
-                holder4.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
-                holder4.user_name.setOnClickListener(pullToListViewItemOnClickListener);
-                holder4.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
+
                 holder4.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
                 holder4.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder4.rel_comment.setTag(R.id.key_comment, itemData.getId());
                 holder4.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
                 holder4.rel_zambia.setTag(R.id.key_listid, i);
-                holder4.tv_content.setTag(R.id.key_content, itemData.getId());
+                holder4.tv_content.setTag(R.id.key_content, itemData.getInfoid());
+                holder4.tv_content.setTag(R.id.key_content_new_class, itemData.getNewclass());
                 holder4.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder4.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
                 if (Integer.parseInt(itemData.getZambia_count()) > 0) {
@@ -559,17 +567,16 @@ public class NewsListAdapter extends BaseAdapter {
                 }
                 holder5.user_name.setTag(R.id.key_userid, itemData.getUser_id());
                 holder5.user_name.setTag(R.id.key_username, itemData.getUser_name());
-                holder5.rel_comment.setOnClickListener(pullToListViewItemOnClickListener);
-                holder5.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
-                holder5.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
-                holder5.user_name.setOnClickListener(pullToListViewItemOnClickListener);
-                holder5.tv_content.setOnClickListener(pullToListViewItemOnClickListener);
+
                 holder5.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
                 holder5.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder5.rel_comment.setTag(R.id.key_comment, itemData.getId());
                 holder5.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
                 holder5.rel_zambia.setTag(R.id.key_listid, i);
                 holder5.tv_content.setTag(R.id.key_content, itemData.getId());
+                holder5.tv_title.setTag(R.id.key_content, itemData.getId());
+                holder5.tv_content.setTag(R.id.key_content_new_class, itemData.getNewclass());
+                holder5.tv_title.setTag(R.id.key_title_new_class, itemData.getNewclass());
                 holder5.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder5.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
                 if (Integer.parseInt(itemData.getZambia_count()) > 0) {
@@ -757,16 +764,15 @@ public class NewsListAdapter extends BaseAdapter {
     }
 
     class Viewholder1 {
-        RecyclerView resultRecyclerView;
-        ImageView img_user, img_corner;
-        TextView tv_title, tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time;
-        RelativeLayout rel_forward, rel_comment, rel_zambia, rel_content;
+        ImageView img_user, img_corner, img_share_new;
+        TextView tv_title, tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time, tv_share_new_title, tv_share_new_content;
+        RelativeLayout rel_forward, rel_comment, rel_zambia, rel_share_new;
     }
 
     class Viewholder2 {
         RecyclerView resultRecyclerView;
         ImageView img_user, img_corner;
-        TextView tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time;
+        TextView tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time, tv_title;
         RelativeLayout rel_forward, rel_comment, rel_zambia;
     }
 
@@ -827,23 +833,32 @@ public class NewsListAdapter extends BaseAdapter {
 
                 case R.id.tv_title:
                     Log.e(TAG, "onClick: " + String.valueOf(view.getTag(R.id.key_content)));
-                   /* intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
-
-                    intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_content)));
-                    mContext.startActivity(intent);*/
-                    intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
+                    intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
                     intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_title)));
+                    intent.putExtra("NewClass", Integer.valueOf(String.valueOf(view.getTag(R.id.key_title_new_class))));
                     mContext.startActivity(intent);
                     break;
                 case R.id.tv_content:
-                    Log.e(TAG, "onClick: " + String.valueOf(view.getTag(R.id.key_content)));
-                    intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
-                    intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_content)));
-                    mContext.startActivity(intent);
+                    if (Integer.valueOf(String.valueOf(view.getTag(R.id.key_content_new_class))) == 6) {
+
+
+                        intent = new Intent(mContext.getApplicationContext(), CommodityActivity.class);
+                        intent.putExtra("CommodityId", String.valueOf(view.getTag(R.id.key_content)));
+                        mContext.startActivity(intent);
+                    } else if (Integer.valueOf(String.valueOf(view.getTag(R.id.key_content_new_class))) == 0) {
+                        intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
+                        intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_content)));
+                        mContext.startActivity(intent);
+                    } else {
+                        Log.e(TAG, "onClick: " + String.valueOf(view.getTag(R.id.key_content_new_class)));
+                        intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
+                        intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_content)));
+                        intent.putExtra("NewClass", Integer.valueOf(String.valueOf(view.getTag(R.id.key_content_new_class))));
+                        mContext.startActivity(intent);
+                    }
                     break;
-                case rel_content:
-                    Log.e(TAG, "onClick: rel_content");
-                    intent = new Intent(mContext.getApplicationContext(), ForwardNew.class);
+                case R.id.rel_share_new:
+                    intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
                     intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_forward_content)));
                     mContext.startActivity(intent);
                     break;

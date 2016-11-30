@@ -83,7 +83,7 @@ public class ProblemFragment extends Fragment {
         lv_list.setMode(PullToRefreshBase.Mode.BOTH);
         mProblemDataAdapter = new ProblemDataAdapter(getActivity(), arr_ProblemData);
         lv_list.setAdapter(mProblemDataAdapter);
-        lv_list.setOnItemClickListener(myListener);
+      //  lv_list.setOnItemClickListener(myListener);
     }
 
     private  void getData(String Str_search) {
