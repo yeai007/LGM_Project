@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
+import com.hopeofseed.hopeofseed.Activitys.SearchInfoActivity;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.JNXData.ExpertEnterperiseData;
 import com.hopeofseed.hopeofseed.JNXData.ProblemData;
@@ -74,8 +75,8 @@ public class ProblemDataAdapter extends BaseAdapter {
             viewHolder.rel_content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
-                    intent.putExtra("UserRole", Integer.parseInt(mData.getUser_role()));
+                    Intent intent = new Intent(mContext.getApplicationContext(), SearchInfoActivity.class);
+                    intent.putExtra("NewClass",5);
                     intent.putExtra("InfoId", ObjectUtil.RemoveOpenZero(mData.getProblemId()));
                     mContext.startActivity(intent);
                 }

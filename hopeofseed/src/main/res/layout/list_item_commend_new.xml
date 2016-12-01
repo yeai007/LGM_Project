@@ -75,9 +75,10 @@
 
         <Button
             android:id="@+id/btn_huifu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="15dp"
+            android:layout_height="14dp"
             android:layout_alignParentRight="true"
-            android:text="回复" />
+            android:layout_centerVertical="true"
+            android:background="@drawable/comment_img" />
     </RelativeLayout>
 </RelativeLayout>

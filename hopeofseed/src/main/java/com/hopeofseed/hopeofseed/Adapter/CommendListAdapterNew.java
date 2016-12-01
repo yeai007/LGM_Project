@@ -1,8 +1,6 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,25 +9,18 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
 import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.JNXData.Commend2Data;
-import com.hopeofseed.hopeofseed.JNXData.CommendData;
 import com.hopeofseed.hopeofseed.JNXData.CommentDataNew;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CommentDataNewTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.DateTools;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
-
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
@@ -44,29 +35,23 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 public class CommendListAdapterNew extends BaseAdapter {
     Context mContext;
     List<CommentDataNew> mlist;
-
-
     public CommendListAdapterNew(Context context, ArrayList<CommentDataNew> list) {
         super();
         this.mContext = context;
         this.mlist = list;
     }
-
     @Override
     public int getCount() {
         return mlist.size();
     }
-
     @Override
     public Object getItem(int i) {
         return mlist.get(i);
     }
-
     @Override
     public long getItemId(int i) {
         return i;
     }
-
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
@@ -107,19 +92,16 @@ public class CommendListAdapterNew extends BaseAdapter {
             viewHolder.tv_huifu.setVisibility(View.VISIBLE);
             viewHolder.tv_to_user_name.setVisibility(View.VISIBLE);
         }
-
         viewHolder.tv_content.setText(mData.getCommentComment());
         updateTime(mData.getCommentRecordCreateTime(), viewHolder);
         getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), viewHolder, Integer.parseInt(mData.getUser_role()));
         return view;
     }
-
     class ViewHolder {
         TextView user_name, send_time, tv_content, tv_huifu, tv_to_user_name;
         ImageView img_user, img_corner;
         Button btn_huifu;
     }
-
     private void updateTime(String time, ViewHolder holder0) {
         Long[] longDiff = null;
         String NowTime = null;
@@ -147,7 +129,6 @@ public class CommendListAdapterNew extends BaseAdapter {
             holder0.send_time.setText(DateTools.StringDateTimeToDateNoYear(time));
         }
     }
-
     private void getUserJpushInfo(String user_name, final ViewHolder holder0, final int user_role) {
         JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
             @Override
@@ -165,7 +146,6 @@ public class CommendListAdapterNew extends BaseAdapter {
                                     .load(R.drawable.header_user_default)
                                     .centerCrop()
                                     .into(holder0.img_user);
-
                         } else {
                             Glide.with(mContext)
                                     .load(userInfo.getAvatarFile())
@@ -183,7 +163,6 @@ public class CommendListAdapterNew extends BaseAdapter {
                                     .load(R.drawable.header_distributor_default)
                                     .centerCrop()
                                     .into(holder0.img_user);
-
                         } else {
                             Glide.with(mContext)
                                     .load(userInfo.getAvatarFile())
@@ -237,7 +216,6 @@ public class CommendListAdapterNew extends BaseAdapter {
                                     .load(R.drawable.header_author_default)
                                     .centerCrop()
                                     .into(holder0.img_user);
-
                         } else {
                             Glide.with(mContext)
                                     .load(userInfo.getAvatarFile())

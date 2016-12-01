@@ -17,7 +17,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -27,13 +26,19 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
 import com.hopeofseed.hopeofseed.Adapter.NewsImageAdapter;
-import com.hopeofseed.hopeofseed.Http.NetCallBack;
-import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
+import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.NewsExperienceData;
+import com.hopeofseed.hopeofseed.JNXData.NewsHuodongData;
+import com.hopeofseed.hopeofseed.JNXData.NewsProblemData;
+import com.hopeofseed.hopeofseed.JNXData.NewsYieldData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.NewsExperienceDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.NewsHuodongDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.NewsProblemDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.NewsYieldDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.curView.InputPopupWindow;
 import com.lgm.utils.DateTools;
@@ -52,16 +57,27 @@ import cn.jpush.im.android.api.model.UserInfo;
  * 项目名称：LGM_Project
  * 类描述：
  * 创建人：whisper
- * 创建时间：2016/10/16 12:14
+ * 创建时间：2016/10/14 10:23
  * 修改人：whisper
- * 修改时间：2016/10/16 12:14
+ * 修改时间：2016/10/14 10:23
  * 修改备注：
  */
-public class HaveCommentNew extends AppCompatActivity implements View.OnClickListener, NetCallBack {
-    private static final String TAG = "HaveCommentNew";
-    String NEW_ID;
+public class SearchInfoActivity extends AppCompatActivity implements NetCallBack, View.OnClickListener {
+    private static final String TAG = "NewsInfoActivity";
+    private static int CLASS_GENERAL = 0;//一般信息
+    private static int CLASS_IMG = 1;//图片信息
+    private static int CLASSS_VIDIO = 2;//视频信息
+    private static int CLASS_EXPERIENSE = 3;//农技经验
+    private static int CLASS_YIELD = 4;//分享产量
+    private static int CLASS_PROBLEM = 5;//发问
+    private static int CLASS_COMMODITY = 6;//商品
+    private static int CLASS_HUODONG = 7;//活动
+    private static int CLASS_FORSWARD = 8;//转发
+
+
+    String InfoId;
+    int NewClass;
     InputPopupWindow menuWindow;
-    NewsData newsData = new NewsData();
     TextView tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time, tv_title;
     RelativeLayout rel_forward, rel_comment, rel_zambia;
     ImageView img_user, img_corner;
@@ -72,18 +88,23 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
     private MainViewPagerAdapter mainViewPagerAdapter;
     int page = 0;
     List<Fragment> fragmentList;
-    ForwardListFragment mForwardListFragment;
-    CommendListFragment mCommendListFragment;
-    EditText lin_input;
+    SearchForwardListFragment mForwardListFragment;
+    SearchCommendListFragment mCommendListFragment;
     String RecordId, CommendUserId;
+    NewsExperienceData newsExperienceData = new NewsExperienceData();
+    NewsYieldData nNewsYieldData = new NewsYieldData();
+    NewsProblemData mNewsProblemData = new NewsProblemData();
+    NewsHuodongData mNewsHuodongData = new NewsHuodongData();
+    String ThisNewId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.have_comment_new_activity);
+        setContentView(R.layout.new_info_activity);
         Intent intent = getIntent();
-        NEW_ID = intent.getStringExtra("NEWID");
-        Log.e(TAG, "onCreate: " + NEW_ID);
+        InfoId = intent.getStringExtra("InfoId");
+        NewClass = intent.getIntExtra("NewClass", 0);
+        Log.e(TAG, "onCreate: NewClass" + NewClass);
         initView();
         initViewPager();
         initData();
@@ -93,8 +114,8 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
         Intent intent = getIntent();
         page = intent.getIntExtra("page", 0);
         fragmentList = new ArrayList<>();
-        mForwardListFragment = new ForwardListFragment(NEW_ID);
-        mCommendListFragment = new CommendListFragment(NEW_ID);
+        mForwardListFragment = new SearchForwardListFragment(InfoId, String.valueOf(NewClass));
+        mCommendListFragment = new SearchCommendListFragment(InfoId, String.valueOf(NewClass));
         fragmentList.add(mCommendListFragment);
         fragmentList.add(mForwardListFragment);
 
@@ -110,21 +131,47 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
 
     private void initData() {
         HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("NewId", NEW_ID);
+        opt_map.put("InfoId", InfoId);
+        opt_map.put("NewClass", String.valueOf(NewClass));
         HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "getNewByID.php", opt_map, NewsDataTmp.class, this);
+        switch (NewClass) {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                hu.httpPost(Const.BASE_URL + "getNewOhterInfoByInfoId.php", opt_map, NewsExperienceDataTmp.class, this);
+                break;
+            case 4:
+                hu.httpPost(Const.BASE_URL + "getNewOhterInfoByInfoId.php", opt_map, NewsYieldDataTmp.class, this);
+                break;
+            case 5:
+                hu.httpPost(Const.BASE_URL + "getNewOhterInfoByInfoId.php", opt_map, NewsProblemDataTmp.class, this);
+                break;
+            case 6:
+                break;
+            case 7:
+                hu.httpPost(Const.BASE_URL + "getNewOhterInfoByInfoId.php", opt_map, NewsHuodongDataTmp.class, this);
+                break;
+            case 8:
+                break;
+        }
+
+
     }
 
     private void initView() {
+        TextView apptitle = (TextView) findViewById(R.id.apptitle);
+        apptitle.setText("详情");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         img_user = (ImageView) findViewById(R.id.img_user);
         img_corner = (ImageView) findViewById(R.id.img_corner);
         send_time = (TextView) findViewById(R.id.send_time);
         tv_content = (TextView) findViewById(R.id.tv_content);
-        tv_content.setOnClickListener(this);
         tv_zambia = (TextView) findViewById(R.id.tv_zambia);
         tv_title = (TextView) findViewById(R.id.tv_title);
-
         rel_forward = (RelativeLayout) findViewById(R.id.rel_forward);
         rel_comment = (RelativeLayout) findViewById(R.id.rel_comment);
         rel_comment.setOnClickListener(this);
@@ -157,33 +204,13 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.rel_comment:
                 intent = new Intent(getApplicationContext(), CommentNew.class);
-                intent.putExtra("NEWID", NEW_ID);
+                intent.putExtra("NEWID", ThisNewId);
                 startActivity(intent);
                 break;
             case R.id.rel_forward:
                 intent = new Intent(getApplicationContext(), ForwardNew.class);
-                intent.putExtra("NEWID", NEW_ID);
+                intent.putExtra("NEWID", ThisNewId);
                 startActivity(intent);
-                break;
-            case R.id.tv_content:
-                if (Integer.parseInt(newsData.getNewclass()) == 3) {
-                    intent = new Intent(this, ExperienceActivity.class);
-                    intent.putExtra("ExperienceId", newsData.getInfoid());
-                    startActivity(intent);
-                } else if (Integer.parseInt(newsData.getNewclass()) == 4) {
-                    intent = new Intent(this, YieldActivity.class);
-                    intent.putExtra("YieldId", newsData.getInfoid());
-                    startActivity(intent);
-                } else if (Integer.parseInt(newsData.getNewclass()) == 6) {
-                    intent = new Intent(this, CommodityActivity.class);
-                    intent.putExtra("CommodityId", newsData.getInfoid());
-                    startActivity(intent);
-                }
-                else if (Integer.parseInt(newsData.getNewclass()) == 5) {
-                    intent = new Intent(this, ProblemActivity.class);
-                    intent.putExtra("ProblemId", newsData.getInfoid());
-                    startActivity(intent);
-                }
                 break;
         }
     }
@@ -211,37 +238,35 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
     Runnable updateTheNewData = new Runnable() {
         @Override
         public void run() {
-            updateTime(newsData.getNewcreatetime());
-            if (newsData.getNewclass().equals("8")) {
-                tv_title.setText(newsData.getForwardComment());
-                tv_title.setVisibility(View.VISIBLE);
+            switch (NewClass) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    updateUI(newsExperienceData);
+                    break;
+                case 4:
+                    updateUI(nNewsYieldData);
 
+                    break;
+                case 5:
+                    updateUI(mNewsProblemData);
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    updateUI(mNewsHuodongData);
+                    break;
+                case 8:
+                    break;
             }
-            tv_content.setText(newsData.getContent());
-            tv_content.setSingleLine(false);
-            tv_content.setMaxLines(3);
-            tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
 
-            user_name.setText(newsData.getNickname());
-            String[] arrImage = newsData.getAssimgurl().split(";");
-            List<String> images = java.util.Arrays.asList(arrImage);
-            resultRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
-            resultRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
-            Log.e(TAG, "getView: imagessizi" + images.size());
-            if (images.size() == 1) {
-                if (TextUtils.isEmpty(images.get(0))) {
-                    resultRecyclerView.setVisibility(View.GONE);
-                } else {
-                    resultRecyclerView.setVisibility(View.VISIBLE);
-                }
-            } else {
-                resultRecyclerView.setVisibility(View.VISIBLE);
-            }
-            NewsImageAdapter gridAdapter1 = new NewsImageAdapter(getApplicationContext(), images);
-            resultRecyclerView.setAdapter(gridAdapter1);
-            getUserJpushInfo(Const.JPUSH_PREFIX + newsData.getUser_id(), Integer.parseInt(newsData.getUser_role()));
         }
     };
+
 
     private void updateTime(String time) {
         Long[] longDiff = null;
@@ -371,7 +396,7 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
     public void showInput(String recordId, String commendUserID) {
         RecordId = recordId;
         CommendUserId = commendUserID;
-        menuWindow = new InputPopupWindow(HaveCommentNew.this, itemsOnClick);
+        menuWindow = new InputPopupWindow(SearchInfoActivity.this, itemsOnClick);
         //显示窗口
         menuWindow.showAtLocation(getRootView(this), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -407,7 +432,7 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
 
 
         HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("CommentFromNewId", NEW_ID);
+        opt_map.put("CommentFromNewId", ThisNewId);
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         opt_map.put("RecordId", RecordId);
         opt_map.put("CommentFromUser", CommendUserId);
@@ -429,8 +454,41 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-
-        if (rspBaseBean.RequestSign.equals("commentNew")) {
+        if (rspBaseBean.RequestSign.equals("getNewOhterInfoByInfoId")) {
+            switch (Integer.parseInt(rspBaseBean.resultNote)) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    NewsExperienceDataTmp newsOhterInfoDataTmp = ObjectUtil.cast(rspBaseBean);
+                    newsExperienceData = newsOhterInfoDataTmp.getDetail().get(0);
+                    ThisNewId = newsExperienceData.getId();
+                    break;
+                case 4:
+                    NewsYieldDataTmp newsYieldDataTmp = ObjectUtil.cast(rspBaseBean);
+                    nNewsYieldData = newsYieldDataTmp.getDetail().get(0);
+                    ThisNewId = nNewsYieldData.getId();
+                    break;
+                case 5:
+                    NewsProblemDataTmp newsProblemDataTmp = ObjectUtil.cast(rspBaseBean);
+                    mNewsProblemData = newsProblemDataTmp.getDetail().get(0);
+                    ThisNewId = mNewsProblemData.getId();
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    NewsHuodongDataTmp newsHuodongDataTmp = ObjectUtil.cast(rspBaseBean);
+                    mNewsHuodongData = newsHuodongDataTmp.getDetail().get(0);
+                    ThisNewId = mNewsHuodongData.getId();
+                    break;
+                case 8:
+                    break;
+            }
+            mHandle.post(updateTheNewData);
+        } else if (rspBaseBean.RequestSign.equals("commentNew")) {
             CommResultTmp mCommResultTmp = ObjectUtil.cast(rspBaseBean);
             if (Integer.parseInt(mCommResultTmp.getDetail()) > 0) {
                 Log.e(TAG, "onSuccess: success");
@@ -438,11 +496,6 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
                 Log.e(TAG, "onSuccess: fail");
             }
             mHandle.post(refeshData);
-        } else {
-            //获取信息数据结果
-            Log.e(TAG, "onSuccess: " + newsData);
-            newsData = ((NewsDataTmp) rspBaseBean).getDetail().get(0);
-            mHandle.post(updateTheNewData);
         }
     }
 
@@ -462,4 +515,103 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
             mCommendListFragment.onrefreshList();
         }
     };
+
+    private void updateUI(NewsExperienceData mNewsExperienceData) {
+        tv_title.setText("【农技】【" + mNewsExperienceData.getExperienceVartityName() + "】" + "\n【" + mNewsExperienceData.getTitle() + "】");
+        updateTime(mNewsExperienceData.getNewcreatetime());
+        tv_content.setText(mNewsExperienceData.getContent().replace("\\n", "\n"));
+        user_name.setText(mNewsExperienceData.getNickname());
+        String[] arrImage = mNewsExperienceData.getAssimgurl().split(";");
+        List<String> images = java.util.Arrays.asList(arrImage);
+        resultRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
+        resultRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
+        Log.e(TAG, "getView: imagessizi" + images.size());
+        if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            resultRecyclerView.setVisibility(View.VISIBLE);
+        }
+        NewsImageAdapter gridAdapter1 = new NewsImageAdapter(getApplicationContext(), images);
+        resultRecyclerView.setAdapter(gridAdapter1);
+        getUserJpushInfo(Const.JPUSH_PREFIX + mNewsExperienceData.getUser_id(), Integer.parseInt(mNewsExperienceData.getUser_role()));
+    }
+
+    private void updateUI(NewsYieldData mNewsYieldData) {
+        tv_title.setText("【产量表现】【" + mNewsYieldData.getYieldVariety() + "】" + "\n【" + mNewsYieldData.getTitle() + "】");
+
+        updateTime(mNewsYieldData.getNewcreatetime());
+        tv_content.setText("总产量：" + mNewsYieldData.getYieldSum() + "\n种植面积：" + mNewsYieldData.getYieldArea() + "\n平均产量：" + mNewsYieldData.getYieldYield() + "\n表现:" + mNewsYieldData.getYieldEssay().replace("\\n", "\n"));
+        user_name.setText(mNewsYieldData.getNickname());
+        String[] arrImage = mNewsYieldData.getAssimgurl().split(";");
+        List<String> images = java.util.Arrays.asList(arrImage);
+        resultRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
+        resultRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
+        Log.e(TAG, "getView: imagessizi" + images.size());
+        if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            resultRecyclerView.setVisibility(View.VISIBLE);
+        }
+        NewsImageAdapter gridAdapter1 = new NewsImageAdapter(getApplicationContext(), images);
+        resultRecyclerView.setAdapter(gridAdapter1);
+        getUserJpushInfo(Const.JPUSH_PREFIX + mNewsYieldData.getUser_id(), Integer.parseInt(mNewsYieldData.getUser_role()));
+    }
+
+    private void updateUI(NewsProblemData newsProblemData) {
+        tv_title.setText("【问题】【" + newsProblemData.getProblemVarietyName() + "】" + "\n【" + newsProblemData.getTitle() + "】");
+
+        updateTime(newsProblemData.getNewcreatetime());
+        tv_content.setText(newsProblemData.getContent().replace("\\n", "\n"));
+        user_name.setText(newsProblemData.getNickname());
+        String[] arrImage = newsProblemData.getAssimgurl().split(";");
+        List<String> images = java.util.Arrays.asList(arrImage);
+        resultRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
+        resultRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
+        Log.e(TAG, "getView: imagessizi" + images.size());
+        if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            resultRecyclerView.setVisibility(View.VISIBLE);
+        }
+        NewsImageAdapter gridAdapter1 = new NewsImageAdapter(getApplicationContext(), images);
+        resultRecyclerView.setAdapter(gridAdapter1);
+        getUserJpushInfo(Const.JPUSH_PREFIX + newsProblemData.getUser_id(), Integer.parseInt(newsProblemData.getUser_role()));
+    }
+
+    private void updateUI(NewsHuodongData mmNewsHuodongData) {
+        tv_title.setText("【问题】【" + mmNewsHuodongData.getNewclass() + "】" + "\n【" + mmNewsHuodongData.getTitle() + "】");
+        tv_title.setText("【活动】" + "\n【" + mmNewsHuodongData.getTitle() + "】");
+        updateTime(mmNewsHuodongData.getNewcreatetime());
+        tv_content.setText(mmNewsHuodongData.getContent().replace("\\n", "\n"));
+        user_name.setText(mmNewsHuodongData.getNickname());
+        String[] arrImage = mmNewsHuodongData.getAssimgurl().split(";");
+        List<String> images = java.util.Arrays.asList(arrImage);
+        resultRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
+        resultRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
+        Log.e(TAG, "getView: imagessizi" + images.size());
+        if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            resultRecyclerView.setVisibility(View.VISIBLE);
+        }
+        NewsImageAdapter gridAdapter1 = new NewsImageAdapter(getApplicationContext(), images);
+        resultRecyclerView.setAdapter(gridAdapter1);
+        getUserJpushInfo(Const.JPUSH_PREFIX + mmNewsHuodongData.getUser_id(), Integer.parseInt(mmNewsHuodongData.getUser_role()));
+    }
 }

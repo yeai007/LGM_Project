@@ -145,13 +145,13 @@
                 android:id="@+id/rb_forwar"
                 style="@style/main_tab"
                 android:gravity="center"
-                android:text="转发列表" />
+                android:text="评论列表" />
 
             <RadioButton
                 android:id="@+id/rb_comment"
                 style="@style/main_tab"
                 android:gravity="center"
-                android:text="评论列表" />
+                android:text="转发列表" />
         </RadioGroup>
     </LinearLayout>
 

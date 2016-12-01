@@ -119,12 +119,40 @@
             android:background="@drawable/bg_edittext"
             android:textColor="#b2b2b2" />
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rel_upload_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rel_yield">
 
+        <GridView
+            android:id="@+id/gv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_message"
+            android:columnWidth="70dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="10dp"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/result_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/gv_photo"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:columnWidth="90dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="10dp" />
+    </RelativeLayout>
     <RelativeLayout
         android:id="@+id/rel_essay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rel_yield"
+        android:layout_below="@+id/rel_upload_img"
         android:layout_marginTop="10dp"
         android:background="#ffffff">
 

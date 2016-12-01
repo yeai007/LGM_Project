@@ -125,13 +125,11 @@ public class HttpWork {
         try {
             Response response = null;
             if (!(mFileParam == null)) {
-                 response = OkGo.post(url)
+                response = OkGo.post(url)
                         .params(param)
                         .addFileWrapperParams("file[]", fileWrappers)
                         .execute();
-            }
-            else
-            {
+            } else {
                 response = OkGo.post(url)
                         .params(param)
                         .execute();

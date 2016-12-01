@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+import static com.hopeofseed.hopeofseed.R.id.tv_crop_class;
 
 /**
  * 项目名称：LGM_Project
@@ -56,12 +57,27 @@ public class YieldDataAdapter extends BaseAdapter {
         LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
         YieldData mData;
         mData = mlist.get(i);
-        view = _LayoutInflater.inflate(R.layout.search_crop_items, null);
-        if (view != null) {
-            TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
-            Log.e(TAG, "getView: " + mData.getYieldVariety());
-            tv_name.setText(mData.getYieldVariety());
+
+        ViewHolder viewHolder;
+        if (view == null) {
+            viewHolder = new ViewHolder();
+            view = _LayoutInflater.inflate(R.layout.search_yield_items, null);
+            viewHolder.tv_crop_class=(TextView)view.findViewById(R.id.tv_crop_class);
+            viewHolder.tv_name=(TextView)view.findViewById(R.id.tv_name);
+            viewHolder.tv_content=(TextView)view.findViewById(R.id.tv_content);
+            view.setTag(viewHolder);
         }
+        else
+        {
+            viewHolder = (ViewHolder) view.getTag();
+        }
+        viewHolder.tv_crop_class.setText("【产量表现】");
+        viewHolder.tv_name.setText("【"+mData.getYieldVariety()+"】");
+        viewHolder.tv_content.setText("总产量：" + mData.getYieldSum() + "\n种植面积：" + mData.getYieldArea() + "\n平均产量：" + mData.getYieldYield() + "\n表现:" + mData.getYieldEssay().replace("\\n", "\n"));
         return view;
+    }
+    class ViewHolder
+    {
+        TextView tv_crop_class,tv_name,tv_content;
     }
 }

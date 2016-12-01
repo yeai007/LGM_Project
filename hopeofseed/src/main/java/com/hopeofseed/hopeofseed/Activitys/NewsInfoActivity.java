@@ -17,38 +17,31 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
 import com.hopeofseed.hopeofseed.Adapter.NewsImageAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.JNXData.NewsExperienceData;
+import com.hopeofseed.hopeofseed.JNXData.NewsHuodongData;
 import com.hopeofseed.hopeofseed.JNXData.NewsProblemData;
 import com.hopeofseed.hopeofseed.JNXData.NewsYieldData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.NewsExperienceDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.NewsHuodongDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.NewsProblemDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.NewsYieldDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.curView.InputPopupWindow;
 import com.lgm.utils.DateTools;
 import com.lgm.utils.ObjectUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,8 +71,6 @@ public class NewsInfoActivity extends AppCompatActivity implements NetCallBack, 
     private static int CLASS_COMMODITY = 6;//商品
     private static int CLASS_HUODONG = 7;//活动
     private static int CLASS_FORSWARD = 8;//转发
-
-
     String NEW_ID;
     int NewClass;
     InputPopupWindow menuWindow;
@@ -99,7 +90,8 @@ public class NewsInfoActivity extends AppCompatActivity implements NetCallBack, 
     NewsExperienceData newsExperienceData = new NewsExperienceData();
     NewsYieldData nNewsYieldData = new NewsYieldData();
     NewsProblemData mNewsProblemData = new NewsProblemData();
-
+    NewsHuodongData mNewsHuodongData = new NewsHuodongData();
+    RelativeLayout rel_this_new;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,15 +147,16 @@ public class NewsInfoActivity extends AppCompatActivity implements NetCallBack, 
             case 6:
                 break;
             case 7:
+                hu.httpPost(Const.BASE_URL + "getNewOhterInfoByID.php", opt_map, NewsHuodongDataTmp.class, this);
                 break;
             case 8:
                 break;
         }
-
-
     }
 
     private void initView() {
+        TextView apptitle = (TextView) findViewById(R.id.apptitle);
+        apptitle.setText("详情");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         img_user = (ImageView) findViewById(R.id.img_user);
         img_corner = (ImageView) findViewById(R.id.img_corner);
@@ -180,6 +173,7 @@ public class NewsInfoActivity extends AppCompatActivity implements NetCallBack, 
         tv_comment = (TextView) findViewById(R.id.tv_comment);
         rg_menu = (RadioGroup) findViewById(R.id.rg_menu);
         rg_menu.setOnCheckedChangeListener(mChangeRadio);
+        rel_this_new=(RelativeLayout)findViewById(R.id.rel_this_new);
     }
 
     //底部菜单方法
@@ -257,6 +251,7 @@ public class NewsInfoActivity extends AppCompatActivity implements NetCallBack, 
                 case 6:
                     break;
                 case 7:
+                    updateUI(mNewsHuodongData);
                     break;
                 case 8:
                     break;
@@ -476,6 +471,8 @@ public class NewsInfoActivity extends AppCompatActivity implements NetCallBack, 
                 case 6:
                     break;
                 case 7:
+                    NewsHuodongDataTmp newsHuodongDataTmp = ObjectUtil.cast(rspBaseBean);
+                    mNewsHuodongData = newsHuodongDataTmp.getDetail().get(0);
                     break;
                 case 8:
                     break;
@@ -562,7 +559,7 @@ public class NewsInfoActivity extends AppCompatActivity implements NetCallBack, 
         tv_title.setText("【问题】【" + newsProblemData.getProblemVarietyName() + "】" + "\n【" + newsProblemData.getTitle() + "】");
 
         updateTime(newsProblemData.getNewcreatetime());
-        tv_content.setText(newsProblemData.getContent());
+        tv_content.setText(newsProblemData.getContent().replace("\\n", "\n"));
         user_name.setText(newsProblemData.getNickname());
         String[] arrImage = newsProblemData.getAssimgurl().split(";");
         List<String> images = java.util.Arrays.asList(arrImage);
@@ -581,5 +578,30 @@ public class NewsInfoActivity extends AppCompatActivity implements NetCallBack, 
         NewsImageAdapter gridAdapter1 = new NewsImageAdapter(getApplicationContext(), images);
         resultRecyclerView.setAdapter(gridAdapter1);
         getUserJpushInfo(Const.JPUSH_PREFIX + newsProblemData.getUser_id(), Integer.parseInt(newsProblemData.getUser_role()));
+    }
+
+    private void updateUI(NewsHuodongData mmNewsHuodongData) {
+        tv_title.setText("【问题】【" + mmNewsHuodongData.getNewclass() + "】" + "\n【" + mmNewsHuodongData.getTitle() + "】");
+        tv_title.setText("【活动】" + "\n【" + mmNewsHuodongData.getTitle() + "】");
+        updateTime(mmNewsHuodongData.getNewcreatetime());
+        tv_content.setText(mmNewsHuodongData.getContent().replace("\\n", "\n"));
+        user_name.setText(mmNewsHuodongData.getNickname());
+        String[] arrImage = mmNewsHuodongData.getAssimgurl().split(";");
+        List<String> images = java.util.Arrays.asList(arrImage);
+        resultRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
+        resultRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
+        Log.e(TAG, "getView: imagessizi" + images.size());
+        if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            resultRecyclerView.setVisibility(View.VISIBLE);
+        }
+        NewsImageAdapter gridAdapter1 = new NewsImageAdapter(getApplicationContext(), images);
+        resultRecyclerView.setAdapter(gridAdapter1);
+        getUserJpushInfo(Const.JPUSH_PREFIX + mmNewsHuodongData.getUser_id(), Integer.parseInt(mmNewsHuodongData.getUser_role()));
     }
 }

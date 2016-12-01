@@ -149,7 +149,7 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
         gv_photo.setAdapter(mPublishImgsAdapter);
         gv_photo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                ImageSelectorActivity.start(PubishMainActivity.this, 9, 1, true, false, false);
+                ImageSelectorActivity.start(PubishMainActivity.this, 6, 1, true, false, false);
             }
         });
         images.add("add");
@@ -166,7 +166,9 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
             verifyStoragePermissions(this);
             Uri selectedImage = data.getData();
             mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
-            images.add(mPicturePath);
+            if (images.size() < 10) {
+                images.add(mPicturePath);
+            }
             gridAdapter.notifyDataSetChanged();
             Log.e(TAG, "onActivityResult: " + images);
         }
@@ -250,7 +252,7 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
     private void SendWordAndImage(List<File> fileList) {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
-        opt_map.put("WordsStr", et_message.getText().toString().trim());
+        opt_map.put("WordsStr", et_message.getText().toString().trim().replace("\n","\\n"));
         opt_map.put("LocLat", String.valueOf(Const.LocLat));
         opt_map.put("LocLng", String.valueOf(Const.LocLng));
         opt_map.put("Province",Const.Province);

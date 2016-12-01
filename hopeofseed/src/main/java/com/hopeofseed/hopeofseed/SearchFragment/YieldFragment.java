@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Activitys.ExpertActivity;
+import com.hopeofseed.hopeofseed.Activitys.NewsInfoActivity;
+import com.hopeofseed.hopeofseed.Activitys.SearchInfoActivity;
 import com.hopeofseed.hopeofseed.Activitys.YieldActivity;
 import com.hopeofseed.hopeofseed.Adapter.CropDataAdapter;
 import com.hopeofseed.hopeofseed.Adapter.YieldDataAdapter;
@@ -127,8 +129,9 @@ public class YieldFragment extends Fragment {
     private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent intent = new Intent(getActivity(), YieldActivity.class);
-            intent.putExtra("YieldId", String.valueOf(arr_YieldData.get(i - 1).getYieldId()));
+            Intent intent = new Intent(getActivity(), SearchInfoActivity.class);
+            intent.putExtra("NewClass",4);
+            intent.putExtra("InfoId", String.valueOf(arr_YieldData.get(i - 1).getYieldId()));
             startActivity(intent);
         }
     };

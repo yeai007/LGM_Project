@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -98,7 +99,7 @@ public class ForwardNew extends AppCompatActivity implements View.OnClickListene
         if (et_share_mood.getText().toString().equals("")) {
             opt_map.put("ForwardComment", "转发");
         } else {
-            opt_map.put("ForwardComment", et_share_mood.getText().toString());
+            opt_map.put("ForwardComment", et_share_mood.getText().toString().replace("\n","\\n"));
         }
 
         if (Integer.parseInt(newsData.getFromid()) == 0) {
@@ -152,8 +153,11 @@ public class ForwardNew extends AppCompatActivity implements View.OnClickListene
                         .into(img_share_new);
             } else {
             }
-            tv_share_new_title.setText(newsData.getNickname());
-            tv_share_new_content.setText(newsData.getContent());
+            tv_share_new_title.setText(newsData.getTitle());
+            tv_share_new_content.setText(newsData.getContent().replace("\\n", "\n"));
+            tv_share_new_content.setSingleLine(false);
+            tv_share_new_content.setMaxLines(2);
+            tv_share_new_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
         }
     };
 }

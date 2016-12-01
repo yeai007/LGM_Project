@@ -295,7 +295,7 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
         opt_map.put("commodity_title", et_title.getText().toString());
         opt_map.put("commodity_name", et_name.getText().toString());
         opt_map.put("commodity_price", et_price.getText().toString());
-        opt_map.put("commodity_describe", et_discribe.getText().toString());
+        opt_map.put("commodity_describe", et_discribe.getText().toString().replace("\n","\\n"));
         opt_map.put("commodity_variety", et_variety.getText().toString());
         opt_map.put("commodity_class", commodityclass);
         opt_map.put("userid", String.valueOf(Const.currentUser.user_id));
@@ -328,7 +328,9 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
             verifyStoragePermissions(this);
             Uri selectedImage = data.getData();
             mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
-            images.add(mPicturePath);
+            if (images.size() < 10) {
+                images.add(mPicturePath);
+            }
             gridAdapter.notifyDataSetChanged();
         }
     }

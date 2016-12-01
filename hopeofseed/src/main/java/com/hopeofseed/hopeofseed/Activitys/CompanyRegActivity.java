@@ -284,7 +284,9 @@ public class CompanyRegActivity extends AppCompatActivity implements View.OnClic
         if (requestCode == TO_SELECT_PHOTO && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
-            images.add(mPicturePath);
+            if (images.size() < 10) {
+                images.add(mPicturePath);
+            }
             Log.e(TAG, "onActivityResult: " + images.size());
             Glide.with(CompanyRegActivity.this)
                     .load(new File(mPicturePath))

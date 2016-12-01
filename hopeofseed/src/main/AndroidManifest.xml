@@ -521,6 +521,15 @@
             android:name=".Activitys.UserBliedActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activitys.SearchInfoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.NewsInfoNewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

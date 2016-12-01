@@ -1,41 +1,40 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
-import android.app.Activity;
-import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
+import com.hopeofseed.hopeofseed.Adapter.CommendListAdapterNew;
 import com.hopeofseed.hopeofseed.Adapter.NewsImageAdapter;
-import com.hopeofseed.hopeofseed.Http.NetCallBack;
-import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
+import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.CommentDataNew;
+import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.CommentDataNewTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.NewsExperienceDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.NewsHuodongDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.NewsProblemDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.NewsYieldDataTmp;
 import com.hopeofseed.hopeofseed.R;
-import com.hopeofseed.hopeofseed.curView.InputPopupWindow;
+import com.hopeofseed.hopeofseed.ui.MyHoveringScrollView;
+import com.hopeofseed.hopeofseed.ui.ScrollViewListView;
 import com.lgm.utils.DateTools;
 import com.lgm.utils.ObjectUtil;
 
@@ -52,160 +51,120 @@ import cn.jpush.im.android.api.model.UserInfo;
  * 项目名称：LGM_Project
  * 类描述：
  * 创建人：whisper
- * 创建时间：2016/10/16 12:14
+ * 创建时间：2016/10/14 10:23
  * 修改人：whisper
- * 修改时间：2016/10/16 12:14
+ * 修改时间：2016/10/14 10:23
  * 修改备注：
  */
-public class HaveCommentNew extends AppCompatActivity implements View.OnClickListener, NetCallBack {
-    private static final String TAG = "HaveCommentNew";
-    String NEW_ID;
-    InputPopupWindow menuWindow;
+public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBack {
+    private static final String TAG = "NewsInfoNewActivity";
+    private MyHoveringScrollView view_hover;
     NewsData newsData = new NewsData();
+    private ViewPager vp_main;
+    private RadioGroup rg_menu;
+    int page = 0;
+    String NEW_ID;
+    ScrollViewListView lv_list;
+    CommendListAdapterNew mCommendListAdapter;
+    int classid = 1;
+    ArrayList<CommentDataNew> arrCommentOrForward = new ArrayList<>();
+    ArrayList<CommentDataNew> arrCommentOrForwardTmp = new ArrayList<>();
+    Handler mHandle = new Handler();
+
     TextView tv_content, tv_zambia, user_name, tv_forward, tv_comment, send_time, tv_title;
-    RelativeLayout rel_forward, rel_comment, rel_zambia;
     ImageView img_user, img_corner;
     RecyclerView resultRecyclerView;
-    Handler mHandle = new Handler();
-    private RadioGroup rg_menu;
-    private ViewPager vp_main;
-    private MainViewPagerAdapter mainViewPagerAdapter;
-    int page = 0;
-    List<Fragment> fragmentList;
-    ForwardListFragment mForwardListFragment;
-    CommendListFragment mCommendListFragment;
-    EditText lin_input;
-    String RecordId, CommendUserId;
-
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.have_comment_new_activity);
+        setContentView(R.layout.new_info_activity_new);
         Intent intent = getIntent();
         NEW_ID = intent.getStringExtra("NEWID");
-        Log.e(TAG, "onCreate: " + NEW_ID);
+        initScroll();
         initView();
-        initViewPager();
+        getData();
         initData();
     }
-
-    private void initViewPager() {
-        Intent intent = getIntent();
-        page = intent.getIntExtra("page", 0);
-        fragmentList = new ArrayList<>();
-        mForwardListFragment = new ForwardListFragment(NEW_ID);
-        mCommendListFragment = new CommendListFragment(NEW_ID);
-        fragmentList.add(mCommendListFragment);
-        fragmentList.add(mForwardListFragment);
-
-        mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragmentList);
-        vp_main = (ViewPager) findViewById(R.id.vp_list);
-        vp_main.addOnPageChangeListener(onPageChangeListener);
-        vp_main.setAdapter(mainViewPagerAdapter);
-        vp_main.setOffscreenPageLimit(2);
-        vp_main.setCurrentItem(page);
-        rg_menu = (RadioGroup) findViewById(R.id.rg_menu);
-        rg_menu.setOnCheckedChangeListener(mChangeRadio);
-    }
-
     private void initData() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("NewId", NEW_ID);
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "getNewByID.php", opt_map, NewsDataTmp.class, this);
     }
-
     private void initView() {
-        (findViewById(R.id.btn_topleft)).setOnClickListener(this);
+        lv_list = (ScrollViewListView) findViewById(R.id.lv_list);
+        //lv_list.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+        mCommendListAdapter = new CommendListAdapterNew(NewsInfoNewActivity.this, arrCommentOrForward);
+        lv_list.setAdapter(mCommendListAdapter);
+        //   lv_list.setOnItemClickListener(myListener);
         img_user = (ImageView) findViewById(R.id.img_user);
         img_corner = (ImageView) findViewById(R.id.img_corner);
         send_time = (TextView) findViewById(R.id.send_time);
         tv_content = (TextView) findViewById(R.id.tv_content);
-        tv_content.setOnClickListener(this);
         tv_zambia = (TextView) findViewById(R.id.tv_zambia);
         tv_title = (TextView) findViewById(R.id.tv_title);
-
-        rel_forward = (RelativeLayout) findViewById(R.id.rel_forward);
-        rel_comment = (RelativeLayout) findViewById(R.id.rel_comment);
-        rel_comment.setOnClickListener(this);
-        rel_zambia = (RelativeLayout) findViewById(R.id.rel_zambia);
         user_name = (TextView) findViewById(R.id.user_name);
-        tv_forward = (TextView) findViewById(R.id.tv_forward);
-        tv_comment = (TextView) findViewById(R.id.tv_comment);
-        rg_menu = (RadioGroup) findViewById(R.id.rg_menu);
-        rg_menu.setOnCheckedChangeListener(mChangeRadio);
     }
 
-    //底部菜单方法
-    private RadioGroup.OnCheckedChangeListener mChangeRadio = new RadioGroup.OnCheckedChangeListener() {
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            // TODO Auto-generated method stub
-            if (checkedId == (findViewById(R.id.rb_forwar)).getId()) {
-                vp_main.setCurrentItem(0);
-            } else if (checkedId == (findViewById(R.id.rb_comment)).getId()) {
-                vp_main.setCurrentItem(1);
-            }
-        }
-    };
+    private void initScroll() {
+        view_hover = (MyHoveringScrollView) findViewById(R.id.view_hover);
+        view_hover.setTopView(R.id.top);
+    }
+    private void getData() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("NewId", NEW_ID);
+        opt_map.put("ClassId", String.valueOf(classid));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "GetCommentByNewIdNew.php", opt_map, CommentDataNewTmp.class, this);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
     @Override
-    public void onClick(View view) {
-        Intent intent;
-        switch (view.getId()) {
-            case R.id.btn_topleft:
-                finish();
-                break;
-            case R.id.rel_comment:
-                intent = new Intent(getApplicationContext(), CommentNew.class);
-                intent.putExtra("NEWID", NEW_ID);
-                startActivity(intent);
-                break;
-            case R.id.rel_forward:
-                intent = new Intent(getApplicationContext(), ForwardNew.class);
-                intent.putExtra("NEWID", NEW_ID);
-                startActivity(intent);
-                break;
-            case R.id.tv_content:
-                if (Integer.parseInt(newsData.getNewclass()) == 3) {
-                    intent = new Intent(this, ExperienceActivity.class);
-                    intent.putExtra("ExperienceId", newsData.getInfoid());
-                    startActivity(intent);
-                } else if (Integer.parseInt(newsData.getNewclass()) == 4) {
-                    intent = new Intent(this, YieldActivity.class);
-                    intent.putExtra("YieldId", newsData.getInfoid());
-                    startActivity(intent);
-                } else if (Integer.parseInt(newsData.getNewclass()) == 6) {
-                    intent = new Intent(this, CommodityActivity.class);
-                    intent.putExtra("CommodityId", newsData.getInfoid());
-                    startActivity(intent);
-                }
-                else if (Integer.parseInt(newsData.getNewclass()) == 5) {
-                    intent = new Intent(this, ProblemActivity.class);
-                    intent.putExtra("ProblemId", newsData.getInfoid());
-                    startActivity(intent);
-                }
-                break;
+    public void onSuccess(RspBaseBean rspBaseBean) {
+
+        if (rspBaseBean.RequestSign.equals("commentNew")) {
+            CommResultTmp mCommResultTmp = ObjectUtil.cast(rspBaseBean);
+            if (Integer.parseInt(mCommResultTmp.getDetail()) > 0) {
+                Log.e(TAG, "onSuccess: success");
+            } else {
+                Log.e(TAG, "onSuccess: fail");
+            }
+           // mHandle.post(refeshData);
+        }else if(rspBaseBean.RequestSign.equals("GetCommentByNewIdNew"))
+        {
+            arrCommentOrForwardTmp = ((CommentDataNewTmp) rspBaseBean).getDetail();
+            mHandle.post(updatelist);
+        }
+        else {
+            //获取信息数据结果
+            Log.e(TAG, "onSuccess: " + newsData);
+            newsData = ((NewsDataTmp) rspBaseBean).getDetail().get(0);
+            mHandle.post(updateTheNewData);
         }
     }
 
-    private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
-        @Override
-        public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        }
+    @Override
+    public void onError(String error) {
 
-        @Override
-        public void onPageSelected(int position) {
-            switch (position) {
-                case 0://列表显示
-                    vp_main.setCurrentItem(0);
-                    break;
-                case 1://地图显示
-                    break;
-            }
-        }
+    }
 
+    @Override
+    public void onFail() {
+
+    }
+
+    Runnable updatelist = new Runnable() {
         @Override
-        public void onPageScrollStateChanged(int state) {
+        public void run() {
+            arrCommentOrForward.clear();
+            arrCommentOrForward.addAll(arrCommentOrForwardTmp);
+            mCommendListAdapter.notifyDataSetChanged();
+            //  lv_list.onRefreshComplete();
         }
     };
     Runnable updateTheNewData = new Runnable() {
@@ -367,99 +326,4 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
             }
         });
     }
-
-    public void showInput(String recordId, String commendUserID) {
-        RecordId = recordId;
-        CommendUserId = commendUserID;
-        menuWindow = new InputPopupWindow(HaveCommentNew.this, itemsOnClick);
-        //显示窗口
-        menuWindow.showAtLocation(getRootView(this), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-    }
-
-    private static View getRootView(Activity context) {
-        return ((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0);
-    }
-
-    //为弹出窗口实现监听类
-    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_submit:
-                    submitCommend();
-                    menuWindow.dismiss();
-                    break;
-            }
-
-        }
-
-    };
-
-    private void submitCommend() {
-        Toast.makeText(getApplicationContext(), RecordId, Toast.LENGTH_SHORT).show();
-        AddCommend2Data();
-
-    }
-
-    //添加二级评论
-    private void AddCommend2Data() {
-
-
-        HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("CommentFromNewId", NEW_ID);
-        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
-        opt_map.put("RecordId", RecordId);
-        opt_map.put("CommentFromUser", CommendUserId);
-        opt_map.put("Comment", menuWindow.getInput());
-        HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "CommentNew.php", opt_map, CommResultTmp.class, this);
-/**
- * 二级评论
- * */
-    /*    HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("NewId", NEW_ID);
-        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
-        opt_map.put("RecordId", RecordId);
-        opt_map.put("CommendUserId", CommendUserId);
-        opt_map.put("Commend", menuWindow.getInput());
-        HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "AddNewCommend2Data.php", opt_map, CommResultTmp.class, this);*/
-    }
-
-    @Override
-    public void onSuccess(RspBaseBean rspBaseBean) {
-
-        if (rspBaseBean.RequestSign.equals("commentNew")) {
-            CommResultTmp mCommResultTmp = ObjectUtil.cast(rspBaseBean);
-            if (Integer.parseInt(mCommResultTmp.getDetail()) > 0) {
-                Log.e(TAG, "onSuccess: success");
-            } else {
-                Log.e(TAG, "onSuccess: fail");
-            }
-            mHandle.post(refeshData);
-        } else {
-            //获取信息数据结果
-            Log.e(TAG, "onSuccess: " + newsData);
-            newsData = ((NewsDataTmp) rspBaseBean).getDetail().get(0);
-            mHandle.post(updateTheNewData);
-        }
-    }
-
-    @Override
-    public void onError(String error) {
-        Log.e(TAG, "onError: " + error);
-    }
-
-    @Override
-    public void onFail() {
-
-    }
-
-    Runnable refeshData = new Runnable() {
-        @Override
-        public void run() {
-            mCommendListFragment.onrefreshList();
-        }
-    };
 }

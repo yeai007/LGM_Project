@@ -10,21 +10,14 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
+import com.hopeofseed.hopeofseed.Activitys.SearchInfoActivity;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.JNXData.ExperienceData;
-import com.hopeofseed.hopeofseed.JNXData.ExpertEnterperiseData;
-import com.hopeofseed.hopeofseed.JNXData.ProblemData;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-
-/**
+ /**
  * 项目名称：LGM_Project
  * 类描述：
  * 创建人：whisper
@@ -82,8 +75,8 @@ public class ExperienceDataAdapter extends BaseAdapter {
             viewHolder.rel_content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
-                    intent.putExtra("UserRole", Integer.parseInt(mData.getUser_role()));
+                    Intent intent = new Intent(mContext.getApplicationContext(), SearchInfoActivity.class);
+                    intent.putExtra("NewClass",3);
                     intent.putExtra("InfoId", ObjectUtil.RemoveOpenZero(mData.getExperienceId()));
                     mContext.startActivity(intent);
                 }

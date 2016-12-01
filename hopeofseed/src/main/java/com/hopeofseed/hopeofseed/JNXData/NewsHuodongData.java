@@ -1,52 +1,63 @@
 package com.hopeofseed.hopeofseed.JNXData;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
- * 项目名称：liguangming
+ * 项目名称：LGM_Project
  * 类描述：
  * 创建人：whisper
- * 创建时间：2016/8/5 15:22
+ * 创建时间：2016/12/1 9:06
  * 修改人：whisper
- * 修改时间：2016/8/5 15:22
+ * 修改时间：2016/12/1 9:06
  * 修改备注：
  */
-public class NewsData extends RealmObject {
+public class NewsHuodongData {
 
     /**
-     * user_id : 1117
+     * user_id : 1124
      * user_name : 15628801370
      * nickname : 用户01370
      * user_mobile :
      * user_email :
-     * createtime : 2016-11-16 05:27:34
+     * createtime : 2016-11-26 09:09:40
      * user_permation : 0
-     * user_role : 0
+     * user_role : 3
      * user_field :
-     * user_role_id : 0
-     * fllowed_count : 0
-     * been_fllowed_count : 0
-     * id : 0000000153
-     * title : 经历过咯
-     * content : 理解理解
+     * user_role_id : 3
+     * fllowed_count : 4
+     * been_fllowed_count : 2
+     * id : 0000000309
+     * title : 活动
+     * content : 1行2行3行4567
      * keyword : KEYWORD
      * marks : MARKS
-     * newcreatetime : 2016-11-16 08:18:52
+     * newcreatetime : 2016-12-01 08:49:54
      * editid : 0
      * flag : 0
      * reviewid : 0
      * related_person : 0
-     * createuser : 1117
+     * createuser : 1124
      * assimgurl :
-     * zambia_count : 0000000001
-     * zambia_ids : 1
-     * newclass : 3
-     * newclassname : 农技经验
-     * infoid : 50
+     * zambia_count : 0000000000
+     * zambia_ids :
+     * newclass : 7
+     * newclassname : 活动
+     * infoid : 2
      * fromid : 0
+     * loclat : 36.710315
+     * loclng :
+     * NewsProvince : 山东省
+     * NewsCity : 济南市
+     * NewsZone : 历城区
      * forwardCount : 0
-     * commentCount : 1
+     * commentCount : 0
+     * HuodongId : 0000000002
+     * HuodongTitle : 活动
+     * HuodongContent : 1行2行3行4567
+     * HuodongCreateUser : 1124
+     * HuodongType :
+     * HuodongClass :
+     * HuodongFlag : 1
+     * HuodongImg : img
+     * HuodongCreateTime : 2016-12-01 08:49:54
      */
 
     private String user_id;
@@ -61,8 +72,7 @@ public class NewsData extends RealmObject {
     private String user_role_id;
     private String fllowed_count;
     private String been_fllowed_count;
-    @PrimaryKey
-    private int id;
+    private String id;
     private String title;
     private String content;
     private String keyword;
@@ -80,13 +90,22 @@ public class NewsData extends RealmObject {
     private String newclassname;
     private String infoid;
     private String fromid;
+    private String loclat;
+    private String loclng;
+    private String NewsProvince;
+    private String NewsCity;
+    private String NewsZone;
     private String forwardCount;
     private String commentCount;
-    /**
-     * ForwardComment : 哦哦哦哦哦哦哦哦哦哦
-     */
-
-    private String ForwardComment;
+    private String HuodongId;
+    private String HuodongTitle;
+    private String HuodongContent;
+    private String HuodongCreateUser;
+    private String HuodongType;
+    private String HuodongClass;
+    private String HuodongFlag;
+    private String HuodongImg;
+    private String HuodongCreateTime;
 
     public String getUser_id() {
         return user_id;
@@ -184,11 +203,11 @@ public class NewsData extends RealmObject {
         this.been_fllowed_count = been_fllowed_count;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -328,6 +347,46 @@ public class NewsData extends RealmObject {
         this.fromid = fromid;
     }
 
+    public String getLoclat() {
+        return loclat;
+    }
+
+    public void setLoclat(String loclat) {
+        this.loclat = loclat;
+    }
+
+    public String getLoclng() {
+        return loclng;
+    }
+
+    public void setLoclng(String loclng) {
+        this.loclng = loclng;
+    }
+
+    public String getNewsProvince() {
+        return NewsProvince;
+    }
+
+    public void setNewsProvince(String NewsProvince) {
+        this.NewsProvince = NewsProvince;
+    }
+
+    public String getNewsCity() {
+        return NewsCity;
+    }
+
+    public void setNewsCity(String NewsCity) {
+        this.NewsCity = NewsCity;
+    }
+
+    public String getNewsZone() {
+        return NewsZone;
+    }
+
+    public void setNewsZone(String NewsZone) {
+        this.NewsZone = NewsZone;
+    }
+
     public String getForwardCount() {
         return forwardCount;
     }
@@ -344,11 +403,75 @@ public class NewsData extends RealmObject {
         this.commentCount = commentCount;
     }
 
-    public String getForwardComment() {
-        return ForwardComment;
+    public String getHuodongId() {
+        return HuodongId;
     }
 
-    public void setForwardComment(String ForwardComment) {
-        this.ForwardComment = ForwardComment;
+    public void setHuodongId(String HuodongId) {
+        this.HuodongId = HuodongId;
+    }
+
+    public String getHuodongTitle() {
+        return HuodongTitle;
+    }
+
+    public void setHuodongTitle(String HuodongTitle) {
+        this.HuodongTitle = HuodongTitle;
+    }
+
+    public String getHuodongContent() {
+        return HuodongContent;
+    }
+
+    public void setHuodongContent(String HuodongContent) {
+        this.HuodongContent = HuodongContent;
+    }
+
+    public String getHuodongCreateUser() {
+        return HuodongCreateUser;
+    }
+
+    public void setHuodongCreateUser(String HuodongCreateUser) {
+        this.HuodongCreateUser = HuodongCreateUser;
+    }
+
+    public String getHuodongType() {
+        return HuodongType;
+    }
+
+    public void setHuodongType(String HuodongType) {
+        this.HuodongType = HuodongType;
+    }
+
+    public String getHuodongClass() {
+        return HuodongClass;
+    }
+
+    public void setHuodongClass(String HuodongClass) {
+        this.HuodongClass = HuodongClass;
+    }
+
+    public String getHuodongFlag() {
+        return HuodongFlag;
+    }
+
+    public void setHuodongFlag(String HuodongFlag) {
+        this.HuodongFlag = HuodongFlag;
+    }
+
+    public String getHuodongImg() {
+        return HuodongImg;
+    }
+
+    public void setHuodongImg(String HuodongImg) {
+        this.HuodongImg = HuodongImg;
+    }
+
+    public String getHuodongCreateTime() {
+        return HuodongCreateTime;
+    }
+
+    public void setHuodongCreateTime(String HuodongCreateTime) {
+        this.HuodongCreateTime = HuodongCreateTime;
     }
 }

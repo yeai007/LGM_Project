@@ -1,21 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/top"
         layout="@layout/top" />
 
+    <com.hopeofseed.hopeofseed.ui.MyHoveringScrollView
+        android:id="@+id/view_hover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top">
 
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/top"
             android:orientation="vertical">
-
 
             <RelativeLayout
                 android:id="@+id/rel_this_new"
@@ -92,7 +93,6 @@
                         android:id="@+id/tv_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="5dp"
                         android:layout_marginTop="10dp"
@@ -138,132 +138,140 @@
                 </RelativeLayout>
             </RelativeLayout>
 
-
-            <LinearLayout
-                android:id="@+id/rel_content_by_this_new"
+            <FrameLayout
+                android:id="@+id/top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rel_this_new"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
+                android:layout_height="50dp">
 
-                <RadioGroup
-                    android:id="@+id/rg_menu"
+                <LinearLayout
+                    android:id="@+id/rel_content_by_this_new"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#ffffff"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/rel_this_new"
                     android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/rb_forwar"
-                        style="@style/main_tab"
-                        android:gravity="center"
-                        android:text="评论列表" />
+                    <RadioGroup
+                        android:id="@+id/rg_menu"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#ffffff"
+                        android:orientation="horizontal">
 
-                    <RadioButton
-                        android:id="@+id/rb_comment"
-                        style="@style/main_tab"
-                        android:gravity="center"
-                        android:text="转发列表" />
-                </RadioGroup>
-            </LinearLayout>
+                        <RadioButton
+                            android:id="@+id/rb_forwar"
+                            style="@style/main_tab"
+                            android:gravity="center"
+                            android:text="评论列表" />
 
-            <android.support.v4.view.ViewPager
-                android:id="@+id/vp_list"
+                        <RadioButton
+                            android:id="@+id/rb_comment"
+                            style="@style/main_tab"
+                            android:gravity="center"
+                            android:text="转发列表" />
+                    </RadioGroup>
+                </LinearLayout>
+            </FrameLayout>
+
+
+
+            <com.hopeofseed.hopeofseed.ui.ScrollViewListView
+                android:id="@+id/lv_list"
                 android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/rel_search" />
+
+        </LinearLayout>
+    </com.hopeofseed.hopeofseed.ui.MyHoveringScrollView>
+    <LinearLayout
+        android:id="@+id/lin_func"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/rel_forward"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/rel_shape_item"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/img_forward"
+                android:layout_width="12dp"
+                android:layout_height="10dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/forward_img" />
+
+            <TextView
+                android:id="@+id/tv_forward"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/rel_content_by_this_new" />
-
-            <LinearLayout
-                android:id="@+id/lin_func"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:orientation="horizontal">
-
-                <RelativeLayout
-                    android:id="@+id/rel_forward"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rel_shape_item"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:id="@+id/img_forward"
-                        android:layout_width="12dp"
-                        android:layout_height="10dp"
-                        android:layout_centerVertical="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/forward_img" />
-
-                    <TextView
-                        android:id="@+id/tv_forward"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/img_forward"
-                        android:gravity="center"
-                        android:text="@string/str_forward"
-                        android:textColor="#898989" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rel_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rel_shape_item"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:id="@+id/img_comment"
-                        android:layout_width="13dp"
-                        android:layout_height="12dp"
-                        android:layout_centerVertical="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/comment_img" />
-
-                    <TextView
-                        android:id="@+id/tv_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_toRightOf="@+id/img_comment"
-                        android:gravity="center"
-                        android:text="@string/str_comment"
-                        android:textColor="#898989" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rel_zambia"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/rel_shape_item"
-                    android:gravity="center">
-
-                    <ImageView
-                        android:id="@+id/img_zambia"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_centerVertical="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/zambia_img" />
-
-                    <TextView
-                        android:id="@+id/tv_zambia"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"
-                        android:layout_toEndOf="@+id/img_zambia"
-                        android:layout_toRightOf="@+id/img_zambia"
-                        android:gravity="center"
-                        android:textColor="#898989" />
-                </RelativeLayout>
-            </LinearLayout>
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/img_forward"
+                android:gravity="center"
+                android:text="@string/str_forward"
+                android:textColor="#898989" />
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_comment"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/rel_shape_item"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/img_comment"
+                android:layout_width="13dp"
+                android:layout_height="12dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/comment_img" />
+
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/img_comment"
+                android:gravity="center"
+                android:text="@string/str_comment"
+                android:textColor="#898989" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_zambia"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/rel_shape_item"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/img_zambia"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/zambia_img" />
+
+            <TextView
+                android:id="@+id/tv_zambia"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/img_zambia"
+                android:layout_toRightOf="@+id/img_zambia"
+                android:gravity="center"
+                android:textColor="#898989" />
+        </RelativeLayout>
+    </LinearLayout>
 </RelativeLayout>
+

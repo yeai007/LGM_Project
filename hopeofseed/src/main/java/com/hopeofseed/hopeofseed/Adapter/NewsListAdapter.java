@@ -21,6 +21,7 @@ import com.hopeofseed.hopeofseed.Activitys.CommentNew;
 import com.hopeofseed.hopeofseed.Activitys.CommodityActivity;
 import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
 import com.hopeofseed.hopeofseed.Activitys.NewsInfoActivity;
+import com.hopeofseed.hopeofseed.Activitys.NewsInfoNewActivity;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.DataForHttp.UpdateZambia;
 import com.hopeofseed.hopeofseed.JNXData.NewsData;
@@ -172,6 +173,7 @@ public class NewsListAdapter extends BaseAdapter {
                     holder0.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
 
                     Log.e(TAG, "getView: imagessizi" + images.size());
+                    Log.e(TAG, "getView: " + itemData.getAssimgurl() + "---" + images.size());
                     if (images.size() == 0) {
                         holder0.resultRecyclerView.setVisibility(View.GONE);
                     } else if (images.size() == 1) {
@@ -211,6 +213,7 @@ public class NewsListAdapter extends BaseAdapter {
                     holder1.rel_forward.setOnClickListener(pullToListViewItemOnClickListener);
                     holder1.rel_zambia.setOnClickListener(pullToListViewItemOnClickListener);
                     holder1.user_name.setOnClickListener(pullToListViewItemOnClickListener);
+                    holder1.tv_title.setOnClickListener(pullToListViewItemOnClickListener);
                     view.setTag(R.id.tag_forward, holder1);
                     break;
                 case 2:
@@ -437,18 +440,28 @@ public class NewsListAdapter extends BaseAdapter {
                 } else {
                     holder1.user_name.setText(itemData.getNickname());
                 }
-                holder1.tv_title.setText(itemData.getTitle());
+                holder1.tv_title.setText(itemData.getForwardComment());
                 holder1.user_name.setTag(R.id.key_userid, itemData.getUser_id());
                 holder1.user_name.setTag(R.id.key_username, itemData.getUser_name());
                 holder1.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
                 holder1.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder1.rel_comment.setTag(R.id.key_comment, itemData.getId());
-                holder1.tv_title.setTag(R.id.key_title, itemData.getId());
+
                 holder1.rel_share_new.setTag(R.id.key_forward_content, itemData.getFromid());
                 holder1.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
                 holder1.rel_zambia.setTag(R.id.key_listid, i);
                 holder1.tv_share_new_title.setText(itemData.getTitle());
-                holder1.tv_share_new_content.setText(itemData.getContent());
+
+                if (itemData.getTitle().equals(itemData.getContent())) {
+                    holder1.tv_share_new_content.setVisibility(View.GONE);
+                } else {
+                    holder1.tv_share_new_content.setText(itemData.getContent());
+
+                }
+
+                holder1.tv_title.setTag(R.id.key_title, itemData.getId());
+                holder1.tv_title.setTag(R.id.key_title_new_class, itemData.getNewclass());
+
                 holder1.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder1.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
                 if (Integer.parseInt(itemData.getZambia_count()) > 0) {
@@ -810,7 +823,7 @@ public class NewsListAdapter extends BaseAdapter {
                 case R.id.rel_comment://评论
                     int comment_count = Integer.parseInt(String.valueOf(view.getTag(R.id.key_comment_count)));
                     if (comment_count > 0) {
-                        intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
+                        intent = new Intent(mContext.getApplicationContext(), NewsInfoNewActivity.class);
                         intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_comment)));
                         mContext.startActivity(intent);
                     } else {
@@ -832,11 +845,17 @@ public class NewsListAdapter extends BaseAdapter {
                     break;
 
                 case R.id.tv_title:
-                    Log.e(TAG, "onClick: " + String.valueOf(view.getTag(R.id.key_content)));
-                    intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
-                    intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_title)));
-                    intent.putExtra("NewClass", Integer.valueOf(String.valueOf(view.getTag(R.id.key_title_new_class))));
-                    mContext.startActivity(intent);
+                    if (Integer.valueOf(String.valueOf(view.getTag(R.id.key_title_new_class))) == 8) {
+                        intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
+                        intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_title)));
+                        mContext.startActivity(intent);
+                    } else {
+                        intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
+                        intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_title)));
+                        intent.putExtra("NewClass", Integer.valueOf(String.valueOf(view.getTag(R.id.key_title_new_class))));
+                        mContext.startActivity(intent);
+                    }
+
                     break;
                 case R.id.tv_content:
                     if (Integer.valueOf(String.valueOf(view.getTag(R.id.key_content_new_class))) == 6) {
