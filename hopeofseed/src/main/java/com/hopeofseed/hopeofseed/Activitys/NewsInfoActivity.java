@@ -448,35 +448,35 @@ public class NewsInfoActivity extends AppCompatActivity implements NetCallBack, 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
         if (rspBaseBean.RequestSign.equals("getNewOhterInfoByID")) {
-            switch (Integer.parseInt(rspBaseBean.resultNote)) {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    NewsExperienceDataTmp newsOhterInfoDataTmp = ObjectUtil.cast(rspBaseBean);
-                    newsExperienceData = newsOhterInfoDataTmp.getDetail().get(0);
+                switch (Integer.parseInt(rspBaseBean.resultNote)) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        NewsExperienceDataTmp newsOhterInfoDataTmp = ObjectUtil.cast(rspBaseBean);
+                        newsExperienceData = newsOhterInfoDataTmp.getDetail().get(0);
 
-                    break;
-                case 4:
-                    NewsYieldDataTmp newsYieldDataTmp = ObjectUtil.cast(rspBaseBean);
-                    nNewsYieldData = newsYieldDataTmp.getDetail().get(0);
-                    break;
-                case 5:
-                    NewsProblemDataTmp newsProblemDataTmp = ObjectUtil.cast(rspBaseBean);
-                    mNewsProblemData = newsProblemDataTmp.getDetail().get(0);
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    NewsHuodongDataTmp newsHuodongDataTmp = ObjectUtil.cast(rspBaseBean);
-                    mNewsHuodongData = newsHuodongDataTmp.getDetail().get(0);
-                    break;
-                case 8:
-                    break;
-            }
+                        break;
+                    case 4:
+                        NewsYieldDataTmp newsYieldDataTmp = ObjectUtil.cast(rspBaseBean);
+                        nNewsYieldData = newsYieldDataTmp.getDetail().get(0);
+                        break;
+                    case 5:
+                        NewsProblemDataTmp newsProblemDataTmp = ObjectUtil.cast(rspBaseBean);
+                        mNewsProblemData = newsProblemDataTmp.getDetail().get(0);
+                        break;
+                    case 6:
+                        break;
+                    case 7:
+                        NewsHuodongDataTmp newsHuodongDataTmp = ObjectUtil.cast(rspBaseBean);
+                        mNewsHuodongData = newsHuodongDataTmp.getDetail().get(0);
+                        break;
+                    case 8:
+                        break;
+                }
             mHandle.post(updateTheNewData);
         } else if (rspBaseBean.RequestSign.equals("commentNew")) {
             CommResultTmp mCommResultTmp = ObjectUtil.cast(rspBaseBean);

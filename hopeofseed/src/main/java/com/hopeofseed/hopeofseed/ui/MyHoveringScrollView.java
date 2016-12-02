@@ -5,10 +5,13 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
+
+import com.lgm.utils.ScreenUtils;
 
 /**
  * * * * * * * * * * * * * * * * * * * * * * *
@@ -17,7 +20,7 @@ import android.widget.ScrollView;
  * * * * * * * * * * * * * * * * * * * * * * *
  **/
 public class MyHoveringScrollView extends FrameLayout {
-
+    private static final String TAG = "MyHoveringScrollView";
     /**
      * 固定在顶部的View
      */
@@ -66,7 +69,6 @@ public class MyHoveringScrollView extends FrameLayout {
             public void run() {
                 mContentView = (ViewGroup) getChildAt(0);
                 removeAllViews();
-
                 MyScrollView scrollView = new MyScrollView(getContext(), MyHoveringScrollView.this);
                 scrollView.addView(mContentView);
                 addView(scrollView);
@@ -80,12 +82,14 @@ public class MyHoveringScrollView extends FrameLayout {
         post(new Runnable() {
             @Override
             public void run() {
+                Log.e(TAG, "run: dip2px"+ ScreenUtils.dip2px(getContext(), 50f));
                 mTopView = (ViewGroup) mContentView.findViewById(id);
                 int height = mTopView.getChildAt(0).getMeasuredHeight();
+                Log.e(TAG, "run: topViewHight" + height);
                 ViewGroup.LayoutParams params = mTopView.getLayoutParams();
                 params.height = height;
                 mTopView.setLayoutParams(params);
-                mTopViewTop = mTopView.getTop();
+                mTopViewTop = mTopView.getTop() + ScreenUtils.dip2px(getContext(), 50f);
                 mTopContent = mTopView.getChildAt(0);
 
             }
@@ -98,12 +102,11 @@ public class MyHoveringScrollView extends FrameLayout {
             public void run() {
                 if (mTopView == null
                         ) return;
-
-                if (scrollY >= mTopViewTop
+                if ((scrollY+ ScreenUtils.dip2px(getContext(), 50f)) >= mTopViewTop
                         && mTopContent.getParent() == mTopView) {
                     mTopView.removeView(mTopContent);
                     addView(mTopContent);
-                } else if (scrollY < mTopViewTop
+                } else if ((scrollY+ ScreenUtils.dip2px(getContext(), 50f)) < mTopViewTop
                         && mTopContent.getParent() == MyHoveringScrollView.this) {
                     removeView(mTopContent);
                     mTopView.addView(mTopContent);

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
 import com.hopeofseed.hopeofseed.Activitys.NewsInfoActivity;
+import com.hopeofseed.hopeofseed.Activitys.NewsInfoNewActivity;
 import com.hopeofseed.hopeofseed.Activitys.SearchInfoActivity;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.JNXData.ExpertEnterperiseData;
@@ -80,7 +81,8 @@ public class SelectExpertDataAdapter extends BaseAdapter {
             viewHolder.rel_content.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext.getApplicationContext(), SearchInfoActivity.class);
+                    Intent intent = new Intent(mContext.getApplicationContext(), NewsInfoNewActivity.class);
+                    intent.putExtra("isInfo",true);
                     intent.putExtra("NewClass", 3);
                     intent.putExtra("InfoId", ObjectUtil.RemoveOpenZero( mData.getExperienceId()));
                     mContext.startActivity(intent);

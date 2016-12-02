@@ -30,4 +30,5 @@
     <item name="tag_problem" type="id" />
     <item name="key_title_new_class" type="id" />
     <item name="key_content_new_class" type="id" />
+    <item name="key_comment_new_class" type="id" />
 </resources>

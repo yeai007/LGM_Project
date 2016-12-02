@@ -3,14 +3,16 @@
     android:layout_height="match_parent">
 
     <include
-        android:id="@+id/top"
-        layout="@layout/top" />
+        android:id="@+id/top_top"
+        layout="@layout/top"
+        />
 
     <com.hopeofseed.hopeofseed.ui.MyHoveringScrollView
         android:id="@+id/view_hover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/top">
+        android:layout_marginBottom="40dp"
+        android:layout_below="@+id/top_top">
 
 
         <LinearLayout
@@ -136,6 +138,47 @@
 
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rel_share_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_below="@+id/rel_content"
+                    android:background="#efefef"
+                    android:visibility="gone"
+                    >
+
+                    <ImageView
+                        android:id="@+id/img_share_new"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_alignParentLeft="true"
+                        android:background="#efefef" />
+
+                    <TextView
+                        android:id="@+id/tv_share_new_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_share_new_title"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/img_share_new"
+                        android:background="#efefef" />
+
+                    <TextView
+                        android:id="@+id/tv_share_new_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_toEndOf="@+id/img_share_new"
+                        android:layout_toRightOf="@+id/img_share_new"
+                        android:background="#efefef" />
+
+                </RelativeLayout>
             </RelativeLayout>
 
             <FrameLayout
@@ -158,20 +201,24 @@
                         android:orientation="horizontal">
 
                         <RadioButton
-                            android:id="@+id/rb_forwar"
+                            android:id="@+id/rb_forward"
                             style="@style/main_tab"
-                            android:gravity="center"
-                            android:text="评论列表" />
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/button_select"
+                            android:gravity="bottom"
+                            android:checked="true"
+                            android:text="评论" />
 
                         <RadioButton
                             android:id="@+id/rb_comment"
                             style="@style/main_tab"
-                            android:gravity="center"
-                            android:text="转发列表" />
+                            android:background="@drawable/button_select"
+                            android:gravity="bottom"
+                            android:visibility="gone"
+                            android:text="转发" />
                     </RadioGroup>
                 </LinearLayout>
             </FrameLayout>
-
 
 
             <com.hopeofseed.hopeofseed.ui.ScrollViewListView
@@ -181,11 +228,13 @@
                 android:layout_below="@+id/rel_search" />
 
         </LinearLayout>
+
     </com.hopeofseed.hopeofseed.ui.MyHoveringScrollView>
+
     <LinearLayout
         android:id="@+id/lin_func"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -194,7 +243,7 @@
         <RelativeLayout
             android:id="@+id/rel_forward"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/rel_shape_item"
             android:gravity="center">
@@ -221,7 +270,7 @@
         <RelativeLayout
             android:id="@+id/rel_comment"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/rel_shape_item"
             android:gravity="center">
@@ -249,7 +298,7 @@
         <RelativeLayout
             android:id="@+id/rel_zambia"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/rel_shape_item"
             android:gravity="center">

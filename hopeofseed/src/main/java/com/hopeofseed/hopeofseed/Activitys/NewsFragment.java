@@ -1,11 +1,14 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -20,11 +23,11 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.NewsListAdapter;
+import com.hopeofseed.hopeofseed.Adapter.RecyclerViewAdapter;
 import com.hopeofseed.hopeofseed.Adapter.Sp_TitleAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
@@ -66,12 +69,13 @@ public class NewsFragment extends Fragment implements NetCallBack {
     RelativeLayout rel_search;
     Handler mHandler = new Handler();
     private int PageNo = 0;
+    RecyclerView recy_news;
+    private RecyclerViewAdapter mRecyclerViewAdapter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_news, null);
-        Log.e(TAG, "NewsFragment: " + Thread.currentThread().getId());
         initView(v);
         initSpTitle(v);
         initNews(v);
@@ -92,6 +96,17 @@ public class NewsFragment extends Fragment implements NetCallBack {
         rel_search = (RelativeLayout) v.findViewById(R.id.rel_search);
         rel_search.setOnClickListener(listener);
         lv_news.setOnItemClickListener(pullItemListener);
+
+
+        recy_news = (RecyclerView) v.findViewById(R.id.recy_news);
+        recy_news.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerViewAdapter= new RecyclerViewAdapter(getActivity(), arr_NewsData) {
+            @Override
+            protected void initData(RecyclerViewAdapter.ViewHolder holder, int position) {
+
+            }
+        };
+        recy_news.setAdapter(mRecyclerViewAdapter);
     }
 
     AdapterView.OnItemClickListener pullItemListener = new AdapterView.OnItemClickListener() {
@@ -318,7 +333,7 @@ public class NewsFragment extends Fragment implements NetCallBack {
         }*/
     }
 
- /*   public void refreshData() {
+    public void refreshData() {
         getNewsData();
-    }*/
+    }
 }

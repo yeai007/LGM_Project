@@ -397,7 +397,7 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
             catalogs.add("农技");
             catalogs.add("发问");
             catalogs.add("产量表现");
-            catalogs.add("实时");
+            //catalogs.add("实时");
 
         }
 

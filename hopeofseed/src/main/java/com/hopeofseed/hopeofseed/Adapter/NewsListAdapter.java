@@ -414,6 +414,7 @@ public class NewsListAdapter extends BaseAdapter {
                 holder0.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder0.rel_comment.setTag(R.id.key_comment, itemData.getId());
                 holder0.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
+                holder0.rel_comment.setTag(R.id.key_comment_new_class, itemData.getNewclass());
                 holder0.rel_zambia.setTag(R.id.key_listid, i);
                 holder0.tv_content.setTag(R.id.key_content, itemData.getId());
                 holder0.tv_content.setTag(R.id.key_content_new_class, itemData.getNewclass());
@@ -446,7 +447,7 @@ public class NewsListAdapter extends BaseAdapter {
                 holder1.rel_zambia.setTag(R.id.key_zambiaid, itemData.getId());
                 holder1.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder1.rel_comment.setTag(R.id.key_comment, itemData.getId());
-
+                holder1.rel_comment.setTag(R.id.key_comment_new_class, itemData.getNewclass());
                 holder1.rel_share_new.setTag(R.id.key_forward_content, itemData.getFromid());
                 holder1.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
                 holder1.rel_zambia.setTag(R.id.key_listid, i);
@@ -490,6 +491,7 @@ public class NewsListAdapter extends BaseAdapter {
                 holder2.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder2.rel_comment.setTag(R.id.key_comment, itemData.getId());
                 holder2.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
+                holder2.rel_comment.setTag(R.id.key_comment_new_class, itemData.getNewclass());
                 holder2.rel_zambia.setTag(R.id.key_listid, i);
                 holder2.tv_content.setTag(R.id.key_content, itemData.getId());
                 holder2.tv_title.setTag(R.id.key_title, itemData.getId());
@@ -523,6 +525,7 @@ public class NewsListAdapter extends BaseAdapter {
                 holder3.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder3.rel_comment.setTag(R.id.key_comment, itemData.getId());
                 holder3.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
+                holder3.rel_comment.setTag(R.id.key_comment_new_class, itemData.getNewclass());
                 holder3.rel_zambia.setTag(R.id.key_listid, i);
                 holder3.tv_content.setTag(R.id.key_content, itemData.getId());
                 holder3.tv_content.setTag(R.id.key_content_new_class, itemData.getNewclass());
@@ -554,6 +557,7 @@ public class NewsListAdapter extends BaseAdapter {
                 holder4.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder4.rel_comment.setTag(R.id.key_comment, itemData.getId());
                 holder4.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
+                holder4.rel_comment.setTag(R.id.key_comment_new_class, itemData.getNewclass());
                 holder4.rel_zambia.setTag(R.id.key_listid, i);
                 holder4.tv_content.setTag(R.id.key_content, itemData.getInfoid());
                 holder4.tv_content.setTag(R.id.key_content_new_class, itemData.getNewclass());
@@ -585,6 +589,7 @@ public class NewsListAdapter extends BaseAdapter {
                 holder5.rel_forward.setTag(R.id.key_forward, itemData.getId());
                 holder5.rel_comment.setTag(R.id.key_comment, itemData.getId());
                 holder5.rel_comment.setTag(R.id.key_comment_count, itemData.getCommentCount());
+                holder5.rel_comment.setTag(R.id.key_comment_new_class, itemData.getNewclass());
                 holder5.rel_zambia.setTag(R.id.key_listid, i);
                 holder5.tv_content.setTag(R.id.key_content, itemData.getId());
                 holder5.tv_title.setTag(R.id.key_content, itemData.getId());
@@ -825,6 +830,7 @@ public class NewsListAdapter extends BaseAdapter {
                     if (comment_count > 0) {
                         intent = new Intent(mContext.getApplicationContext(), NewsInfoNewActivity.class);
                         intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_comment)));
+                        intent.putExtra("NewClass", Integer.valueOf(String.valueOf(view.getTag(R.id.key_comment_new_class))));
                         mContext.startActivity(intent);
                     } else {
                         intent = new Intent(mContext.getApplicationContext(), CommentNew.class);
@@ -845,16 +851,20 @@ public class NewsListAdapter extends BaseAdapter {
                     break;
 
                 case R.id.tv_title:
-                    if (Integer.valueOf(String.valueOf(view.getTag(R.id.key_title_new_class))) == 8) {
+                 /*   if (Integer.valueOf(String.valueOf(view.getTag(R.id.key_title_new_class))) == 8) {
                         intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
                         intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_title)));
                         mContext.startActivity(intent);
-                    } else {
-                        intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
+                    } else {*/
+                    intent = new Intent(mContext.getApplicationContext(), NewsInfoNewActivity.class);
+                    intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_title)));
+                    intent.putExtra("NewClass", Integer.valueOf(String.valueOf(view.getTag(R.id.key_title_new_class))));
+                    mContext.startActivity(intent);
+                     /*   intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
                         intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_title)));
                         intent.putExtra("NewClass", Integer.valueOf(String.valueOf(view.getTag(R.id.key_title_new_class))));
-                        mContext.startActivity(intent);
-                    }
+                        mContext.startActivity(intent);*/
+                  /*  }*/
 
                     break;
                 case R.id.tv_content:
@@ -870,16 +880,24 @@ public class NewsListAdapter extends BaseAdapter {
                         mContext.startActivity(intent);
                     } else {
                         Log.e(TAG, "onClick: " + String.valueOf(view.getTag(R.id.key_content_new_class)));
-                        intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
+/*                        intent = new Intent(mContext.getApplicationContext(), NewsInfoActivity.class);
+                        intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_content)));
+                        intent.putExtra("NewClass", Integer.valueOf(String.valueOf(view.getTag(R.id.key_content_new_class))));
+                        mContext.startActivity(intent);*/
+
+
+                        intent = new Intent(mContext.getApplicationContext(), NewsInfoNewActivity.class);
                         intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_content)));
                         intent.putExtra("NewClass", Integer.valueOf(String.valueOf(view.getTag(R.id.key_content_new_class))));
                         mContext.startActivity(intent);
+
                     }
                     break;
                 case R.id.rel_share_new:
                     intent = new Intent(mContext.getApplicationContext(), HaveCommentNew.class);
                     intent.putExtra("NEWID", String.valueOf(view.getTag(R.id.key_forward_content)));
                     mContext.startActivity(intent);
+
                     break;
             }
         }
@@ -1445,10 +1463,7 @@ public class NewsListAdapter extends BaseAdapter {
                 //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
                 switch (user_role) {
                     case 0:
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_user_default)
-                                .centerCrop()
-                                .into(holder.img_corner);
+                        Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(holder.img_corner);
                         if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
                                     .load(R.drawable.header_user_default)
@@ -1461,6 +1476,7 @@ public class NewsListAdapter extends BaseAdapter {
                                     .centerCrop()
                                     .into(holder.img_user);
                         }
+
                         break;
                     case 1:
                         Glide.with(mContext)

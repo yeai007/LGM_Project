@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
-import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
+import com.hopeofseed.hopeofseed.Activitys.NewsInfoNewActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.CommentDataNew;
 import com.hopeofseed.hopeofseed.R;
@@ -21,7 +21,7 @@ import java.util.List;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+
 
 /**
  * 项目名称：LGM_Project
@@ -33,6 +33,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  * 修改备注：
  */
 public class CommendListAdapterNew extends BaseAdapter {
+    private static final String TAG = "CommendListAdapterNew";
     Context mContext;
     List<CommentDataNew> mlist;
     public CommendListAdapterNew(Context context, ArrayList<CommentDataNew> list) {
@@ -71,16 +72,18 @@ public class CommendListAdapterNew extends BaseAdapter {
             viewHolder.btn_huifu = (Button) view.findViewById(R.id.btn_huifu);
             viewHolder.btn_huifu.setTag(R.id.record_id, mData.getCommentRecrodId());
             viewHolder.btn_huifu.setTag(R.id.record_user, mData.getUser_id());
+
             viewHolder.btn_huifu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((HaveCommentNew) mContext).showInput(mData.getCommentRecrodId(), mData.getUser_id());
+                    ((NewsInfoNewActivity) mContext).showInput(mData.getCommentRecrodId(), mData.getUser_id());
                 }
             });
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
+
         if (mData.getTo_nickname().equals("")) {
             viewHolder.user_name.setText(mData.getNickname() + mData.getTo_nickname() + ":");
             viewHolder.tv_huifu.setVisibility(View.GONE);
@@ -101,6 +104,7 @@ public class CommendListAdapterNew extends BaseAdapter {
         TextView user_name, send_time, tv_content, tv_huifu, tv_to_user_name;
         ImageView img_user, img_corner;
         Button btn_huifu;
+
     }
     private void updateTime(String time, ViewHolder holder0) {
         Long[] longDiff = null;
@@ -112,11 +116,11 @@ public class CommendListAdapterNew extends BaseAdapter {
             e.printStackTrace();
         }
         String diffDay = String.valueOf(longDiff[1]);
-        Log.e(TAG, "getView: diffDay:" + diffDay);
+
         String diffHour = String.valueOf(longDiff[2]);
-        Log.e(TAG, "getView: diffHour:" + diffHour);
+
         String diffMinutes = String.valueOf(longDiff[3]);
-        Log.e(TAG, "getView: diffHour:" + diffMinutes);
+
         if (Integer.parseInt(diffDay) == 0 && Integer.parseInt(diffHour) == 0) {
             if (Integer.parseInt(diffMinutes) < 5) {
                 holder0.send_time.setText("刚刚");

@@ -102,11 +102,13 @@ public class SearchInfoActivity extends AppCompatActivity implements NetCallBack
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_info_activity);
         Intent intent = getIntent();
+
         InfoId = intent.getStringExtra("InfoId");
         NewClass = intent.getIntExtra("NewClass", 0);
         Log.e(TAG, "onCreate: NewClass" + NewClass);
         initView();
         initViewPager();
+
         initData();
     }
 

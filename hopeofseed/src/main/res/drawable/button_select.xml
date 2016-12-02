@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+
+        <layer-list>
+            <!-- 连框颜色值 -->
+            <item>
+                <shape>
+                    <solid android:color="@color/text_content_color" />
+                </shape>
+            </item>
+            <!-- 主体背景颜色值 -->
+            <item android:bottom="3dp"> <!--设置只有底部有边框-->
+                <shape>
+                    <solid android:color="#ffffff" />
+                    <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
+                </shape>
+
+            </item>
+        </layer-list>
+    </item>
+</selector>

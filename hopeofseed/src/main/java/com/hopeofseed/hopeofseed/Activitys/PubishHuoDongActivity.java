@@ -212,7 +212,7 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
         opt_map.put("City", Const.City);
         opt_map.put("Zone", Const.Zone);
         HttpUtils hu = new HttpUtils();
-      //  hu.httpPost(Const.BASE_URL + "AddNewHuodongData.php", opt_map, CommHttpResultTmp.class, this);
+        //  hu.httpPost(Const.BASE_URL + "AddNewHuodongData.php", opt_map, CommHttpResultTmp.class, this);
         hu.httpPostFiles(Const.BASE_URL + "AddNewHuodongDataImg.php", opt_map, fileList, pushFileResultTmp.class, this);
     }
 
@@ -233,9 +233,10 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
     public void onFail() {
 
     }
+
     /**
      * uploadimg
-     * */
+     */
     Runnable resultPushFile = new Runnable() {
         @Override
         public void run() {
@@ -248,6 +249,7 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
             }
         }
     };
+
     private void initUpload() {
         uploadImageResult = (TextView) findViewById(R.id.uploadImageResult);
         progressBar = (ProgressBar) findViewById(R.id.progressBar1);
@@ -265,6 +267,7 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
         gridAdapter = new GridAdapter();
         resultRecyclerView.setAdapter(gridAdapter);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TO_SELECT_PHOTO && resultCode == RESULT_OK && null != data) {
@@ -279,6 +282,7 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
             Log.e(TAG, "onActivityResult: " + images);
         }
     }
+
     private class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         @Override
         public GridAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
