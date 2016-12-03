@@ -44,7 +44,7 @@ public class HomePageActivity extends FragmentActivity {
     UserInfoFragment mUserInfoFragment;
     DiscoverFragment mDiscoverFragment;
     public Button btn_topright, btn_topleft;
-    int page=2;
+    int page=0;
     TextView apptitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class HomePageActivity extends FragmentActivity {
     }
     private void initView() {
         Intent intent=getIntent();
-         page=intent.getIntExtra("page",2);
+         page=intent.getIntExtra("page",0);
         fragmentList = new ArrayList<>();
         mMessageFragment = new MessageFragment();
         mNewsFragment = new NewsFragment();

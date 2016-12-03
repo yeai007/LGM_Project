@@ -1,12 +1,13 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -30,13 +31,17 @@ import com.hopeofseed.hopeofseed.Adapter.NewsListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.RecyclerViewAdapter;
 import com.hopeofseed.hopeofseed.Adapter.Sp_TitleAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
+import com.hopeofseed.hopeofseed.DataForHttp.UpdateZambia;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.NewsData;
+import com.hopeofseed.hopeofseed.JNXData.UpdateZiabamResult;
 import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.UpdateZiabamResultTmp;
 import com.hopeofseed.hopeofseed.curView.pulishDYNPopupWindow;
 import com.hopeofseed.hopeofseed.R;
+import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +58,7 @@ import static android.app.Activity.RESULT_OK;
  * 修改时间：2016/7/27 14:40
  * 修改备注：
  */
-public class NewsFragment extends Fragment implements NetCallBack {
+public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshLayout.OnRefreshListener {
     String TAG = "NewsFragment";
     pulishDYNPopupWindow menuWindow;
     Spinner sp_title;
@@ -71,6 +76,10 @@ public class NewsFragment extends Fragment implements NetCallBack {
     private int PageNo = 0;
     RecyclerView recy_news;
     private RecyclerViewAdapter mRecyclerViewAdapter;
+    boolean isLoading = false;
+    private SwipeRefreshLayout mRefreshLayout;
+    UpdateZiabamResult mUpdateZiabamResult = new UpdateZiabamResult();
+    String updatePosition;
 
     @Nullable
     @Override
@@ -97,16 +106,118 @@ public class NewsFragment extends Fragment implements NetCallBack {
         rel_search.setOnClickListener(listener);
         lv_news.setOnItemClickListener(pullItemListener);
 
-
+        mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.layout_swipe_refresh);
+        //这个是下拉刷新出现的那个圈圈要显示的颜色
+        mRefreshLayout.setColorSchemeResources(
+                R.color.colorRed,
+                R.color.colorYellow,
+                R.color.colorGreen
+        );
+        mRefreshLayout.setOnRefreshListener(this);
         recy_news = (RecyclerView) v.findViewById(R.id.recy_news);
-        recy_news.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerViewAdapter= new RecyclerViewAdapter(getActivity(), arr_NewsData) {
-            @Override
-            protected void initData(RecyclerViewAdapter.ViewHolder holder, int position) {
-
-            }
-        };
+//        recy_news.setLayoutManager(new LinearLayoutManager(getActivity()));
+        final LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recy_news.setLayoutManager(manager);
+        mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), arr_NewsData, true);
         recy_news.setAdapter(mRecyclerViewAdapter);
+        mRecyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, NewsData data) {
+                Log.e(TAG, "onItemClick: " + String.valueOf(data.getId()));
+                Intent intent;
+                switch (view.getId()) {
+                    case R.id.rel_forward://转发
+                        intent = new Intent(getActivity(), ForwardNew.class);
+                        intent.putExtra("NEWID", String.valueOf(data.getId()));
+                        startActivity(intent);
+                        break;
+                    case R.id.rel_comment://评论
+                        int comment_count = Integer.parseInt(data.getCommentCount());
+                        if (comment_count > 0) {
+                            intent = new Intent(getActivity(), NewsInfoNewActivity.class);
+                            intent.putExtra("NEWID", String.valueOf(data.getId()));
+                            intent.putExtra("NewClass", data.getNewclass());
+                            startActivity(intent);
+                        } else {
+                            intent = new Intent(getActivity(), CommentNew.class);
+                            intent.putExtra("NEWID", String.valueOf(data.getId()));
+                            startActivity(intent);
+                        }
+
+                        break;
+                    case R.id.rel_zambia:
+                        updatePosition = String.valueOf(data.getId());
+                        UpdateZambia(String.valueOf(data.getId()));
+                        break;
+                    case R.id.user_name:
+                        intent = new Intent(getActivity(), UserActivity.class);
+                        intent.putExtra("userid", data.getUser_id());
+                        startActivity(intent);
+                        break;
+
+                    case R.id.tv_title:
+                        intent = new Intent(getActivity(), NewsInfoNewActivity.class);
+                        intent.putExtra("NEWID", String.valueOf(data.getId()));
+                        intent.putExtra("NewClass", data.getNewclass());
+                        startActivity(intent);
+                        break;
+                    case R.id.tv_content:
+                        if (Integer.valueOf(data.getNewclass()) == 6) {
+                            intent = new Intent(getActivity(), CommodityActivity.class);
+                            intent.putExtra("CommodityId", data.getInfoid());
+                            startActivity(intent);
+                        } else if (Integer.valueOf(data.getNewclass()) == 0) {
+                            intent = new Intent(getActivity(), HaveCommentNew.class);
+                            intent.putExtra("NEWID", String.valueOf(data.getId()));
+                            startActivity(intent);
+                        } else {
+                            Log.e(TAG, "onClick: " + data.getNewclass());
+                            intent = new Intent(getActivity(), NewsInfoNewActivity.class);
+                            intent.putExtra("NEWID", String.valueOf(data.getId()));
+                            intent.putExtra("NewClass", data.getNewclass());
+                            startActivity(intent);
+
+                        }
+                        break;
+                    case R.id.rel_share_new:
+                        intent = new Intent(getActivity(), HaveCommentNew.class);
+                        intent.putExtra("NEWID", String.valueOf(data.getId()));
+                        startActivity(intent);
+
+                        break;
+                }
+            }
+        });
+
+        //滚动监听，在滚动监听里面去实现加载更多的功能
+        recy_news.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                super.onScrolled(recyclerView, dx, dy);
+
+                int lastVisibleItemPosition = manager.findLastVisibleItemPosition();
+                Log.e(TAG, "onScrolled: " + lastVisibleItemPosition);
+                if (lastVisibleItemPosition + 1 == recy_news.getAdapter().getItemCount()) {
+                    if (!isLoading) {//一个布尔的变量，默认是false
+                        Log.e(TAG, "onScrolled: loadingmaore");
+                        isLoading = true;
+                        PageNo = PageNo + 1;
+                        refreshData();
+                    } else if (arr_NewsDataTmp.size() < 20) {
+                        //当没有更多的数据的时候去掉加载更多的布局
+                        RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
+                        adapter.setIsNeedMore(false);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 
     AdapterView.OnItemClickListener pullItemListener = new AdapterView.OnItemClickListener() {
@@ -177,6 +288,13 @@ public class NewsFragment extends Fragment implements NetCallBack {
         hu.httpPost(Const.BASE_URL + "get_News.php", opt_map, NewsDataTmp.class, this);
     }
 
+    public void UpdateZambia(final String position) {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        opt_map.put("NewId", position);
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "UpdateNewZambia.php", opt_map, UpdateZiabamResultTmp.class, this);
+    }
     /*
     * @desc 获取顶部菜单数据
     * @author lgm
@@ -277,6 +395,9 @@ public class NewsFragment extends Fragment implements NetCallBack {
     AdapterView.OnItemSelectedListener spTitleListtener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
+            adapter.setIsNeedMore(true);
+            PageNo = 0;
             classid = i;
             btn_title.setText(arr_TopClass.get(i));
             getNewsData();
@@ -291,9 +412,16 @@ public class NewsFragment extends Fragment implements NetCallBack {
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-        arr_NewsDataTmp = ((NewsDataTmp) rspBaseBean).getDetail();
-        updateRealmData(rspBaseBean);
-        mHandler.post(updateList);
+        if (rspBaseBean.RequestSign.equals("UpdateNewZambia")) {
+            UpdateZiabamResultTmp mUpdateZiabamResultTmp = ObjectUtil.cast(rspBaseBean);
+
+            mUpdateZiabamResult = mUpdateZiabamResultTmp.getDetail().get(0);
+            mHandler.post(updateZiabam);
+        } else {
+            arr_NewsDataTmp = ((NewsDataTmp) rspBaseBean).getDetail();
+            updateRealmData(rspBaseBean);
+            mHandler.post(updateList);
+        }
     }
 
     @Override
@@ -306,6 +434,31 @@ public class NewsFragment extends Fragment implements NetCallBack {
 
     }
 
+    Runnable updateZiabam = new Runnable() {
+        @Override
+        public void run() {
+            for (int i = 0; i < arr_NewsData.size(); i++) {
+                if (arr_NewsData.get(i).getId() == Integer.parseInt(updatePosition)) {
+                    if (arr_NewsData.get(i).getZambiaCount() == 0) {
+                        if (mUpdateZiabamResult.getFlag().equals("0")) {
+                            arr_NewsData.get(i).setZambiaCount(1);
+                        }
+
+                    } else {
+                        if (mUpdateZiabamResult.getFlag().equals("0")) {
+                            arr_NewsData.get(i).setZambiaCount(arr_NewsData.get(i).getZambiaCount() + 1);
+                        } else {
+                            arr_NewsData.get(i).setZambiaCount(arr_NewsData.get(i).getZambiaCount() - 1);
+                        }
+
+                    }
+                    mRecyclerViewAdapter.setList(arr_NewsData);
+                    mRecyclerViewAdapter.notifyItemChanged(i);
+                }
+            }
+
+        }
+    };
     Runnable updateList = new Runnable() {
         @Override
         public void run() {
@@ -315,7 +468,10 @@ public class NewsFragment extends Fragment implements NetCallBack {
             arr_NewsData.addAll(arr_NewsDataTmp);
             newListAadpter.notifyDataSetChanged();
             lv_news.onRefreshComplete();
+            mRecyclerViewAdapter.notifyDataSetChanged();
+            mRefreshLayout.setRefreshing(false);
         }
+
     };
 
     private void updateRealmData(RspBaseBean rspBaseBean) {
@@ -335,5 +491,14 @@ public class NewsFragment extends Fragment implements NetCallBack {
 
     public void refreshData() {
         getNewsData();
+    }
+
+    @Override
+    public void onRefresh() {
+        Log.e(TAG, "onRefresh: ");
+        PageNo = 0;
+        getNewsData();
+        //数据重新加载完成后，提示数据发生改变，并且设置现在不在刷新
+
     }
 }

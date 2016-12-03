@@ -47,7 +47,7 @@ public class NewsImageAdapter extends RecyclerView.Adapter<NewsImageAdapter.View
     @Override
     public void onBindViewHolder(NewsImageAdapter.ViewHolder holder, final int position) {
 
-        Log.e(TAG, "onBindViewHolder: " + Const.IMG_URL + images.get(position));
+      //  Log.e(TAG, "onBindViewHolder: " + Const.IMG_URL + images.get(position));
 
         Glide.with(mContext)
                 .load(Const.IMG_URL + images.get(position))

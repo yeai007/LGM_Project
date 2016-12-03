@@ -11,7 +11,9 @@
     <color name="text_menu_color">#595757</color>
 <!--我的end-->
 
-
+    <color name="colorGreen">#3cda38</color>
+    <color name="colorRed">#ec0909</color>
+    <color name="colorYellow">#ff8800</color>
 
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>

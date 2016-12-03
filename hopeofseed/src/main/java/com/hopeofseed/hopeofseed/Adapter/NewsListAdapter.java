@@ -420,8 +420,8 @@ public class NewsListAdapter extends BaseAdapter {
                 holder0.tv_content.setTag(R.id.key_content_new_class, itemData.getNewclass());
                 holder0.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder0.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
-                if (Integer.parseInt(itemData.getZambia_count()) > 0) {
-                    holder0.tv_zambia.setText("赞" + itemData.getZambia_count().replaceAll("^(0+)", ""));
+                if (itemData.getZambiaCount() > 0) {
+                    holder0.tv_zambia.setText("赞" + String.valueOf(itemData.getZambiaCount()));
                 }
                 getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder0, Integer.parseInt(itemData.getUser_role()));
                 break;
@@ -465,8 +465,8 @@ public class NewsListAdapter extends BaseAdapter {
 
                 holder1.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder1.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
-                if (Integer.parseInt(itemData.getZambia_count()) > 0) {
-                    holder1.tv_zambia.setText("赞" + itemData.getZambia_count().replaceAll("^(0+)", ""));
+                if (itemData.getZambiaCount() > 0) {
+                    holder1.tv_zambia.setText("赞" + String.valueOf(itemData.getZambiaCount()));
                 }
                 getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder1, Integer.parseInt(itemData.getUser_role()));
                 break;
@@ -499,8 +499,8 @@ public class NewsListAdapter extends BaseAdapter {
                 holder2.tv_title.setTag(R.id.key_title_new_class, itemData.getNewclass());
                 holder2.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder2.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
-                if (Integer.parseInt(itemData.getZambia_count()) > 0) {
-                    holder2.tv_zambia.setText("赞" + itemData.getZambia_count().replaceAll("^(0+)", ""));
+                if (itemData.getZambiaCount()> 0) {
+                    holder2.tv_zambia.setText("赞" + itemData.getZambiaCount());
                 }
                 getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder2, Integer.parseInt(itemData.getUser_role()));
                 break;
@@ -531,8 +531,8 @@ public class NewsListAdapter extends BaseAdapter {
                 holder3.tv_content.setTag(R.id.key_content_new_class, itemData.getNewclass());
                 holder3.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder3.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
-                if (Integer.parseInt(itemData.getZambia_count()) > 0) {
-                    holder3.tv_zambia.setText("赞" + itemData.getZambia_count().replaceAll("^(0+)", ""));
+                if (itemData.getZambiaCount() > 0) {
+                    holder3.tv_zambia.setText("赞" + itemData.getZambiaCount());
                 }
                 getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder3, Integer.parseInt(itemData.getUser_role()));
                 break;
@@ -563,8 +563,8 @@ public class NewsListAdapter extends BaseAdapter {
                 holder4.tv_content.setTag(R.id.key_content_new_class, itemData.getNewclass());
                 holder4.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder4.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
-                if (Integer.parseInt(itemData.getZambia_count()) > 0) {
-                    holder4.tv_zambia.setText("赞" + itemData.getZambia_count().replaceAll("^(0+)", ""));
+                if (itemData.getZambiaCount()> 0) {
+                    holder4.tv_zambia.setText("赞" + itemData.getZambiaCount());
                 }
                 getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder4, Integer.parseInt(itemData.getUser_role()));
                 break;
@@ -597,8 +597,8 @@ public class NewsListAdapter extends BaseAdapter {
                 holder5.tv_title.setTag(R.id.key_title_new_class, itemData.getNewclass());
                 holder5.tv_forward.setText(Integer.parseInt(itemData.getForwardCount()) > 0 ? itemData.getForwardCount() : "转发");
                 holder5.tv_comment.setText(Integer.parseInt(itemData.getCommentCount()) > 0 ? itemData.getCommentCount() : "评论");
-                if (Integer.parseInt(itemData.getZambia_count()) > 0) {
-                    holder5.tv_zambia.setText("赞" + itemData.getZambia_count().replaceAll("^(0+)", ""));
+                if (itemData.getZambiaCount() > 0) {
+                    holder5.tv_zambia.setText("赞" + itemData.getZambiaCount());
                 }
                 getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder5, Integer.parseInt(itemData.getUser_role()));
                 break;

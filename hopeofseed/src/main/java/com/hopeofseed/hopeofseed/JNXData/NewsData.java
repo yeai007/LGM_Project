@@ -74,19 +74,23 @@ public class NewsData extends RealmObject {
     private String related_person;
     private String createuser;
     private String assimgurl;
-    private String zambia_count;
-    private String zambia_ids;
     private String newclass;
     private String newclassname;
     private String infoid;
     private String fromid;
     private String forwardCount;
     private String commentCount;
+
     /**
      * ForwardComment : 哦哦哦哦哦哦哦哦哦哦
      */
 
     private String ForwardComment;
+    /**
+     * zambiaCount : 1
+     */
+
+    private int zambiaCount;
 
     public String getUser_id() {
         return user_id;
@@ -280,21 +284,6 @@ public class NewsData extends RealmObject {
         this.assimgurl = assimgurl;
     }
 
-    public String getZambia_count() {
-        return zambia_count;
-    }
-
-    public void setZambia_count(String zambia_count) {
-        this.zambia_count = zambia_count;
-    }
-
-    public String getZambia_ids() {
-        return zambia_ids;
-    }
-
-    public void setZambia_ids(String zambia_ids) {
-        this.zambia_ids = zambia_ids;
-    }
 
     public String getNewclass() {
         return newclass;
@@ -350,5 +339,13 @@ public class NewsData extends RealmObject {
 
     public void setForwardComment(String ForwardComment) {
         this.ForwardComment = ForwardComment;
+    }
+
+    public int getZambiaCount() {
+        return zambiaCount;
+    }
+
+    public void setZambiaCount(int zambiaCount) {
+        this.zambiaCount = zambiaCount;
     }
 }
