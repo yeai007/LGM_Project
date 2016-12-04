@@ -147,7 +147,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
                 v6.setOnClickListener(this);
                 break;
             case CLASS_HUODONG:
-                View v7 = inflater.inflate(R.layout.newlist_items, parent, false);
+                View v7 = inflater.inflate(R.layout.newlist_items_huodong, parent, false);
                 viewHolder = new ViewHolder7(v7);
                 v7.setOnClickListener(this);
                 break;
@@ -224,6 +224,9 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
 
     }
 
+    /**
+     * 普通信息
+     */
     protected void initData(ViewHolder0 holder, int position) {
         NewsData mData = ObjectUtil.cast(mList.get(position));
         holder.itemView.setTag(mData);
@@ -237,6 +240,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
+        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
+        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
@@ -249,10 +254,16 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_comment).setOnClickListener(this);
         holder.getView(R.id.rel_zambia).setTag(mData);
         holder.getView(R.id.rel_zambia).setOnClickListener(this);
+        holder.getView(R.id.rel_content).setTag(mData);
+        holder.getView(R.id.rel_content).setOnClickListener(this);
+        holder.getView(R.id.user_name).setTag(mData);
+        holder.getView(R.id.user_name).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
-
+    /**
+     * 图片信息
+     */
     protected void initData(ViewHolder1 holder, int position) {
         NewsData mData = ObjectUtil.cast(mList.get(position));
         holder.itemView.setTag(mData);
@@ -266,7 +277,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
-        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? mData.getCommentCount() : "赞");
+        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
+        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
@@ -279,9 +291,16 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_comment).setOnClickListener(this);
         holder.getView(R.id.rel_zambia).setTag(mData);
         holder.getView(R.id.rel_zambia).setOnClickListener(this);
+        holder.getView(R.id.rel_content).setTag(mData);
+        holder.getView(R.id.rel_content).setOnClickListener(this);
+        holder.getView(R.id.user_name).setTag(mData);
+        holder.getView(R.id.user_name).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
+    /**
+     * 视频信息
+     */
     protected void initData(ViewHolder2 holder, int position) {
         NewsData mData = ObjectUtil.cast(mList.get(position));
         holder.itemView.setTag(mData);
@@ -295,7 +314,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
-        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? mData.getCommentCount() : "赞");
+        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
+        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
@@ -308,15 +328,23 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_comment).setOnClickListener(this);
         holder.getView(R.id.rel_zambia).setTag(mData);
         holder.getView(R.id.rel_zambia).setOnClickListener(this);
+        holder.getView(R.id.rel_content).setTag(mData);
+        holder.getView(R.id.rel_content).setOnClickListener(this);
+        holder.getView(R.id.user_name).setTag(mData);
+        holder.getView(R.id.user_name).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
+    /**
+     * 农技经验
+     */
     protected void initData(ViewHolder3 holder, int position) {
         NewsData mData = ObjectUtil.cast(mList.get(position));
         holder.itemView.setTag(mData);
         String[] arrImage = mData.getAssimgurl().split(";");
         List<String> images = java.util.Arrays.asList(arrImage);
         ((TextView) holder.getView(R.id.user_name)).setText(mData.getNickname());
+        ((TextView) holder.getView(R.id.tv_title)).setText("【农技】" + "【" + mData.getTitle() + "】");
         TextView tv_content = ((TextView) holder.getView(R.id.tv_content));
         tv_content.setText(mData.getContent().replace("\\n", "\n"));
         tv_content.setSingleLine(false);
@@ -324,7 +352,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
-        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? mData.getCommentCount() : "赞");
+        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
+        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
@@ -337,15 +366,23 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_comment).setOnClickListener(this);
         holder.getView(R.id.rel_zambia).setTag(mData);
         holder.getView(R.id.rel_zambia).setOnClickListener(this);
+        holder.getView(R.id.rel_content).setTag(mData);
+        holder.getView(R.id.rel_content).setOnClickListener(this);
+        holder.getView(R.id.user_name).setTag(mData);
+        holder.getView(R.id.user_name).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
+    /**
+     * 分享产量
+     */
     protected void initData(ViewHolder4 holder, int position) {
         NewsData mData = ObjectUtil.cast(mList.get(position));
         holder.itemView.setTag(mData);
         String[] arrImage = mData.getAssimgurl().split(";");
         List<String> images = java.util.Arrays.asList(arrImage);
         ((TextView) holder.getView(R.id.user_name)).setText(mData.getNickname());
+        ((TextView) holder.getView(R.id.tv_title)).setText("【产量表现】" + "【" + mData.getTitle() + "】");
         TextView tv_content = ((TextView) holder.getView(R.id.tv_content));
         tv_content.setText(mData.getContent().replace("\\n", "\n"));
         tv_content.setSingleLine(false);
@@ -353,7 +390,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
-        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? mData.getCommentCount() : "赞");
+        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
+        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
@@ -366,15 +404,23 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_comment).setOnClickListener(this);
         holder.getView(R.id.rel_zambia).setTag(mData);
         holder.getView(R.id.rel_zambia).setOnClickListener(this);
+        holder.getView(R.id.rel_content).setTag(mData);
+        holder.getView(R.id.rel_content).setOnClickListener(this);
+        holder.getView(R.id.user_name).setTag(mData);
+        holder.getView(R.id.user_name).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
+    /**
+     * 发问
+     */
     protected void initData(ViewHolder5 holder, int position) {
         NewsData mData = ObjectUtil.cast(mList.get(position));
         holder.itemView.setTag(mData);
         String[] arrImage = mData.getAssimgurl().split(";");
         List<String> images = java.util.Arrays.asList(arrImage);
         ((TextView) holder.getView(R.id.user_name)).setText(mData.getNickname());
+        ((TextView) holder.getView(R.id.tv_title)).setText("【问题】" + "【" + mData.getTitle() + "】");
         TextView tv_content = ((TextView) holder.getView(R.id.tv_content));
         tv_content.setText(mData.getContent().replace("\\n", "\n"));
         tv_content.setSingleLine(false);
@@ -382,7 +428,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
-        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? mData.getCommentCount() : "赞");
+        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
+        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
@@ -395,15 +442,23 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_comment).setOnClickListener(this);
         holder.getView(R.id.rel_zambia).setTag(mData);
         holder.getView(R.id.rel_zambia).setOnClickListener(this);
+        holder.getView(R.id.rel_content).setTag(mData);
+        holder.getView(R.id.rel_content).setOnClickListener(this);
+        holder.getView(R.id.user_name).setTag(mData);
+        holder.getView(R.id.user_name).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
+    /**
+     * 商品
+     */
     protected void initData(ViewHolder6 holder, int position) {
         NewsData mData = ObjectUtil.cast(mList.get(position));
         holder.itemView.setTag(mData);
         String[] arrImage = mData.getAssimgurl().split(";");
         List<String> images = java.util.Arrays.asList(arrImage);
         ((TextView) holder.getView(R.id.user_name)).setText(mData.getNickname());
+        ((TextView) holder.getView(R.id.tv_title)).setText("【商品】" + "【" + mData.getTitle() + "】");
         TextView tv_content = ((TextView) holder.getView(R.id.tv_content));
         tv_content.setText(mData.getContent().replace("\\n", "\n"));
         tv_content.setSingleLine(false);
@@ -411,7 +466,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
-        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? mData.getCommentCount() : "赞");
+        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
+        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
@@ -424,15 +480,23 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_comment).setOnClickListener(this);
         holder.getView(R.id.rel_zambia).setTag(mData);
         holder.getView(R.id.rel_zambia).setOnClickListener(this);
+        holder.getView(R.id.rel_content).setTag(mData);
+        holder.getView(R.id.rel_content).setOnClickListener(this);
+        holder.getView(R.id.user_name).setTag(mData);
+        holder.getView(R.id.user_name).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
+    /**
+     * 活动
+     */
     protected void initData(ViewHolder7 holder, int position) {
         NewsData mData = ObjectUtil.cast(mList.get(position));
         holder.itemView.setTag(mData);
         String[] arrImage = mData.getAssimgurl().split(";");
         List<String> images = java.util.Arrays.asList(arrImage);
         ((TextView) holder.getView(R.id.user_name)).setText(mData.getNickname());
+        ((TextView) holder.getView(R.id.tv_title)).setText("【活动】" + "【" + mData.getTitle() + "】");
         TextView tv_content = ((TextView) holder.getView(R.id.tv_content));
         tv_content.setText(mData.getContent().replace("\\n", "\n"));
         tv_content.setSingleLine(false);
@@ -440,7 +504,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
-        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? mData.getCommentCount() : "赞");
+        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
+        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
@@ -453,9 +518,16 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_comment).setOnClickListener(this);
         holder.getView(R.id.rel_zambia).setTag(mData);
         holder.getView(R.id.rel_zambia).setOnClickListener(this);
+        holder.getView(R.id.rel_content).setTag(mData);
+        holder.getView(R.id.rel_content).setOnClickListener(this);
+        holder.getView(R.id.user_name).setTag(mData);
+        holder.getView(R.id.user_name).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
+    /**
+     * 转发
+     */
     protected void initData(ViewHolder8 holder, int position) {
         NewsData mData = ObjectUtil.cast(mList.get(position));
         String[] arrImage = mData.getAssimgurl().split(";");
@@ -467,6 +539,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
                     .into(((ImageView) holder.getView(R.id.img_share_new)));
         } else {
         }
+        ((TextView) holder.getView(R.id.tv_title)).setText("【转发】" + mData.getForwardComment());
         ((TextView) holder.getView(R.id.tv_share_new_title)).setText(mData.getTitle());
         if (mData.getTitle().equals(mData.getContent())) {
             ((TextView) holder.getView(R.id.tv_share_new_content)).setVisibility(View.GONE);
@@ -478,8 +551,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         Log.e(TAG, "initData: " + mData.getZambiaCount());
-        ((TextView) holder.getView(R.id.tv_zambia)).setText((mData.getZambiaCount()) > 0 ? mData.getCommentCount() : "赞");
-
+        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ?String.valueOf(mData.getZambiaCount()) : "赞");
+        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         updateTime(mData.getNewcreatetime(), holder);
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);
@@ -488,6 +561,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_comment).setOnClickListener(this);
         holder.getView(R.id.rel_zambia).setTag(mData);
         holder.getView(R.id.rel_zambia).setOnClickListener(this);
+        holder.getView(R.id.rel_share_new).setTag(mData);
+        holder.getView(R.id.rel_share_new).setOnClickListener(this);
+        holder.getView(R.id.user_name).setTag(mData);
+        holder.getView(R.id.user_name).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
 
     }

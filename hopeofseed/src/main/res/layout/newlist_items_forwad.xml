@@ -183,8 +183,10 @@
         android:id="@+id/rel_share_new"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:background="#efefef"
         android:layout_below="@+id/rel_word"
-        android:background="#efefef">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:id="@+id/img_share_new"

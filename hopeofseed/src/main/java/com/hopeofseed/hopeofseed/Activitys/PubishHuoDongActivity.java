@@ -39,6 +39,7 @@ import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.ShowImage;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
+import com.lgm.utils.ObjectUtil;
 import com.lgm.view.ImageSelectorActivity;
 
 import java.io.File;
@@ -50,6 +51,8 @@ import java.util.Map;
 import me.shaohui.advancedluban.Luban;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+
+import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 
 
 /**
@@ -219,6 +222,7 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
         if (rspBaseBean.RequestSign.equals("AddNewHuodongData")) {
+            mCommResultTmp= ObjectUtil.cast(rspBaseBean);
             mHandler.post(resultPushFile);
         }
 
@@ -242,6 +246,9 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
         public void run() {
             if (mCommResultTmp.getDetail().getContent().equals("上传成功")) {
                 Toast.makeText(getApplicationContext(), mCommResultTmp.getDetail().getContent(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();  //Itent就是我们要发送的内容
+                intent.setAction(NEWS_UPDATE_LIST);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+                sendBroadcast(intent);   //发送广播
                 finish();
             } else {
                 Toast.makeText(getApplicationContext(), mCommResultTmp.getDetail().getContent(), Toast.LENGTH_SHORT).show();

@@ -240,12 +240,12 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
             case R.id.rel_comment:
                 intent = new Intent(getApplicationContext(), CommentNew.class);
                 intent.putExtra("NEWID", NEW_ID);
-                startActivity(intent);
+                startActivityForResult(intent,601);
                 break;
             case R.id.rel_forward:
                 intent = new Intent(getApplicationContext(), ForwardNew.class);
                 intent.putExtra("NEWID", NEW_ID);
-                startActivity(intent);
+                startActivityForResult(intent,601);
                 break;
             case R.id.rel_share_new:
                 Log.e(TAG, "onClick: rel_share_new" + newsData.getFromid());
@@ -256,7 +256,13 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
                 break;
         }
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==RESULT_OK)
+        {
+            refreshData();
+        }
+    }
     private void initScroll() {
         view_hover = (MyHoveringScrollView) findViewById(R.id.view_hover);
         view_hover.setTopView(R.id.top);
@@ -732,7 +738,7 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
 
     private void updateUI(NewsHuodongData mmNewsHuodongData) {
         rb_forward.setText("评论 " + mmNewsHuodongData.getCommentCount());
-        tv_title.setText("【问题】【" + mmNewsHuodongData.getNewclass() + "】" + "\n【" + mmNewsHuodongData.getTitle() + "】");
+        tv_title.setText("【活动】【" + mmNewsHuodongData.getNewclass() + "】" + "\n【" + mmNewsHuodongData.getTitle() + "】");
         tv_title.setText("【活动】" + "\n【" + mmNewsHuodongData.getTitle() + "】");
         updateTime(mmNewsHuodongData.getNewcreatetime());
         tv_content.setText(mmNewsHuodongData.getContent().replace("\\n", "\n"));

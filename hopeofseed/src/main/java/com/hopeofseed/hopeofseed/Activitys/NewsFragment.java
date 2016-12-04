@@ -1,7 +1,9 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +26,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -46,6 +49,7 @@ import com.lgm.utils.ObjectUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.R.attr.data;
 import static android.app.Activity.RESULT_OK;
 
 
@@ -59,6 +63,7 @@ import static android.app.Activity.RESULT_OK;
  * 修改备注：
  */
 public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshLayout.OnRefreshListener {
+    public static String NEWS_UPDATE_LIST = "NEWS_UPDATE_LIST";
     String TAG = "NewsFragment";
     pulishDYNPopupWindow menuWindow;
     Spinner sp_title;
@@ -80,6 +85,7 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
     private SwipeRefreshLayout mRefreshLayout;
     UpdateZiabamResult mUpdateZiabamResult = new UpdateZiabamResult();
     String updatePosition;
+    private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
 
     @Nullable
     @Override
@@ -88,7 +94,16 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
         initView(v);
         initSpTitle(v);
         initNews(v);
+        initReceiver();
         return v;
+    }
+
+    private void initReceiver() {
+        // 注册广播接收
+        updateBroadcastReceiver = new UpdateBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(NEWS_UPDATE_LIST);    //只有持有相同的action的接受者才能接收此广播
+        getActivity().registerReceiver(updateBroadcastReceiver, filter);
     }
 
     private void initView(View v) {
@@ -123,25 +138,26 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
         mRecyclerViewAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, NewsData data) {
-                Log.e(TAG, "onItemClick: " + String.valueOf(data.getId()));
                 Intent intent;
                 switch (view.getId()) {
                     case R.id.rel_forward://转发
+
                         intent = new Intent(getActivity(), ForwardNew.class);
                         intent.putExtra("NEWID", String.valueOf(data.getId()));
-                        startActivity(intent);
+                        startActivityForResult(intent, 0);
                         break;
                     case R.id.rel_comment://评论
+
                         int comment_count = Integer.parseInt(data.getCommentCount());
                         if (comment_count > 0) {
                             intent = new Intent(getActivity(), NewsInfoNewActivity.class);
                             intent.putExtra("NEWID", String.valueOf(data.getId()));
-                            intent.putExtra("NewClass", data.getNewclass());
+                            intent.putExtra("NewClass", Integer.parseInt(data.getNewclass()));
                             startActivity(intent);
                         } else {
                             intent = new Intent(getActivity(), CommentNew.class);
                             intent.putExtra("NEWID", String.valueOf(data.getId()));
-                            startActivity(intent);
+                            startActivityForResult(intent, 0);
                         }
 
                         break;
@@ -156,32 +172,46 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
                         break;
 
                     case R.id.tv_title:
+                        Log.e(TAG, "onItemClick: tv_title");
                         intent = new Intent(getActivity(), NewsInfoNewActivity.class);
                         intent.putExtra("NEWID", String.valueOf(data.getId()));
-                        intent.putExtra("NewClass", data.getNewclass());
+                        intent.putExtra("NewClass", Integer.parseInt(data.getNewclass()));
                         startActivity(intent);
                         break;
                     case R.id.tv_content:
+                        Log.e(TAG, "onItemClick: tv_content");
                         if (Integer.valueOf(data.getNewclass()) == 6) {
                             intent = new Intent(getActivity(), CommodityActivity.class);
                             intent.putExtra("CommodityId", data.getInfoid());
-                            startActivity(intent);
-                        } else if (Integer.valueOf(data.getNewclass()) == 0) {
-                            intent = new Intent(getActivity(), HaveCommentNew.class);
-                            intent.putExtra("NEWID", String.valueOf(data.getId()));
                             startActivity(intent);
                         } else {
                             Log.e(TAG, "onClick: " + data.getNewclass());
                             intent = new Intent(getActivity(), NewsInfoNewActivity.class);
                             intent.putExtra("NEWID", String.valueOf(data.getId()));
-                            intent.putExtra("NewClass", data.getNewclass());
+                            intent.putExtra("NewClass", Integer.parseInt(data.getNewclass()));
+                            startActivity(intent);
+
+                        }
+                        break;
+                    case R.id.rel_content:
+                        Log.e(TAG, "onItemClick: rel_content");
+                        if (Integer.valueOf(data.getNewclass()) == 6) {
+                            intent = new Intent(getActivity(), CommodityActivity.class);
+                            intent.putExtra("CommodityId", data.getInfoid());
+                            startActivity(intent);
+                        } else {
+                            Log.e(TAG, "onClick: " + data.getNewclass());
+                            intent = new Intent(getActivity(), NewsInfoNewActivity.class);
+                            intent.putExtra("NEWID", String.valueOf(data.getId()));
+                            intent.putExtra("NewClass", Integer.parseInt(data.getNewclass()));
                             startActivity(intent);
 
                         }
                         break;
                     case R.id.rel_share_new:
+                        Log.e(TAG, "onItemClick: rel_share_new");
                         intent = new Intent(getActivity(), HaveCommentNew.class);
-                        intent.putExtra("NEWID", String.valueOf(data.getId()));
+                        intent.putExtra("NEWID", String.valueOf(data.getFromid()));
                         startActivity(intent);
 
                         break;
@@ -211,9 +241,9 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
                         refreshData();
                     } else if (arr_NewsDataTmp.size() < 20) {
                         //当没有更多的数据的时候去掉加载更多的布局
-                        RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
+/*                        RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
                         adapter.setIsNeedMore(false);
-                        adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();*/
                     }
                 }
             }
@@ -227,6 +257,16 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
             // Toast.makeText(getActivity(), String.valueOf(l), Toast.LENGTH_SHORT).show();
         }
     };
+
+    class UpdateBroadcastReceiver extends BroadcastReceiver {
+
+
+        /* 覆写该方法，对广播事件执行响应的动作  */
+        public void onReceive(Context context, Intent intent) {
+            PageNo = 0;
+            getNewsData();
+        }
+    }
 
     private void initNews(View v) {
         lv_news.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {

@@ -44,17 +44,19 @@ public class HomePageActivity extends FragmentActivity {
     UserInfoFragment mUserInfoFragment;
     DiscoverFragment mDiscoverFragment;
     public Button btn_topright, btn_topleft;
-    int page=0;
+    int page = 0;
     TextView apptitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         initView();
     }
+
     private void initView() {
-        Intent intent=getIntent();
-         page=intent.getIntExtra("page",0);
+        Intent intent = getIntent();
+        page = intent.getIntExtra("page", 0);
         fragmentList = new ArrayList<>();
         mMessageFragment = new MessageFragment();
         mNewsFragment = new NewsFragment();
@@ -76,6 +78,7 @@ public class HomePageActivity extends FragmentActivity {
         btn_topleft = (Button) findViewById(R.id.btn_topleft);
         vp_main.setCurrentItem(page);
     }
+
     private ViewPager.OnPageChangeListener onPageChangeListener = new ViewPager.OnPageChangeListener() {
 
         @Override
@@ -126,6 +129,7 @@ public class HomePageActivity extends FragmentActivity {
             }
         }
     };
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -149,7 +153,7 @@ public class HomePageActivity extends FragmentActivity {
      */
     private boolean isShouldHideInput(View v, MotionEvent event) {
         if (v != null && (v instanceof EditText)) {
-            int[] l = { 0, 0 };
+            int[] l = {0, 0};
             v.getLocationInWindow(l);
             int left = l[0], top = l[1], bottom = top + v.getHeight(), right = left
                     + v.getWidth();
@@ -175,6 +179,13 @@ public class HomePageActivity extends FragmentActivity {
             InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             im.hideSoftInputFromWindow(token,
                     InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            mNewsFragment.refreshData();
         }
     }
 }

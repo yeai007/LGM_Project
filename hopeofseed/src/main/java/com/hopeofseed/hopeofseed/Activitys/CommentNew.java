@@ -22,6 +22,7 @@ import java.util.HashMap;
 
 import io.realm.Realm;
 
+import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 import static com.hopeofseed.hopeofseed.R.id.rel_input_menu;
 
 /**
@@ -92,6 +93,11 @@ public class CommentNew extends AppCompatActivity implements View.OnClickListene
         CommResultTmp commResultTmp = new CommResultTmp();
         commResultTmp = (CommResultTmp) rspBaseBean;
         if (Integer.parseInt(commResultTmp.getDetail()) > 0) {
+/*            Intent intent = new Intent();  //Itent就是我们要发送的内容
+            intent.setAction(NEWS_UPDATE_LIST);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+            sendBroadcast(intent);   //发送广播*/
+            Intent intent1=new Intent();
+            setResult(RESULT_OK, intent1); //intent为A传来的带有Bundle的intent，当然也可以自己定义新的Bundle
             finish();
         } else {
             Toast.makeText(getApplicationContext(), "评论失败，清稍后再试", Toast.LENGTH_SHORT).show();

@@ -58,6 +58,7 @@ import me.shaohui.advancedluban.Luban;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
+import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 import static com.hopeofseed.hopeofseed.R.id.gv_photo;
 import static com.hopeofseed.hopeofseed.R.id.sp_class;
 import static com.hopeofseed.hopeofseed.R.id.uploadImageResult;
@@ -321,6 +322,9 @@ public class PublishProblem extends AppCompatActivity implements View.OnClickLis
         public void run() {
             if (mCommResultTmp.getDetail().getContent().equals("上传成功")) {
                 Toast.makeText(getApplicationContext(), mCommResultTmp.getDetail().getContent(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();  //Itent就是我们要发送的内容
+                intent.setAction(NEWS_UPDATE_LIST);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+                sendBroadcast(intent);   //发送广播
                 finish();
             } else {
                 Toast.makeText(getApplicationContext(), mCommResultTmp.getDetail().getContent(), Toast.LENGTH_SHORT).show();
