@@ -1,7 +1,8 @@
 package com.hopeofseed.hopeofseed;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
@@ -15,6 +16,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -24,6 +26,11 @@ import com.hopeofseed.hopeofseed.Activitys.HomePageActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
 import com.hopeofseed.hopeofseed.Services.LocationService;
+import com.lgm.net.NetWorkUtils;
+import com.lgm.update.OnUpdateListener;
+import com.lgm.update.UpdateHelper;
+import com.lgm.update.UpdateInfo;
+import com.lgm.utils.AppUtil;
 
 import java.io.File;
 import java.util.Locale;
@@ -33,7 +40,6 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static com.hopeofseed.hopeofseed.Data.Const.City;
-import static com.hopeofseed.hopeofseed.Data.Const.GetShareData;
 import static com.hopeofseed.hopeofseed.Data.Const.Province;
 
 /**
@@ -43,7 +49,7 @@ import static com.hopeofseed.hopeofseed.Data.Const.Province;
  * @Date:2016/5/3
  * @Copyright:2014-2016 Moogeek
  */
-public class splashActivity extends AppCompatActivity implements BDLocationListener {
+public class splashActivity extends AppCompatActivity implements BDLocationListener, OnUpdateListener {
     private static final String TAG = "splashActivity";
     private static String KEY_APP_KEY = "JPUSH_APPKEY";
     private static final String SHAREDPREFERENCES_NAME = "first_pref";//登录次数标记，存储与系统中
@@ -55,15 +61,23 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
     private static String APP_KEY;
     private LocationService locationService;
     private File cache;
-
+    private TextView tv_log;
+    private SharedPreferences preferences_update;
+     UpdateHelper updateHelper = new UpdateHelper.Builder(this)
+            .checkUrl(Const.BASE_URL + "GetLastVersion.php")
+            .isAutoInstall(true) //设置为false需在下载完手动点击安装;默认值为true，下载后自动安装。
+            .build();
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
-        initFirst();
-        initLocation();
+        tv_log = (TextView) findViewById(R.id.tv_log);
+        preferences_update = getSharedPreferences("Updater",Context.MODE_PRIVATE);
+        checkUpdate();
+      /*  initFirst();
+        initLocation();*/
         //创建缓存目录，系统一运行就得创建缓存目录的，
         cache = new File(Environment.getExternalStorageDirectory(), "hopeofseed/images");
 
@@ -72,6 +86,129 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         }
     }
 
+    private void checkUpdate() {
+
+        updateHelper.check(new OnUpdateListener() {
+            @Override
+            public void onStartCheck() {
+                tv_log.setText("检查版本更新中");
+            }
+
+            @Override
+            public void onFinishCheck(UpdateInfo info) {
+                tv_log.setText("");
+                SharedPreferences.Editor editor = preferences_update.edit();
+                if (info != null) {
+                    if (Integer.parseInt(info.getVersionCode()) > AppUtil.getPackageInfo(getApplicationContext()).versionCode) {
+                        editor.putBoolean("hasNewVersion", true);
+                        editor.putString("lastestVersionCode",
+                                info.getVersionCode());
+                        editor.putString("lastestVersionName",
+                                info.getVersionName());
+                        showUpdateUI(info);
+                    } else {
+                        tv_log.setText("已是最新版本");
+                        editor.putBoolean("hasNewVersion", false);
+                    }
+                } else {
+                    tv_log.setText("已是最新版本");
+                }
+                editor.putString("currentVersionCode", AppUtil.getPackageInfo(getApplicationContext()).versionCode + "");
+                editor.putString("currentVersionName", AppUtil.getPackageInfo(getApplicationContext()).versionName);
+                editor.commit();
+
+            }
+
+            @Override
+            public void onStartDownload() {
+
+            }
+
+            @Override
+            public void onDownloading(int progress) {
+               // tv_log.setText("下载进度："+progress+"%");
+            }
+
+            @Override
+            public void onFinshDownload() {
+                tv_log.setText("下载完成");
+            }
+        });
+    }
+    /**
+     * 弹出提示更新窗口
+     *
+     * @param updateInfo
+     */
+    private void showUpdateUI(final UpdateInfo updateInfo) {
+        AlertDialog.Builder upDialogBuilder = new AlertDialog.Builder(splashActivity.this);
+        upDialogBuilder.setTitle(updateInfo.getUpdateTips());
+        upDialogBuilder.setMessage(updateInfo.getChangeLog());
+        upDialogBuilder.setNegativeButton("下次再说",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        initFirst();
+                        initLocation();
+                    }
+                });
+        upDialogBuilder.setPositiveButton("后台下载",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        NetWorkUtils netWorkUtils = new NetWorkUtils(splashActivity.this);
+                        int type = netWorkUtils.getNetType();
+                        if (type != 1) {
+                            showNetDialog(updateInfo);
+                        } else {
+                            updateHelper.downLoadAPK(updateInfo);
+                            initFirst();
+                            initLocation();
+                          /*  AsyncDownLoad asyncDownLoad = new AsyncDownLoad();
+                            asyncDownLoad.execute(updateInfo);*/
+                        }
+                    }
+                });
+        AlertDialog updateDialog = upDialogBuilder.create();
+        updateDialog.setCanceledOnTouchOutside(false);
+        updateDialog.show();
+    }
+    /**
+     * 2014-10-27新增流量提示框，当网络为数据流量方式时，下载就会弹出此对话框提示
+     *
+     * @param updateInfo
+     */
+    private void showNetDialog(final UpdateInfo updateInfo) {
+        AlertDialog.Builder netBuilder = new AlertDialog.Builder(splashActivity.this);
+        netBuilder.setTitle("下载提示");
+        netBuilder.setMessage("您在目前的网络环境下继续下载将可能会消耗手机流量，请确认是否继续下载？");
+        netBuilder.setNegativeButton("取消下载",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        initFirst();
+                        initLocation();
+                    }
+                });
+        netBuilder.setPositiveButton("继续下载",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        updateHelper.downLoadAPK(updateInfo);
+                      /*  AsyncDownLoad asyncDownLoad = new AsyncDownLoad();
+                        asyncDownLoad.execute(updateInfo);*/
+                        initFirst();
+                        initLocation();
+                    }
+                });
+        AlertDialog netDialog = netBuilder.create();
+        netDialog.setCanceledOnTouchOutside(false);
+        netDialog.show();
+    }
     private void initFirst() {
         if (!JPushInterface.getConnectionState(getApplicationContext())) {
             Log.e(TAG, "initFirst: 长连接已经断开");
@@ -230,4 +367,28 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         locationService.stop();
     }
 
+    @Override
+    public void onStartCheck() {
+        Log.e(TAG, "onStartCheck: 检查最新版本");
+    }
+
+    @Override
+    public void onFinishCheck(UpdateInfo info) {
+
+    }
+
+    @Override
+    public void onStartDownload() {
+
+    }
+
+    @Override
+    public void onDownloading(int progress) {
+
+    }
+
+    @Override
+    public void onFinshDownload() {
+
+    }
 }

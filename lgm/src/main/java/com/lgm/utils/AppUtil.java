@@ -80,6 +80,24 @@ public class AppUtil {
         Log.d(TAG, "getVersionName: " + versionName);
         return versionName;
     }
+    /**
+     * 获取当前app版本
+     *
+     * @return
+     * @throws android.content.pm.PackageManager.NameNotFoundException
+     */
+    public static PackageInfo getPackageInfo(Context mContext) {
+        PackageInfo pinfo = null;
+        if (mContext != null) {
+            try {
+                pinfo = mContext.getPackageManager().getPackageInfo(
+                        mContext.getPackageName(), 0);
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return pinfo;
+    }
 
     /**
      * 判断某个界面是否在前台

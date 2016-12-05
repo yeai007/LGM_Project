@@ -404,8 +404,6 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
 
     //添加二级评论
     private void AddCommend2Data() {
-
-
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("CommentFromNewId", NEW_ID);
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));

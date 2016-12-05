@@ -244,9 +244,23 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        if (images.size() == 0) {
+            holder.resultRecyclerView.setVisibility(View.GONE);
+        } else if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                holder.resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                holder.resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            holder.resultRecyclerView.setVisibility(View.VISIBLE);
+        }
+
+
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
+        getUserJpushInfo(holder,position);
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);
         holder.getView(R.id.rel_forward).setOnClickListener(this);
@@ -281,6 +295,17 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        if (images.size() == 0) {
+            holder.resultRecyclerView.setVisibility(View.GONE);
+        } else if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                holder.resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                holder.resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            holder.resultRecyclerView.setVisibility(View.VISIBLE);
+        }
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
@@ -318,6 +343,17 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        if (images.size() == 0) {
+            holder.resultRecyclerView.setVisibility(View.GONE);
+        } else if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                holder.resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                holder.resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            holder.resultRecyclerView.setVisibility(View.VISIBLE);
+        }
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
@@ -356,6 +392,17 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        if (images.size() == 0) {
+            holder.resultRecyclerView.setVisibility(View.GONE);
+        } else if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                holder.resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                holder.resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            holder.resultRecyclerView.setVisibility(View.VISIBLE);
+        }
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
@@ -394,6 +441,17 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        if (images.size() == 0) {
+            holder.resultRecyclerView.setVisibility(View.GONE);
+        } else if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                holder.resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                holder.resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            holder.resultRecyclerView.setVisibility(View.VISIBLE);
+        }
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
@@ -432,6 +490,17 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        if (images.size() == 0) {
+            holder.resultRecyclerView.setVisibility(View.GONE);
+        } else if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                holder.resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                holder.resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            holder.resultRecyclerView.setVisibility(View.VISIBLE);
+        }
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
@@ -470,6 +539,17 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        if (images.size() == 0) {
+            holder.resultRecyclerView.setVisibility(View.GONE);
+        } else if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                holder.resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                holder.resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            holder.resultRecyclerView.setVisibility(View.VISIBLE);
+        }
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
@@ -508,6 +588,17 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        if (images.size() == 0) {
+            holder.resultRecyclerView.setVisibility(View.GONE);
+        } else if (images.size() == 1) {
+            if (TextUtils.isEmpty(images.get(0))) {
+                holder.resultRecyclerView.setVisibility(View.GONE);
+            } else {
+                holder.resultRecyclerView.setVisibility(View.VISIBLE);
+            }
+        } else {
+            holder.resultRecyclerView.setVisibility(View.VISIBLE);
+        }
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
@@ -551,7 +642,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         Log.e(TAG, "initData: " + mData.getZambiaCount());
-        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ?String.valueOf(mData.getZambiaCount()) : "赞");
+        ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
         ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
         updateTime(mData.getNewcreatetime(), holder);
         //*************************OnclickBegin*******************************************************

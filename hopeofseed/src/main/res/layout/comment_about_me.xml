@@ -8,9 +8,10 @@
         android:id="@+id/top"
         layout="@layout/top" />
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/lv_news"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/top" />
+        android:layout_below="@+id/top"
+        android:scrollbars="vertical" />
 </LinearLayout>

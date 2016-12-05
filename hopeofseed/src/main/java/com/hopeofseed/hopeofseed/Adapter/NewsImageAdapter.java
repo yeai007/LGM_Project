@@ -59,7 +59,6 @@ public class NewsImageAdapter extends RecyclerView.Adapter<NewsImageAdapter.View
                 Intent intent = new Intent(mContext, ShowBigImage.class);
                 intent.putExtra("IMG_URL", Const.IMG_URL + images.get(position));
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
                 mContext.startActivity(intent);
 
             }

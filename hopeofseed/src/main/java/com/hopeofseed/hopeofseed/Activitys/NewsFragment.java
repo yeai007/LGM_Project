@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,19 +20,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.NewsListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.RecyclerViewAdapter;
 import com.hopeofseed.hopeofseed.Adapter.Sp_TitleAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.DataForHttp.UpdateZambia;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
@@ -49,7 +42,6 @@ import com.lgm.utils.ObjectUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static android.R.attr.data;
 import static android.app.Activity.RESULT_OK;
 
 
@@ -66,15 +58,12 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
     public static String NEWS_UPDATE_LIST = "NEWS_UPDATE_LIST";
     String TAG = "NewsFragment";
     pulishDYNPopupWindow menuWindow;
-    Spinner sp_title;
-    PullToRefreshListView lv_news;
     Button btn_title;
     TextView btn_topleft;
     ArrayList<String> arr_TopClass = new ArrayList<>();
     ArrayList<NewsData> arr_NewsData = new ArrayList<>();
     ArrayList<NewsData> arr_NewsDataTmp = new ArrayList<>();
     Sp_TitleAdapter sp_titleAdapter;
-    NewsListAdapter newListAadpter;
     int classid = 0;
     RelativeLayout rel_search;
     Handler mHandler = new Handler();
@@ -93,7 +82,6 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
         final View v = inflater.inflate(R.layout.fragment_news, null);
         initView(v);
         initSpTitle(v);
-        initNews(v);
         initReceiver();
         return v;
     }
@@ -111,16 +99,10 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
         btn_topleft = (TextView) v.findViewById(R.id.btn_topleft);
         btn_topleft.setText(Const.UserLocation.replace("市", ""));
         btn_topleft.setOnClickListener(listener);
-        lv_news = (PullToRefreshListView) v.findViewById(R.id.lv_news);
-        newListAadpter = new NewsListAdapter(getActivity(), arr_NewsData);
-        lv_news.setAdapter(newListAadpter);
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-        lv_news.setMode(PullToRefreshBase.Mode.BOTH);
         rel_search = (RelativeLayout) v.findViewById(R.id.rel_search);
         rel_search.setOnClickListener(listener);
-        lv_news.setOnItemClickListener(pullItemListener);
-
         mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.layout_swipe_refresh);
         //这个是下拉刷新出现的那个圈圈要显示的颜色
         mRefreshLayout.setColorSchemeResources(
@@ -130,7 +112,6 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
         );
         mRefreshLayout.setOnRefreshListener(this);
         recy_news = (RecyclerView) v.findViewById(R.id.recy_news);
-//        recy_news.setLayoutManager(new LinearLayoutManager(getActivity()));
         final LinearLayoutManager manager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recy_news.setLayoutManager(manager);
         mRecyclerViewAdapter = new RecyclerViewAdapter(getActivity(), arr_NewsData, true);
@@ -267,35 +248,6 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
             getNewsData();
         }
     }
-
-    private void initNews(View v) {
-        lv_news.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-            @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                String str = DateUtils.formatDateTime(getActivity(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-                // 下拉刷新 业务代码
-                if (refreshView.isShownHeader()) {
-                    lv_news.getLoadingLayoutProxy().setRefreshingLabel("正在刷新");
-                    lv_news.getLoadingLayoutProxy().setPullLabel("下拉刷新");
-                    lv_news.getLoadingLayoutProxy().setReleaseLabel("释放开始刷新");
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel("最后更新时间:" + str);
-                    PageNo = 0;
-                    getNewsData();
-                }
-                // 上拉加载更多 业务代码
-                if (refreshView.isShownFooter()) {
-                    lv_news.getLoadingLayoutProxy().setRefreshingLabel("正在加载");
-                    lv_news.getLoadingLayoutProxy().setPullLabel("上拉加载更多");
-                    lv_news.getLoadingLayoutProxy().setReleaseLabel("释放加载更多");
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel("最后加载时间:" + str);
-                    PageNo = PageNo + 1;
-                    getNewsData();
-                }
-
-            }
-        });
-    }
-
     private void initSpTitle(View v) {
         setTitleData();
         final Spinner sp_title = (Spinner) v.findViewById(R.id.sp_title);
@@ -506,8 +458,6 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
                 arr_NewsData.clear();
             }
             arr_NewsData.addAll(arr_NewsDataTmp);
-            newListAadpter.notifyDataSetChanged();
-            lv_news.onRefreshComplete();
             mRecyclerViewAdapter.notifyDataSetChanged();
             mRefreshLayout.setRefreshing(false);
         }

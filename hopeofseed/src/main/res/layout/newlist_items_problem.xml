@@ -159,9 +159,9 @@
         android:id="@+id/rel_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rel_title"
         android:layout_alignLeft="@+id/rel_title"
-        android:layout_alignStart="@+id/rel_title">
+        android:layout_alignStart="@+id/rel_title"
+        android:layout_below="@+id/rel_title">
 
         <TextView
             android:id="@+id/tv_title"
