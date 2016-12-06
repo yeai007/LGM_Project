@@ -19,7 +19,7 @@ public class CommentAboutMeData {
      * user_email :
      * createtime : 2016-11-26 09:09:40
      * user_permation : 0
-     * user_role : 3
+     * user_role : 1
      * user_field :
      * user_role_id : 3
      * CommentRecrodId : 0000000087
@@ -53,6 +53,8 @@ public class CommentAboutMeData {
      * NewsCity : 济南市1
      * NewsZone : 历城区1
      * ForwardComment :
+     * to_user_id :
+     * to_user_name :
      */
 
     private String user_id;
@@ -96,6 +98,8 @@ public class CommentAboutMeData {
     private String NewsCity;
     private String NewsZone;
     private String ForwardComment;
+    private String to_user_id;
+    private String to_user_name;
 
     public String getUser_id() {
         return user_id;
@@ -423,5 +427,21 @@ public class CommentAboutMeData {
 
     public void setForwardComment(String ForwardComment) {
         this.ForwardComment = ForwardComment;
+    }
+
+    public String getTo_user_id() {
+        return to_user_id;
+    }
+
+    public void setTo_user_id(String to_user_id) {
+        this.to_user_id = to_user_id;
+    }
+
+    public String getTo_user_name() {
+        return to_user_name;
+    }
+
+    public void setTo_user_name(String to_user_name) {
+        this.to_user_name = to_user_name;
     }
 }

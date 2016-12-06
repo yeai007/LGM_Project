@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:id="@+id/rel_left"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical">
 
@@ -15,11 +15,14 @@
             android:id="@+id/btn_topleft"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:layout_centerInParent="true"
-            android:background="@null"
             android:gravity="center"
-            android:text="发现群"
-            android:textColor="#FFFFFF" />
+            android:background="@null"
+            android:text="创建群"
+            android:textColor="@color/text_title_color" />
     </RelativeLayout>
 
     <TextView
@@ -37,7 +40,7 @@
 
     <RelativeLayout
         android:id="@+id/tianjia"
-        android:layout_width="50dp"
+        android:layout_width="70dp"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -45,10 +48,14 @@
 
         <Button
             android:id="@+id/btn_topright"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@drawable/img_topright"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text="查找群"
+            android:background="@drawable/shape_corner"
             android:textColor="#FFFFFF" />
     </RelativeLayout>
 </RelativeLayout>

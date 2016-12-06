@@ -1,6 +1,7 @@
 package com.hopeofseed.hopeofseed.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,6 +17,8 @@ import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
 
+import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
+import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 import static com.hopeofseed.hopeofseed.Data.Const.mUserInfo;
 import static com.hopeofseed.hopeofseed.R.id.img_corner;
 import static com.hopeofseed.hopeofseed.R.id.img_user;
@@ -113,6 +116,9 @@ public class JpushUtil {
             @Override
             public void gotResult(int responseCode, String s) {
                 if (responseCode == 0) {
+                    Intent intent = new Intent();  //Itent就是我们要发送的内容
+                    intent.setAction(MESSAGE_UPDATE_LIST);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+                    mContext.sendBroadcast(intent);   //发送广播
                     Log.i(TAG, "昵称修改成功 " + ", responseCode = " + responseCode + " ; registerDesc = " + s);
                 } else {
                     Log.i(TAG, "JMessageClient.register " + ", responseCode = " + responseCode + " ; registerDesc = " + s);

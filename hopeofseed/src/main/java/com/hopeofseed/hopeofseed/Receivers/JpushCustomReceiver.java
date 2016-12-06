@@ -6,10 +6,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.hopeofseed.hopeofseed.JNXData.NewsData;
+import com.lgm.utils.ObjectUtil;
+
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Set;
+
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.helpers.IMReceiver;
+
+import static android.R.attr.keySet;
+import static android.R.attr.lockTaskMode;
 
 
 /**
@@ -33,7 +45,7 @@ public class JpushCustomReceiver extends IMReceiver {
         }
 
         Bundle bundle = intent.getExtras();
-        Log.e(TAG, "onReceive - " + intent.getAction() + ", extras: " + bundle);
+       // Log.e(TAG, "onReceive - " + intent.getAction() + ", extras: " + bundle);
 
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             Log.e(TAG, "JPush用户注册成功");
@@ -43,18 +55,20 @@ public class JpushCustomReceiver extends IMReceiver {
 
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
             Log.e(TAG, "接受到推送下来的通知");
+           /* Bundle bundle = intent.getExtras();
+            String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);*/
 
             receivingNotification(context, bundle);
 
+
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.e(TAG, "用户点击打开了通知");
-
-            openNotification(context, bundle);
+     /*       Bundle bundle = intent.getExtras();
+            openNotification(context, bundle);*/
 
         }
         else if(intent.getAction().equals("cn.jpush.im.android.action.IM_RESPONSE"))
         {
-            Log.e(TAG, "onReceive: cn.jpush.im.android.action.IM_RESPONSE" );
         }
         else if(intent.getAction().equals("cn.jpush.im.android.action.NOTIFICATION_CLICK_PROXY"))
         {

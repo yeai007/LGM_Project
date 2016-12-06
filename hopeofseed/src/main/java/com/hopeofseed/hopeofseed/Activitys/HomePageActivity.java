@@ -7,6 +7,7 @@ import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.curView.InputPopupWindow;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -188,4 +190,5 @@ public class HomePageActivity extends FragmentActivity {
             mNewsFragment.refreshData();
         }
     }
+
 }

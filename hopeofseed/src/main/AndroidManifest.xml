@@ -167,6 +167,8 @@
                 <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.im.android.action.IM_RESPONSE" />
+                <action android:name="cn.jpush.im.android.action.NOTIFICATION_CLICK_PROXY" />
 
                 <category android:name="com.hopeofseed.hopeofseed" />
             </intent-filter>
@@ -526,6 +528,11 @@
 
         <activity
             android:name=".Activitys.NewsInfoNewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.SearchGroupActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>

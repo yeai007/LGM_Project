@@ -1,6 +1,7 @@
 package com.hopeofseed.hopeofseed.Receivers;
 
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -26,8 +27,10 @@ public class NotificationClickEventReceiver {
         JMessageClient.registerEventReceiver(this);
     }
 
+
     /**
      * 收到消息处理
+     *
      * @param notificationClickEvent 通知点击事件
      */
     public void onEvent(NotificationClickEvent notificationClickEvent) {

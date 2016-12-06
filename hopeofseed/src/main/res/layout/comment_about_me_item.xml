@@ -2,13 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:layout_marginTop="5dp"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rel_comment_user"
         android:layout_width="80dp"
-        android:layout_height="80dp">
+        android:layout_height="80dp"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff">
 
         <RelativeLayout
             android:id="@+id/rel_img_user_avatar"
@@ -29,6 +30,7 @@
                 android:layout_height="20dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
+
                 android:src="@drawable/corner_distributor" />
         </RelativeLayout>
     </RelativeLayout>
@@ -37,7 +39,9 @@
         android:id="@+id/rel_new"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_alignParentRight="true">
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff">
 
         <ImageView
             android:id="@+id/img_new"
@@ -50,23 +54,65 @@
     <RelativeLayout
         android:id="@+id/rel_comment_content"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="5dp"
         android:layout_toLeftOf="@+id/rel_new"
-        android:layout_toRightOf="@+id/rel_comment_user">
+        android:layout_toRightOf="@+id/rel_comment_user"
+        android:background="#ffffff">
 
-        <TextView
-            android:id="@+id/tv_comment_user_nickname"
+        <RelativeLayout
+            android:id="@+id/rel_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="#7EC0EE" />
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:id="@+id/tv_comment_user_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="biaoti"
+                android:textColor="#7EC0EE" />
+
+            <TextView
+                android:id="@+id/tv_huifu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@+id/tv_comment_user_nickname"
+                android:gravity="left|center_vertical"
+                android:text="回复"
+                android:textColor="#333333"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_to_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_toRightOf="@+id/tv_huifu"
+                android:gravity="left|center_vertical"
+                android:text="用户"
+                android:textColor="#8DB6CD"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btn_huifu"
+                android:layout_width="15dp"
+                android:layout_height="14dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/comment_img" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_comment_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_comment_user_nickname"
+            android:layout_below="@+id/rel_user"
             android:layout_marginLeft="10dp"
+            android:text="neirong"
             android:textColor="@color/text_content_color" />
 
         <TextView
@@ -75,6 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="10dp"
+            android:text="shijian"
             android:textColor="@color/text_content_color" />
     </RelativeLayout>
 </RelativeLayout>

@@ -16,28 +16,21 @@ import android.widget.ListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.AuthorDataAdapter;
-import com.hopeofseed.hopeofseed.Adapter.DistributorAdapter;
+
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.AuthorData;
-import com.hopeofseed.hopeofseed.JNXData.AutoData;
-import com.hopeofseed.hopeofseed.JNXData.DistributorData;
+
 import com.hopeofseed.hopeofseed.JNXDataTmp.AuthorDataTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.AutoDataTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.DistributorDataTmp;
+
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static android.R.attr.id;
-import static com.hopeofseed.hopeofseed.Activitys.SelectVarieties.Str_search;
-import static com.hopeofseed.hopeofseed.R.id.lv_distributor;
-import static com.hopeofseed.hopeofseed.R.id.lv_message;
-import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 项目名称：LGM_Project

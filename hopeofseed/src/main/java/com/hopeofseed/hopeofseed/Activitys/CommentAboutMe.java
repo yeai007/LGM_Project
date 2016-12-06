@@ -1,5 +1,7 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,8 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.Adapter.CommentAboutMeRecyclerAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
@@ -18,15 +24,15 @@ import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.CommentAboutMeData;
 import com.hopeofseed.hopeofseed.JNXData.NewsData;
+import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommentAboutMeDataTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.UserMessageDataTmp;
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.curView.InputPopupWindow;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.hopeofseed.hopeofseed.R.id.recy_news;
 
 /**
  * 项目名称：liguangming
@@ -46,6 +52,9 @@ public class CommentAboutMe extends AppCompatActivity implements View.OnClickLis
     Handler mHandler = new Handler();
     private int PageNo = 0;
     boolean isLoading = false;
+    //评论页回复功能
+    InputPopupWindow menuWindow;
+    String RecordId, CommendUserId, NewId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,12 +77,9 @@ public class CommentAboutMe extends AppCompatActivity implements View.OnClickLis
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         recycler_list = (RecyclerView) findViewById(R.id.recycler_list);
         recycler_list.setHasFixedSize(true);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(CommentAboutMe.this, LinearLayoutManager.VERTICAL, false);
         recycler_list.setLayoutManager(layoutManager);
-
-
-        mAdapter = new CommentAboutMeRecyclerAdapter(getApplicationContext(), arrCommentAboutMeData);
-
+        mAdapter = new CommentAboutMeRecyclerAdapter(CommentAboutMe.this, arrCommentAboutMeData);
         recycler_list.setAdapter(mAdapter);
         //滚动监听，在滚动监听里面去实现加载更多的功能
         recycler_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -115,10 +121,19 @@ public class CommentAboutMe extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-        arrCommentAboutMeDataTmp = ((CommentAboutMeDataTmp) ObjectUtil.cast(rspBaseBean)).getDetail();
+        if (rspBaseBean.RequestSign.equals("commentNew")) {
+            CommResultTmp mCommResultTmp = ObjectUtil.cast(rspBaseBean);
+            if (Integer.parseInt(mCommResultTmp.getDetail()) > 0) {
+                PageNo = 0;
+                getData();
+            } else {
+            }
+            // mHandle.post(refeshData);
+        } else {
+            arrCommentAboutMeDataTmp = ((CommentAboutMeDataTmp) ObjectUtil.cast(rspBaseBean)).getDetail();
 
-        mHandler.post(updateList);
-
+            mHandler.post(updateList);
+        }
     }
 
     @Override
@@ -141,4 +156,63 @@ public class CommentAboutMe extends AppCompatActivity implements View.OnClickLis
             mAdapter.notifyDataSetChanged();
         }
     };
+
+    //评论页回复功能
+    public void showInput(String recordId, String commendUserID, String newId) {
+        RecordId = recordId;
+        CommendUserId = commendUserID;
+        NewId = newId;
+        menuWindow = new InputPopupWindow(CommentAboutMe.this, itemsOnClick);
+        //显示窗口
+        menuWindow.showAtLocation(getRootView(CommentAboutMe.this), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    //为弹出窗口实现监听类
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_submit:
+                    submitCommend();
+                    menuWindow.dismiss();
+                    break;
+
+            }
+
+        }
+
+    };
+
+    private static View getRootView(Activity context) {
+        return ((ViewGroup) context.findViewById(android.R.id.content)).getChildAt(0);
+    }
+
+    private void submitCommend() {
+        AddCommend2Data();
+
+    }
+
+    //添加二级评论
+    private void AddCommend2Data() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("CommentFromNewId", NewId);
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        opt_map.put("RecordId", RecordId);
+        opt_map.put("CommentFromUser", CommendUserId);
+        opt_map.put("Comment", menuWindow.getInput());
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "CommentNew.php", opt_map, CommResultTmp.class, this);
+/**
+ * 二级评论
+ * */
+    /*    HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("NewId", NEW_ID);
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        opt_map.put("RecordId", RecordId);
+        opt_map.put("CommendUserId", CommendUserId);
+        opt_map.put("Commend", menuWindow.getInput());
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "AddNewCommend2Data.php", opt_map, CommResultTmp.class, this);*/
+    }
 }

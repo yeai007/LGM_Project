@@ -1,25 +1,27 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.format.DateUtils;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.hopeofseed.hopeofseed.Adapter.MessageListAdapter;
+import com.hopeofseed.hopeofseed.Adapter.CommentAboutMeRecyclerAdapter;
+import com.hopeofseed.hopeofseed.Adapter.UnReadConversationListAdapter;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
@@ -32,6 +34,13 @@ import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import cn.jpush.im.android.api.model.Conversation;
+
+import static cn.jpush.im.android.api.JMessageClient.getConversationList;
+import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
+
 
 /**
  * 项目名称：liguangming
@@ -44,21 +53,57 @@ import java.util.HashMap;
  */
 public class MessageFragment extends Fragment implements NetCallBack, View.OnClickListener {
     private static final String TAG = "MessageFragment";
-    PullToRefreshListView lv_message;
+    public static String MESSAGE_UPDATE_LIST = "MESSAGE_UPDATE_LIST";
     Button btn_topleft;
     ArrayList<UserMessageData> arrUserMessageData = new ArrayList<>();
     ArrayList<UserMessageData> arrUserMessageDataTmp = new ArrayList<>();
     Handler mHandle = new Handler();
-    MessageListAdapter messageListAdapter;
+    RelativeLayout rel_pinglun, rel_zan, rel_hangye, rel_xitong;
+    RecyclerView recycler_list;
+    UnReadConversationListAdapter mAdapter;
+    ArrayList<Conversation> mList = new ArrayList<>();
+    ArrayList<Conversation> mListTmp = new ArrayList<>();
+    private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
+    Handler mHandler = new Handler();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_message, null);
         initView(v);
+        initReceiver();
         initData();
+
         return v;
     }
+
+    private void initReceiver() {
+        // 注册广播接收
+        updateBroadcastReceiver = new UpdateBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MESSAGE_UPDATE_LIST);    //只有持有相同的action的接受者才能接收此广播
+        getActivity().registerReceiver(updateBroadcastReceiver, filter);
+    }
+
+    private void getData() {
+
+
+        mListTmp = (ArrayList<Conversation>) getConversationList();
+        mHandler.post(updatelist);
+
+    }
+
+    Runnable updatelist = new Runnable() {
+        @Override
+        public void run() {
+            Log.e(TAG, "getData: " + mListTmp);
+            if (mListTmp.size() > 0) {
+                mList.clear();
+                mList.addAll(mListTmp);
+                mAdapter.notifyDataSetChanged();
+            }
+        }
+    };
 
     private void initData() {
         HashMap<String, String> opt_map = new HashMap<>();
@@ -71,53 +116,50 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         app_title.setText("消息");
         (v.findViewById(R.id.btn_topright)).setOnClickListener(listener);
         (v.findViewById(R.id.btn_topleft)).setOnClickListener(listener);
-        lv_message = (PullToRefreshListView) v.findViewById(R.id.lv_message);
-        lv_message.setMode(PullToRefreshBase.Mode.BOTH);
-        messageListAdapter = new MessageListAdapter(getActivity(), arrUserMessageData);
-        lv_message.setAdapter(messageListAdapter);
-        lv_message.setOnItemClickListener(list_listener);
         RelativeLayout rel_search = (RelativeLayout) v.findViewById(R.id.rel_search);
         rel_search.setOnClickListener(this);
-        initList();
+        rel_pinglun = (RelativeLayout) v.findViewById(R.id.rel_pinglun);
+        rel_zan = (RelativeLayout) v.findViewById(R.id.rel_zan);
+        rel_hangye = (RelativeLayout) v.findViewById(R.id.rel_hangye);
+        rel_xitong = (RelativeLayout) v.findViewById(R.id.rel_xitong);
+        rel_pinglun.setOnClickListener(listener);
+        rel_zan.setOnClickListener(listener);
+        rel_hangye.setOnClickListener(listener);
+        rel_xitong.setOnClickListener(listener);
+        getData();
+        recycler_list = (RecyclerView) v.findViewById(R.id.recycler_list);
+        recycler_list.setHasFixedSize(true);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recycler_list.setLayoutManager(layoutManager);
+        mAdapter = new UnReadConversationListAdapter(getActivity(), mList);
+        recycler_list.setAdapter(mAdapter);
     }
 
-    private void initList() {
-        lv_message.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-            @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                String str = DateUtils.formatDateTime(getActivity(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-                // 下拉刷新 业务代码
-                if (refreshView.isShownHeader()) {
-                    lv_message.getLoadingLayoutProxy().setRefreshingLabel("正在刷新");
-                    lv_message.getLoadingLayoutProxy().setPullLabel("下拉刷新");
-                    lv_message.getLoadingLayoutProxy().setReleaseLabel("释放开始刷新");
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel("最后更新时间:" + str);
-                    initData();
-                }
-                // 上拉加载更多 业务代码
-                if (refreshView.isShownFooter()) {
-                    lv_message.getLoadingLayoutProxy().setRefreshingLabel("正在加载");
-                    lv_message.getLoadingLayoutProxy().setPullLabel("上拉加载更多");
-                    lv_message.getLoadingLayoutProxy().setReleaseLabel("释放加载更多");
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel("最后加载时间:" + str);
-                    initData();
-                }
-
-            }
-        });
-    }
 
     private View.OnClickListener listener = new View.OnClickListener() {
         public void onClick(View v) {
             Intent intent;
             switch (v.getId()) {
                 case R.id.btn_topright:
-/*                    intent = new Intent(getActivity(), CreateChat.class);
-                    startActivity(intent);*/
+                    intent = new Intent(getActivity(), SearchGroupActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.btn_topleft:
                     intent = new Intent(getActivity(), CreateGroupActivity.class);
                     startActivity(intent);
+                    break;
+                case R.id.rel_pinglun:
+                    intent = new Intent(getActivity(), CommentAboutMe.class);
+                    startActivity(intent);
+                    break;
+                case R.id.rel_zan:
+                    intent = new Intent(getActivity(), CommentAboutMe.class);
+                    startActivity(intent);
+                    break;
+                case R.id.rel_hangye:
+
+                    break;
+                case R.id.rel_xitong:
 
                     break;
             }
@@ -127,8 +169,7 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
         arrUserMessageDataTmp = ((UserMessageDataTmp) rspBaseBean).getDetail();
-        // mHandle.postDelayed(updateData,1000);
-        lv_message.postDelayed(updateData, 1000);
+
     }
 
     @Override
@@ -141,15 +182,6 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
 
     }
 
-    Runnable updateData = new Runnable() {
-        @Override
-        public void run() {
-            arrUserMessageData.clear();
-            arrUserMessageData.addAll(arrUserMessageDataTmp);
-            messageListAdapter.notifyDataSetChanged();
-            lv_message.onRefreshComplete();
-        }
-    };
     AdapterView.OnItemClickListener list_listener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -185,6 +217,14 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
                 Intent intent = new Intent(getActivity(), SearchAcitvity.class);
                 startActivity(intent);
                 break;
+        }
+    }
+
+    class UpdateBroadcastReceiver extends BroadcastReceiver {
+
+        /* 覆写该方法，对广播事件执行响应的动作  */
+        public void onReceive(Context context, Intent intent) {
+            getData();
         }
     }
 }

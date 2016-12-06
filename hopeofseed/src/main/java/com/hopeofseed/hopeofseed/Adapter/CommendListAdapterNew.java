@@ -72,7 +72,6 @@ public class CommendListAdapterNew extends BaseAdapter {
             viewHolder.btn_huifu = (Button) view.findViewById(R.id.btn_huifu);
             viewHolder.btn_huifu.setTag(R.id.record_id, mData.getCommentRecrodId());
             viewHolder.btn_huifu.setTag(R.id.record_user, mData.getUser_id());
-
             viewHolder.btn_huifu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
