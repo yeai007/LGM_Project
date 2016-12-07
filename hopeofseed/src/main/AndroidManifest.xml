@@ -535,6 +535,11 @@
             android:name=".Activitys.SearchGroupActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.SystemNofityActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

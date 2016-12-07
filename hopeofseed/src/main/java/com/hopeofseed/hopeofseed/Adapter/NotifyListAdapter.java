@@ -10,13 +10,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.hopeofseed.hopeofseed.Application;
+import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
 import com.lgm.utils.DateTools;
+
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+
 import cn.jpush.im.android.api.model.Conversation;
+
+import static com.hopeofseed.hopeofseed.R.id.tv_unread_count;
 
 
 /**
@@ -28,13 +35,13 @@ import cn.jpush.im.android.api.model.Conversation;
  * 修改时间：2016/12/6 17:50
  * 修改备注：
  */
-public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadConversationListAdapter.ViewHolder> {
+public class NotifyListAdapter extends RecyclerView.Adapter<NotifyListAdapter.ViewHolder> {
     private static final String TAG = "UnReadConversationListA";
-    List<Conversation> mList;
+    List<NotifyDataNorealm> mList;
     Context mContext;
     private LayoutInflater inflater;
 
-    public UnReadConversationListAdapter(Context context, List<Conversation> list) {
+    public NotifyListAdapter(Context context, List<NotifyDataNorealm> list) {
         super();
         this.mContext = context;
         this.mList = list;
@@ -44,7 +51,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.message_list_item, null, false);
+        View view = inflater.inflate(R.layout.notify_list_item, null, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
@@ -52,30 +59,10 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Log.e(TAG, "onBindViewHolder:getUnReadMsgCnt " + position);
-        final Conversation itemData = mList.get(position);
-        String date = DateTools.getDateToString(String.valueOf(itemData.getLastMsgDate()));
-        updateTime(holder,date);
-        Log.e(TAG, "onBindViewHolder: getUnReadMsgCnt" + itemData.getUnReadMsgCnt());
-        //holder.item_content.setText();
-        if (itemData.getUnReadMsgCnt() > 99) {
-            holder.tv_unread_count.setText("99");
-        } else {
-            holder.tv_unread_count.setText(String.valueOf(itemData.getUnReadMsgCnt()));
-        }
-        holder.rel_item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent notificationIntent = new Intent(mContext, ChatActivity.class);
-
-                notificationIntent.putExtra(Application.TARGET_APP_KEY, itemData.getTargetAppKey());
-                notificationIntent.putExtra(Application.GROUP_ID, Long.parseLong(itemData.getTargetId()));
-
-                notificationIntent.putExtra("fromGroup", false);
-                notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                        | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mContext.startActivity(notificationIntent);
-            }
-        });
+        final NotifyDataNorealm itemData = mList.get(position);
+        updateTime(holder, itemData.getNotifyCreateTime());
+        holder.item_title.setText(itemData.getNotifyTitle());
+        holder.item_content.setText(itemData.getNotifyContent());
     }
 
     @Override
@@ -85,18 +72,19 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img_item;
-        TextView item_content, tv_unread_count, tv_time;
+        TextView item_content, item_title, tv_time;
         RelativeLayout rel_item;
 
         public ViewHolder(View itemView) {
             super(itemView);
             img_item = (ImageView) itemView.findViewById(R.id.img_item);
             item_content = (TextView) itemView.findViewById(R.id.item_content);
-            tv_unread_count = (TextView) itemView.findViewById(R.id.tv_unread_count);
             rel_item = (RelativeLayout) itemView.findViewById(R.id.rel_item);
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);
+            item_title = (TextView) itemView.findViewById(R.id.item_title);
         }
     }
+
     private void updateTime(ViewHolder holder, String time) {
         Long[] longDiff = null;
         String NowTime = null;

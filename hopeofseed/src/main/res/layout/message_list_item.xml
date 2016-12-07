@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="70dp"
     android:orientation="horizontal">
 
     <RelativeLayout
         android:id="@+id/rel_item"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="65dp"
         android:layout_marginTop="2dp"
         android:background="@color/white"
         android:orientation="horizontal">
@@ -16,7 +16,6 @@
             android:id="@+id/img_item"
             android:layout_width="40dp"
             android:layout_height="40dp"
-
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:scaleType="fitCenter"
@@ -32,11 +31,38 @@
             android:text="评论"
             android:textColor="@color/text_title_color" />
 
-        <ImageView
-            android:layout_width="50dp"
+        <RelativeLayout
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/right_arrow" />
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp">
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="2dp" />
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:src="@drawable/img_message_count" />
+
+            <TextView
+                android:id="@+id/tv_unread_count"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="10"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

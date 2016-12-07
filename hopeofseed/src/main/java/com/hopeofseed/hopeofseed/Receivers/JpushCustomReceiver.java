@@ -5,9 +5,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.NewsData;
+import com.hopeofseed.hopeofseed.JNXData.NotifyData;
+import com.hopeofseed.hopeofseed.JNXData.UserData;
+import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
 import com.lgm.utils.ObjectUtil;
 
 import org.json.JSONObject;
@@ -19,9 +26,12 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.helpers.IMReceiver;
+import io.realm.Realm;
 
 import static android.R.attr.keySet;
 import static android.R.attr.lockTaskMode;
+import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
+import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 
 
 /**
@@ -37,15 +47,18 @@ public class JpushCustomReceiver extends IMReceiver {
     private static final String TAG = "JpushCustomReceiver";
 
     private NotificationManager nm;
+    Context mContext;
+    Handler mHandler = new Handler();
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        mContext = context;
         if (null == nm) {
             nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
 
         Bundle bundle = intent.getExtras();
-       // Log.e(TAG, "onReceive - " + intent.getAction() + ", extras: " + bundle);
+        // Log.e(TAG, "onReceive - " + intent.getAction() + ", extras: " + bundle);
 
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             Log.e(TAG, "JPush用户注册成功");
@@ -57,25 +70,16 @@ public class JpushCustomReceiver extends IMReceiver {
             Log.e(TAG, "接受到推送下来的通知");
            /* Bundle bundle = intent.getExtras();
             String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);*/
-
             receivingNotification(context, bundle);
-
-
+            mHandler.postDelayed(rSendUpdateMessage, 3000);
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.e(TAG, "用户点击打开了通知");
-     /*       Bundle bundle = intent.getExtras();
-            openNotification(context, bundle);*/
-
-        }
-        else if(intent.getAction().equals("cn.jpush.im.android.action.IM_RESPONSE"))
-        {
-        }
-        else if(intent.getAction().equals("cn.jpush.im.android.action.NOTIFICATION_CLICK_PROXY"))
-        {
-            Log.e(TAG, "onReceive:用户打开了通知" );
-
-        }
-        else {
+            openNotification(context, bundle);
+        } else if (intent.getAction().equals("cn.jpush.im.android.action.IM_RESPONSE")) {
+            mHandler.postDelayed(rSendUpdateMessage, 3000);
+        } else if (intent.getAction().equals("cn.jpush.im.android.action.NOTIFICATION_CLICK_PROXY")) {
+            Log.e(TAG, "onReceive:用户打开了通知");
+        } else {
             Log.e(TAG, "Unhandled intent - " + intent.getAction());
         }
     }
@@ -87,28 +91,52 @@ public class JpushCustomReceiver extends IMReceiver {
         Log.e(TAG, "message : " + message);
         String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
         Log.e(TAG, "extras : " + extras);
-    }
-
-    private void openNotification(Context context, Bundle bundle) {
-        String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        String myValue = "";
         try {
             JSONObject extrasJson = new JSONObject(extras);
-            myValue = extrasJson.optString("myKey");
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                    .create();
+            NotifyData insertNotifyData = new NotifyData();
+            insertNotifyData = gson.fromJson(extras, NotifyData.class);
+            insertRealm(insertNotifyData);
         } catch (Exception e) {
             Log.w(TAG, "Unexpected: extras is not a valid json", e);
             return;
         }
-      /*  if (TYPE_THIS.equals(myValue)) {
-            Intent mIntent = new Intent(context, ThisActivity.class);
-            mIntent.putExtras(bundle);
-            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(mIntent);
-        } else if (TYPE_ANOTHER.equals(myValue)){
-            Intent mIntent = new Intent(context, AnotherActivity.class);
-            mIntent.putExtras(bundle);
-            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(mIntent);
-        }*/
+    }
+
+
+    private void openNotification(Context context, Bundle bundle) {
+        String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
+        try {
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                    .create();
+            NotifyData insertNotifyData = new NotifyData();
+            insertNotifyData = gson.fromJson(extras, NotifyData.class);
+            insertNotifyData.setNotifyIsRead("1");
+            insertRealm(insertNotifyData);
+        } catch (Exception e) {
+            Log.w(TAG, "Unexpected: extras is not a valid json", e);
+            return;
+        }
+    }
+
+    Runnable rSendUpdateMessage = new Runnable() {
+        @Override
+        public void run() {
+            Intent intent_update = new Intent();  //Itent就是我们要发送的内容
+            intent_update.setAction(MESSAGE_UPDATE_LIST);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+            mContext.sendBroadcast(intent_update);   //发送广播
+        }
+    };
+
+    private void insertRealm(NotifyData insertNotifyData) {
+        Realm insertRealm = Realm.getDefaultInstance();
+        insertRealm.beginTransaction();
+        NotifyData inNotifyData = insertRealm.copyToRealmOrUpdate(insertNotifyData);
+        insertRealm.commitTransaction();
     }
 }

@@ -7,6 +7,7 @@
  */
 package com.lgm.utils;
 
+import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -304,6 +305,23 @@ public class DateTools {
         Date curDate = new Date(System.currentTimeMillis());//获取当前时间
         String str = formatter.format(curDate);
         return str;
+    }
+
+    /**
+     * 调用此方法输入所要转换的时间戳输入例如（1402733340）输出（"yyyy-MM-dd HH:mm:ss"）
+     *
+     * @param time
+     * @return
+     */
+    public static String getDateToString(String cc_time) {
+        String re_StrTime = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // 例如：
+        //cc_time=1291778220 ;
+        long lcc_time = Long.valueOf(cc_time);
+        re_StrTime = sdf.format(new Date(lcc_time * 1000L));
+        return re_StrTime;
+
     }
 
 

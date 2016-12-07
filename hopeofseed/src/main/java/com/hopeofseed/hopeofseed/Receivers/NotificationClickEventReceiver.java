@@ -1,20 +1,15 @@
 package com.hopeofseed.hopeofseed.Receivers;
 
-
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
-
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.enums.ConversationType;
 import cn.jpush.im.android.api.event.NotificationClickEvent;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.Message;
-
 
 public class NotificationClickEventReceiver {
     private static final String TAG = NotificationClickEventReceiver.class.getSimpleName();

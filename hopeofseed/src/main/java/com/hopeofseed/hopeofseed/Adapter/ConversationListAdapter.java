@@ -10,12 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
 import com.lgm.utils.DateTools;
+
 import java.text.ParseException;
 import java.util.List;
+
 import cn.jpush.im.android.api.model.Conversation;
 
 
@@ -28,13 +31,13 @@ import cn.jpush.im.android.api.model.Conversation;
  * 修改时间：2016/12/6 17:50
  * 修改备注：
  */
-public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadConversationListAdapter.ViewHolder> {
+public class ConversationListAdapter extends RecyclerView.Adapter<ConversationListAdapter.ViewHolder> {
     private static final String TAG = "UnReadConversationListA";
     List<Conversation> mList;
     Context mContext;
     private LayoutInflater inflater;
 
-    public UnReadConversationListAdapter(Context context, List<Conversation> list) {
+    public ConversationListAdapter(Context context, List<Conversation> list) {
         super();
         this.mContext = context;
         this.mList = list;
@@ -56,7 +59,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
         String date = DateTools.getDateToString(String.valueOf(itemData.getLastMsgDate()));
         updateTime(holder,date);
         Log.e(TAG, "onBindViewHolder: getUnReadMsgCnt" + itemData.getUnReadMsgCnt());
-        //holder.item_content.setText();
+        holder.item_content.setText(itemData.getTitle());
         if (itemData.getUnReadMsgCnt() > 99) {
             holder.tv_unread_count.setText("99");
         } else {

@@ -14,32 +14,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.hopeofseed.hopeofseed.Adapter.CommentAboutMeRecyclerAdapter;
 import com.hopeofseed.hopeofseed.Adapter.UnReadConversationListAdapter;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.UserMessageData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserMessageDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 import cn.jpush.im.android.api.model.Conversation;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static cn.jpush.im.android.api.JMessageClient.getConversationList;
-import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 
 
 /**
@@ -65,6 +62,9 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     ArrayList<Conversation> mListTmp = new ArrayList<>();
     private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
     Handler mHandler = new Handler();
+    Realm myRealm = Realm.getDefaultInstance();
+    ImageView pinglun_img, xitong_img, hangye_img;
+    TextView pinglun_unread_count, xitong_unread_count, hangye_unread_count;
 
     @Nullable
     @Override
@@ -73,7 +73,7 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         initView(v);
         initReceiver();
         initData();
-
+        getNotifyData();
         return v;
     }
 
@@ -86,11 +86,35 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     }
 
     private void getData() {
+        if ((ArrayList<Conversation>) getConversationList() != null) {
+            mListTmp = (ArrayList<Conversation>) getConversationList();
+            mHandler.post(updatelist);
+        }
+    }
 
-
-        mListTmp = (ArrayList<Conversation>) getConversationList();
-        mHandler.post(updatelist);
-
+    private void getNotifyData() {
+        //系统通知
+        RealmResults<NotifyData> results1 =
+                myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "1").findAll();
+        if (results1.size() > 0) {
+            xitong_img.setImageResource(R.drawable.img_message_count);
+            xitong_unread_count.setVisibility(View.VISIBLE);
+            xitong_unread_count.setText(String.valueOf(results1.size()));
+        } else {
+            xitong_img.setImageResource(R.drawable.right_arrow);
+            xitong_unread_count.setVisibility(View.INVISIBLE);
+        }
+        //行业通知
+        RealmResults<NotifyData> results2 =
+                myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "2").findAll();
+        if (results2.size() > 0) {
+            hangye_img.setImageResource(R.drawable.img_message_count);
+            hangye_unread_count.setVisibility(View.VISIBLE);
+            hangye_unread_count.setText(String.valueOf(results2.size()));
+        } else {
+            hangye_img.setImageResource(R.drawable.right_arrow);
+            hangye_unread_count.setVisibility(View.INVISIBLE);
+        }
     }
 
     Runnable updatelist = new Runnable() {
@@ -99,7 +123,11 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
             Log.e(TAG, "getData: " + mListTmp);
             if (mListTmp.size() > 0) {
                 mList.clear();
-                mList.addAll(mListTmp);
+                for (int i = 0; i < mListTmp.size(); i++) {
+                    if (mListTmp.get(i).getUnReadMsgCnt() > 0) {
+                        mList.add(mListTmp.get(i));
+                    }
+                }
                 mAdapter.notifyDataSetChanged();
             }
         }
@@ -126,6 +154,12 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         rel_zan.setOnClickListener(listener);
         rel_hangye.setOnClickListener(listener);
         rel_xitong.setOnClickListener(listener);
+        pinglun_img = (ImageView) v.findViewById(R.id.pinglun_img);
+        pinglun_unread_count = (TextView) v.findViewById(R.id.pinglun_unread_count);
+        xitong_img = (ImageView) v.findViewById(R.id.xitong_img);
+        xitong_unread_count = (TextView) v.findViewById(R.id.xitong_unread_count);
+        hangye_img = (ImageView) v.findViewById(R.id.hangye_img);
+        hangye_unread_count = (TextView) v.findViewById(R.id.hangye_unread_count);
         getData();
         recycler_list = (RecyclerView) v.findViewById(R.id.recycler_list);
         recycler_list.setHasFixedSize(true);
@@ -157,11 +191,16 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
                     startActivity(intent);
                     break;
                 case R.id.rel_hangye:
-
+                    intent = new Intent(getActivity(), SystemNofityActivity.class);
+                    intent.putExtra("type","2");
+                    startActivity(intent);
                     break;
                 case R.id.rel_xitong:
-
+                    intent = new Intent(getActivity(), SystemNofityActivity.class);
+                    intent.putExtra("type","1");
+                    startActivity(intent);
                     break;
+
             }
         }
     };
@@ -224,7 +263,10 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
 
         /* 覆写该方法，对广播事件执行响应的动作  */
         public void onReceive(Context context, Intent intent) {
+
+            Log.e(TAG, "onReceive: 收到广播");
             getData();
+            getNotifyData();
         }
     }
 }

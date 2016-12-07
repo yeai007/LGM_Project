@@ -75,12 +75,33 @@
                 android:text="评论"
                 android:textColor="@color/text_title_color" />
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/right_arrow" />
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:id="@+id/pinglun_img"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/right_arrow" />
+
+                <TextView
+                    android:id="@+id/pinglun_unread_count"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="10"
+                    android:textColor="#ffffff"
+                    android:visibility="invisible" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
@@ -89,7 +110,8 @@
             android:layout_height="50dp"
             android:layout_marginTop="2dp"
             android:background="@color/white"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <com.hopeofseed.hopeofseed.ui.CircleImageView
                 android:id="@+id/img_zan_left"
@@ -109,12 +131,33 @@
                 android:text="赞"
                 android:textColor="@color/text_title_color" />
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/right_arrow" />
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:id="@+id/zan_img"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/right_arrow" />
+
+                <TextView
+                    android:id="@+id/zan_unread_count"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="10"
+                    android:textColor="#ffffff"
+                    android:visibility="invisible" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
@@ -143,12 +186,33 @@
                 android:text="行业通知"
                 android:textColor="@color/text_title_color" />
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/right_arrow" />
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:id="@+id/hangye_img"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/right_arrow" />
+
+                <TextView
+                    android:id="@+id/hangye_unread_count"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="10"
+                    android:textColor="#ffffff"
+                    android:visibility="invisible" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <RelativeLayout
@@ -177,12 +241,33 @@
                 android:text="系统通知"
                 android:textColor="@color/text_title_color" />
 
-            <ImageView
+            <RelativeLayout
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/right_arrow" />
+                android:layout_marginRight="10dp">
+
+                <ImageView
+                    android:id="@+id/xitong_img"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:src="@drawable/right_arrow" />
+
+                <TextView
+                    android:id="@+id/xitong_unread_count"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="10"
+                    android:textColor="#ffffff"
+                    android:visibility="invisible" />
+            </RelativeLayout>
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView

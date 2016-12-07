@@ -22,7 +22,6 @@ import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.CommentAboutMeData;
 import com.hopeofseed.hopeofseed.R;
-import com.hopeofseed.hopeofseed.curView.InputPopupWindow;
 import com.lgm.utils.DateTools;
 
 import java.text.ParseException;
@@ -34,7 +33,6 @@ import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
-import static com.hopeofseed.hopeofseed.R.id.send_time;
 
 /**
  * 项目名称：LGM_Project
