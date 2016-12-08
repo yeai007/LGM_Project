@@ -1,7 +1,6 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,15 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
 import com.hopeofseed.hopeofseed.R;
-import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
 import com.lgm.utils.DateTools;
-
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.jpush.im.android.api.model.Conversation;
