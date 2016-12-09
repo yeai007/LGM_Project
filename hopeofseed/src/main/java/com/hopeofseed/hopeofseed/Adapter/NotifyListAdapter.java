@@ -1,6 +1,8 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,15 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.hopeofseed.hopeofseed.Activitys.SystemNofityActivity;
+import com.hopeofseed.hopeofseed.Activitys.SystemNofityDetailActivity;
 import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.DateTools;
+
 import java.text.ParseException;
 import java.util.List;
-
-import cn.jpush.im.android.api.model.Conversation;
-
-import static com.hopeofseed.hopeofseed.R.id.tv_unread_count;
 
 
 /**
@@ -57,6 +59,16 @@ public class NotifyListAdapter extends RecyclerView.Adapter<NotifyListAdapter.Vi
         updateTime(holder, itemData.getNotifyCreateTime());
         holder.item_title.setText(itemData.getNotifyTitle());
         holder.item_content.setText(itemData.getNotifyContent());
+        holder.rel_item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, SystemNofityDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("data", itemData);
+                intent.putExtras(bundle);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

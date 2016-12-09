@@ -540,6 +540,27 @@
             android:name=".Activitys.SystemNofityActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.SystemNofityDetailActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".util.UpdateGroupAvatar"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name=".Activitys.UpdateGroupDesc"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.SelectUser"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

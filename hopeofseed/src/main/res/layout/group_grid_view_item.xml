@@ -15,6 +15,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/jmui_head_icon"
+            android:layout_marginTop="5dp"
             android:scaleType="centerCrop"
             android:visibility="visible" />
 
@@ -37,6 +38,7 @@
         android:singleLine="true"
         android:layout_marginTop="3dp"
         android:textColor="@color/gray"
+        android:layout_marginBottom="5dp"
         android:visibility="visible" />
 
 

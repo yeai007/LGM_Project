@@ -560,13 +560,13 @@ public class MsgListAdapter extends BaseAdapter {
                             holder.headIcon.setImageBitmap(bitmap);
                         } else {
                             holder.headIcon.setImageResource(IdHelper.getDrawable(mContext, 
-                                    "jmui_head_icon"));
+                                    "header_user_default"));
                             HandleResponseCode.onHandle(mContext, status, false);
                         }
                     }
                 });
             } else {
-                holder.headIcon.setImageResource(IdHelper.getDrawable(mContext, "jmui_head_icon"));
+                holder.headIcon.setImageResource(IdHelper.getDrawable(mContext, "header_user_default"));
             }
 
             // 点击头像跳转到个人信息界面

@@ -1,6 +1,9 @@
 package com.hopeofseed.hopeofseed.JNXData;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.preference.Preference;
 
 /**
  * 项目名称：LGM_Project
@@ -11,7 +14,7 @@ package com.hopeofseed.hopeofseed.JNXData;
  * 修改时间：2016/12/7 16:24
  * 修改备注：
  */
-public class NotifyDataNorealm {
+public class NotifyDataNorealm implements Parcelable {
     /**
      * NotifyImage : null
      * NotifyURL : null
@@ -128,4 +131,53 @@ public class NotifyDataNorealm {
     public void setNotifyCreateTime(String NotifyCreateTime) {
         this.NotifyCreateTime = NotifyCreateTime;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.NotifyImage);
+        dest.writeString(this.NotifyURL);
+        dest.writeString(this.NotifyTitle);
+        dest.writeString(this.NotifyToClass);
+        dest.writeString(this.NotifyType);
+        dest.writeString(this.NotifyShowContent);
+        dest.writeString(this.NotifyContent);
+        dest.writeString(this.NotifyId);
+        dest.writeString(this.NotifyShowTitle);
+        dest.writeString(this.NotifyIsRead);
+        dest.writeString(this.NotifyCreateTime);
+    }
+
+    public NotifyDataNorealm() {
+    }
+
+    protected NotifyDataNorealm(Parcel in) {
+        this.NotifyImage = in.readString();
+        this.NotifyURL = in.readString();
+        this.NotifyTitle = in.readString();
+        this.NotifyToClass = in.readString();
+        this.NotifyType = in.readString();
+        this.NotifyShowContent = in.readString();
+        this.NotifyContent = in.readString();
+        this.NotifyId = in.readString();
+        this.NotifyShowTitle = in.readString();
+        this.NotifyIsRead = in.readString();
+        this.NotifyCreateTime = in.readString();
+    }
+
+    public static final Creator<NotifyDataNorealm> CREATOR = new Creator<NotifyDataNorealm>() {
+        @Override
+        public NotifyDataNorealm createFromParcel(Parcel source) {
+            return new NotifyDataNorealm(source);
+        }
+
+        @Override
+        public NotifyDataNorealm[] newArray(int size) {
+            return new NotifyDataNorealm[size];
+        }
+    };
 }

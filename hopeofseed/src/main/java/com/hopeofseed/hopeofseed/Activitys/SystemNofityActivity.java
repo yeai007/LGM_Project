@@ -34,7 +34,7 @@ public class SystemNofityActivity extends AppCompatActivity implements View.OnCl
     ArrayList<Conversation> mListTmp = new ArrayList<>();
     Handler mHandler = new Handler();
     Realm myRealm = Realm.getDefaultInstance();
-String type="1";
+    String type="1";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +76,7 @@ String type="1";
         recycler_list.setLayoutManager(layoutManager);
         mAdapter = new NotifyListAdapter(SystemNofityActivity.this, mList);
         recycler_list.setAdapter(mAdapter);
+
     }
 
     @Override

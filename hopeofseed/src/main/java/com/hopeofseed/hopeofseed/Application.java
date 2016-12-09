@@ -60,7 +60,6 @@ public class Application extends android.app.Application {
     public static final int REQUEST_CODE_ALL_MEMBER = 21;
     public static final int RESULT_CODE_ALL_MEMBER = 22;
     public static final int ON_GROUP_EVENT = 3004;
-
     private static final String JCHAT_CONFIGS = "JChat_configs";
     public static final String TARGET_APP_KEY = "targetAppKey";
     public static final String TARGET_ID = "targetId";

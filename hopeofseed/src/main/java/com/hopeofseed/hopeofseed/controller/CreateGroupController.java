@@ -69,7 +69,6 @@ public class CreateGroupController implements OnClickListener, NetCallBack {
                         mDialog.dismiss();
                         if (status == 0) {
                             JpushGroupId = String.valueOf(groupId);
-
                             getGroupInfo();
                         } else {
                             HandleResponseCode.onHandle(mContext, status, false);

@@ -229,12 +229,13 @@
 
     <string name="members_in_chat">聊天成员</string>
 
-    <string name="group_name_hit">群聊名称</string>
+    <string name="group_name_hit">群名称</string>
     <string name="group_name_not_null_toast">名称不能为空</string>
     <string name="modify_success_toast">修改成功</string>
-
+    <string name="jmui_user_already_exist_toast">该用户已存在</string>
+    <string name="user_add_self_toast">不能添加自己为好友</string>
     <string name="selected_num">(%s)</string>
-    <string name="set_do_not_disturb" >消息免打扰</string>
+    <string name="set_do_not_disturb">消息免打扰</string>
     <string name="set_do_not_disturb_success_hint">成功加入免打扰</string>
     <string name="remove_from_no_disturb_list_hint">已移除免打扰</string>
     <string name="add_to_blacklist">加入黑名单</string>

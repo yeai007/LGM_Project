@@ -116,7 +116,7 @@
         <item name="android:layout_height">@dimen/item_head_icon_size</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_marginLeft">5dp</item>
-        <item name="android:src">@drawable/jmui_head_icon</item>
+        <item name="android:src">@drawable/header_user_default</item>
         <item name="android:scaleType">fitXY</item>
     </style>
     <style name="jmui_msg_text_style">
@@ -155,7 +155,7 @@
         <item name="android:layout_height">@dimen/item_head_icon_size</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_marginRight">5dp</item>
-        <item name="android:src">@drawable/jmui_head_icon</item>
+        <item name="android:src">@drawable/header_user_default</item>
         <item name="android:scaleType">fitXY</item>
     </style>
     <style name="ChatDetailItem">
@@ -164,7 +164,7 @@
         <item name="android:padding">5dp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@drawable/jmui_list_item_bg</item>
+        <item name="android:background">@color/white</item>
         <item name="android:clickable">true</item>
     </style>
     <style name="jmui_default_dialog_style">

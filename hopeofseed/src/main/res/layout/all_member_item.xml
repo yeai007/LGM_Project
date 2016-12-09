@@ -26,7 +26,7 @@
             android:layout_height="50dp"
             android:layout_toRightOf="@+id/check_box_cb"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/jmui_head_icon" />
+            android:src="@drawable/header_user_default" />
 
         <TextView
             android:id="@+id/name"

@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,10 +30,8 @@ import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
 import com.hopeofseed.hopeofseed.ui.chatting.controller.ChatDetailController;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.HandleResponseCode;
 import com.hopeofseed.hopeofseed.ui.view.ChatDetailView;
-
 import java.lang.ref.WeakReference;
 import java.util.List;
-
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.content.EventNotificationContent;
@@ -42,14 +41,12 @@ import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
 
-
 /*
  * 在对话界面中点击聊天信息按钮进来的聊天信息界面
  */
-public class ChatDetailActivity extends BaseActivity {
+public class ChatDetailActivity extends BaseActivity{
 
     private static final String TAG = "ChatDetailActivity";
-
     private ChatDetailView mChatDetailView;
     private ChatDetailController mChatDetailController;
     private UIHandler mUIHandler = new UIHandler(this);
@@ -59,6 +56,7 @@ public class ChatDetailActivity extends BaseActivity {
     private static final int ADD_FRIEND_REQUEST_CODE = 3;
     private Context mContext;
     private ProgressDialog mDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +72,8 @@ public class ChatDetailActivity extends BaseActivity {
         mChatDetailView.setItemListener(mChatDetailController);
     }
 
+
+
     //设置群聊名称
     public void showGroupNameSettingDialog(int which, final long groupID, String groupName) {
         final Dialog dialog = new Dialog(this, R.style.jmui_default_dialog_style);
@@ -87,6 +87,7 @@ public class ChatDetailActivity extends BaseActivity {
                 private CharSequence temp = "";
                 private int editStart;
                 private int editEnd;
+
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -228,6 +229,11 @@ public class ChatDetailActivity extends BaseActivity {
         } else if (requestCode == Application.REQUEST_CODE_ALL_MEMBER) {
             mChatDetailController.refreshMemberList();
         }
+        else if(requestCode==801||requestCode==802||requestCode==803)
+        {
+            mChatDetailController.refreshAvatar();
+            mChatDetailController.refreshMemberList();
+        }
     }
 
     @Override
@@ -312,11 +318,12 @@ public class ChatDetailActivity extends BaseActivity {
             Message handleMsg = mUIHandler.obtainMessage();
             handleMsg.what = Application.ON_GROUP_EVENT;
             Bundle bundle = new Bundle();
-            bundle.putLong(Application.GROUP_ID, ((GroupInfo)msg.getTargetInfo()).getGroupID());
+            bundle.putLong(Application.GROUP_ID, ((GroupInfo) msg.getTargetInfo()).getGroupID());
             handleMsg.setData(bundle);
             handleMsg.sendToTarget();
         }
     }
+
 
     private static class UIHandler extends Handler {
 
