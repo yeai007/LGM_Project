@@ -1,23 +1,21 @@
 package com.hopeofseed.hopeofseed.ui.chatting.controller;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.Activitys.ChatDetailActivity;
+import com.hopeofseed.hopeofseed.Activitys.JoinTheGroup;
 import com.hopeofseed.hopeofseed.Activitys.MembersInChatActivity;
 import com.hopeofseed.hopeofseed.Activitys.SelectUser;
 import com.hopeofseed.hopeofseed.Activitys.UpdateGroupDesc;
@@ -34,6 +32,7 @@ import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.DialogCreator;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.HandleResponseCode;
 import com.hopeofseed.hopeofseed.ui.entity.Event;
+import com.hopeofseed.hopeofseed.ui.iosDialog;
 import com.hopeofseed.hopeofseed.ui.view.ChatDetailView;
 import com.hopeofseed.hopeofseed.ui.view.SlipButton;
 import com.hopeofseed.hopeofseed.util.UpdateGroupAvatar;
@@ -44,9 +43,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import citypickerview.widget.CityPicker;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.CreateGroupCallback;
+import cn.jpush.im.android.api.callback.GetGroupInfoCallback;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
@@ -78,7 +77,7 @@ public class ChatDetailController implements OnClickListener, OnItemClickListene
     private String mTargetId;
     private Dialog mLoadingDialog = null;
     private static final int ADD_TO_GRIDVIEW = 2048;
-    private static final int MAX_GRID_ITEM = 40;
+    private static final int MAX_GRID_ITEM = 20;
     private String mGroupName;
     private final MyHandler myHandler = new MyHandler(this);
     private Dialog mDialog;
@@ -119,27 +118,58 @@ public class ChatDetailController implements OnClickListener, OnItemClickListene
             mIsGroup = true;
             getGroupInfoFromNoJpush();
             //获得群组基本信息：群主ID、群组名、群组人数
-            Conversation conv = JMessageClient.getGroupConversation(mGroupId);
-            mGroupInfo = (GroupInfo) conv.getTargetInfo();
-            mChatDetailView.initNoDisturb(mGroupInfo.getNoDisturb());
-            mMemberInfoList = mGroupInfo.getGroupMembers();
-            String groupOwnerId = mGroupInfo.getGroupOwner();
-            mGroupName = mGroupInfo.getGroupName();
-            if (TextUtils.isEmpty(mGroupName)) {
-                mChatDetailView.setGroupName(mContext.getString(R.string.unnamed));
+            int type = intent.getIntExtra("type", 0);
+            if (type == 0) {
+                Conversation conv = JMessageClient.getGroupConversation(mGroupId);
+                mGroupInfo = (GroupInfo) conv.getTargetInfo();
+                mChatDetailView.initNoDisturb(mGroupInfo.getNoDisturb());
+                mMemberInfoList = mGroupInfo.getGroupMembers();
+                String groupOwnerId = mGroupInfo.getGroupOwner();
+                mGroupName = mGroupInfo.getGroupName();
+                if (TextUtils.isEmpty(mGroupName)) {
+                    mChatDetailView.setGroupName(mContext.getString(R.string.unnamed));
+                } else {
+                    mChatDetailView.setGroupName(mGroupName);
+                }
+                // 判断是否为群主
+                if (groupOwnerId != null && groupOwnerId.equals(mMyUsername)) {
+                    mIsCreator = true;
+                }
+                mChatDetailView.setMyName(mMyUsername);
+                mChatDetailView.setTitle(mMemberInfoList.size());
+                initAdapter();
+                if (mGridAdapter != null) {
+                    mGridAdapter.setCreator(mIsCreator);
+                }
             } else {
-                mChatDetailView.setGroupName(mGroupName);
+                JMessageClient.getGroupInfo(mGroupId, new GetGroupInfoCallback() {
+                    @Override
+                    public void gotResult(int i, String s, GroupInfo groupInfo) {
+                        mGroupInfo = groupInfo;
+                        mChatDetailView.initNoDisturb(mGroupInfo.getNoDisturb());
+                        mMemberInfoList = mGroupInfo.getGroupMembers();
+                        String groupOwnerId = mGroupInfo.getGroupOwner();
+                        mGroupName = mGroupInfo.getGroupName();
+                        if (TextUtils.isEmpty(mGroupName)) {
+                            mChatDetailView.setGroupName(mContext.getString(R.string.unnamed));
+                        } else {
+                            mChatDetailView.setGroupName(mGroupName);
+                        }
+                        // 判断是否为群主
+                        if (groupOwnerId != null && groupOwnerId.equals(mMyUsername)) {
+                            mIsCreator = true;
+                        }
+                        mChatDetailView.setMyName(mMyUsername);
+                        mChatDetailView.setTitle(mMemberInfoList.size());
+                        initAdapter();
+                        if (mGridAdapter != null) {
+                            mGridAdapter.setCreator(mIsCreator);
+                        }
+                    }
+                });
+
             }
-            // 判断是否为群主
-            if (groupOwnerId != null && groupOwnerId.equals(mMyUsername)) {
-                mIsCreator = true;
-            }
-            mChatDetailView.setMyName(mMyUsername);
-            mChatDetailView.setTitle(mMemberInfoList.size());
-            initAdapter();
-            if (mGridAdapter != null) {
-                mGridAdapter.setCreator(mIsCreator);
-            }
+
             // 是单聊
         } else {
             Conversation conv = JMessageClient.getSingleConversation(mTargetId, mTargetAppKey);
@@ -186,7 +216,9 @@ public class ChatDetailController implements OnClickListener, OnItemClickListene
                 mContext.finish();
                 break;
             case R.id.btn_topright:
-                updateInfoNoJpush();
+                intent = new Intent(mContext, JoinTheGroup.class);
+                intent.putExtra("GroupId", String.valueOf(mGroupId));
+                mContext.startActivityForResult(intent, 804);
                 break;
             /**
              * 更新群组头像
@@ -208,7 +240,8 @@ public class ChatDetailController implements OnClickListener, OnItemClickListene
                 break;
             //显示所有群成员
             case R.id.all_member_ll:
-                intent.putExtra(Application.GROUP_ID, String.valueOf(mGroupId));
+
+                intent.putExtra(Application.GROUP_ID, mGroupId);
                 intent.putExtra(Application.DELETE_MODE, false);
                 intent.setClass(mContext, MembersInChatActivity.class);
                 mContext.startActivityForResult(intent, Application.REQUEST_CODE_ALL_MEMBER);
@@ -534,12 +567,12 @@ public class ChatDetailController implements OnClickListener, OnItemClickListene
         getGroupInfoFromNoJpush();
     }
 
-    private void updateInfoNoJpush() {
+    public void updateInfoNoJpush() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("GroupID", String.valueOf(mGroupId));
-        opt_map.put("Province", mChatDetailView.StrProvince);
-        opt_map.put("City", mChatDetailView.StrCity);
-        opt_map.put("Zone", mChatDetailView.StrZone);
+        opt_map.put("Province", mContext.StrProvince);
+        opt_map.put("City", mContext.StrCity);
+        opt_map.put("Zone", mContext.StrZone);
         opt_map.put("Desc", mChatDetailView.getDesc());
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "updateInfoNoJpush.php", opt_map, pushFileResultTmp.class, this);
@@ -579,7 +612,7 @@ public class ChatDetailController implements OnClickListener, OnItemClickListene
         @Override
         public void run() {
             mChatDetailView.setAvatar(mGroupInfoNoJpush.getAppGroupAvatar());
-            mChatDetailView.setAddress(mGroupInfoNoJpush.getAppGroupProvince(), mGroupInfoNoJpush.getAppGroupCity(), mGroupInfoNoJpush.getAppGroupZone());
+            mContext.setAddress(mGroupInfoNoJpush.getAppGroupProvince(), mGroupInfoNoJpush.getAppGroupCity(), mGroupInfoNoJpush.getAppGroupZone());
             mChatDetailView.setDesc(mGroupInfoNoJpush.getAppGroupDesc());
         }
     };

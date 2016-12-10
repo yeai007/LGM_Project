@@ -24,18 +24,14 @@ import com.hopeofseed.hopeofseed.JNXDataTmp.GroupDataTmp;
 import com.hopeofseed.hopeofseed.Adapter.DiscoversGridViewAdapter;
 import com.hopeofseed.hopeofseed.Adapter.DiscoversListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.EventListAdapter;
-import com.hopeofseed.hopeofseed.Adapter.GroupsListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.CompanyData;
 import com.hopeofseed.hopeofseed.JNXData.GroupData;
 import com.hopeofseed.hopeofseed.JNXData.NewsData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CompanyDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -66,7 +62,7 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
     GroupDataTmp groupDataTmp = new GroupDataTmp();
     DiscoversListAdapter discoversListAdapter;
     EventListAdapter eventListAdapter;
-    GroupsListAdapter groupsListAdapter;
+    /*GroupsListAdapter groupsListAdapter;*/
     PullToRefreshListView lv_hot, lv_group, lv_event;
     ArrayList<GroupData> arr_GroupData = new ArrayList<>();
     Button tv_hot, tv_event, tv_group;
@@ -105,8 +101,8 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
         discoversListAdapter = new DiscoversListAdapter(getActivity(), arr_NewsData);
         lv_hot.setAdapter(discoversListAdapter);
         lv_group = (PullToRefreshListView) v.findViewById(R.id.lv_group);
-        groupsListAdapter = new GroupsListAdapter(getActivity(), arr_GroupData);
-        lv_group.setAdapter(groupsListAdapter);
+     /*   groupsListAdapter = new GroupsListAdapter(getActivity(), arr_GroupData);
+        lv_group.setAdapter(groupsListAdapter);*/
 
         lv_event = (PullToRefreshListView) v.findViewById(R.id.lv_event);
         /*eventListAdapter = new EventListAdapter(getActivity(), arr_GroupData);
@@ -208,7 +204,7 @@ if (rspBaseBean.RequestSign.equals("getNews")) {
                     Log.e(TAG, "handleMessage: update group" );
                     arr_GroupData.clear();
                     arr_GroupData.addAll(groupDataTmp.getDetail());
-                    groupsListAdapter.notifyDataSetChanged();
+                /*    groupsListAdapter.notifyDataSetChanged();*/
                     lv_group.onRefreshComplete();
                     break;
                 case 2:

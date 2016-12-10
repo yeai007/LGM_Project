@@ -55,7 +55,7 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     ArrayList<UserMessageData> arrUserMessageData = new ArrayList<>();
     ArrayList<UserMessageData> arrUserMessageDataTmp = new ArrayList<>();
     Handler mHandle = new Handler();
-    RelativeLayout rel_pinglun, rel_zan, rel_hangye, rel_xitong;
+    RelativeLayout rel_pinglun, rel_zan, rel_hangye, rel_xitong,rel_group;
     RecyclerView recycler_list;
     UnReadConversationListAdapter mAdapter;
     ArrayList<Conversation> mList = new ArrayList<>();
@@ -63,8 +63,8 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
     Handler mHandler = new Handler();
     Realm myRealm = Realm.getDefaultInstance();
-    ImageView pinglun_img, xitong_img, hangye_img;
-    TextView pinglun_unread_count, xitong_unread_count, hangye_unread_count;
+    ImageView pinglun_img, xitong_img, hangye_img,group_img;
+    TextView pinglun_unread_count, xitong_unread_count, hangye_unread_count,group_unread_count;
 
     @Nullable
     @Override
@@ -115,6 +115,17 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
             hangye_img.setImageResource(R.drawable.right_arrow);
             hangye_unread_count.setVisibility(View.INVISIBLE);
         }
+        //群通知
+        RealmResults<NotifyData> results3=
+                myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "3").findAll();
+        if (results3.size() > 0) {
+            group_img.setImageResource(R.drawable.img_message_count);
+            group_unread_count.setVisibility(View.VISIBLE);
+            group_unread_count.setText(String.valueOf(results3.size()));
+        } else {
+            group_img.setImageResource(R.drawable.right_arrow);
+            group_unread_count.setVisibility(View.INVISIBLE);
+        }
     }
 
     Runnable updatelist = new Runnable() {
@@ -150,6 +161,8 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         rel_zan = (RelativeLayout) v.findViewById(R.id.rel_zan);
         rel_hangye = (RelativeLayout) v.findViewById(R.id.rel_hangye);
         rel_xitong = (RelativeLayout) v.findViewById(R.id.rel_xitong);
+        rel_group = (RelativeLayout) v.findViewById(R.id.rel_group);
+        rel_group.setOnClickListener(listener);
         rel_pinglun.setOnClickListener(listener);
         rel_zan.setOnClickListener(listener);
         rel_hangye.setOnClickListener(listener);
@@ -160,6 +173,8 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         xitong_unread_count = (TextView) v.findViewById(R.id.xitong_unread_count);
         hangye_img = (ImageView) v.findViewById(R.id.hangye_img);
         hangye_unread_count = (TextView) v.findViewById(R.id.hangye_unread_count);
+        group_img=(ImageView)v.findViewById(R.id.group_img) ;
+        group_unread_count=(TextView)v.findViewById(R.id.group_unread_count);
         getData();
         recycler_list = (RecyclerView) v.findViewById(R.id.recycler_list);
         recycler_list.setHasFixedSize(true);
@@ -200,7 +215,11 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
                     intent.putExtra("type","1");
                     startActivity(intent);
                     break;
-
+                case R.id.rel_group:
+                    intent = new Intent(getActivity(), GroupNofityActivity.class);
+                    intent.putExtra("type","3");
+                    startActivity(intent);
+                    break;
             }
         }
     };

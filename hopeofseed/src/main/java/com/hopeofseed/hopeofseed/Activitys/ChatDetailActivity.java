@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,8 @@ import com.hopeofseed.hopeofseed.ui.chatting.utils.HandleResponseCode;
 import com.hopeofseed.hopeofseed.ui.view.ChatDetailView;
 import java.lang.ref.WeakReference;
 import java.util.List;
+
+import citypickerview.widget.CityPicker;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.content.EventNotificationContent;
@@ -40,6 +43,8 @@ import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
+
+import static com.hopeofseed.hopeofseed.R.id.chat_detail_group_address;
 
 /*
  * 在对话界面中点击聊天信息按钮进来的聊天信息界面
@@ -56,7 +61,9 @@ public class ChatDetailActivity extends BaseActivity{
     private static final int ADD_FRIEND_REQUEST_CODE = 3;
     private Context mContext;
     private ProgressDialog mDialog;
-
+    Button chat_detail_group_address;
+    CityPicker cityPicker;
+    public String StrProvince = "", StrCity = "", StrZone = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +77,52 @@ public class ChatDetailActivity extends BaseActivity{
         mChatDetailView.setListeners(mChatDetailController);
         mChatDetailView.setOnChangeListener(mChatDetailController);
         mChatDetailView.setItemListener(mChatDetailController);
+        chat_detail_group_address = (Button) findViewById(R.id.chat_detail_group_address);
+        chat_detail_group_address.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                cityPicker = new CityPicker.Builder(mContext).textSize(20)
+                        .title("地址选择")
+                        .titleBackgroundColor("#5F9EA0")
+                        .onlyShowProvinceAndCity(false)
+                        .confirTextColor("#000000")
+                        .cancelTextColor("#000000")
+                        .province("山东省")
+                        .city("济南市")
+                        .district("全部")
+                        .textColor(Color.parseColor("#000000"))
+                        .provinceCyclic(false)
+                        .cityCyclic(false)
+                        .districtCyclic(false)
+                        .visibleItemsCount(7)
+                        .itemPadding(10)
+                        .build();
+
+                cityPicker.show();
+                cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
+                    @Override
+                    public void onSelected(String... citySelected) {
+                        chat_detail_group_address.setText("" + citySelected[0] + "  " + citySelected[1] + "  " + citySelected[2]);
+                        StrProvince = citySelected[0];
+                        StrCity = citySelected[1];
+                        StrZone = citySelected[2];
+                        mChatDetailController.updateInfoNoJpush();
+                    }
+                });
+            }
+        });
     }
 
-
+    public void setAddress(String Province, String City, String Zone) {
+        if (!TextUtils.isEmpty(Province)) {
+            StrProvince = Province;
+            StrCity = City;
+            StrZone = Zone;
+            chat_detail_group_address.setText("" + Province + "  " + City + "  " + Zone);
+        }
+        //  chat_detail_group_address.setText("" + citySelected[0] + "  " + citySelected[1] + "  "+ citySelected[2]);
+    }
 
     //设置群聊名称
     public void showGroupNameSettingDialog(int which, final long groupID, String groupName) {

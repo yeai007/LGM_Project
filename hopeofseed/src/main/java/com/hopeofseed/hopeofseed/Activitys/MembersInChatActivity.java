@@ -87,7 +87,6 @@ public class MembersInChatActivity extends BaseActivity {
         mTitle = (TextView) findViewById(R.id.number_tv);
         mRightBtn = (Button) findViewById(R.id.right_btn);
         mSearchEt = (EditText) findViewById(R.id.search_et);
-
         mBackgroundThread = new HandlerThread("Work on MembersInChatActivity");
         mBackgroundThread.start();
         mBackgroundHandler = new BackgroundHandler(mBackgroundThread.getLooper());
@@ -109,7 +108,6 @@ public class MembersInChatActivity extends BaseActivity {
         } else {
             mRightBtn.setText(this.getString(R.string.add));
         }
-
         mReturnBtn.setOnClickListener(listener);
         mRightBtn.setOnClickListener(listener);
         mSearchEt.addTextChangedListener(watcher);
@@ -440,7 +438,7 @@ public class MembersInChatActivity extends BaseActivity {
         ItemModel itemModel;
         mPinyinList.clear();
         mShowUserList.clear();
-        for (UserInfo userInfo: mMemberInfoList) {
+        for (UserInfo userInfo : mMemberInfoList) {
             itemModel = new ItemModel();
             itemModel.data = userInfo;
             nickname = userInfo.getNickname();

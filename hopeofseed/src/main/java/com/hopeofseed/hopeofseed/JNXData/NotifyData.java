@@ -1,7 +1,6 @@
 package com.hopeofseed.hopeofseed.JNXData;
 
 import io.realm.RealmObject;
-
 import io.realm.annotations.PrimaryKey;
 
 /**
@@ -44,6 +43,11 @@ public class NotifyData extends RealmObject {
      */
 
     private String NotifyCreateTime;
+    /**
+     * NotifyData :
+     */
+
+    private String NotifyData;
 
     public String getNotifyImage() {
         return NotifyImage;
@@ -131,5 +135,13 @@ public class NotifyData extends RealmObject {
 
     public void setNotifyCreateTime(String NotifyCreateTime) {
         this.NotifyCreateTime = NotifyCreateTime;
+    }
+
+    public String getNotifyData() {
+        return NotifyData;
+    }
+
+    public void setNotifyData(String NotifyData) {
+        this.NotifyData = NotifyData;
     }
 }

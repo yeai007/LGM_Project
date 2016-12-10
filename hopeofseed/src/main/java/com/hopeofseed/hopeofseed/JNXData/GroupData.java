@@ -12,105 +12,106 @@ package com.hopeofseed.hopeofseed.JNXData;
 public class GroupData {
 
     /**
-     * groupid : 0000000004
-     * groupname :
-     * membersid : 0
-     * createtime : 2016-09-13 04:02:28
-     * flag : 1
-     * grouplevel : 1
-     * createuser : 20
-     * createusername : 15628801370
-     * createusernickname :
+     * AppGroupId : 0000000007
+     * AppGroupName : sdss
+     * AppJpushGroupId : 10489071
+     * AppGroupFlag : 1
+     * AppGroupDesc :
+     * AppGroupOwner : Jpush_47
+     * AppGroupAvatar :
+     * AppGroupProvince :
+     * AppGroupCity :
+     * AppGroupZone :
      */
 
-    private String groupid;
-    private String groupname;
-    private String membersid;
-    private String createtime;
-    private String flag;
-    private String grouplevel;
-    private String createuser;
-    private String createusername;
-    private String createusernickname;
-    private String jpushgroupid;
+    private String AppGroupId;
+    private String AppGroupName;
+    private String AppJpushGroupId;
+    private String AppGroupFlag;
+    private String AppGroupDesc;
+    private String AppGroupOwner;
+    private String AppGroupAvatar;
+    private String AppGroupProvince;
+    private String AppGroupCity;
+    private String AppGroupZone;
 
-    public String getJpushGroupId() {
-        return jpushgroupid;
+    public String getAppGroupId() {
+        return AppGroupId;
     }
 
-    public void setJpushGroupId(String jpushgroupid) {
-        this.jpushgroupid = jpushgroupid;
+    public void setAppGroupId(String AppGroupId) {
+        this.AppGroupId = AppGroupId;
     }
 
-    public String getGroupid() {
-        return groupid;
+    public String getAppGroupName() {
+        return AppGroupName;
     }
 
-    public void setGroupid(String groupid) {
-        this.groupid = groupid;
+    public void setAppGroupName(String AppGroupName) {
+        this.AppGroupName = AppGroupName;
     }
 
-    public String getGroupname() {
-        return groupname;
+    public String getAppJpushGroupId() {
+        return AppJpushGroupId;
     }
 
-    public void setGroupname(String groupname) {
-        this.groupname = groupname;
+    public void setAppJpushGroupId(String AppJpushGroupId) {
+        this.AppJpushGroupId = AppJpushGroupId;
     }
 
-    public String getMembersid() {
-        return membersid;
+    public String getAppGroupFlag() {
+        return AppGroupFlag;
     }
 
-    public void setMembersid(String membersid) {
-        this.membersid = membersid;
+    public void setAppGroupFlag(String AppGroupFlag) {
+        this.AppGroupFlag = AppGroupFlag;
     }
 
-    public String getCreatetime() {
-        return createtime;
+    public String getAppGroupDesc() {
+        return AppGroupDesc;
     }
 
-    public void setCreatetime(String createtime) {
-        this.createtime = createtime;
+    public void setAppGroupDesc(String AppGroupDesc) {
+        this.AppGroupDesc = AppGroupDesc;
     }
 
-    public String getFlag() {
-        return flag;
+    public String getAppGroupOwner() {
+        return AppGroupOwner;
     }
 
-    public void setFlag(String flag) {
-        this.flag = flag;
+    public void setAppGroupOwner(String AppGroupOwner) {
+        this.AppGroupOwner = AppGroupOwner;
     }
 
-    public String getGrouplevel() {
-        return grouplevel;
+    public String getAppGroupAvatar() {
+        return AppGroupAvatar;
     }
 
-    public void setGrouplevel(String grouplevel) {
-        this.grouplevel = grouplevel;
+    public void setAppGroupAvatar(String AppGroupAvatar) {
+        this.AppGroupAvatar = AppGroupAvatar;
     }
 
-    public String getCreateuser() {
-        return createuser;
+    public String getAppGroupProvince() {
+        return AppGroupProvince;
     }
 
-    public void setCreateuser(String createuser) {
-        this.createuser = createuser;
+    public void setAppGroupProvince(String AppGroupProvince) {
+        this.AppGroupProvince = AppGroupProvince;
     }
 
-    public String getCreateusername() {
-        return createusername;
+    public String getAppGroupCity() {
+        return AppGroupCity;
     }
 
-    public void setCreateusername(String createusername) {
-        this.createusername = createusername;
+    public void setAppGroupCity(String AppGroupCity) {
+        this.AppGroupCity = AppGroupCity;
     }
 
-    public String getCreateusernickname() {
-        return createusernickname;
+    public String getAppGroupZone() {
+        return AppGroupZone;
     }
 
-    public void setCreateusernickname(String createusernickname) {
-        this.createusernickname = createusernickname;
+    public void setAppGroupZone(String AppGroupZone) {
+        this.AppGroupZone = AppGroupZone;
     }
 }

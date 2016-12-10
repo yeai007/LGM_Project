@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainbgcolor">
-
+    <include
+        layout="@layout/menu_title_bar"
+        android:visibility="gone" />
     <ScrollView
         android:id="@+id/chat_detail_sv"
         android:layout_width="match_parent"
@@ -17,9 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include
-                layout="@layout/menu_title_bar"
-                android:visibility="gone" />
+
 
             <include
                 android:id="@+id/top"

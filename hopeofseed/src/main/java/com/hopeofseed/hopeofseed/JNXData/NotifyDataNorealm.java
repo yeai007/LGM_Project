@@ -3,7 +3,6 @@ package com.hopeofseed.hopeofseed.JNXData;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.preference.Preference;
 
 /**
  * 项目名称：LGM_Project
@@ -15,6 +14,7 @@ import android.preference.Preference;
  * 修改备注：
  */
 public class NotifyDataNorealm implements Parcelable {
+
     /**
      * NotifyImage : null
      * NotifyURL : null
@@ -43,6 +43,11 @@ public class NotifyDataNorealm implements Parcelable {
      */
 
     private String NotifyCreateTime;
+    /**
+     * NotifyData :
+     */
+
+    private String NotifyData;
 
     public String getNotifyImage() {
         return NotifyImage;
@@ -180,4 +185,12 @@ public class NotifyDataNorealm implements Parcelable {
             return new NotifyDataNorealm[size];
         }
     };
+
+    public String getNotifyData() {
+        return NotifyData;
+    }
+
+    public void setNotifyData(String NotifyData) {
+        this.NotifyData = NotifyData;
+    }
 }

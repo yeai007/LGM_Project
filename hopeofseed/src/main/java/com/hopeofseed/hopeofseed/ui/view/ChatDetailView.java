@@ -22,6 +22,8 @@ import com.hopeofseed.hopeofseed.R;
 
 import citypickerview.widget.CityPicker;
 
+import static com.hopeofseed.hopeofseed.R.id.chat_detail_group_address;
+
 public class ChatDetailView extends LinearLayout {
     private LinearLayout mAllGroupMemberLL;
     private View mSplitLine1;
@@ -46,9 +48,7 @@ public class ChatDetailView extends LinearLayout {
      * 非SDK提供
      */
     ImageView img_user_avatar;
-    Button chat_detail_group_address;
-    CityPicker cityPicker;
-    public String StrProvince = "", StrCity = "", StrZone = "";
+
     private TextView chat_detail_group_desc;
     TextView AppTitle;
     Button btn_topright, btn_topleft;
@@ -91,43 +91,10 @@ public class ChatDetailView extends LinearLayout {
         AppTitle.setText("聊天详情");
         btn_topright = (Button) findViewById(R.id.btn_topright);
         rel_desc=(RelativeLayout)findViewById(R.id.rel_desc);
-        btn_topright.setText("更新");
+        btn_topright.setText("加入群");
         btn_topright.setVisibility(View.VISIBLE);
         btn_topleft = (Button) findViewById(R.id.btn_topleft);
-        chat_detail_group_address = (Button) findViewById(R.id.chat_detail_group_address);
-        chat_detail_group_address.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                cityPicker = new CityPicker.Builder(mContext).textSize(20)
-                        .title("地址选择")
-                        .titleBackgroundColor("#5F9EA0")
-                        .onlyShowProvinceAndCity(false)
-                        .confirTextColor("#000000")
-                        .cancelTextColor("#000000")
-                        .province("山东省")
-                        .city("济南市")
-                        .district("全部")
-                        .textColor(Color.parseColor("#000000"))
-                        .provinceCyclic(false)
-                        .cityCyclic(false)
-                        .districtCyclic(false)
-                        .visibleItemsCount(7)
-                        .itemPadding(10)
-                        .build();
-
-                cityPicker.show();
-                cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
-                    @Override
-                    public void onSelected(String... citySelected) {
-                        chat_detail_group_address.setText("" + citySelected[0] + "  " + citySelected[1] + "  " + citySelected[2]);
-                        StrProvince = citySelected[0];
-                        StrCity = citySelected[1];
-                        StrZone = citySelected[2];
-                    }
-                });
-            }
-        });
     }
 
     public void setListeners(OnClickListener onClickListener) {
@@ -218,15 +185,7 @@ public class ChatDetailView extends LinearLayout {
                 .into(img_user_avatar);
     }
 
-    public void setAddress(String Province, String City, String Zone) {
-        if (!TextUtils.isEmpty(Province)) {
-            StrProvince = Province;
-            StrCity = City;
-            StrZone = Zone;
-            chat_detail_group_address.setText("" + Province + "  " + City + "  " + Zone);
-        }
-        //  chat_detail_group_address.setText("" + citySelected[0] + "  " + citySelected[1] + "  "+ citySelected[2]);
-    }
+
 
     public void setDesc(String desc) {
         if (!TextUtils.isEmpty(desc)) {

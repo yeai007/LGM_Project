@@ -6,16 +6,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.LoginAcitivity;
 import com.hopeofseed.hopeofseed.R;
 
-import static com.hopeofseed.hopeofseed.Activitys.GroupSetting.REQUSET;
-import static com.hopeofseed.hopeofseed.R.id.rel_password;
 
 /**
  * 项目名称：liguangming

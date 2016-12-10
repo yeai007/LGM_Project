@@ -1,9 +1,6 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -15,10 +12,21 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Adapter.ConversationListAdapter;
+import com.hopeofseed.hopeofseed.Adapter.GroupListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.UnReadConversationListAdapter;
+import com.hopeofseed.hopeofseed.Data.Const;
+import com.hopeofseed.hopeofseed.Http.HttpUtils;
+import com.hopeofseed.hopeofseed.Http.NetCallBack;
+import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.GroupData;
+import com.hopeofseed.hopeofseed.JNXDataTmp.GroupDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.UserMessageDataTmp;
 import com.hopeofseed.hopeofseed.R;
+import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
 
 import cn.jpush.im.android.api.model.Conversation;
 
@@ -34,13 +42,12 @@ import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE
  * 修改时间：2016/12/6 10:53
  * 修改备注：
  */
-public class SearchGroupActivity extends AppCompatActivity implements View.OnClickListener {
+public class SearchGroupActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
     private static final String TAG = "SearchGroupActivity";
     RecyclerView recycler_list;
-    ConversationListAdapter mAdapter;
-    ArrayList<Conversation> mList = new ArrayList<>();
-    ArrayList<Conversation> mListTmp = new ArrayList<>();
-    private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
+    GroupListAdapter mAdapter;
+    ArrayList<GroupData> mList = new ArrayList<>();
+    ArrayList<GroupData> mListTmp = new ArrayList<>();
     Handler mHandler = new Handler();
 
     @Override
@@ -48,25 +55,15 @@ public class SearchGroupActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_group_activity);
         initView();
-        initReceiver();
+        getData();
     }
 
-    private void initReceiver() {
-        // 注册广播接收
-        updateBroadcastReceiver = new UpdateBroadcastReceiver();
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(MESSAGE_UPDATE_LIST);    //只有持有相同的action的接受者才能接收此广播
-        registerReceiver(updateBroadcastReceiver, filter);
-    }
 
     private void getData() {
-
-        if ((ArrayList<Conversation>) getConversationList() != null) {
-            mListTmp = (ArrayList<Conversation>) getConversationList();
-            mHandler.post(updatelist);
-        } else {
-            getData();
-        }
+        //GetGroupList
+        HashMap<String, String> opt_map = new HashMap<>();
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "GetGroupList.php", opt_map, GroupDataTmp.class, this);
     }
 
     Runnable updatelist = new Runnable() {
@@ -89,7 +86,7 @@ public class SearchGroupActivity extends AppCompatActivity implements View.OnCli
         getData();
         final LinearLayoutManager layoutManager = new LinearLayoutManager(SearchGroupActivity.this, LinearLayoutManager.VERTICAL, false);
         recycler_list.setLayoutManager(layoutManager);
-        mAdapter = new ConversationListAdapter(SearchGroupActivity.this, mList);
+        mAdapter = new GroupListAdapter(SearchGroupActivity.this, mList);
         recycler_list.setAdapter(mAdapter);
     }
 
@@ -102,11 +99,21 @@ public class SearchGroupActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    class UpdateBroadcastReceiver extends BroadcastReceiver {
-
-        /* 覆写该方法，对广播事件执行响应的动作  */
-        public void onReceive(Context context, Intent intent) {
-            getData();
-        }
+    @Override
+    public void onSuccess(RspBaseBean rspBaseBean) {
+        GroupDataTmp groupDataTmp = ObjectUtil.cast(rspBaseBean);
+        mListTmp = groupDataTmp.getDetail();
+        mHandler.post(updatelist);
     }
+
+    @Override
+    public void onError(String error) {
+
+    }
+
+    @Override
+    public void onFail() {
+
+    }
+
 }

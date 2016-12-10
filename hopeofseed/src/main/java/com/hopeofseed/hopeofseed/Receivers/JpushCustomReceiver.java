@@ -1,37 +1,20 @@
 package com.hopeofseed.hopeofseed.Receivers;
 
 import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
-import com.hopeofseed.hopeofseed.JNXData.UserData;
 import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
-import com.lgm.utils.ObjectUtil;
-
 import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Set;
-
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.helpers.IMReceiver;
 import io.realm.Realm;
-
-import static android.R.attr.keySet;
-import static android.R.attr.lockTaskMode;
 import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
-import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 
 
 /**
