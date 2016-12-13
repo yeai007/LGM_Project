@@ -344,16 +344,32 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
                     break;
                 case 1:
-                    img_corner.setImageResource(R.drawable.corner_distributor);
+                    //  img_corner.setImageResource(R.drawable.corner_distributor);
+                    Glide.with(getApplicationContext())
+                            .load(R.drawable.corner_distributor)
+                            .centerCrop()
+                            .into(img_corner);
                     break;
                 case 2:
-                    img_corner.setImageResource(R.drawable.corner_enterprise);
+                    //  img_corner.setImageResource(R.drawable.corner_enterprise);
+                    Glide.with(getApplicationContext())
+                            .load(R.drawable.corner_enterprise)
+                            .centerCrop()
+                            .into(img_corner);
                     break;
                 case 3:
-                    img_corner.setImageResource(R.drawable.corner_expert);
+                    // img_corner.setImageResource(corner_expert);
+                    Glide.with(getApplicationContext())
+                            .load(R.drawable.corner_expert)
+                            .centerCrop()
+                            .into(img_corner);
                     break;
                 case 4:
-                    img_corner.setImageResource(R.drawable.corner_enterprise);
+                    //img_corner.setImageResource(corner_enterprise);
+                    Glide.with(getApplicationContext())
+                            .load(R.drawable.corner_enterprise)
+                            .centerCrop()
+                            .into(img_corner);
                     break;
             }
         }

@@ -33,7 +33,7 @@ import java.util.HashMap;
 public class DistributorFragment extends Fragment {
 
     private static final String ARG_POSITION = "position";
-
+    private static final String STR_SEARCH = "STR_SEARCH";
     private int position;
     PullToRefreshListView lv_list;
     DistributorDataAdapter mDistributorDataAdapter;
@@ -53,10 +53,13 @@ public class DistributorFragment extends Fragment {
         }*/
     private int PageNo = 0;
 
+    public DistributorFragment(String strSearch) {Str_search=strSearch;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Str_search = getArguments().getString(STR_SEARCH);
         position = getArguments().getInt(ARG_POSITION);
     }
 

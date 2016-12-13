@@ -45,7 +45,7 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  */
 public class ProblemFragment extends Fragment {
 
-    private static final String ARG_POSITION = "position";
+    private static final String ARG_POSITION = "position";    private static final String STR_SEARCH = "STR_SEARCH";
     int PageNo = 0;
     private int position;
     PullToRefreshListView lv_list;
@@ -53,20 +53,24 @@ public class ProblemFragment extends Fragment {
      ArrayList<ProblemData> arr_ProblemData = new ArrayList<>();
      ArrayList<ProblemData> arr_ProblemDataTmp = new ArrayList<>();
    static   String Str_search="";
-    public static  ProblemFragment newInstance(int position, String search) {
+
+    public ProblemFragment(String strSearch) {Str_search=strSearch;
+    }
+
+/*    public static  ProblemFragment newInstance(int position, String search) {
         Str_search = search;
         ProblemFragment f = new ProblemFragment();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         f.setArguments(b);
         return f;
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        position = getArguments().getInt(ARG_POSITION);
+        position = getArguments().getInt(ARG_POSITION);        Str_search = getArguments().getString(STR_SEARCH);
     }
 
     @Override

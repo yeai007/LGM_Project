@@ -37,6 +37,7 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  */
 public class SeedfriendFragment extends Fragment {
     private static final String ARG_POSITION = "position";
+    private static final String STR_SEARCH = "STR_SEARCH";
     private int position;
     PullToRefreshListView lv_list;
     SeedfriendDataAdapter mSeedfriendDataAdapter;
@@ -44,19 +45,15 @@ public class SeedfriendFragment extends Fragment {
     ArrayList<UserDataNoRealm> arr_UserDataNoRealmTmp = new ArrayList<>();
     static String Str_search = "";
     int PageNo = 0;
-  /*  public static SeedfriendFragment newInstance(int position, String search) {
-        Str_search = search;
-        SeedfriendFragment f = new SeedfriendFragment();
-        Bundle b = new Bundle();
-        b.putInt(ARG_POSITION, position);
-        f.setArguments(b);
-        return f;
-    }*/
 
+    public SeedfriendFragment(String strSearch) {
+        Str_search=strSearch;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
+        Str_search = getArguments().getString(STR_SEARCH);
     }
 
     @Override

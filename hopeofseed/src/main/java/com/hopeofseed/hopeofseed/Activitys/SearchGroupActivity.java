@@ -9,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Adapter.ConversationListAdapter;
@@ -49,6 +51,9 @@ public class SearchGroupActivity extends AppCompatActivity implements View.OnCli
     ArrayList<GroupData> mList = new ArrayList<>();
     ArrayList<GroupData> mListTmp = new ArrayList<>();
     Handler mHandler = new Handler();
+    EditText search_et_input;
+    Button btn_search;
+    String StrSearch = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,9 +65,9 @@ public class SearchGroupActivity extends AppCompatActivity implements View.OnCli
 
 
     private void getData() {
-        //GetGroupList
         HashMap<String, String> opt_map = new HashMap<>();
         HttpUtils hu = new HttpUtils();
+        opt_map.put("StrSearch", StrSearch);
         hu.httpPost(Const.BASE_URL + "GetGroupList.php", opt_map, GroupDataTmp.class, this);
     }
 
@@ -88,6 +93,9 @@ public class SearchGroupActivity extends AppCompatActivity implements View.OnCli
         recycler_list.setLayoutManager(layoutManager);
         mAdapter = new GroupListAdapter(SearchGroupActivity.this, mList);
         recycler_list.setAdapter(mAdapter);
+        search_et_input = (EditText) findViewById(R.id.search_et_input);
+        btn_search = (Button) findViewById(R.id.btn_search);
+        btn_search.setOnClickListener(this);
     }
 
     @Override
@@ -95,6 +103,10 @@ public class SearchGroupActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.btn_topleft:
                 finish();
+                break;
+            case R.id.btn_search:
+                StrSearch = search_et_input.getText().toString().trim();
+                getData();
                 break;
         }
     }

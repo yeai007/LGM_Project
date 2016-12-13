@@ -781,6 +781,18 @@ public class MsgListAdapter extends BaseAdapter {
                     holder.displayName.setText(msg.getFromUser().getNickname());
                 }
             }
+            /**
+             * 修改全部显示昵称
+             * */
+            else
+            {
+                holder.displayName.setVisibility(View.VISIBLE);
+                if (TextUtils.isEmpty(msg.getFromUser().getNickname())) {
+                    holder.displayName.setText(msg.getFromUser().getUserName());
+                } else {
+                    holder.displayName.setText(msg.getFromUser().getNickname());
+                }
+            }
 
             switch (msg.getStatus()) {
                 case receive_fail:

@@ -31,7 +31,7 @@ public class ChatView extends RelativeLayout{
 	private TableLayout mMoreMenuTl;
 	private DropDownListView mChatListView;
 	private ImageButton mReturnBtn;
-	private ImageButton mRightBtn;
+	private Button mRightBtn;
 	private TextView mChatTitle;
     private TextView mGroupNumTv;
 	private RecordVoiceButton mVoiceBtn;
@@ -82,7 +82,7 @@ public class ChatView extends RelativeLayout{
         mSendMsgBtn = (Button) findViewById(IdHelper.getViewID(mContext, "jmui_send_msg_btn"));
         mBackground = (LinearLayout) findViewById(IdHelper.getViewID(mContext, "jmui_chat_background"));
         mMoreMenuTl = (TableLayout) findViewById(IdHelper.getViewID(mContext, "jmui_more_menu_tl"));
-        mRightBtn = (ImageButton) findViewById(IdHelper.getViewID(mContext, "jmui_right_btn"));
+        mRightBtn = (Button) findViewById(IdHelper.getViewID(mContext, "jmui_right_btn"));
         mGroupNumTv = (TextView) findViewById(IdHelper.getViewID(mContext, "jmui_group_num_tv"));
         mExpressionIb = (ImageButton) findViewById(IdHelper.getViewID(mContext, "jmui_expression_btn"));
         mLocationIb = (ImageButton) findViewById(IdHelper.getViewID(mContext, "jmui_send_location_btn"));
@@ -325,7 +325,7 @@ public class ChatView extends RelativeLayout{
     }
 
 	public void setGroupIcon() {
-		mRightBtn.setImageResource(IdHelper.getDrawable(mContext, "jmui_group_chat_detail"));
+		//mRightBtn.setImageResource(IdHelper.getDrawable(mContext, "jmui_group_chat_detail"));
 	}
 
     public EditText getInputView() {
@@ -345,7 +345,7 @@ public class ChatView extends RelativeLayout{
     }
 
 	public void dismissMoreMenu() {
-		mMoreMenuTl.setVisibility(View.GONE);
+		//mMoreMenuTl.setVisibility(View.GONE);
 	}
 
     public void dismissRightBtn() {

@@ -42,6 +42,10 @@ public class CropFragment extends Fragment {
     private int Str_Faxian;
     int PageNo = 0;
 
+    public CropFragment(String strSearch) {
+        Str_search=strSearch;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

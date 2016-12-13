@@ -95,7 +95,8 @@ public class HttpWork {
                 conn.disconnect();
             }
         } catch (Exception e) {
-            return postResult;
+            Log.d("HttpConnection", "Http返回错误"+e.toString());
+/*            return postResult;*/
 
         } finally {
             Log.d("HttpConnection", "发送信息URL：" + url);

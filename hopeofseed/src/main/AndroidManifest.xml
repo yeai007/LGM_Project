@@ -239,10 +239,7 @@
             android:name="com.hopeofseed.hopeofseed.Activitys.PublishProblem"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity
-            android:name="com.hopeofseed.hopeofseed.Activitys.SelectGroup"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+
 
         <activity
             android:name="com.hopeofseed.hopeofseed.Activitys.AccountSetting"
@@ -272,15 +269,6 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
-        <activity
-            android:name="com.hopeofseed.hopeofseed.Activitys.GroupChatActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name="com.hopeofseed.hopeofseed.Activitys.GroupSetting"
-            android:exported="false"
-            android:screenOrientation="portrait" />
 
         <activity
             android:name="com.hopeofseed.hopeofseed.Activitys.AddNewGroupMember"

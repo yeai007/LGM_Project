@@ -43,13 +43,18 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 public class ExperienceFragment extends Fragment {
 
     private static final String ARG_POSITION = "position";
+    private static final String STR_SEARCH = "STR_SEARCH";
 
     private int position;
     PullToRefreshListView lv_list;
     static ExperienceDataAdapter mExperienceDataAdapter;
     static ArrayList<ExperienceData> arr_ExperienceData = new ArrayList<>();
     static ArrayList<ExperienceData> arr_ExperienceDataTmp = new ArrayList<>();
-    static String Str_search="";
+    static String Str_search = "";
+
+    public ExperienceFragment(String strSearch) {
+        Str_search = strSearch;
+    }
    /* public static ExperienceFragment newInstance(int position, String search) {
         Str_search = search;
         ExperienceFragment f = new ExperienceFragment();
@@ -63,7 +68,7 @@ public class ExperienceFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        position = getArguments().getInt(ARG_POSITION);
+        position = getArguments().getInt(ARG_POSITION);        Str_search = getArguments().getString(STR_SEARCH);
     }
 
     @Override
@@ -81,7 +86,7 @@ public class ExperienceFragment extends Fragment {
         //lv_list.setOnItemClickListener(myListener);
     }
 
-    private  void getData(String Str_search) {
+    private void getData(String Str_search) {
         Log.e(TAG, "getData: 获取经销商数据");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
@@ -90,7 +95,7 @@ public class ExperienceFragment extends Fragment {
         hu.httpPost(Const.BASE_URL + "GetSearchExperienceResult.php", opt_map, ExperienceDataTmp.class, netCallBack);
     }
 
-     NetCallBack netCallBack = new NetCallBack() {
+    NetCallBack netCallBack = new NetCallBack() {
         @Override
         public void onSuccess(RspBaseBean rspBaseBean) {
             Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
@@ -110,12 +115,12 @@ public class ExperienceFragment extends Fragment {
         }
     };
 
-    private  void updateView() {
+    private void updateView() {
         Message msg = updateViewHandle.obtainMessage();
         msg.sendToTarget();
     }
 
-    private  Handler updateViewHandle = new Handler() {
+    private Handler updateViewHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             Log.e(TAG, "handleMessage: updateview");
@@ -133,7 +138,8 @@ public class ExperienceFragment extends Fragment {
             startActivity(intent);
         }
     };
-    public  void Search(String text) {
+
+    public void Search(String text) {
         Str_search = text;
         getData(Str_search);
     }

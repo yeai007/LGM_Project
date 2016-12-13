@@ -21,6 +21,7 @@ import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataNoRealmTmp;
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.util.AddNotify;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
@@ -113,7 +114,9 @@ public class SelectUser extends AppCompatActivity implements View.OnClickListene
                 if (i == 0) {
                     Log.e(TAG, "gotResult: 添加成功");
                     Intent intent = new Intent();
-                    setResult(803,intent);
+                    setResult(803, intent);
+                    AddNotify addNotify = new AddNotify();
+                    addNotify.AddNewGroupMember(GroupId, usernameList);
                     finish();
                 }
             }

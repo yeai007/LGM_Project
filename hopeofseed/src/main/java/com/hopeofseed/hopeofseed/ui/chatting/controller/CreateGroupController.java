@@ -1,9 +1,11 @@
-package com.hopeofseed.hopeofseed.controller;
+package com.hopeofseed.hopeofseed.ui.chatting.controller;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.Activitys.CreateGroupActivity;
@@ -26,6 +28,10 @@ import cn.jpush.im.android.api.callback.CreateGroupCallback;
 import cn.jpush.im.android.api.callback.GetGroupInfoCallback;
 import cn.jpush.im.android.api.model.GroupInfo;
 
+import static android.R.id.edit;
+import static com.hopeofseed.hopeofseed.Data.Const.City;
+import static com.hopeofseed.hopeofseed.Data.Const.Province;
+import static com.hopeofseed.hopeofseed.Data.Const.Zone;
 import static com.hopeofseed.hopeofseed.R.id.apptitle;
 
 public class CreateGroupController implements OnClickListener, NetCallBack {
@@ -55,29 +61,44 @@ public class CreateGroupController implements OnClickListener, NetCallBack {
                 mContext.finish();
                 break;
             case R.id.jmui_commit_btn:
-                mGroupName = mCreateGroupView.getGroupName();
-                if (mGroupName.equals("")) {
-                    mCreateGroupView.groupNameError(mContext);
-                    return;
-                }
-                mDialog = DialogCreator.createLoadingDialog(mContext, mContext.getString(R.string.creating_hint));
-                final String desc = "";
-                mDialog.show();
-                JMessageClient.createGroup(mGroupName, desc, new CreateGroupCallback() {
-                    @Override
-                    public void gotResult(final int status, String msg, final long groupId) {
-                        mDialog.dismiss();
-                        if (status == 0) {
-                            JpushGroupId = String.valueOf(groupId);
-                            getGroupInfo();
-                        } else {
-                            HandleResponseCode.onHandle(mContext, status, false);
-                            Log.i("CreateGroupController", "status : " + status);
-                        }
-                    }
-                });
+                submit();
+                break;
+            case R.id.btn_topleft:
+                mContext.finish();
+                break;
+            case R.id.btn_topright:
+                submit();
                 break;
         }
+    }
+
+    private void submit() {
+        hideInput();
+        mGroupName = mCreateGroupView.getGroupName();
+        if (mGroupName.equals("")) {
+            mCreateGroupView.groupNameError(mContext);
+            return;
+        }
+        if (mContext.StrProvince.equals("")) {
+            mCreateGroupView.groupAddressError(mContext);
+            return;
+        }
+        mDialog = DialogCreator.createLoadingDialog(mContext, mContext.getString(R.string.creating_hint));
+        final String desc = "";
+        mDialog.show();
+        JMessageClient.createGroup(mGroupName, desc, new CreateGroupCallback() {
+            @Override
+            public void gotResult(final int status, String msg, final long groupId) {
+                mDialog.dismiss();
+                if (status == 0) {
+                    JpushGroupId = String.valueOf(groupId);
+                    getGroupInfo();
+                } else {
+                    HandleResponseCode.onHandle(mContext, status, false);
+                    Log.i("CreateGroupController", "status : " + status);
+                }
+            }
+        });
     }
 
     private void getGroupInfo() {
@@ -96,6 +117,9 @@ public class CreateGroupController implements OnClickListener, NetCallBack {
         opt_map.put("GroupOwner", thisGroupInfo.getGroupOwner());
         opt_map.put("GroupName", thisGroupInfo.getGroupName());
         opt_map.put("JpushGroupId", String.valueOf(thisGroupInfo.getGroupID()));
+        opt_map.put("Province", mContext.StrProvince);
+        opt_map.put("City", mContext.StrCity);
+        opt_map.put("Zone", mContext.StrZone);
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "addGroup.php", opt_map, CommResultTmp.class, this);
     }
@@ -147,5 +171,10 @@ public class CreateGroupController implements OnClickListener, NetCallBack {
     @Override
     public void onFail() {
 
+    }
+
+    public void hideInput() {
+        InputMethodManager inputmanger = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputmanger.hideSoftInputFromWindow(mCreateGroupView.getWindowToken(), 0);
     }
 }

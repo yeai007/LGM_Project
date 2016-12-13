@@ -63,7 +63,7 @@
                 android:layout_height="20dp"
                 android:layout_below="@+id/tv_follow_sum"
                 android:gravity="center"
-                android:text="我关注的"
+                android:text="关注"
                 android:textColor="@color/text_content_color" />
         </RelativeLayout>
 
@@ -88,7 +88,7 @@
                 android:layout_height="20dp"
                 android:layout_below="@+id/tv_fans_sum"
                 android:gravity="center"
-                android:text="关注我的"
+                android:text="人气"
                 android:textColor="@color/text_content_color" />
         </RelativeLayout>
     </LinearLayout>
@@ -219,7 +219,7 @@
                     android:layout_height="35dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/push_commodity" />
+                    android:src="@drawable/img_apply_commodity" />
 
                 <TextView
                     android:id="@+id/tv_add_commodity"
@@ -247,7 +247,7 @@
                     android:layout_height="35dp"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:src="@drawable/corner_expert" />
+                    android:src="@drawable/img_apply_expert" />
 
                 <TextView
                     android:id="@+id/tv_expert"

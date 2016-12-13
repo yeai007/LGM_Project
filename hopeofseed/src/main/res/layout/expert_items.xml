@@ -66,6 +66,6 @@
             android:gravity="left|center_vertical"
             android:text="address"
             android:visibility="gone"
-            android:textColor="#cbcbcb" />
+            android:textColor="@color/text_content_color" />
     </RelativeLayout>
 </RelativeLayout>

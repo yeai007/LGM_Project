@@ -5,56 +5,85 @@
     android:background="@color/maincolor"
     android:orientation="vertical">
 
-
-    <RadioGroup
-        android:id="@+id/rg_menu"
+    <FrameLayout
+        android:id="@+id/frame_menu"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="#ffffff"
         android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/one"
+
+        <RadioGroup
+            android:id="@+id/rg_menu"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="#ffffff"
+            android:orientation="horizontal">
 
-            android:layout_weight="1"
-            android:background="@drawable/btn_main_radio_shouye"
-            android:button="@null" />
+            <RadioButton
+                android:id="@+id/one"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_main_radio_shouye"
+                android:button="@null" />
 
-        <RadioButton
-            android:id="@+id/two"
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/background_gray2" />
+
+            <RadioButton
+                android:id="@+id/two"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_main_radio_xiaoxi"
+                android:button="@null" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/background_gray2" />
+
+            <RadioButton
+                android:id="@+id/three"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/btn_main_radio_faxian"
+                android:button="@null" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/background_gray2" />
+
+            <RadioButton
+                android:id="@+id/four"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+                android:background="@drawable/btn_main_radio_wode"
+                android:button="@null" />
+        </RadioGroup>
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/background_gray2" />
+    </FrameLayout>
 
-            android:layout_weight="1"
-            android:background="@drawable/btn_main_radio_xiaoxi"
-            android:button="@null" />
 
-        <RadioButton
-            android:id="@+id/three"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/btn_main_radio_faxian"
-            android:button="@null" />
-
-        <RadioButton
-            android:id="@+id/four"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:layout_weight="1"
-            android:background="@drawable/btn_main_radio_wode"
-            android:button="@null" />
-    </RadioGroup>
-
-    <android.support.v4.view.ViewPager
+    <com.hopeofseed.hopeofseed.ui.NoScrollViewPager
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/rg_menu"
+        android:layout_above="@+id/frame_menu"
         android:layout_below="@+id/top" />
 </RelativeLayout>

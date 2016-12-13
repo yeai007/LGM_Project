@@ -44,13 +44,17 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  * 产量
  */
 public class YieldFragment extends Fragment {
-    private static final String ARG_POSITION = "position";
+    private static final String ARG_POSITION = "position";    private static final String STR_SEARCH = "STR_SEARCH";
     private int position;
     PullToRefreshListView lv_list;
     YieldDataAdapter mYieldDataAdapter;
     ArrayList<YieldData> arr_YieldData = new ArrayList<>();
     ArrayList<YieldData> arr_YieldDataTmp = new ArrayList<>();
     static  String Str_search="";
+
+    public YieldFragment(String strSearch) {
+        Str_search=strSearch;
+    }
 /*
     public static YieldFragment newInstance(int position, String search) {
         Str_search = search;
@@ -64,7 +68,7 @@ public class YieldFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Str_search = getArguments().getString(STR_SEARCH);
         position = getArguments().getInt(ARG_POSITION);
     }
 

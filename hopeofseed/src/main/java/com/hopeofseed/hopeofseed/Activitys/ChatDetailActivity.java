@@ -103,6 +103,7 @@ public class ChatDetailActivity extends BaseActivity{
                 cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
                     @Override
                     public void onSelected(String... citySelected) {
+
                         chat_detail_group_address.setText("" + citySelected[0] + "  " + citySelected[1] + "  " + citySelected[2]);
                         StrProvince = citySelected[0];
                         StrCity = citySelected[1];
@@ -121,7 +122,6 @@ public class ChatDetailActivity extends BaseActivity{
             StrZone = Zone;
             chat_detail_group_address.setText("" + Province + "  " + City + "  " + Zone);
         }
-        //  chat_detail_group_address.setText("" + citySelected[0] + "  " + citySelected[1] + "  "+ citySelected[2]);
     }
 
     //设置群聊名称

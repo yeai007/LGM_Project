@@ -1,21 +1,28 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.ui.chatting.BaseActivity;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
+import com.hopeofseed.hopeofseed.ui.iosDialog;
 import com.lgm.utils.DateTools;
+
 import java.text.ParseException;
 import java.util.List;
+
 import cn.jpush.im.android.api.model.Conversation;
 
 
@@ -50,11 +57,11 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         Log.e(TAG, "onBindViewHolder:getUnReadMsgCnt " + position);
         final Conversation itemData = mList.get(position);
         String date = DateTools.getDateToString(String.valueOf(itemData.getLastMsgDate()));
-        updateTime(holder,date);
+        updateTime(holder, date);
         Log.e(TAG, "onBindViewHolder: getUnReadMsgCnt" + itemData.getUnReadMsgCnt());
         //holder.item_content.setText();
         if (itemData.getUnReadMsgCnt() > 99) {
@@ -76,11 +83,43 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                 mContext.startActivity(notificationIntent);
             }
         });
+        holder.rel_item.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Log.e(TAG, "onLongClick: success");
+                iosDialog mIosDialog = new iosDialog.Builder(mContext)
+                        .setMessage("删除确认！")
+                        .setPositiveButton("确认删除", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.e(TAG, "onClick: 确认删除");
+                                itemData.setUnReadMessageCnt(0);
+                                mList.remove(position);
+                                notifyItemRemoved(position);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("暂不删除", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.e(TAG, "onClick: 暂不删除");
+                                dialog.dismiss();
+                            }
+                        })
+                        .setTitle("种愿").create();
+                mIosDialog.show();
+                return true;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mList.size();
+    }
+
+
+    private void delThisItem() {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -97,6 +136,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);
         }
     }
+
     private void updateTime(ViewHolder holder, String time) {
         Long[] longDiff = null;
         String NowTime = null;

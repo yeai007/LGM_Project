@@ -1,6 +1,7 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +17,10 @@ import android.widget.TextView;
 import com.hopeofseed.hopeofseed.Activitys.SystemNofityDetailActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.GroupNotifyDataNorealm;
+import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.ui.iosDialog;
 import com.lgm.utils.DateTools;
 
 import java.text.ParseException;
@@ -26,6 +29,7 @@ import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;
+import io.realm.Realm;
 
 
 /**
@@ -42,6 +46,7 @@ public class GroupNotifyListAdapter extends RecyclerView.Adapter<GroupNotifyList
     List<GroupNotifyDataNorealm> mList;
     Context mContext;
     private LayoutInflater inflater;
+    Realm myRealm = Realm.getDefaultInstance();
 
     public GroupNotifyListAdapter(Context context, List<GroupNotifyDataNorealm> list) {
         super();
@@ -59,22 +64,78 @@ public class GroupNotifyListAdapter extends RecyclerView.Adapter<GroupNotifyList
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         Log.e(TAG, "onBindViewHolder:getUnReadMsgCnt " + position);
         final GroupNotifyDataNorealm itemData = mList.get(position);
         updateTime(holder, itemData.getAppGroupApplyTime());
         holder.item_title.setText(itemData.getAppGroupApplyTitle());
         holder.item_content.setText(itemData.getAppGroupApplyContent());
+        if (itemData.getAppGroupApplyStatus().equals("1")) {
+            holder.is_agree.setText("已同意");
+            holder.is_agree.setClickable(false);
+        } else {
+            holder.is_agree.setText("同意");
+            holder.is_agree.setClickable(true);
+        }
         final ArrayList<String> arrUser = new ArrayList<>();
         arrUser.add(Const.JPUSH_PREFIX + itemData.getAppGroupApplyUserId());
+        holder.rel_item.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                iosDialog mIosDialog = new iosDialog.Builder(mContext)
+                        .setMessage("删除确认！")
+                        .setPositiveButton("确认删除", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.e(TAG, "onClick: 确认删除");
+                                NotifyData results1 =
+                                        myRealm.where(NotifyData.class).equalTo("NotifyId", itemData.getNotifyId()).findFirst();
+                                myRealm.beginTransaction();
+                                results1.deleteFromRealm();
+                                myRealm.commitTransaction();
+                                mList.remove(position);
+                                notifyItemRemoved(position);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("暂不删除", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.e(TAG, "onClick: 暂不删除");
+                                dialog.dismiss();
+                            }
+                        })
+                        .setTitle("种愿").create();
+                mIosDialog.show();
+                return true;
+            }
+        });
         holder.is_agree.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e(TAG, "onClick: "+itemData.getAppGroupApplyGroupId()+arrUser);
+                NotifyData results1 =
+                        myRealm.where(NotifyData.class).equalTo("NotifyId", itemData.getNotifyId()).findFirst();
+                myRealm.beginTransaction();
+                results1.setNotifyIsRead("1");
+
+                NotifyData inNotifyData = myRealm.copyToRealmOrUpdate(results1);
+                myRealm.commitTransaction();
+
+
+                //Log.e(TAG, "onClick: "+itemData.getAppGroupApplyGroupId()+arrUser);
                 JMessageClient.addGroupMembers(Long.parseLong(itemData.getAppGroupApplyGroupId()), arrUser, new BasicCallback() {
                     @Override
                     public void gotResult(int i, String s) {
-                        Log.e(TAG, "gotResult: " + i + s);
+                        if (i == 0) {
+                            NotifyData results1 =
+                                    myRealm.where(NotifyData.class).equalTo("NotifyId", itemData.getNotifyId()).findFirst();
+                            itemData.setAppGroupApplyStatus("1");
+                            myRealm.beginTransaction();
+                            results1.setNotifyData(itemData.toString());
+                            results1.setNotifyIsRead("1");
+                            NotifyData inNotifyData = myRealm.copyToRealmOrUpdate(results1);
+                            myRealm.commitTransaction();
+                        }
                     }
                 });
             }

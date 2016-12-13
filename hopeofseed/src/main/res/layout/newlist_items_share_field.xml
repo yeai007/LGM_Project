@@ -53,7 +53,7 @@
             android:layout_toRightOf="@+id/rel_img_user_avatar"
             android:gravity="left|center_vertical"
             android:text="发表时间"
-            android:textColor="#cbcbcb"
+            android:textColor="@color/text_content_color"
             android:textSize="15sp" />
     </RelativeLayout>
 
@@ -142,7 +142,7 @@
                 android:layout_toRightOf="@+id/img_forward"
                 android:gravity="center"
                 android:text="@string/str_forward"
-                android:textColor="#cbcbcb" />
+                android:textColor="@color/text_content_color" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -169,7 +169,7 @@
                 android:layout_toRightOf="@+id/img_comment"
                 android:gravity="center"
                 android:text="@string/str_comment"
-                android:textColor="#cbcbcb" />
+                android:textColor="@color/text_content_color" />
 
         </RelativeLayout>
 

@@ -49,6 +49,7 @@ import java.util.HashMap;
 public class ExpertFragment extends Fragment {
     private static final String TAG = "ExpertFragment";
     private static final String ARG_POSITION = "position";
+    private static final String STR_SEARCH = "STR_SEARCH";
     int PageNo = 0;
     private int position;
     PullToRefreshListView lv_list;
@@ -57,20 +58,26 @@ public class ExpertFragment extends Fragment {
     ArrayList<ExpertEnterperiseData> arr_ExpertDataTmp = new ArrayList<>();
     static String Str_search = "";
 
-    public static ExpertFragment newInstance(int position, String search) {
+    public ExpertFragment(String strSearch) {
+        Str_search = strSearch;
+    }
+
+
+  /*  public static ExpertFragment newInstance(int position, String search) {
         Str_search = search;
         ExpertFragment f = new ExpertFragment();
         Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
         f.setArguments(b);
         return f;
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         position = getArguments().getInt(ARG_POSITION);
+        Str_search = getArguments().getString(STR_SEARCH);
     }
 
     @Override
@@ -87,7 +94,7 @@ public class ExpertFragment extends Fragment {
         lv_list.setMode(PullToRefreshBase.Mode.BOTH);
         mExpertDataAdapter = new SelectExpertDataAdapter(getActivity(), arr_ExpertData);
         lv_list.setAdapter(mExpertDataAdapter);
-       // lv_list.setOnItemClickListener(myListener);
+        // lv_list.setOnItemClickListener(myListener);
     }
 
     private void getData(String Str_search) {

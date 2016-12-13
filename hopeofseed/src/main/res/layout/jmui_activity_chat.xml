@@ -13,7 +13,7 @@
         <RelativeLayout
             android:id="@+id/jmui_menu_title_bar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="50dp"
             android:background="#ffffff">
 
             <ImageButton
@@ -48,16 +48,17 @@
 
             </LinearLayout>
 
-            <ImageButton
+            <Button
                 android:id="@+id/jmui_right_btn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:background="@drawable/jmui_back_btn_bg"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/shape_corner"
                 android:scaleType="centerInside"
-                android:src="@drawable/group_right_icon" />
+                android:text="群详情"
+                android:textColor="#ffffff" />
 
         </RelativeLayout>
 

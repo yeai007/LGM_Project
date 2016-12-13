@@ -44,7 +44,7 @@ import java.util.HashMap;
  * 修改备注：
  */
 public class CommentAboutMe extends AppCompatActivity implements View.OnClickListener, NetCallBack {
-    ArrayList<NewsData> arr_NewsData = new ArrayList<>();
+    private static final String TAG = "CommentAboutMe";
     RecyclerView recycler_list;
     CommentAboutMeRecyclerAdapter mAdapter;
     ArrayList<CommentAboutMeData> arrCommentAboutMeDataTmp = new ArrayList<>();
@@ -65,6 +65,7 @@ public class CommentAboutMe extends AppCompatActivity implements View.OnClickLis
     }
 
     private void getData() {
+        Log.e(TAG, "getData: "+String.valueOf(PageNo));
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         opt_map.put("PageNo", String.valueOf(PageNo));
@@ -90,14 +91,13 @@ public class CommentAboutMe extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
                 super.onScrolled(recyclerView, dx, dy);
-
                 int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
                 if (lastVisibleItemPosition + 1 == recycler_list.getAdapter().getItemCount()) {
                     if (!isLoading) {//一个布尔的变量，默认是false
                         isLoading = true;
                         PageNo = PageNo + 1;
+                        Log.e(TAG, "onScrolled:onrefresh");
                         getData();
                     } else if (arrCommentAboutMeData.size() < 20) {
                         //当没有更多的数据的时候去掉加载更多的布局
@@ -129,7 +129,7 @@ public class CommentAboutMe extends AppCompatActivity implements View.OnClickLis
             } else {
             }
             // mHandle.post(refeshData);
-        } else {
+        } else if(rspBaseBean.RequestSign.equals("GetCommentsReceived")){
             arrCommentAboutMeDataTmp = ((CommentAboutMeDataTmp) ObjectUtil.cast(rspBaseBean)).getDetail();
 
             mHandler.post(updateList);

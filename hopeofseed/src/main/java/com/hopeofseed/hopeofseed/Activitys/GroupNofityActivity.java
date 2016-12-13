@@ -8,12 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hopeofseed.hopeofseed.Adapter.GroupNotifyListAdapter;
-import com.hopeofseed.hopeofseed.Adapter.NotifyListAdapter;
 import com.hopeofseed.hopeofseed.JNXData.GroupNotifyDataNorealm;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
@@ -22,7 +22,6 @@ import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
 
 import java.util.ArrayList;
 
-import cn.jpush.im.android.api.model.Conversation;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -54,6 +53,7 @@ public class GroupNofityActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void getData() {
+        mList.clear();
         RealmResults<NotifyData> results1 =
                 myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", type).findAll();
         for (NotifyData item : results1) {
@@ -77,14 +77,15 @@ public class GroupNofityActivity extends AppCompatActivity implements View.OnCli
                     .create();
             GroupNotifyDataNorealm insertNotifyData = new GroupNotifyDataNorealm();
             insertNotifyData = gson.fromJson(item.getNotifyData(), GroupNotifyDataNorealm.class);
+            insertNotifyData.setNotifyId(item.getNotifyId());
             mList.add(insertNotifyData);
         }
-
+        mAdapter.notifyDataSetChanged();
     }
 
     private void initView() {
         TextView appTitle = (TextView) findViewById(R.id.apptitle);
-        appTitle.setText("系统通知");
+        appTitle.setText("群通知");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         recycler_list = (RecyclerView) findViewById(R.id.recycler_list);
         recycler_list.setHasFixedSize(true);
@@ -92,7 +93,10 @@ public class GroupNofityActivity extends AppCompatActivity implements View.OnCli
         recycler_list.setLayoutManager(layoutManager);
         mAdapter = new GroupNotifyListAdapter(GroupNofityActivity.this, mList);
         recycler_list.setAdapter(mAdapter);
-
+        Button btn_topright = (Button) findViewById(R.id.btn_topright);
+        btn_topright.setOnClickListener(this);
+        btn_topright.setText("清空");
+        btn_topright.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -100,6 +104,14 @@ public class GroupNofityActivity extends AppCompatActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.btn_topleft:
                 finish();
+                break;
+            case R.id.btn_topright:
+                RealmResults<NotifyData> results1 =
+                        myRealm.where(NotifyData.class).findAll();
+                myRealm.beginTransaction();
+                results1.deleteAllFromRealm();
+                myRealm.commitTransaction();
+                getData();
                 break;
         }
     }

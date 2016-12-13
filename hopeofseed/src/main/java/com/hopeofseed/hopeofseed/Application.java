@@ -3,17 +3,25 @@ package com.hopeofseed.hopeofseed;
 import android.app.Service;
 import android.content.Context;
 import android.os.Vibrator;
+import android.text.TextUtils;
 import android.util.Log;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.content.EventNotificationContent;
+import cn.jpush.im.android.api.enums.ContentType;
+import cn.jpush.im.android.api.event.MessageEvent;
+import cn.jpush.im.android.api.model.GroupInfo;
+import cn.jpush.im.android.api.model.Message;
 import im.fir.sdk.FIR;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.Receivers.NotificationClickEventReceiver;
 import com.hopeofseed.hopeofseed.Services.LocationService;
+import com.hopeofseed.hopeofseed.ui.chatting.utils.IdHelper;
 import com.hopeofseed.hopeofseed.util.JpushUtil;
 import com.lgm.utils.ImageLoaderUtil;
 import com.lzy.okgo.OkGo;
@@ -23,6 +31,7 @@ import com.lzy.okgo.cookie.store.PersistentCookieStore;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -168,10 +177,16 @@ public class Application extends android.app.Application {
                     //这两行同上，不需要就不要加入
                     .addCommonHeaders(headers)  //设置全局公共头
                     .addCommonParams(params);    //设置全局公共参数
-                  //  .build();                   //一定要build，一定要build，一定要build
+            //  .build();                   //一定要build，一定要build，一定要build
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onTerminate() {
+
+        super.onTerminate();
     }
 }

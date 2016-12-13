@@ -36,6 +36,8 @@ import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 import io.realm.Realm;
 
+import static com.hopeofseed.hopeofseed.R.drawable.corner_enterprise;
+import static com.hopeofseed.hopeofseed.R.drawable.corner_expert;
 import static com.hopeofseed.hopeofseed.R.id.img_user_avatar;
 
 
@@ -124,16 +126,32 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
 
                     break;
                 case 1:
-                    img_corner.setImageResource(R.drawable.corner_distributor);
+                  //  img_corner.setImageResource(R.drawable.corner_distributor);
+                    Glide.with(getActivity())
+                            .load(R.drawable.corner_distributor)
+                            .centerCrop()
+                            .into(img_corner);
                     break;
                 case 2:
-                    img_corner.setImageResource(R.drawable.corner_enterprise);
+                  //  img_corner.setImageResource(R.drawable.corner_enterprise);
+                    Glide.with(getActivity())
+                            .load(R.drawable.corner_enterprise)
+                            .centerCrop()
+                            .into(img_corner);
                     break;
                 case 3:
-                    img_corner.setImageResource(R.drawable.corner_expert);
+                   // img_corner.setImageResource(corner_expert);
+                    Glide.with(getActivity())
+                            .load(R.drawable.corner_expert)
+                            .centerCrop()
+                            .into(img_corner);
                     break;
                 case 4:
-                    img_corner.setImageResource(R.drawable.corner_enterprise);
+                    //img_corner.setImageResource(corner_enterprise);
+                    Glide.with(getActivity())
+                            .load(R.drawable.corner_enterprise)
+                            .centerCrop()
+                            .into(img_corner);
                     break;
             }
         }

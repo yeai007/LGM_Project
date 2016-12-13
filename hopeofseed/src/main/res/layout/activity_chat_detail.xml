@@ -38,7 +38,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="20dp"
                     android:background="#ffffff"
-                    android:src="@drawable/default_avater" />
+                    android:src="@drawable/img_group_default" />
 
                 <LinearLayout
                     android:id="@+id/group_name_ll"
@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="5dp"
-                    android:text="群简介"
+                    android:text="群名片"
                     android:textSize="18sp" />
 
                 <TextView

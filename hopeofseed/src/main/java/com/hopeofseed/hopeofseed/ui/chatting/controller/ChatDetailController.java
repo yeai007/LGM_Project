@@ -167,7 +167,6 @@ public class ChatDetailController implements OnClickListener, OnItemClickListene
                         }
                     }
                 });
-
             }
 
             // 是单聊

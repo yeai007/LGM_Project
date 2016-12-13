@@ -16,13 +16,17 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.NewsListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.RecyclerViewAdapter;
@@ -56,6 +60,28 @@ import static android.app.Activity.RESULT_OK;
  */
 public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshLayout.OnRefreshListener {
     public static String NEWS_UPDATE_LIST = "NEWS_UPDATE_LIST";
+
+
+
+
+    /**
+     * The RecyclerView is not currently scrolling.
+     * 当前的recycleView不滑动(滑动已经停止时)
+     */
+    public static final int SCROLL_STATE_IDLE = 0;
+
+    /**
+     * The RecyclerView is currently being dragged by outside input such as user touch input.
+     * 当前的recycleView被拖动滑动
+     */
+    public static final int SCROLL_STATE_DRAGGING = 1;
+
+    /**
+     * The RecyclerView is currently animating to a final position while not under
+     * outside control.
+     * 当前的recycleView在滚动到某个位置的动画过程,但没有被触摸滚动.调用 scrollToPosition(int) 应该会触发这个状态
+     */
+    public static final int SCROLL_STATE_SETTLING = 2;
     String TAG = "NewsFragment";
     pulishDYNPopupWindow menuWindow;
     Button btn_title;
@@ -75,7 +101,8 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
     UpdateZiabamResult mUpdateZiabamResult = new UpdateZiabamResult();
     String updatePosition;
     private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
-
+    ImageView add_new;
+    TranslateAnimation mShowAction,mHiddenAction;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -95,7 +122,18 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
     }
 
     private void initView(View v) {
-        (v.findViewById(R.id.btn_topright)).setOnClickListener(listener);
+        mShowAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+        mShowAction.setDuration(200);
+        mHiddenAction = new TranslateAnimation(Animation.RELATIVE_TO_SELF,
+                0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
+                1.0f);
+        mHiddenAction.setDuration(200);
+        add_new = (ImageView) v.findViewById(R.id.add_new);
+        add_new.setOnClickListener(listener);
+      //  (v.findViewById(R.id.btn_topright)).setOnClickListener(listener);
         btn_topleft = (TextView) v.findViewById(R.id.btn_topleft);
         btn_topleft.setText(Const.UserLocation.replace("市", ""));
         btn_topleft.setOnClickListener(listener);
@@ -205,6 +243,25 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                // OnScrollListener.SCROLL_STATE_FLING; //屏幕处于甩动状态
+                // OnScrollListener.SCROLL_STATE_IDLE; //停止滑动状态
+                // OnScrollListener.SCROLL_STATE_TOUCH_SCROLL;// 手指接触状态
+                switch (newState) {
+                    case SCROLL_STATE_IDLE:
+                        add_new.startAnimation(mShowAction);
+                        add_new.setVisibility(View.VISIBLE);
+                        break;
+                    case SCROLL_STATE_DRAGGING :
+                        add_new.startAnimation(mHiddenAction);
+                        add_new.setVisibility(View.GONE);
+                        break;
+                    case SCROLL_STATE_SETTLING :
+/*                        add_new.startAnimation(mHiddenAction);
+                        add_new.setVisibility(View.GONE);*/
+                        break;
+                }
+
+
             }
 
             @Override
@@ -248,6 +305,7 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
             getNewsData();
         }
     }
+
     private void initSpTitle(View v) {
         setTitleData();
         final Spinner sp_title = (Spinner) v.findViewById(R.id.sp_title);
@@ -307,10 +365,13 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
     private View.OnClickListener listener = new View.OnClickListener() {
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.btn_topright:
+                case R.id.add_new:
                     menuWindow = new pulishDYNPopupWindow(getActivity(), itemsOnClick);
                     //显示窗口
                     menuWindow.showAtLocation(v, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
+                    break;
+                case R.id.btn_topright:
+
                     break;
                 case R.id.btn_topleft:
                     selectArea();

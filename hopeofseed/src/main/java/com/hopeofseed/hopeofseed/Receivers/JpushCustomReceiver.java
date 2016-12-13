@@ -12,6 +12,7 @@ import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
 import org.json.JSONObject;
 import cn.jpush.android.api.JPushInterface;
+import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.helpers.IMReceiver;
 import io.realm.Realm;
 import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
@@ -36,6 +37,7 @@ public class JpushCustomReceiver extends IMReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         mContext = context;
+
         if (null == nm) {
             nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
@@ -122,4 +124,5 @@ public class JpushCustomReceiver extends IMReceiver {
         NotifyData inNotifyData = insertRealm.copyToRealmOrUpdate(insertNotifyData);
         insertRealm.commitTransaction();
     }
+
 }

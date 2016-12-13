@@ -37,7 +37,7 @@ import java.util.HashMap;
  */
 public class EnterpriseFragment extends Fragment {
 
-    private static final String ARG_POSITION = "position";
+    private static final String ARG_POSITION = "position";    private static final String STR_SEARCH = "STR_SEARCH";
     private int PageNo = 0;
     private int position;
     PullToRefreshListView lv_list;
@@ -48,6 +48,10 @@ public class EnterpriseFragment extends Fragment {
     ArrayList<EnterpriseCommodityArray> mEnterpriseCommodityArray = new ArrayList<>();
     ArrayList<EnterpriseCommodityArray> mEnterpriseCommodityArrayTmp = new ArrayList<>();
     static String Str_search = "";
+
+    public EnterpriseFragment(String strSearch) {
+        Str_search=strSearch;
+    }
    /* public static EnterpriseFragment newInstance(int position, String search) {
         Str_search = search;
         EnterpriseFragment f = new EnterpriseFragment();
@@ -61,7 +65,7 @@ public class EnterpriseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        position = getArguments().getInt(ARG_POSITION);
+        position = getArguments().getInt(ARG_POSITION);        Str_search = getArguments().getString(STR_SEARCH);
     }
 
     @Override

@@ -87,9 +87,11 @@ public class NetRunnable implements Runnable {
             return;
         }
         RspBaseBean baseBean = null;
+        Log.e(TAG, "run: " + json);
         try {
             baseBean = mGson.fromJson(json, RspBaseBean.class);
         } catch (JsonSyntaxException e) {
+            Log.e(TAG, "run:data error ");
             mNetCallBack.onError("data error");
             return;
         }

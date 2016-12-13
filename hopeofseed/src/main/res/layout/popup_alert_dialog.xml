@@ -115,7 +115,7 @@
                     android:layout_below="@+id/btn_publish_share_yield"
                     android:layout_marginTop="10dp"
                     android:gravity="center"
-                    android:text="分享产量" />
+                    android:text="产量表现" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -157,7 +157,7 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerHorizontal="true"
-                    android:background="@drawable/push_commodity" />
+                    android:background="@drawable/img_apply_commodity" />
             </RelativeLayout>
         </LinearLayout>
 

@@ -1,6 +1,5 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,8 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Window;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
-
 import com.hopeofseed.hopeofseed.Adapter.SearchAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
@@ -23,9 +20,7 @@ import com.hopeofseed.hopeofseed.JNXData.HotSearchData;
 import com.hopeofseed.hopeofseed.JNXData.HotSearchDataNoRealm;
 import com.hopeofseed.hopeofseed.JNXDataTmp.BeanTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.HotSearchDataTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.SearchResultDataTmp;
 import com.hopeofseed.hopeofseed.SearchFragment.AuthorFragment;
-import com.hopeofseed.hopeofseed.SearchFragment.ComFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.CropFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.DistributorFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.EnterpriseFragment;
@@ -41,18 +36,12 @@ import com.hopeofseed.hopeofseed.ui.SearchView;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.model.Bean;
 import com.lgm.utils.ObjectUtil;
-
 import java.util.ArrayList;
-
 import android.support.v4.app.FragmentActivity;
-
 import java.util.HashMap;
 import java.util.List;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
-
-import static android.R.attr.fragment;
 import static android.text.TextUtils.isEmpty;
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
@@ -139,8 +128,8 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
         updateHintData();
         updateData();
         initPager();
-    }
 
+    }
     private void initPager() {
         tabs = (CategoryTabStrip) findViewById(R.id.category_strip);
         pager = (ViewPager) findViewById(R.id.view_pager);
@@ -327,7 +316,7 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
     }
 
     private void updateData() {
-        Log.e(TAG, "getData: 获取搜索库数据");
+        Log.e(TAG, "getData: 获取搜索库数据AppTags");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         HttpUtils hu = new HttpUtils();
@@ -350,8 +339,10 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-        Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
+/*        Log.e(TAG, "onSuccess: " + rspBaseBean.toString());*/
         if (rspBaseBean.RequestSign.equals("GetAppTags")) {
+            //获取到AppTags数据
+            Log.e(TAG, "onSuccess: 获取到了AppTags" );
             updateRealmData(rspBaseBean);
         } else if (rspBaseBean.RequestSign.equals("GetSearchResult")) {
             updateView();
@@ -417,46 +408,51 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
             Bundle b;
             switch (position) {
                 case 0://用户
-                    mFragment = new SeedfriendFragment();
+                    mFragment = new SeedfriendFragment(StrSearch);
                     b = new Bundle();
                     b.putInt(ARG_POSITION, position);
+                    b.putString(STR_SEARCH,StrSearch);
                     mFragment.setArguments(b);
                     break;
                 case 1://品种
 //                    mFragment = CropFragment.newInstance(position, StrSearch);
-                    mFragment = new CropFragment();
+                    mFragment = new CropFragment(StrSearch);
                     b = new Bundle();
                     b.putInt(ARG_POSITION, position);
-                    b.putString(STR_SEARCH, "");
+                    b.putString(STR_SEARCH,StrSearch);
                     b.putInt(STR_FAXIAN, 0);
                     mFragment.setArguments(b);
                     break;
                 case 2://经销商
 //                    mFragment = DistributorFragment.newInstance(position, StrSearch);
-                    mFragment = new DistributorFragment();
+                    mFragment = new DistributorFragment(StrSearch);
                     b = new Bundle();
                     b.putInt(ARG_POSITION, position);
+                    b.putString(STR_SEARCH,StrSearch);
                     mFragment.setArguments(b);
                     break;
                 case 3://专家
                     // mFragment = ExpertFragment.newInstance(position, StrSearch);
-                    mFragment = new ExpertFragment();
+                    mFragment = new ExpertFragment(StrSearch);
                     b = new Bundle();
                     b.putInt(ARG_POSITION, position);
+                    b.putString(STR_SEARCH,StrSearch);
                     mFragment.setArguments(b);
                     break;
                 case 4://企业
                     //  mFragment = EnterpriseFragment.newInstance(position, StrSearch);
-                    mFragment = new EnterpriseFragment();
+                    mFragment = new EnterpriseFragment(StrSearch);
                     b = new Bundle();
                     b.putInt(ARG_POSITION, position);
+                    b.putString(STR_SEARCH,StrSearch);
                     mFragment.setArguments(b);
                     break;
                 case 5://机构
                     //  mFragment = AuthorFragment.newInstance(position, StrSearch);
-                    mFragment = new AuthorFragment();
+                    mFragment = new AuthorFragment(StrSearch);
                     b = new Bundle();
                     b.putInt(ARG_POSITION, position);
+                    b.putString(STR_SEARCH,StrSearch);
                     mFragment.setArguments(b);
                     break;
 //                case 7://综合
@@ -464,30 +460,34 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
 //                    break;
                 case 6://农技经验
                     // mFragment = ExperienceFragment.newInstance(position, StrSearch);
-                    mFragment = new ExperienceFragment();
+                    mFragment = new ExperienceFragment(StrSearch);
                     b = new Bundle();
                     b.putInt("position", position);
+                    b.putString(STR_SEARCH,StrSearch);
                     mFragment.setArguments(b);
                     break;
                 case 7://发问
                     //   mFragment = ProblemFragment.newInstance(position, StrSearch);
-                    mFragment = new ProblemFragment();
+                    mFragment = new ProblemFragment(StrSearch);
                     b = new Bundle();
                     b.putInt(ARG_POSITION, position);
+                    b.putString(STR_SEARCH,StrSearch);
                     mFragment.setArguments(b);
                     break;
                 case 8://产量表现
                     // mFragment = YieldFragment.newInstance(position, StrSearch);
-                    mFragment = new YieldFragment();
+                    mFragment = new YieldFragment(StrSearch);
                     b = new Bundle();
                     b.putInt(ARG_POSITION, position);
+                    b.putString(STR_SEARCH,StrSearch);
                     mFragment.setArguments(b);
                     break;
                 case 9://实时
                     // mFragment = NowFragment.newInstance(position);
-                    mFragment = new NowFragment();
+                    mFragment = new NowFragment(StrSearch);
                     b = new Bundle();
                     b.putInt("position", position);
+                    b.putString(STR_SEARCH,StrSearch);
                     mFragment.setArguments(b);
                     break;
             }

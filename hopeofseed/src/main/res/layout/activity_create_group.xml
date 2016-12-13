@@ -6,10 +6,15 @@
     android:background="@color/mainbgcolor"
     android:orientation="vertical">
 
+    <include
+        android:id="@+id/top"
+        layout="@layout/top_comright" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@color/maincolor">
+        android:background="@color/maincolor"
+        android:visibility="gone">
 
         <ImageButton
             android:id="@+id/creat_group_return_btn"
@@ -46,19 +51,61 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/input_group_id"
+        <RelativeLayout
+            android:id="@+id/rel_groupname"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/bg_edittext"
-            android:cursorVisible="true"
-            android:hint="输入群名"
-            android:textCursorDrawable="@drawable/jmui_text_cursor_bg" />
+            android:layout_height="50dp"
+            android:layout_marginTop="2dp"
+
+            android:background="#ffffff">
+
+            <TextView
+                android:id="@+id/tv_groupname"
+                style="@style/ChatDetailItemHit"
+                android:text="群名称" />
+
+            <EditText
+                android:id="@+id/input_group_id"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_toRightOf="@+id/tv_groupname"
+                android:background="@drawable/bg_edittext"
+                android:cursorVisible="true"
+                android:gravity="right|center"
+                android:hint="输入群名"
+                android:textCursorDrawable="@drawable/jmui_text_cursor_bg" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rel_address"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/rel_groupname"
+            android:layout_marginTop="2dp"
+            android:background="#ffffff">
+
+            <TextView
+                android:id="@+id/tv_address"
+                style="@style/ChatDetailItemHit"
+                android:text="群地点" />
+
+            <Button
+                android:id="@+id/chat_detail_group_address"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_toRightOf="@+id/tv_address"
+                android:background="@null"
+                android:gravity="right|center"
+                android:text="选择省市区"
+                android:textSize="18sp" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

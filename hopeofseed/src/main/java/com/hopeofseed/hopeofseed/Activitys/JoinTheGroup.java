@@ -2,6 +2,7 @@ package com.hopeofseed.hopeofseed.Activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,12 +15,15 @@ import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.GroupInfoNoJpushTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.HashMap;
+
+import io.realm.Realm;
 
 /**
  * 项目名称：LGM_Project
@@ -34,6 +38,8 @@ public class JoinTheGroup extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "JoinTheGroup";
     EditText et_txt;
     String GroupId;
+    Handler mHandler = new Handler();
+    Realm myRealm = Realm.getDefaultInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,14 +78,14 @@ public class JoinTheGroup extends AppCompatActivity implements View.OnClickListe
         opt_map.put("GroupId", GroupId);
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "JoinTheGroup.php", opt_map,pushFileResultTmp.class, this);
+        hu.httpPost(Const.BASE_URL + "JoinTheGroup.php", opt_map, pushFileResultTmp.class, this);
     }
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-        pushFileResultTmp mpushFileResultTmp= ObjectUtil.cast(rspBaseBean);
-        Log.e(TAG, "onSuccess: "+mpushFileResultTmp.getDetail() );
-        finish();
+        pushFileResultTmp mpushFileResultTmp = ObjectUtil.cast(rspBaseBean);
+        Log.e(TAG, "onSuccess: " + mpushFileResultTmp.getDetail());
+        mHandler.post(updateResult);
     }
 
     @Override
@@ -91,4 +97,11 @@ public class JoinTheGroup extends AppCompatActivity implements View.OnClickListe
     public void onFail() {
 
     }
+
+    Runnable updateResult = new Runnable() {
+        @Override
+        public void run() {
+            finish();
+        }
+    };
 }

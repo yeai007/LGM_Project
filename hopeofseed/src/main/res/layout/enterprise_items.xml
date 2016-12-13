@@ -59,7 +59,7 @@
             android:gravity="left|center_vertical"
             android:text="1.1km"
             android:textSize="12sp"
-            android:textColor="#cbcbcb" />
+            android:textColor="@color/text_content_color" />
 
         <TextView
             android:id="@+id/tv_address"
@@ -73,7 +73,7 @@
             android:text="地址"
             android:focusable="false"
             android:textSize="12sp"
-            android:textColor="#cbcbcb" />
+            android:textColor="@color/text_content_color" />
 
         <TextView
             android:id="@+id/tv_address_detail"
@@ -86,6 +86,6 @@
             android:text="详细地址"
             android:focusable="false"
             android:textSize="12sp"
-            android:textColor="#cbcbcb" />
+            android:textColor="@color/text_content_color" />
     </RelativeLayout>
 </RelativeLayout>

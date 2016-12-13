@@ -19,6 +19,10 @@ public class NowFragment extends Fragment {
 
     private int position;
 
+    public NowFragment(String strSearch) {
+
+    }
+
  /*   public static NowFragment newInstance(int position) {
         NowFragment f = new NowFragment();
         Bundle b = new Bundle();

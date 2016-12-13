@@ -60,6 +60,6 @@
             android:layout_toRightOf="@+id/rel_img_user_avatar"
             android:gravity="left|center_vertical"
             android:text="address"
-            android:textColor="#cbcbcb" />
+            android:textColor="@color/text_content_color" />
     </RelativeLayout>
 </RelativeLayout>

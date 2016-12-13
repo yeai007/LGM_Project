@@ -49,7 +49,7 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 public class AuthorFragment extends Fragment {
 
     private static final String ARG_POSITION = "position";
-
+    private static final String STR_SEARCH = "STR_SEARCH";
     private int position;
     PullToRefreshListView lv_list;
     AuthorDataAdapter mAuthorDataAdapter;
@@ -57,6 +57,11 @@ public class AuthorFragment extends Fragment {
     ArrayList<AuthorData> arr_AuthorDataTmp = new ArrayList<>();
     static String Str_search = "";
     int PageNo = 0;
+
+    public AuthorFragment(String strSearch) {Str_search=strSearch;
+    }
+
+/*
     public static AuthorFragment newInstance(int position, String search) {
         Str_search = search;
         AuthorFragment f = new AuthorFragment();
@@ -65,11 +70,13 @@ public class AuthorFragment extends Fragment {
         f.setArguments(b);
         return f;
     }
+*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt(ARG_POSITION);
+        position = getArguments().getInt(ARG_POSITION);        Str_search = getArguments().getString(STR_SEARCH);
+
     }
 
     @Override

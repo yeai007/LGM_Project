@@ -13,15 +13,18 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
 import com.hopeofseed.hopeofseed.R;
-import com.hopeofseed.hopeofseed.curView.InputPopupWindow;
+
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 /**
@@ -46,8 +49,9 @@ public class HomePageActivity extends FragmentActivity {
     UserInfoFragment mUserInfoFragment;
     DiscoverFragment mDiscoverFragment;
     public Button btn_topright, btn_topleft;
-    int page = 0;
+    int page = 2;
     TextView apptitle;
+RadioButton two;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +61,9 @@ public class HomePageActivity extends FragmentActivity {
     }
 
     private void initView() {
+
         Intent intent = getIntent();
-        page = intent.getIntExtra("page", 0);
+        page = intent.getIntExtra("page", 2);
         fragmentList = new ArrayList<>();
         mMessageFragment = new MessageFragment();
         mNewsFragment = new NewsFragment();
@@ -76,6 +81,7 @@ public class HomePageActivity extends FragmentActivity {
         vp_main.setAdapter(mainViewPagerAdapter);
         vp_main.setOffscreenPageLimit(4);
         rg_menu.setOnCheckedChangeListener(mChangeRadio);
+        two=(RadioButton)findViewById(R.id.two) ;
         btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topleft = (Button) findViewById(R.id.btn_topleft);
         vp_main.setCurrentItem(page);
@@ -191,4 +197,11 @@ public class HomePageActivity extends FragmentActivity {
         }
     }
 
+    public void isHavaMessage(boolean ishava) {
+        if (ishava) {
+            two.setBackgroundResource(R.drawable.btn_main_radio_xiaoxi_message);
+        } else {
+            two.setBackgroundResource(R.drawable.btn_main_radio_xiaoxi);
+        }
+    }
 }

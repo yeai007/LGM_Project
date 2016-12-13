@@ -68,7 +68,7 @@
                 android:gravity="center"
                 android:hint="与经营许可证一致"
                 android:singleLine="true"
-                android:textColor="#cbcbcb"
+                android:textColor="@color/text_content_color"
                 android:textSize="18sp" />
 
         </RelativeLayout>
@@ -99,7 +99,7 @@
                 android:gravity="center"
                 android:hint="与经营许可证一致"
                 android:singleLine="true"
-                android:textColor="#cbcbcb"
+                android:textColor="@color/text_content_color"
                 android:textSize="18sp" />
 
         </RelativeLayout>
@@ -183,7 +183,7 @@
                 android:gravity="center"
                 android:hint="请输入登录密码"
                 android:singleLine="true"
-                android:textColor="#cbcbcb"
+                android:textColor="@color/text_content_color"
                 android:textSize="18sp" />
 
         </RelativeLayout>
@@ -214,7 +214,7 @@
                 android:gravity="center"
                 android:hint="再次输入密码确认"
                 android:singleLine="true"
-                android:textColor="#cbcbcb"
+                android:textColor="@color/text_content_color"
                 android:textSize="18sp" />
 
         </RelativeLayout>

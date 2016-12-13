@@ -49,8 +49,8 @@
                 android:gravity="center"
                 android:hint="@string/str_input_phone"
                 android:imeOptions="actionNext"
-                android:textColor="#cbcbcb"
-                android:textColorHint="#cbcbcb"
+                android:textColor="@color/text_content_color"
+                android:textColorHint="@color/text_content_color"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -79,8 +79,8 @@
                 android:hint="@string/str_hint_pass"
                 android:imeOptions="actionSend"
                 android:inputType="textPassword"
-                android:textColor="#cbcbcb"
-                android:textColorHint="#cbcbcb"
+                android:textColor="@color/text_content_color"
+                android:textColorHint="@color/text_content_color"
                 android:textSize="14sp" />
         </LinearLayout>
 

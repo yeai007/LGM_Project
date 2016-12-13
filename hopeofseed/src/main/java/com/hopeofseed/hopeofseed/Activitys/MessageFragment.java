@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Adapter.UnReadConversationListAdapter;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
@@ -27,16 +29,23 @@ import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.UserMessageData;
+import com.hopeofseed.hopeofseed.JNXData.pushFileResult;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserMessageDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
+import com.lgm.utils.ObjectUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import cn.jpush.im.android.api.model.Conversation;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static cn.jpush.im.android.api.JMessageClient.getConversationList;
+import static com.hopeofseed.hopeofseed.R.drawable.jmui_picture_not_found;
+import static com.hopeofseed.hopeofseed.R.id.img_corner;
 
 
 /**
@@ -55,7 +64,7 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     ArrayList<UserMessageData> arrUserMessageData = new ArrayList<>();
     ArrayList<UserMessageData> arrUserMessageDataTmp = new ArrayList<>();
     Handler mHandle = new Handler();
-    RelativeLayout rel_pinglun, rel_zan, rel_hangye, rel_xitong,rel_group;
+    RelativeLayout rel_pinglun, rel_zan, rel_hangye, rel_xitong, rel_group;
     RecyclerView recycler_list;
     UnReadConversationListAdapter mAdapter;
     ArrayList<Conversation> mList = new ArrayList<>();
@@ -63,8 +72,9 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
     Handler mHandler = new Handler();
     Realm myRealm = Realm.getDefaultInstance();
-    ImageView pinglun_img, xitong_img, hangye_img,group_img;
-    TextView pinglun_unread_count, xitong_unread_count, hangye_unread_count,group_unread_count;
+    ImageView pinglun_img, xitong_img, hangye_img, group_img;
+    TextView pinglun_unread_count, xitong_unread_count, hangye_unread_count, group_unread_count;
+    int unReadCount = 0;
 
     @Nullable
     @Override
@@ -93,41 +103,92 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     }
 
     private void getNotifyData() {
+        getUnReadComment();
         //系统通知
         RealmResults<NotifyData> results1 =
                 myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "1").findAll();
         if (results1.size() > 0) {
-            xitong_img.setImageResource(R.drawable.img_message_count);
+            //xitong_img.setImageResource(R.drawable.img_message_count);
+            Glide.with(getActivity())
+                    .load(R.drawable.img_message_count)
+                    .centerCrop()
+                    .into(xitong_img);
             xitong_unread_count.setVisibility(View.VISIBLE);
             xitong_unread_count.setText(String.valueOf(results1.size()));
+            ((HomePageActivity) getActivity()).isHavaMessage(true);
         } else {
-            xitong_img.setImageResource(R.drawable.right_arrow);
+            //xitong_img.setImageResource(R.drawable.right_arrow);
+            Glide.with(getActivity())
+                    .load(R.drawable.right_arrow)
+                    .centerCrop()
+                    .into(xitong_img);
             xitong_unread_count.setVisibility(View.INVISIBLE);
         }
         //行业通知
         RealmResults<NotifyData> results2 =
                 myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "2").findAll();
         if (results2.size() > 0) {
-            hangye_img.setImageResource(R.drawable.img_message_count);
+            //  hangye_img.setImageResource(R.drawable.img_message_count);
+            Glide.with(getActivity())
+                    .load(R.drawable.img_message_count)
+                    .centerCrop()
+                    .into(hangye_img);
             hangye_unread_count.setVisibility(View.VISIBLE);
             hangye_unread_count.setText(String.valueOf(results2.size()));
+            ((HomePageActivity) getActivity()).isHavaMessage(true);
         } else {
-            hangye_img.setImageResource(R.drawable.right_arrow);
+            //hangye_img.setImageResource(R.drawable.right_arrow);
+            Glide.with(getActivity())
+                    .load(R.drawable.right_arrow)
+                    .centerCrop()
+                    .into(hangye_img);
             hangye_unread_count.setVisibility(View.INVISIBLE);
         }
         //群通知
-        RealmResults<NotifyData> results3=
+        RealmResults<NotifyData> results3 =
                 myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "3").findAll();
         if (results3.size() > 0) {
-            group_img.setImageResource(R.drawable.img_message_count);
+            //group_img.setImageResource(R.drawable.img_message_count);
+            Glide.with(getActivity())
+                    .load(R.drawable.img_message_count)
+                    .centerCrop()
+                    .into(group_img);
             group_unread_count.setVisibility(View.VISIBLE);
             group_unread_count.setText(String.valueOf(results3.size()));
+            ((HomePageActivity) getActivity()).isHavaMessage(true);
         } else {
-            group_img.setImageResource(R.drawable.right_arrow);
+            //  group_img.setImageResource(R.drawable.right_arrow);
+            Glide.with(getActivity())
+                    .load(R.drawable.right_arrow)
+                    .centerCrop()
+                    .into(group_img);
             group_unread_count.setVisibility(View.INVISIBLE);
         }
     }
 
+    Runnable updateCommend = new Runnable() {
+        @Override
+        public void run() {
+            if (unReadCount > 0) {
+               // pinglun_img.setImageResource(R.drawable.img_message_count);
+                Glide.with(getActivity())
+                        .load(R.drawable.img_message_count)
+                        .centerCrop()
+                        .into(pinglun_img);
+                pinglun_unread_count.setVisibility(View.VISIBLE);
+                pinglun_unread_count.setText(String.valueOf(unReadCount));
+                ((HomePageActivity) getActivity()).isHavaMessage(true);
+            } else {
+                //pinglun_img.setImageResource(R.drawable.right_arrow);
+                Glide.with(getActivity())
+                        .load(R.drawable.right_arrow)
+                        .centerCrop()
+                        .into(pinglun_img);
+                pinglun_unread_count.setVisibility(View.INVISIBLE);
+            }
+
+        }
+    };
     Runnable updatelist = new Runnable() {
         @Override
         public void run() {
@@ -143,6 +204,13 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
             }
         }
     };
+
+    private void getUnReadComment() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "GetUnReadCommentCount.php", opt_map, pushFileResultTmp.class, this);
+    }
 
     private void initData() {
         HashMap<String, String> opt_map = new HashMap<>();
@@ -173,8 +241,8 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         xitong_unread_count = (TextView) v.findViewById(R.id.xitong_unread_count);
         hangye_img = (ImageView) v.findViewById(R.id.hangye_img);
         hangye_unread_count = (TextView) v.findViewById(R.id.hangye_unread_count);
-        group_img=(ImageView)v.findViewById(R.id.group_img) ;
-        group_unread_count=(TextView)v.findViewById(R.id.group_unread_count);
+        group_img = (ImageView) v.findViewById(R.id.group_img);
+        group_unread_count = (TextView) v.findViewById(R.id.group_unread_count);
         getData();
         recycler_list = (RecyclerView) v.findViewById(R.id.recycler_list);
         recycler_list.setHasFixedSize(true);
@@ -207,17 +275,17 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
                     break;
                 case R.id.rel_hangye:
                     intent = new Intent(getActivity(), SystemNofityActivity.class);
-                    intent.putExtra("type","2");
+                    intent.putExtra("type", "2");
                     startActivity(intent);
                     break;
                 case R.id.rel_xitong:
                     intent = new Intent(getActivity(), SystemNofityActivity.class);
-                    intent.putExtra("type","1");
+                    intent.putExtra("type", "1");
                     startActivity(intent);
                     break;
                 case R.id.rel_group:
                     intent = new Intent(getActivity(), GroupNofityActivity.class);
-                    intent.putExtra("type","3");
+                    intent.putExtra("type", "3");
                     startActivity(intent);
                     break;
             }
@@ -226,8 +294,13 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-        arrUserMessageDataTmp = ((UserMessageDataTmp) rspBaseBean).getDetail();
-
+        if (rspBaseBean.RequestSign.equals("GetUnReadCommentCount")) {
+            pushFileResult mPushFileResult = ((pushFileResultTmp) rspBaseBean).getDetail();
+            unReadCount = mPushFileResult.getNew_id();
+            mHandle.post(updateCommend);
+        } else {
+            arrUserMessageDataTmp = ((UserMessageDataTmp) rspBaseBean).getDetail();
+        }
     }
 
     @Override

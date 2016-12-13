@@ -22,10 +22,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.BaseActivity;
@@ -162,7 +164,11 @@ public class BrowserViewPagerActivity extends BaseActivity {
                         photoView.setImageBitmap(NativeImageLoader.getInstance().getBitmapFromMemCache(path));
                     }
                 } catch (Exception e) {
-                    photoView.setImageResource(R.drawable.jmui_picture_not_found);
+                    //photoView.setImageResource(R.drawable.jmui_picture_not_found);
+                    Glide.with(mContext)
+                            .load(R.drawable.jmui_picture_not_found)
+                            .centerCrop()
+                            .into(photoView);
                     HandleResponseCode.onHandle(mContext, 1001, false);
                 }
             //预览聊天界面中的图片
@@ -217,18 +223,27 @@ public class BrowserViewPagerActivity extends BaseActivity {
                     if (bitmap != null) {
                         photoView.setImageBitmap(bitmap);
                     } else {
-                        photoView.setImageResource(R.drawable.jmui_picture_not_found);
+                        Glide.with(mContext)
+                                .load(R.drawable.jmui_picture_not_found)
+                                .centerCrop()
+                                .into(photoView);
                     }
                 } else {
                     Bitmap bitmap = NativeImageLoader.getInstance().getBitmapFromMemCache(path);
                     if (bitmap != null) {
                         photoView.setImageBitmap(bitmap);
                     } else {
-                        photoView.setImageResource(R.drawable.jmui_picture_not_found);
+                        Glide.with(mContext)
+                                .load(R.drawable.jmui_picture_not_found)
+                                .centerCrop()
+                                .into(photoView);
                     }
                 }
             } else {
-                photoView.setImageResource(R.drawable.jmui_picture_not_found);
+                Glide.with(mContext)
+                        .load(R.drawable.jmui_picture_not_found)
+                        .centerCrop()
+                        .into(photoView);
             }
             container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             return photoView;

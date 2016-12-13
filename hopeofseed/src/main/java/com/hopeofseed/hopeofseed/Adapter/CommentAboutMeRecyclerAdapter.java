@@ -20,12 +20,15 @@ import com.hopeofseed.hopeofseed.Activitys.MessageFragment;
 import com.hopeofseed.hopeofseed.Activitys.NewsInfoNewActivity;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
+import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.JNXData.CommentAboutMeData;
+import com.hopeofseed.hopeofseed.JNXDataTmp.CommentAboutMeDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.DateTools;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
@@ -65,13 +68,20 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
     public void onBindViewHolder(ViewHolder holder, int position) {
         CommentAboutMeData itemData = new CommentAboutMeData();
         itemData = mList.get(position);
+        final CommentAboutMeData finalItemData = itemData;
+        if (itemData.getCommentIsRead() == 0) {
+            holder.img_unread.setVisibility(View.VISIBLE);
+        } else {
+            holder.img_unread.setVisibility(View.GONE);
+        }
         holder.tv_comment_content.setText(itemData.getCommentComment());
         holder.tv_comment_user_nickname.setText(itemData.getNickname());
         final CommentAboutMeData finalItemData1 = itemData;
         holder.btn_huifu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ( (CommentAboutMe)mContext).showInput(finalItemData1.getCommentRecrodId(), finalItemData1.getUser_id(), finalItemData1.getCommentNewId());
+                updateRead(finalItemData.getCommentRecrodId());
+                ((CommentAboutMe) mContext).showInput(finalItemData1.getCommentRecrodId(), finalItemData1.getUser_id(), finalItemData1.getCommentNewId());
             }
         });
         if (itemData.getTo_user_name().equals("")) {
@@ -96,19 +106,22 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
         } else {
         }
         getJpushUserHead(holder, itemData);
-        final CommentAboutMeData finalItemData = itemData;
+
         holder.rel_comment_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateRead(finalItemData.getCommentRecrodId());
                 Intent intent = new Intent(mContext, UserActivity.class);
                 intent.putExtra("userid", finalItemData.getUser_id());
                 intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
+
             }
         });
         holder.rel_comment_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateRead(finalItemData.getCommentRecrodId());
                 Intent intent = new Intent(mContext, NewsInfoNewActivity.class);
                 intent.putExtra("NEWID", String.valueOf(finalItemData.getId()));
                 intent.putExtra("NewClass", finalItemData.getNewclass());
@@ -119,6 +132,7 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
         holder.rel_new.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                updateRead(finalItemData.getCommentRecrodId());
                 Intent intent = new Intent(mContext, NewsInfoNewActivity.class);
                 intent.putExtra("NEWID", String.valueOf(finalItemData.getId()));
                 intent.putExtra("NewClass", finalItemData.getNewclass());
@@ -136,7 +150,7 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView img_user_avatar, img_corner, img_new;
+        ImageView img_user_avatar, img_corner, img_new, img_unread;
         TextView tv_comment_user_nickname, tv_comment_content, tv_time, tv_huifu, tv_to_user_name;
         RelativeLayout rel_comment_user, rel_new, rel_comment_content;
         Button btn_huifu;
@@ -155,7 +169,7 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
             tv_huifu = (TextView) view.findViewById(R.id.tv_huifu);
             tv_to_user_name = (TextView) view.findViewById(R.id.tv_to_user_name);
             btn_huifu = (Button) view.findViewById(R.id.btn_huifu);
-
+            img_unread = (ImageView) view.findViewById(R.id.img_unread);
         }
 
     }
@@ -245,5 +259,12 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
 
             }
         });
+    }
+
+    public void updateRead(String itemId) {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("RecordId", itemId);
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "UpdateCommentReadStatus.php", opt_map, null, null);
     }
 }

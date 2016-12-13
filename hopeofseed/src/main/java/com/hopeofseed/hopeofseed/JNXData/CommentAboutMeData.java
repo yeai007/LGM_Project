@@ -100,6 +100,11 @@ public class CommentAboutMeData {
     private String ForwardComment;
     private String to_user_id;
     private String to_user_name;
+    /**
+     * CommentIsRead : 00000000000
+     */
+
+    private int CommentIsRead;
 
     public String getUser_id() {
         return user_id;
@@ -443,5 +448,13 @@ public class CommentAboutMeData {
 
     public void setTo_user_name(String to_user_name) {
         this.to_user_name = to_user_name;
+    }
+
+    public int getCommentIsRead() {
+        return CommentIsRead;
+    }
+
+    public void setCommentIsRead(int CommentIsRead) {
+        this.CommentIsRead = CommentIsRead;
     }
 }

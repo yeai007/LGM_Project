@@ -9,11 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Activitys.ChatDetailActivity;
+import com.hopeofseed.hopeofseed.Activitys.JoinTheGroup;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.JNXData.GroupData;
 import com.hopeofseed.hopeofseed.R;
@@ -37,6 +39,8 @@ import static android.R.attr.targetId;
 import static com.hopeofseed.hopeofseed.Application.TARGET_APP_KEY;
 import static com.hopeofseed.hopeofseed.Application.TARGET_ID;
 import static com.hopeofseed.hopeofseed.R.id.item_content;
+import static com.hopeofseed.hopeofseed.R.id.tv_time;
+import static com.hopeofseed.hopeofseed.R.id.tv_unread_count;
 
 
 /**
@@ -66,7 +70,6 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.group_list_item, null, false);
         ViewHolder holder = new ViewHolder(view);
-
         return holder;
     }
 
@@ -75,18 +78,28 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
         Log.e(TAG, "onBindViewHolder:getUnReadMsgCnt " + position);
         final GroupData itemData = mList.get(position);
         holder.item_content.setText(itemData.getAppGroupName());
+        holder.item_address.setText(itemData.getAppGroupProvince() + "  " + itemData.getAppGroupCity() + "   " + itemData.getAppGroupZone());
         final boolean[] isMember = {false};
         JMessageClient.getGroupMembers(Long.parseLong(itemData.getAppJpushGroupId()), new GetGroupMembersCallback() {
             @Override
             public void gotResult(int i, String s, List<UserInfo> list) {
+                holder.item_members_count.setText(list.size() + "人");
                 if (list.contains(JMessageClient.getMyInfo())) {
 
                     isMember[0] = true;
-                    holder.tv_time.setText("已加入");
+                    holder.img_btn_join.setImageResource(R.drawable.is_join);
                 } else {
 
                     isMember[0] = false;
-                    holder.tv_time.setText("未加入");
+                    holder.img_btn_join.setImageResource(R.drawable.is_join_null);
+                    holder.img_btn_join.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, JoinTheGroup.class);
+                            intent.putExtra("GroupId", String.valueOf(itemData.getAppJpushGroupId()));
+                            mContext.startActivity(intent);
+                        }
+                    });
                 }
             }
         });
@@ -104,7 +117,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
                 } else {
                     Intent intent = new Intent(mContext.getApplicationContext(), ChatDetailActivity.class);
                     intent.putExtra(Application.GROUP_ID, Long.parseLong(itemData.getAppJpushGroupId()));
-                    intent.putExtra("type",1);
+                    intent.putExtra("type", 1);
                     intent.putExtra("fromGroup", false);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -124,16 +137,18 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img_item;
-        TextView item_content, tv_unread_count, tv_time;
+        TextView item_content, item_members_count, item_address;
         RelativeLayout rel_item;
+        ImageButton img_btn_join;
 
         public ViewHolder(View itemView) {
             super(itemView);
             img_item = (ImageView) itemView.findViewById(R.id.img_item);
             item_content = (TextView) itemView.findViewById(R.id.item_content);
-            tv_unread_count = (TextView) itemView.findViewById(R.id.tv_unread_count);
             rel_item = (RelativeLayout) itemView.findViewById(R.id.rel_item);
-            tv_time = (TextView) itemView.findViewById(R.id.tv_time);
+            img_btn_join = (ImageButton) itemView.findViewById(R.id.img_btn_join);
+            item_members_count = (TextView) itemView.findViewById(R.id.item_members_count);
+            item_address = (TextView) itemView.findViewById(R.id.item_address);
         }
     }
 }

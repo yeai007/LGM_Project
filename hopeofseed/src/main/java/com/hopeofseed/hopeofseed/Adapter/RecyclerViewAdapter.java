@@ -241,7 +241,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
-        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
+        Glide.with(mContext)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .centerCrop()
+                .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         if (images.size() == 0) {
@@ -292,7 +295,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
-        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
+        Glide.with(mContext)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .centerCrop()
+                .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         if (images.size() == 0) {
@@ -340,7 +346,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
-        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
+        Glide.with(mContext)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .centerCrop()
+                .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         if (images.size() == 0) {
@@ -389,7 +398,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
-        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
+        Glide.with(mContext)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .centerCrop()
+                .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         if (images.size() == 0) {
@@ -438,7 +450,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
-        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
+        Glide.with(mContext)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .centerCrop()
+                .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         if (images.size() == 0) {
@@ -487,7 +502,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
-        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
+        Glide.with(mContext)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .centerCrop()
+                .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         if (images.size() == 0) {
@@ -536,7 +554,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
-        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
+        Glide.with(mContext)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .centerCrop()
+                .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         if (images.size() == 0) {
@@ -585,7 +606,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_forward)).setText(Integer.parseInt(mData.getForwardCount()) > 0 ? mData.getForwardCount() : "转发");
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
-        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
+        Glide.with(mContext)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .centerCrop()
+                .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
         holder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         if (images.size() == 0) {
@@ -643,7 +667,10 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         Log.e(TAG, "initData: " + mData.getZambiaCount());
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
-        ((ImageView) holder.getView(R.id.img_zambia)).setImageResource(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img);
+        Glide.with(mContext)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .centerCrop()
+                .into(((ImageView) holder.getView(R.id.img_zambia)));
         updateTime(mData.getNewcreatetime(), holder);
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);

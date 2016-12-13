@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="80dp"
+
     android:orientation="horizontal">
 
     <RelativeLayout
@@ -19,50 +20,49 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/img_pinglun" />
+            android:src="@drawable/img_group_default" />
 
         <TextView
             android:id="@+id/item_content"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/img_item"
             android:gravity="left|center"
             android:text="评论"
             android:textColor="@color/text_title_color" />
-
-        <RelativeLayout
+        <TextView
+            android:id="@+id/item_members_count"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="1dp"
+            android:layout_below="@+id/item_content"
+            android:layout_toRightOf="@+id/img_item"
+            android:gravity="left|center"
+            android:text="评论"
+            android:textColor="@color/text_title_color" />
+        <TextView
+            android:id="@+id/item_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="1dp"
+            android:layout_below="@+id/item_members_count"
+            android:layout_toRightOf="@+id/img_item"
+            android:gravity="left|center"
+            android:text="评论"
+            android:textColor="@color/text_title_color" />
+        <ImageButton
+            android:id="@+id/img_btn_join"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="10dp">
-
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="2dp" />
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="center"
-                android:src="@drawable/img_message_count" />
-
-            <TextView
-                android:id="@+id/tv_unread_count"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="10"
-                android:textColor="#ffffff" />
-        </RelativeLayout>
+            android:layout_marginRight="20dp"
+            android:scaleType="fitEnd"
+            android:background="@null"
+            android:src="@drawable/is_join" />
     </RelativeLayout>
 </RelativeLayout>

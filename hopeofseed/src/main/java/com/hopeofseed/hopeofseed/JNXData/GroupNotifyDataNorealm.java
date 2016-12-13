@@ -36,11 +36,17 @@ public class GroupNotifyDataNorealm{
     private String AppGroupApplyExamUserId;
     private String AppGroupApplyExamTime;
     private String AppGroupApplyGroupId;
-
+    private String NotifyId;
     public String getAppGroupApplyId() {
         return AppGroupApplyId;
     }
+    public String getNotifyId() {
+        return NotifyId;
+    }
 
+    public void setNotifyId(String NotifyId) {
+        this.NotifyId = NotifyId;
+    }
     public void setAppGroupApplyId(String AppGroupApplyId) {
         this.AppGroupApplyId = AppGroupApplyId;
     }

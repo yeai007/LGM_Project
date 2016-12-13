@@ -14,12 +14,18 @@ import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Activitys.SystemNofityActivity;
 import com.hopeofseed.hopeofseed.Activitys.SystemNofityDetailActivity;
+import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.DateTools;
 
 import java.text.ParseException;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
+import static android.R.attr.type;
 
 
 /**
@@ -36,6 +42,7 @@ public class NotifyListAdapter extends RecyclerView.Adapter<NotifyListAdapter.Vi
     List<NotifyDataNorealm> mList;
     Context mContext;
     private LayoutInflater inflater;
+    Realm myRealm = Realm.getDefaultInstance();
 
     public NotifyListAdapter(Context context, List<NotifyDataNorealm> list) {
         super();
@@ -62,6 +69,13 @@ public class NotifyListAdapter extends RecyclerView.Adapter<NotifyListAdapter.Vi
         holder.rel_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                NotifyData results1 =
+                        myRealm.where(NotifyData.class).equalTo("NotifyId", itemData.getNotifyId()).findFirst();
+
+                myRealm.beginTransaction();
+                results1.setNotifyIsRead("1");
+                NotifyData inNotifyData = myRealm.copyToRealmOrUpdate(results1);
+                myRealm.commitTransaction();
                 Intent intent = new Intent(mContext, SystemNofityDetailActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("data", itemData);

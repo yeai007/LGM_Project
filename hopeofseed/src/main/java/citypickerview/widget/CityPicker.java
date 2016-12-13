@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -40,126 +41,126 @@ import citypickerview.widget.wheel.adapters.ArrayWheelAdapter;
  * 邮箱：lijiwork@sina.com
  */
 public class CityPicker implements CanShow, OnWheelChangedListener {
-    
+
     private Context context;
-    
+
     private PopupWindow popwindow;
-    
+
     private View popview;
-    
+
     private WheelView mViewProvince;
-    
+
     private WheelView mViewCity;
-    
+
     private WheelView mViewDistrict;
 
     private RelativeLayout mRelativeTitleBg;
-    
+
     private TextView mTvOK;
 
     private TextView mTvTitle;
 
     private TextView mTvCancel;
-    
+
     /**
      * 所有省
      */
     protected String[] mProvinceDatas;
-    
+
     /**
      * key - 省 value - 市
      */
     protected Map<String, String[]> mCitisDatasMap = new HashMap<String, String[]>();
-    
+
     /**
      * key - 市 values - 区
      */
     protected Map<String, String[]> mDistrictDatasMap = new HashMap<String, String[]>();
-    
+
     /**
      * key - 区 values - 邮编
      */
     protected Map<String, String> mZipcodeDatasMap = new HashMap<String, String>();
-    
+
     /**
      * 当前省的名称
      */
     protected String mCurrentProviceName;
-    
+
     /**
      * 当前市的名称
      */
     protected String mCurrentCityName;
-    
+
     /**
      * 当前区的名称
      */
     protected String mCurrentDistrictName = "";
-    
+
     /**
      * 当前区的邮政编码
      */
     protected String mCurrentZipCode = "";
-    
+
     private OnCityItemClickListener listener;
-    
+
     public interface OnCityItemClickListener {
         void onSelected(String... citySelected);
     }
-    
+
     public void setOnCityItemClickListener(OnCityItemClickListener listener) {
         this.listener = listener;
     }
-    
+
     /**
      * Default text color
      */
     public static final int DEFAULT_TEXT_COLOR = 0xFF585858;
-    
+
     /**
      * Default text size
      */
     public static final int DEFAULT_TEXT_SIZE = 18;
-    
+
     // Text settings
     private int textColor = DEFAULT_TEXT_COLOR;
-    
+
     private int textSize = DEFAULT_TEXT_SIZE;
-    
+
     /**
      * 滚轮显示的item个数
      */
     private static final int DEF_VISIBLE_ITEMS = 5;
-    
+
     // Count of visible items
     private int visibleItems = DEF_VISIBLE_ITEMS;
-    
+
     /**
      * 省滚轮是否循环滚动
      */
     private boolean isProvinceCyclic = true;
-    
+
     /**
      * 市滚轮是否循环滚动
      */
     private boolean isCityCyclic = true;
-    
+
     /**
      * 区滚轮是否循环滚动
      */
     private boolean isDistrictCyclic = true;
-    
+
     /**
      * item间距
      */
     private int padding = 5;
-    
+
 
     /**
      * Color.BLACK
      */
     private String cancelTextColorStr = "#000000";
-    
+
 
     /**
      * Color.BLUE
@@ -169,23 +170,23 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
     /**
      * 标题背景颜色
      */
-    private String titleBackgroundColorStr="#E9E9E9";
-    
+    private String titleBackgroundColorStr = "#E9E9E9";
+
     /**
      * 第一次默认的显示省份，一般配合定位，使用
      */
     private String defaultProvinceName = "江苏";
-    
+
     /**
      * 第一次默认得显示城市，一般配合定位，使用
      */
     private String defaultCityName = "常州";
-    
+
     /**
      * 第一次默认得显示，一般配合定位，使用
      */
     private String defaultDistrict = "新北区";
-    
+
     /**
      * 两级联动
      */
@@ -194,8 +195,8 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
     /**
      * 标题
      */
-    private String mTitle="选择地区";
-    
+    private String mTitle = "选择地区";
+
     private CityPicker(Builder builder) {
         this.textColor = builder.textColor;
         this.textSize = builder.textSize;
@@ -205,20 +206,20 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         this.isCityCyclic = builder.isCityCyclic;
         this.context = builder.mContext;
         this.padding = builder.padding;
-        this.mTitle=builder.mTitle;
-        this.titleBackgroundColorStr=builder.titleBackgroundColorStr;
+        this.mTitle = builder.mTitle;
+        this.titleBackgroundColorStr = builder.titleBackgroundColorStr;
         this.confirmTextColorStr = builder.confirmTextColorStr;
         this.cancelTextColorStr = builder.cancelTextColorStr;
-        
+
         this.defaultDistrict = builder.defaultDistrict;
         this.defaultCityName = builder.defaultCityName;
         this.defaultProvinceName = builder.defaultProvinceName;
-        
+
         this.showProvinceAndCity = builder.showProvinceAndCity;
-        
+
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         popview = layoutInflater.inflate(R.layout.pop_citypicker, null);
-        
+
         mViewProvince = (WheelView) popview.findViewById(R.id.id_province);
         mViewCity = (WheelView) popview.findViewById(R.id.id_city);
         mViewDistrict = (WheelView) popview.findViewById(R.id.id_district);
@@ -236,7 +237,20 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         popwindow.setOutsideTouchable(true);
         popwindow.setFocusable(true);
 
+        popview.setOnTouchListener(new View.OnTouchListener() {
 
+            public boolean onTouch(View v, MotionEvent event) {
+
+                int height = popview.findViewById(R.id.ll_title_background).getTop();
+                int y = (int) event.getY();
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (y < height) {
+                        popwindow.dismiss();
+                    }
+                }
+                return true;
+            }
+        });
         /**
          * 设置标题背景颜色
          */
@@ -247,7 +261,7 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         /**
          * 设置标题
          */
-        if (!TextUtils.isEmpty(this.mTitle)){
+        if (!TextUtils.isEmpty(this.mTitle)) {
             mTvTitle.setText(this.mTitle);
         }
 
@@ -261,18 +275,17 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             mTvCancel.setTextColor(Color.parseColor(this.cancelTextColorStr));
         }
 
-        
+
         //只显示省市两级联动
         if (this.showProvinceAndCity) {
             mViewDistrict.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             mViewDistrict.setVisibility(View.VISIBLE);
         }
-        
+
         //初始化城市数据
         initProvinceDatas(context);
-        
+
         // 添加change事件
         mViewProvince.addChangingListener(this);
         // 添加change事件
@@ -291,68 +304,67 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             public void onClick(View v) {
                 if (showProvinceAndCity) {
                     listener.onSelected(mCurrentProviceName, mCurrentCityName, "", mCurrentZipCode);
-                }
-                else {
+                } else {
                     listener.onSelected(mCurrentProviceName, mCurrentCityName, mCurrentDistrictName, mCurrentZipCode);
                 }
                 hide();
             }
         });
-        
+
     }
-    
+
     public static class Builder {
         /**
          * Default text color
          */
         public static final int DEFAULT_TEXT_COLOR = 0xFF585858;
-        
+
         /**
          * Default text size
          */
         public static final int DEFAULT_TEXT_SIZE = 18;
-        
+
         // Text settings
         private int textColor = DEFAULT_TEXT_COLOR;
-        
+
         private int textSize = DEFAULT_TEXT_SIZE;
-        
+
         /**
          * 滚轮显示的item个数
          */
         private static final int DEF_VISIBLE_ITEMS = 5;
-        
+
         // Count of visible items
         private int visibleItems = DEF_VISIBLE_ITEMS;
-        
+
         /**
          * 省滚轮是否循环滚动
          */
         private boolean isProvinceCyclic = true;
-        
+
         /**
          * 市滚轮是否循环滚动
          */
         private boolean isCityCyclic = true;
-        
+
         /**
          * 区滚轮是否循环滚动
          */
         private boolean isDistrictCyclic = true;
-        
+
         private Context mContext;
-        
+
         /**
          * item间距
          */
         private int padding = 5;
-        
+
 
         /**
          * Color.BLACK
          */
         private String cancelTextColorStr = "#000000";
-        
+
 
         /**
          * Color.BLUE
@@ -362,18 +374,18 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         /**
          * 标题背景颜色
          */
-        private String titleBackgroundColorStr="#E9E9E9";
-        
+        private String titleBackgroundColorStr = "#E9E9E9";
+
         /**
          * 第一次默认的显示省份，一般配合定位，使用
          */
         private String defaultProvinceName = "江苏";
-        
+
         /**
          * 第一次默认得显示城市，一般配合定位，使用
          */
         private String defaultCityName = "常州";
-        
+
         /**
          * 第一次默认得显示，一般配合定位，使用
          */
@@ -382,39 +394,42 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         /**
          * 标题
          */
-        private String mTitle="选择地区";
-        
+        private String mTitle = "选择地区";
+
         /**
          * 两级联动
          */
         private boolean showProvinceAndCity = false;
-        
+
         public Builder(Context context) {
             this.mContext = context;
         }
 
         /**
          * 设置标题背景颜色
+         *
          * @param colorBg
          * @return
          */
-        public Builder titleBackgroundColor(String colorBg){
-            this.titleBackgroundColorStr=colorBg;
+        public Builder titleBackgroundColor(String colorBg) {
+            this.titleBackgroundColorStr = colorBg;
             return this;
         }
 
         /**
          * 设置标题
+         *
          * @param mtitle
          * @return
          */
-        public Builder title(String mtitle){
-            this.mTitle=mtitle;
+        public Builder title(String mtitle) {
+            this.mTitle = mtitle;
             return this;
         }
 
         /**
          * 是否只显示省市两级联动
+         *
          * @param flag
          * @return
          */
@@ -422,9 +437,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.showProvinceAndCity = flag;
             return this;
         }
-        
+
         /**
          * 第一次默认的显示省份，一般配合定位，使用
+         *
          * @param defaultProvinceName
          * @return
          */
@@ -432,9 +448,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.defaultProvinceName = defaultProvinceName;
             return this;
         }
-        
+
         /**
          * 第一次默认得显示城市，一般配合定位，使用
+         *
          * @param defaultCityName
          * @return
          */
@@ -442,9 +459,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.defaultCityName = defaultCityName;
             return this;
         }
-        
+
         /**
          * 第一次默认地区显示，一般配合定位，使用
+         *
          * @param defaultDistrict
          * @return
          */
@@ -452,7 +470,7 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.defaultDistrict = defaultDistrict;
             return this;
         }
-        
+
         //        /**
         //         * 确认按钮文字颜色
         //         * @param color
@@ -462,9 +480,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         //            this.confirmTextColor = color;
         //            return this;
         //        }
-        
+
         /**
          * 确认按钮文字颜色
+         *
          * @param color
          * @return
          */
@@ -472,7 +491,7 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.confirmTextColorStr = color;
             return this;
         }
-        
+
         //        /**
         //         * 取消按钮文字颜色
         //         * @param color
@@ -482,9 +501,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         //            this.cancelTextColor = color;
         //            return this;
         //        }
-        
+
         /**
          * 取消按钮文字颜色
+         *
          * @param color
          * @return
          */
@@ -492,9 +512,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.cancelTextColorStr = color;
             return this;
         }
-        
+
         /**
          * item文字颜色
+         *
          * @param textColor
          * @return
          */
@@ -502,9 +523,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.textColor = textColor;
             return this;
         }
-        
+
         /**
          * item文字大小
+         *
          * @param textSize
          * @return
          */
@@ -512,9 +534,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.textSize = textSize;
             return this;
         }
-        
+
         /**
          * 滚轮显示的item个数
+         *
          * @param visibleItems
          * @return
          */
@@ -522,9 +545,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.visibleItems = visibleItems;
             return this;
         }
-        
+
         /**
          * 省滚轮是否循环滚动
+         *
          * @param isProvinceCyclic
          * @return
          */
@@ -532,9 +556,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.isProvinceCyclic = isProvinceCyclic;
             return this;
         }
-        
+
         /**
          * 市滚轮是否循环滚动
+         *
          * @param isCityCyclic
          * @return
          */
@@ -542,9 +567,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.isCityCyclic = isCityCyclic;
             return this;
         }
-        
+
         /**
          * 区滚轮是否循环滚动
+         *
          * @param isDistrictCyclic
          * @return
          */
@@ -552,9 +578,10 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.isDistrictCyclic = isDistrictCyclic;
             return this;
         }
-        
+
         /**
          * item间距
+         *
          * @param itemPadding
          * @return
          */
@@ -562,14 +589,14 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             this.padding = itemPadding;
             return this;
         }
-        
+
         public CityPicker build() {
             CityPicker cityPicker = new CityPicker(this);
             return cityPicker;
         }
-        
+
     }
-    
+
     private void setUpData() {
         int provinceDefault = -1;
         if (!TextUtils.isEmpty(defaultProvinceName) && mProvinceDatas.length > 0) {
@@ -596,15 +623,15 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         arrayWheelAdapter.setPadding(padding);
         arrayWheelAdapter.setTextColor(textColor);
         arrayWheelAdapter.setTextSize(textSize);
-        
+
         updateCities();
         updateAreas();
     }
-    
+
     /**
      * 解析省市区的XML数据
      */
-    
+
     protected void initProvinceDatas(Context context) {
         List<ProvinceModel> provinceList = null;
         AssetManager asset = context.getAssets();
@@ -658,15 +685,13 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
                 // 省-市的数据，保存到mCitisDatasMap
                 mCitisDatasMap.put(provinceList.get(i).getName(), cityNames);
             }
-        }
-        catch (Throwable e) {
+        } catch (Throwable e) {
             e.printStackTrace();
-        }
-        finally {
-            
+        } finally {
+
         }
     }
-    
+
     /**
      * 根据当前的市，更新区WheelView的信息
      */
@@ -674,11 +699,11 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         int pCurrent = mViewCity.getCurrentItem();
         mCurrentCityName = mCitisDatasMap.get(mCurrentProviceName)[pCurrent];
         String[] areas = mDistrictDatasMap.get(mCurrentCityName);
-        
+
         if (areas == null) {
-            areas = new String[] { "" };
+            areas = new String[]{""};
         }
-        
+
         int districtDefault = -1;
         if (!TextUtils.isEmpty(defaultDistrict) && areas.length > 0) {
             for (int i = 0; i < areas.length; i++) {
@@ -688,7 +713,7 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
                 }
             }
         }
-        
+
         ArrayWheelAdapter districtWheel = new ArrayWheelAdapter<String>(context, areas);
         // 设置可见条目数量
         districtWheel.setTextColor(textColor);
@@ -696,17 +721,16 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         mViewDistrict.setViewAdapter(districtWheel);
         if (-1 != districtDefault) {
             mViewDistrict.setCurrentItem(districtDefault);
-        }
-        else {
+        } else {
             mViewDistrict.setCurrentItem(0);
-            
+
         }
         districtWheel.setPadding(padding);
         //获取第一个区名称
         mCurrentDistrictName = mDistrictDatasMap.get(mCurrentCityName)[0];
         mCurrentZipCode = mZipcodeDatasMap.get(mCurrentDistrictName);
     }
-    
+
     /**
      * 根据当前的省，更新市WheelView的信息
      */
@@ -715,9 +739,9 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         mCurrentProviceName = mProvinceDatas[pCurrent];
         String[] cities = mCitisDatasMap.get(mCurrentProviceName);
         if (cities == null) {
-            cities = new String[] { "" };
+            cities = new String[]{""};
         }
-        
+
         int cityDefault = -1;
         if (!TextUtils.isEmpty(defaultCityName) && cities.length > 0) {
             for (int i = 0; i < cities.length; i++) {
@@ -727,7 +751,7 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
                 }
             }
         }
-        
+
         ArrayWheelAdapter cityWheel = new ArrayWheelAdapter<String>(context, cities);
         // 设置可见条目数量
         cityWheel.setTextColor(textColor);
@@ -735,19 +759,18 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         mViewCity.setViewAdapter(cityWheel);
         if (-1 != cityDefault) {
             mViewCity.setCurrentItem(cityDefault);
-        }
-        else {
+        } else {
             mViewCity.setCurrentItem(0);
         }
-        
+
         cityWheel.setPadding(padding);
         updateAreas();
     }
-    
+
     @Override
     public void setType(int type) {
     }
-    
+
     @Override
     public void show() {
         if (!isShow()) {
@@ -755,32 +778,31 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             popwindow.showAtLocation(popview, Gravity.BOTTOM, 0, 0);
         }
     }
-    
+
     @Override
     public void hide() {
         if (isShow()) {
             popwindow.dismiss();
         }
     }
-    
+
     @Override
     public boolean isShow() {
         return popwindow.isShowing();
     }
-    
+
     @Override
     public void onChanged(WheelView wheel, int oldValue, int newValue) {
         // TODO Auto-generated method stub
         if (wheel == mViewProvince) {
-            
+
             updateCities();
-        }
-        else if (wheel == mViewCity) {
+        } else if (wheel == mViewCity) {
             updateAreas();
-        }
-        else if (wheel == mViewDistrict) {
+        } else if (wheel == mViewDistrict) {
             mCurrentDistrictName = mDistrictDatasMap.get(mCurrentCityName)[newValue];
             mCurrentZipCode = mZipcodeDatasMap.get(mCurrentDistrictName);
         }
     }
+
 }
