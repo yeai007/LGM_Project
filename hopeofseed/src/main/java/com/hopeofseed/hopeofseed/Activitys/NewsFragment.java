@@ -62,8 +62,6 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
     public static String NEWS_UPDATE_LIST = "NEWS_UPDATE_LIST";
 
 
-
-
     /**
      * The RecyclerView is not currently scrolling.
      * 当前的recycleView不滑动(滑动已经停止时)
@@ -102,7 +100,8 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
     String updatePosition;
     private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
     ImageView add_new;
-    TranslateAnimation mShowAction,mHiddenAction;
+    TranslateAnimation mShowAction, mHiddenAction;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -133,7 +132,7 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
         mHiddenAction.setDuration(200);
         add_new = (ImageView) v.findViewById(R.id.add_new);
         add_new.setOnClickListener(listener);
-      //  (v.findViewById(R.id.btn_topright)).setOnClickListener(listener);
+        //  (v.findViewById(R.id.btn_topright)).setOnClickListener(listener);
         btn_topleft = (TextView) v.findViewById(R.id.btn_topleft);
         btn_topleft.setText(Const.UserLocation.replace("市", ""));
         btn_topleft.setOnClickListener(listener);
@@ -251,11 +250,11 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
                         add_new.startAnimation(mShowAction);
                         add_new.setVisibility(View.VISIBLE);
                         break;
-                    case SCROLL_STATE_DRAGGING :
+                    case SCROLL_STATE_DRAGGING:
                         add_new.startAnimation(mHiddenAction);
                         add_new.setVisibility(View.GONE);
                         break;
-                    case SCROLL_STATE_SETTLING :
+                    case SCROLL_STATE_SETTLING:
 /*                        add_new.startAnimation(mHiddenAction);
                         add_new.setVisibility(View.GONE);*/
                         break;
@@ -288,13 +287,6 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
         });
     }
 
-    AdapterView.OnItemClickListener pullItemListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Log.e(TAG, "onItemClick: " + String.valueOf(l));
-            // Toast.makeText(getActivity(), String.valueOf(l), Toast.LENGTH_SHORT).show();
-        }
-    };
 
     class UpdateBroadcastReceiver extends BroadcastReceiver {
 

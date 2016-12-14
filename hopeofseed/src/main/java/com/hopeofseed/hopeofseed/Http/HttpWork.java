@@ -99,9 +99,9 @@ public class HttpWork {
 /*            return postResult;*/
 
         } finally {
-            Log.d("HttpConnection", "发送信息URL：" + url);
-            Log.d("HttpConnection", "发送信息：" + param);
-            Log.d("HttpConnection返回信息：", postResult);
+            Log.e("HttpConnection", "发送信息URL：" + url);
+            Log.e("HttpConnection", "发送信息：" + param);
+            Log.e("HttpConnection返回信息：", postResult);
         }
 
         return postResult;

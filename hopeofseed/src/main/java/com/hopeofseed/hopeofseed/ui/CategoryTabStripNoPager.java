@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -17,10 +15,7 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.hopeofseed.hopeofseed.R;
-
 import java.util.ArrayList;
 
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
@@ -89,7 +84,8 @@ public class CategoryTabStripNoPager extends HorizontalScrollView {
     }
 
     public void setData(ArrayList<String> arrData) {
-        this.arrCropClass = arrData;
+        this.arrCropClass.clear();
+        this.arrCropClass.addAll(arrData);
         notifyDataSetChanged();
     }
 
@@ -97,6 +93,8 @@ public class CategoryTabStripNoPager extends HorizontalScrollView {
     public void notifyDataSetChanged() {
         tabsContainer.removeAllViews();
         tabCount = arrCropClass.size();
+        currentPosition = 0;
+        currentPositionOffset = 0f;
         for (int i = 0; i < tabCount; i++) {
             addTab(i, arrCropClass.get(i));
         }

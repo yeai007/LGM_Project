@@ -11,29 +11,30 @@ package com.hopeofseed.hopeofseed.JNXData;
  */
 public class ExpertData {
 
-
     /**
-     * user_id : 36
+     * user_id : 1124
      * user_name : 15628801370
      * nickname : 用户01370
-     * user_mobile : 0
+     * user_mobile :
      * user_email :
-     * createtime : 2016-10-20 06:34:19
+     * createtime : 2016-11-26 09:09:40
      * user_permation : 0
-     * user_role : 3
-     * user_field : 水稻
+     * user_role : 1
+     * user_field :
      * user_role_id : 3
-     * fllowed_count : 0
-     * been_fllowed_count : 1
+     * fllowed_count : 5
+     * been_fllowed_count : 3
      * ExpertId : 0000000003
      * ExpertName : 专家1
-     * ExpertTrademark :
+     * ExpertPolitic :
      * ExpertLevel :
      * ExpertTelephone :
-     * ExpertAddress :
-     * ExpertAddressDetail :
      * ExpertFlag : 1
      * ExpertIntroduce :
+     * ExpertProvince : 山东省
+     * ExpertCity : 济南市
+     * ExpertZone : 历城区
+     * ExpertAddressDetail : 工业北路
      */
 
     private String user_id;
@@ -50,22 +51,15 @@ public class ExpertData {
     private String been_fllowed_count;
     private String ExpertId;
     private String ExpertName;
-    private String ExpertTrademark;
+    private String ExpertPolitic;
     private String ExpertLevel;
     private String ExpertTelephone;
-    private String ExpertAddress;
-    private String ExpertAddressDetail;
     private String ExpertFlag;
     private String ExpertIntroduce;
-    /**
-     * ExpertProvince : 山东省
-     * ExpertCity : 济南市
-     * ExpertZone : 历城区
-     */
-
     private String ExpertProvince;
     private String ExpertCity;
     private String ExpertZone;
+    private String ExpertAddressDetail;
 
     public String getUser_id() {
         return user_id;
@@ -179,12 +173,12 @@ public class ExpertData {
         this.ExpertName = ExpertName;
     }
 
-    public String getExpertTrademark() {
-        return ExpertTrademark;
+    public String getExpertPolitic() {
+        return ExpertPolitic;
     }
 
-    public void setExpertTrademark(String ExpertTrademark) {
-        this.ExpertTrademark = ExpertTrademark;
+    public void setExpertPolitic(String ExpertPolitic) {
+        this.ExpertPolitic = ExpertPolitic;
     }
 
     public String getExpertLevel() {
@@ -201,22 +195,6 @@ public class ExpertData {
 
     public void setExpertTelephone(String ExpertTelephone) {
         this.ExpertTelephone = ExpertTelephone;
-    }
-
-    public String getExpertAddress() {
-        return ExpertAddress;
-    }
-
-    public void setExpertAddress(String ExpertAddress) {
-        this.ExpertAddress = ExpertAddress;
-    }
-
-    public String getExpertAddressDetail() {
-        return ExpertAddressDetail;
-    }
-
-    public void setExpertAddressDetail(String ExpertAddressDetail) {
-        this.ExpertAddressDetail = ExpertAddressDetail;
     }
 
     public String getExpertFlag() {
@@ -257,5 +235,13 @@ public class ExpertData {
 
     public void setExpertZone(String ExpertZone) {
         this.ExpertZone = ExpertZone;
+    }
+
+    public String getExpertAddressDetail() {
+        return ExpertAddressDetail;
+    }
+
+    public void setExpertAddressDetail(String ExpertAddressDetail) {
+        this.ExpertAddressDetail = ExpertAddressDetail;
     }
 }

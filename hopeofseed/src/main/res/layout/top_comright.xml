@@ -71,7 +71,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/shape_corner"
-            android:textColor="#FFFFFF"
-            android:visibility="gone" />
+            android:textColor="@color/text_title_color"
+            android:visibility="gone"/>
     </RelativeLayout>
 </RelativeLayout>

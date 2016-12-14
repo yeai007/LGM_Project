@@ -61,9 +61,9 @@ public class Const {
         SharedPreferences sharedPreferences = context.getSharedPreferences("userotherinfo",
                 Activity.MODE_PRIVATE);
 // 使用getString方法获得value，注意第2个参数是value的默认值
-        Const.Province = sharedPreferences.getString("Province", "山东省1");
-        Const.City = sharedPreferences.getString("City", "济南市1");
-        Const.Zone = sharedPreferences.getString("Zone", "历城区1");
+        Const.Province = sharedPreferences.getString("Province", "山东省");
+        Const.City = sharedPreferences.getString("City", "济南市");
+        Const.Zone = sharedPreferences.getString("Zone", "历城区");
         Const.UserLocation = sharedPreferences.getString("UserLocation", "济南市");
         Log.e(TAG, "GetShareData: " + Const.Province + Const.City + Const.Zone);
     }

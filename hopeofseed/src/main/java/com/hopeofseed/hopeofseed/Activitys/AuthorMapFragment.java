@@ -67,6 +67,7 @@ public class AuthorMapFragment extends Fragment implements BDLocationListener, N
     MapDataInfoPopupWindow menuWindow;
 
     List<OverlayOptions> overlayOptionses = new ArrayList<>();
+    int ClassId = 0;
 
     @Nullable
     @Override
@@ -93,8 +94,8 @@ public class AuthorMapFragment extends Fragment implements BDLocationListener, N
                 menuWindow = new MapDataInfoPopupWindow(getActivity(), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), AuthorActivity.class);
-                        intent.putExtra("AuthorId", finalItemDis.getAuthorId());
+                        Intent intent = new Intent(getActivity(), UserActivity.class);
+                        intent.putExtra("userid", finalItemDis.getUser_id());
                         startActivity(intent);
                     }
                 });
@@ -148,6 +149,8 @@ public class AuthorMapFragment extends Fragment implements BDLocationListener, N
      */
     public void showPoint(HashMap<Integer, AuthorData> dbd) {
         Iterator iter = dbd.entrySet().iterator();
+        overlayOptionses.clear();
+        baiduMap.clear();
         while (iter.hasNext()) {
             Map.Entry entry = (Map.Entry) iter.next();
             Object key = entry.getKey();
@@ -162,9 +165,6 @@ public class AuthorMapFragment extends Fragment implements BDLocationListener, N
                     .position(point)// 设置marker的位置
                     .icon(bdA).title(String.valueOf(itemId));// 设置marker的图标
             overlayOptionses.add(option);
-            // 在地图上添加marker，并显示
-
-
         }
         OverlayManager overlayManager = new OverlayManager(baiduMap) {
             @Override
@@ -182,6 +182,7 @@ public class AuthorMapFragment extends Fragment implements BDLocationListener, N
                 return false;
             }
         };
+        overlayManager.removeFromMap();
         overlayManager.addToMap();
         overlayManager.zoomToSpan();
     }
@@ -192,6 +193,7 @@ public class AuthorMapFragment extends Fragment implements BDLocationListener, N
         opt_map.put("LocLat", String.valueOf(Const.LocLat));
         opt_map.put("LocLng", String.valueOf(Const.LocLng));
         opt_map.put("Range", "50000");
+        opt_map.put("ClassId", String.valueOf(ClassId));
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetAuthorDataByClass.php", opt_map, AuthorDataTmp.class, this);
     }
@@ -223,6 +225,7 @@ public class AuthorMapFragment extends Fragment implements BDLocationListener, N
         @Override
         public void handleMessage(Message msg) {
             arrAuthorData.clear();
+            mapAuthorData.clear();
             arrAuthorData.addAll(arrAuthorDataTmp);
             for (int i = 0; i < arrAuthorData.size(); i++) {
                 AuthorData dddd = new AuthorData();
@@ -257,5 +260,13 @@ public class AuthorMapFragment extends Fragment implements BDLocationListener, N
         // MapView的生命周期与Activity同步，当activity销毁时需调用MapView.destroy()
         mMapView.onDestroy();
         super.onDestroy();
+    }
+
+    public void setClass(int classId) {
+        ClassId = classId;
+    }
+
+    public void refreshData() {
+        getData();
     }
 }

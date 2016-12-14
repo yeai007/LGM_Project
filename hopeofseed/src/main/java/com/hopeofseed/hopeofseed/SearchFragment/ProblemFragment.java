@@ -45,16 +45,18 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  */
 public class ProblemFragment extends Fragment {
 
-    private static final String ARG_POSITION = "position";    private static final String STR_SEARCH = "STR_SEARCH";
+    private static final String ARG_POSITION = "position";
+    private static final String STR_SEARCH = "STR_SEARCH";
     int PageNo = 0;
     private int position;
     PullToRefreshListView lv_list;
-     ProblemDataAdapter mProblemDataAdapter;
-     ArrayList<ProblemData> arr_ProblemData = new ArrayList<>();
-     ArrayList<ProblemData> arr_ProblemDataTmp = new ArrayList<>();
-   static   String Str_search="";
+    ProblemDataAdapter mProblemDataAdapter;
+    ArrayList<ProblemData> arr_ProblemData = new ArrayList<>();
+    ArrayList<ProblemData> arr_ProblemDataTmp = new ArrayList<>();
+    static String Str_search = "";
 
-    public ProblemFragment(String strSearch) {Str_search=strSearch;
+    public ProblemFragment(String strSearch) {
+        Str_search = strSearch;
     }
 
 /*    public static  ProblemFragment newInstance(int position, String search) {
@@ -70,7 +72,8 @@ public class ProblemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        position = getArguments().getInt(ARG_POSITION);        Str_search = getArguments().getString(STR_SEARCH);
+        position = getArguments().getInt(ARG_POSITION);
+        Str_search = getArguments().getString(STR_SEARCH);
     }
 
     @Override
@@ -87,10 +90,10 @@ public class ProblemFragment extends Fragment {
         lv_list.setMode(PullToRefreshBase.Mode.BOTH);
         mProblemDataAdapter = new ProblemDataAdapter(getActivity(), arr_ProblemData);
         lv_list.setAdapter(mProblemDataAdapter);
-      //  lv_list.setOnItemClickListener(myListener);
+        //  lv_list.setOnItemClickListener(myListener);
     }
 
-    private  void getData(String Str_search) {
+    private void getData(String Str_search) {
         Log.e(TAG, "getData: 获取经销商数据");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
@@ -100,7 +103,7 @@ public class ProblemFragment extends Fragment {
         hu.httpPost(Const.BASE_URL + "GetSearchProblemResult.php", opt_map, ProblemDataTmp.class, netCallBack);
     }
 
-     NetCallBack netCallBack = new NetCallBack() {
+    NetCallBack netCallBack = new NetCallBack() {
         @Override
         public void onSuccess(RspBaseBean rspBaseBean) {
             Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
@@ -120,12 +123,12 @@ public class ProblemFragment extends Fragment {
         }
     };
 
-    private  void updateView() {
+    private void updateView() {
         Message msg = updateViewHandle.obtainMessage();
         msg.sendToTarget();
     }
 
-    private  Handler updateViewHandle = new Handler() {
+    private Handler updateViewHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (PageNo == 0) {
@@ -144,10 +147,12 @@ public class ProblemFragment extends Fragment {
             startActivity(intent);
         }
     };
-    public  void Search(String text) {
+
+    public void Search(String text) {
         Str_search = text;
         getData(Str_search);
     }
+
     private void initDatas(View v) {
         lv_list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override

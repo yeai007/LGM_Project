@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="90dp"
+    android:id="@+id/item_view"
+>
 
     <RelativeLayout
         android:id="@+id/rel_title"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:background="@color/white"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
@@ -42,8 +45,8 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/rel_img_user_avatar"
             android:gravity="left|center_vertical"
-            android:text="用户"
-            android:textColor="@color/red" />
+            android:text="【专家】"
+            android:textColor="@color/text_title_color" />
 
         <TextView
             android:id="@+id/tv_name"
@@ -53,19 +56,41 @@
             android:layout_toRightOf="@+id/tv_user_role"
             android:gravity="left|center_vertical"
             android:text="用户"
-            android:textColor="#333333" />
+            android:textColor="@color/text_title_color" />
+
+        <TextView
+            android:id="@+id/tv_pol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_name"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/rel_img_user_avatar"
+            android:gravity="left|center_vertical"
+            android:text="领域："
+            android:textColor="@color/text_content_color" />
+
+        <TextView
+            android:id="@+id/tv_danwei"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_pol"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/rel_img_user_avatar"
+            android:gravity="left|center_vertical"
+            android:text="单位："
+            android:textColor="@color/text_content_color" />
 
         <TextView
             android:id="@+id/tv_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/tv_danwei"
             android:layout_marginLeft="15dp"
             android:layout_toRightOf="@+id/rel_img_user_avatar"
             android:gravity="left|center_vertical"
-            android:text="address"
-            android:visibility="gone"
+            android:text="地址："
             android:textColor="@color/text_content_color" />
+
     </RelativeLayout>
 </RelativeLayout>

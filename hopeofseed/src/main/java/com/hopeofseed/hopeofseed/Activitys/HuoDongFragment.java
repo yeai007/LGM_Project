@@ -60,12 +60,12 @@ public class HuoDongFragment extends Fragment implements NetCallBack {
 
     private void initView(View v) {
         recycler_list = (RecyclerView) v.findViewById(R.id.recycler_list);
-        recycler_list.setHasFixedSize(true);
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        recycler_list.setLayoutManager(layoutManager);
-        mAdapter = new HuodongListAdapter(getActivity(), mList);
-        recycler_list.setAdapter(mAdapter);
-    }
+    recycler_list.setHasFixedSize(true);
+    final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+    recycler_list.setLayoutManager(layoutManager);
+    mAdapter = new HuodongListAdapter(getActivity(), mList);
+    recycler_list.setAdapter(mAdapter);
+}
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {

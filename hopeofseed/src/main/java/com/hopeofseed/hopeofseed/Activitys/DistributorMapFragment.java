@@ -112,9 +112,12 @@ public class DistributorMapFragment extends Fragment implements BDLocationListen
                 menuWindow = new MapDataInfoPopupWindow(getActivity(), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), DistributorActivity.class);
-                        intent.putExtra("ID", finalItemDis.getDistributorId());
-                        startActivity(intent);
+                        if (view.getId() == R.id.btn_show_info) {
+                            Intent intent = new Intent(getActivity(), UserActivity.class);
+                            intent.putExtra("userid", finalItemDis.getUser_id());
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
                     }
                 });
                 menuWindow.SetTitle(itemDis.getDistributorName());
@@ -211,7 +214,7 @@ public class DistributorMapFragment extends Fragment implements BDLocationListen
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         opt_map.put("LocLat", String.valueOf(Const.LocLat));
         opt_map.put("LocLng", String.valueOf(Const.LocLng));
-        opt_map.put("Range", "2000");
+        opt_map.put("Range", "50000");
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetDistributor.php", opt_map, DistributorDataTmp.class, this);
     }

@@ -48,7 +48,7 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
     ArrayList<AuthorData> arrAuthorData = new ArrayList<>();
     ArrayList<AuthorData> arrAuthorDataTmp = new ArrayList<>();
     Handler mHandle = new Handler();
-
+    int ClassId = 0;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,6 +98,7 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
         opt_map.put("LocLat", String.valueOf(Const.LocLat));
         opt_map.put("LocLng", String.valueOf(Const.LocLng));
         opt_map.put("Range", "50000");
+        opt_map.put("ClassId",String.valueOf(ClassId));
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetAuthorDataByClass.php", opt_map, AuthorDataTmp.class, this);
     }
@@ -105,8 +106,8 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
     private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent intent = new Intent(getActivity(), AuthorActivity.class);
-            intent.putExtra("AuthorId", String.valueOf(arrAuthorData.get(i - 1).getAuthorId()));
+            Intent intent = new Intent(getActivity(), UserActivity.class);
+            intent.putExtra("userid", String.valueOf(arrAuthorData.get(i - 1).getUser_id()));
             startActivity(intent);
         }
     };
@@ -136,6 +137,14 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
         }
     };
     public void setUserLoc() {
+        getData();
+    }
+
+    public void setClass(int classId) {
+        ClassId=classId;
+    }
+
+    public void refreshData() {
         getData();
     }
 }

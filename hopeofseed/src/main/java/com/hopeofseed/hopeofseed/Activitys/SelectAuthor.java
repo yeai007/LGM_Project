@@ -8,13 +8,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
+import com.hopeofseed.hopeofseed.Adapter.SpStringAdapter;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.R;
@@ -22,6 +26,7 @@ import com.hopeofseed.hopeofseed.Services.LocationService;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  * Created by whisper on 2016/10/7.
@@ -38,13 +43,27 @@ public class SelectAuthor extends AppCompatActivity implements View.OnClickListe
     private ViewPager vp_main;
     private MainViewPagerAdapter mainViewPagerAdapter;
     private LocationService locationService;
+    Spinner sp_class;
+    ArrayList<String> spData = new ArrayList<>();
+    int ClassId = 0;
+    SpStringAdapter spStringAdapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_author);
+        initdata();
         initView();
         initViewPager();
         initUserLocation();
+    }
+
+    private void initdata() {
+        spData.add("全部");
+        spData.add("政务咨询");
+        spData.add("业务审批");
+        spData.add("维权投诉");
+        spData.add("农技推广");
     }
 
     private void initView() {
@@ -54,6 +73,23 @@ public class SelectAuthor extends AppCompatActivity implements View.OnClickListe
         TextView appTitle = (TextView) findViewById(R.id.apptitle);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         appTitle.setText("找机构");
+        sp_class = (Spinner) findViewById(R.id.sp_class);
+        spStringAdapter = new SpStringAdapter(getApplicationContext(), spData);
+        sp_class.setAdapter(spStringAdapter);
+        sp_class.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mAuthorListFragment.setClass(position);
+                mAuthorMapFragment.setClass(position);
+                mAuthorListFragment.refreshData();
+                mAuthorMapFragment.refreshData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override
@@ -73,7 +109,9 @@ public class SelectAuthor extends AppCompatActivity implements View.OnClickListe
         page = intent.getIntExtra("page", 0);
         fragmentList = new ArrayList<>();
         mAuthorListFragment = new AuthorListFragment();
+        mAuthorListFragment.setClass(ClassId);
         mAuthorMapFragment = new AuthorMapFragment();
+        mAuthorMapFragment.setClass(ClassId);
         fragmentList.add(mAuthorListFragment);
         fragmentList.add(mAuthorMapFragment);
         mainViewPagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager(), fragmentList);
@@ -136,6 +174,7 @@ public class SelectAuthor extends AppCompatActivity implements View.OnClickListe
         }
         locationService.start();// 定位SDK
     }
+
     @Override
     public void onReceiveLocation(BDLocation bdLocation) {
         if (bdLocation == null)

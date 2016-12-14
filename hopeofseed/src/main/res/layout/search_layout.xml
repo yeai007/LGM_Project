@@ -44,13 +44,13 @@
         <Button
             android:id="@+id/search_btn_back"
             android:layout_width="@dimen/btn_width"
-            android:layout_height="@dimen/btn_height"
+            android:layout_height="30dp"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/btn_search_bg"
-            android:text="返回"
+            android:background="@drawable/btn_search_back"
+
             android:textColor="@color/color_white" />
     </LinearLayout>
 

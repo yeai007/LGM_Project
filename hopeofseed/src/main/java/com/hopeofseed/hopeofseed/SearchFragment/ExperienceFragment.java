@@ -68,7 +68,8 @@ public class ExperienceFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        position = getArguments().getInt(ARG_POSITION);        Str_search = getArguments().getString(STR_SEARCH);
+        position = getArguments().getInt(ARG_POSITION);
+        Str_search = getArguments().getString(STR_SEARCH);
     }
 
     @Override

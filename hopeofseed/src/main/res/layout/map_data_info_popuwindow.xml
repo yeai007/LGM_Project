@@ -2,29 +2,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/rel_top"
+    android:background="#626160"
     android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_show_info"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="#807f7e"
+        android:text="显示详细" />
 
     <TextView
         android:id="@+id/map_info_name"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/btn_show_info"
         android:gravity="center_vertical"
+        android:focusable="false"
         android:text="公司名称"
-        android:textColor="#EE6A50" />
+        android:textColor="#ffffff"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/map_info_address"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/map_info_name"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/btn_show_info"
         android:gravity="center_vertical"
         android:text="公司地址"
-        android:textColor="#EE6A50" />
+        android:focusable="false"
+        android:textColor="#b3b3b3" />
 
-    <Button
-        android:id="@+id/btn_show_info"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/map_info_address"
-        android:text="显示详细" />
+
 </RelativeLayout>

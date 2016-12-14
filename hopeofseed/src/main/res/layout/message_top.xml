@@ -56,6 +56,6 @@
             android:layout_marginTop="10dp"
             android:text="查找群"
             android:background="@drawable/shape_corner"
-            android:textColor="#FFFFFF" />
+            android:textColor="@color/text_title_color" />
     </RelativeLayout>
 </RelativeLayout>

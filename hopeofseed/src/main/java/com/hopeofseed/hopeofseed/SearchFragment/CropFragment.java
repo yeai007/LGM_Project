@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Activitys.CropActivity;
@@ -23,8 +24,10 @@ import com.hopeofseed.hopeofseed.JNXData.CropData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CropDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 /**
  * 品种
  */
@@ -39,11 +42,10 @@ public class CropFragment extends Fragment {
     ArrayList<CropData> arr_CropData = new ArrayList<>();
     ArrayList<CropData> arr_CropDataTmp = new ArrayList<>();
     static String Str_search = "";
-    private int Str_Faxian;
     int PageNo = 0;
 
     public CropFragment(String strSearch) {
-        Str_search=strSearch;
+        Str_search = strSearch;
     }
 
     @Override
@@ -51,7 +53,6 @@ public class CropFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Str_search = getArguments().getString(STR_SEARCH);
         position = getArguments().getInt(ARG_POSITION);
-        Str_Faxian = getArguments().getInt(STR_FAXIAN);
     }
 
     @Override
@@ -101,9 +102,7 @@ public class CropFragment extends Fragment {
 
     private void getData(String Str_search) {
         HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         opt_map.put("StrSearch", Str_search);
-        opt_map.put("Str_Faxian", String.valueOf(Str_Faxian));
         opt_map.put("PageNo", String.valueOf(PageNo));
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetSearchCropResult.php", opt_map, CropDataTmp.class, netCallBack);
@@ -139,7 +138,6 @@ public class CropFragment extends Fragment {
             if (PageNo == 0) {
                 arr_CropData.clear();
             }
-
             arr_CropData.addAll(arr_CropDataTmp);
             mCropDataAdapter.notifyDataSetChanged();
             lv_list.onRefreshComplete();

@@ -11,6 +11,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.R;
+import com.lgm.utils.ScreenUtils;
 
 import static android.R.attr.name;
 
@@ -44,7 +45,7 @@ public class MapDataInfoPopupWindow extends PopupWindow {
         //设置SelectPicPopupWindow弹出窗体的宽
         this.setWidth(ViewGroup.LayoutParams.FILL_PARENT);
         //设置SelectPicPopupWindow弹出窗体的高
-        this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        this.setHeight(ScreenUtils.dip2px(context,100f));
         //设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
         //设置SelectPicPopupWindow弹出窗体动画效果
@@ -54,7 +55,7 @@ public class MapDataInfoPopupWindow extends PopupWindow {
         //mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
         mMenuView.setOnTouchListener(new View.OnTouchListener() {
             public boolean onTouch(View v, MotionEvent event) {
-                int height = mMenuView.findViewById(R.id.pop_layout).getTop();
+                int height = mMenuView.findViewById(R.id.rel_top).getTop();
                 int y = (int) event.getY();
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (y < height) {

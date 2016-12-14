@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +16,15 @@ import android.widget.AdapterView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.CropDataAdapter;
+import com.hopeofseed.hopeofseed.Adapter.DistributorAdapter;
+import com.hopeofseed.hopeofseed.Adapter.ExperienceAdapter;
 import com.hopeofseed.hopeofseed.Adapter.ExpertDataAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.CropData;
+import com.hopeofseed.hopeofseed.JNXData.ExperienceData;
 import com.hopeofseed.hopeofseed.JNXData.ExpertData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CropDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.ExpertDataTmp;
@@ -30,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Handler;
 
+import static com.hopeofseed.hopeofseed.R.id.lv_list;
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
@@ -42,13 +48,15 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  * 修改备注：
  */
 public class NearExpertFragment extends Fragment implements NetCallBack {
-    PullToRefreshListView lv_list;
+    RecyclerView recycler_list;
     ExpertDataAdapter mExpertDataAdapter;
-    ArrayList<ExpertData> arr_ExpertData = new ArrayList<>();
+    ArrayList<ExpertData> arrExpertData= new ArrayList<>();
     android.os.Handler mHandler = new android.os.Handler();
     private String StrProvince, StrCity, StrZone, StrPolitic;
     private int PageNo = 0;
-    ArrayList<ExpertData> arr_ExpertDataTmp = new ArrayList<>();
+    ArrayList<ExpertData> arrExpertDataTmp = new ArrayList<>();
+    boolean isLoading = false;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,18 +67,43 @@ public class NearExpertFragment extends Fragment implements NetCallBack {
     }
 
     private void initView(View v) {
-        lv_list = (PullToRefreshListView) v.findViewById(R.id.lv_list);
-        mExpertDataAdapter = new ExpertDataAdapter(getActivity(), arr_ExpertData);
-        lv_list.setAdapter(mExpertDataAdapter);
-        lv_list.setMode(PullToRefreshBase.Mode.BOTH);
-        lv_list.setOnItemClickListener(myListener);
+        recycler_list = (RecyclerView) v.findViewById(R.id.recycler_list);
+        recycler_list.setHasFixedSize(true);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recycler_list.setLayoutManager(layoutManager);
+        mExpertDataAdapter = new ExpertDataAdapter(getActivity(), arrExpertData);
+        recycler_list.setAdapter(mExpertDataAdapter);
+        //滚动监听，在滚动监听里面去实现加载更多的功能
+        recycler_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                super.onScrolled(recyclerView, dx, dy);
+
+                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                Log.e(TAG, "onScrolled: " + lastVisibleItemPosition);
+                if (lastVisibleItemPosition + 1 == recycler_list.getAdapter().getItemCount()) {
+                    if (!isLoading) {//一个布尔的变量，默认是false
+                        Log.e(TAG, "onScrolled: loadingmaore");
+                        isLoading = true;
+                        PageNo = PageNo + 1;
+                        getData();
+                    } else if (arrExpertDataTmp.size() < 20) {
+                        //当没有更多的数据的时候去掉加载更多的布局
+/*                        RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
+                        adapter.setIsNeedMore(false);
+                        adapter.notifyDataSetChanged();*/
+                    }
+                }
+            }
+        });
     }
 
     private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Intent intent = new Intent(getActivity(), ExpertActivity.class);
-            intent.putExtra("ExpertId", String.valueOf(arr_ExpertData.get(i - 1).getExpertId()));
+            intent.putExtra("ExpertId", String.valueOf(arrExpertData.get(i - 1).getExpertId()));
             startActivity(intent);
         }
     };
@@ -79,7 +112,7 @@ public class NearExpertFragment extends Fragment implements NetCallBack {
         Log.e(TAG, "getData: 获取品种数据");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("StrProvince", StrProvince);
-        opt_map.put("StrCity", "StrCity");
+        opt_map.put("StrCity", StrCity);
         opt_map.put("StrZone", StrZone);
         opt_map.put("PageNo", String.valueOf(PageNo));
         opt_map.put("StrPolitic", StrPolitic);
@@ -90,7 +123,7 @@ public class NearExpertFragment extends Fragment implements NetCallBack {
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
         Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
-        arr_ExpertDataTmp = ((ExpertDataTmp) rspBaseBean).getDetail();
+        arrExpertDataTmp = ((ExpertDataTmp) rspBaseBean).getDetail();
         mHandler.post(runnableNotifyList);
     }
 
@@ -107,15 +140,16 @@ public class NearExpertFragment extends Fragment implements NetCallBack {
     Runnable runnableNotifyList = new Runnable() {
         @Override
         public void run() {
-
-            arr_ExpertData.clear();
-            arr_ExpertData.addAll(arr_ExpertDataTmp);
+            if (PageNo == 0) {
+                arrExpertData.clear();
+            }
+            arrExpertData.addAll(arrExpertDataTmp);
             Log.e(TAG, "run: notity");
             mExpertDataAdapter.notifyDataSetChanged();
         }
     };
-    public void setRefreshData(String... citySelected)
-    {
+
+    public void setRefreshData(String... citySelected) {
         StrProvince = citySelected[0];
         StrCity = citySelected[1];
         StrZone = citySelected[2];

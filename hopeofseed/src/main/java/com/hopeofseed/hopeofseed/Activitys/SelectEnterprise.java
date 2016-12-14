@@ -1,6 +1,7 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,7 +11,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -88,7 +92,20 @@ public class SelectEnterprise extends AppCompatActivity implements View.OnClickL
                 getData();
             }
         });
+        actv_busscropt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(actv_busscropt.getWindowToken(), 0); //强制隐藏键盘
+                    actv_busscropt.clearFocus();
 
+                    getData();
+
+                    return true;
+                }
+                return false;
+            }
+        });
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("更新");
         btn_topright.setOnClickListener(this);
@@ -163,8 +180,8 @@ public class SelectEnterprise extends AppCompatActivity implements View.OnClickL
         lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), EnterpriseActivity.class);
-                intent.putExtra("EnterpriseId", String.valueOf(arr_EnterpriseData.get(position - 1).getEnterpriseId()));
+                Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                intent.putExtra("userid", String.valueOf(arr_EnterpriseData.get(position - 1).getUser_id()));
                 startActivity(intent);
             }
         });
@@ -209,7 +226,6 @@ public class SelectEnterprise extends AppCompatActivity implements View.OnClickL
         } else if (rspBaseBean.RequestSign.equals("GetCropAutoData")) {
             AutoDataTmp mAutoDataTmp = ObjectUtil.cast(rspBaseBean);
             arrAutoDataTmp = mAutoDataTmp.getDetail();
-
             mHandler.post(refreshAutoData);
         }
     }

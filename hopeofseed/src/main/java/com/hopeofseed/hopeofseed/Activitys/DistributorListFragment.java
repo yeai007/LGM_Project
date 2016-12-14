@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.DistributorAdapter;
+import com.hopeofseed.hopeofseed.Adapter.GroupListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
@@ -27,7 +30,10 @@ import com.lgm.utils.ObjectUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.hopeofseed.hopeofseed.R.id.add_new;
+import static com.hopeofseed.hopeofseed.R.id.lv_distributor;
 import static com.hopeofseed.hopeofseed.R.id.lv_list;
+import static com.hopeofseed.hopeofseed.R.id.recy_news;
 
 
 /**
@@ -41,10 +47,12 @@ import static com.hopeofseed.hopeofseed.R.id.lv_list;
  */
 public class DistributorListFragment extends Fragment implements NetCallBack {
     private static final String TAG = "DistributorListFragment";
-    PullToRefreshListView lv_distributor;
+    RecyclerView recycler_list;
     DistributorAdapter mDistributorAdapter;
     ArrayList<DistributorData> arr_DistributorData = new ArrayList<>();
     ArrayList<DistributorData> arr_DistributorDataTmp = new ArrayList<>();
+    int PageNo = 0;
+    boolean isLoading = false;
 
     @Nullable
     @Override
@@ -62,26 +70,44 @@ public class DistributorListFragment extends Fragment implements NetCallBack {
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         opt_map.put("LocLat", String.valueOf(Const.LocLat));
         opt_map.put("LocLng", String.valueOf(Const.LocLng));
-        opt_map.put("Range", "2000");
+        opt_map.put("Range", "100000");
+        opt_map.put("PageNo", String.valueOf(PageNo));
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetDistributor.php", opt_map, DistributorDataTmp.class, this);
     }
 
     private void initView(View v) {
-        lv_distributor = (PullToRefreshListView) v.findViewById(R.id.lv_distributor);
+        recycler_list = (RecyclerView) v.findViewById(R.id.recycler_list);
+        recycler_list.setHasFixedSize(true);
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recycler_list.setLayoutManager(layoutManager);
         mDistributorAdapter = new DistributorAdapter(getActivity(), arr_DistributorData);
-        lv_distributor.setAdapter(mDistributorAdapter);
-        lv_distributor.setOnItemClickListener(myListener);
-    }
+        recycler_list.setAdapter(mDistributorAdapter);
+        //滚动监听，在滚动监听里面去实现加载更多的功能
+        recycler_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
-    private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent intent = new Intent(getActivity(), DistributorActivity.class);
-            intent.putExtra("ID", String.valueOf(arr_DistributorData.get(i - 1).getDistributorId()));
-            startActivity(intent);
-        }
-    };
+                super.onScrolled(recyclerView, dx, dy);
+
+                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                Log.e(TAG, "onScrolled: " + lastVisibleItemPosition);
+                if (lastVisibleItemPosition + 1 == recycler_list.getAdapter().getItemCount()) {
+                    if (!isLoading) {//一个布尔的变量，默认是false
+                        Log.e(TAG, "onScrolled: loadingmaore");
+                        isLoading = true;
+                        PageNo = PageNo + 1;
+                        getData();
+                    } else if (arr_DistributorDataTmp.size() < 20) {
+                        //当没有更多的数据的时候去掉加载更多的布局
+/*                        RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
+                        adapter.setIsNeedMore(false);
+                        adapter.notifyDataSetChanged();*/
+                    }
+                }
+            }
+        });
+    }
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
@@ -109,9 +135,12 @@ public class DistributorListFragment extends Fragment implements NetCallBack {
     private Handler updateViewHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            arr_DistributorData.clear();
+            if(PageNo==0)
+            {arr_DistributorData.clear();}
+
             arr_DistributorData.addAll(arr_DistributorDataTmp);
             mDistributorAdapter.notifyDataSetChanged();
+            isLoading = false;
         }
     };
 

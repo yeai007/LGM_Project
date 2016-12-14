@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -12,38 +11,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
 import com.hopeofseed.hopeofseed.Adapter.Sp_PoliticsAdapter;
-import com.hopeofseed.hopeofseed.DataForHttp.GetVarietyData;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.PoliticData;
 import com.hopeofseed.hopeofseed.JNXData.SpinnerAreaData;
-import com.hopeofseed.hopeofseed.JNXData.VarietyData;
-import com.hopeofseed.hopeofseed.Adapter.VarietyClassAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CompanyDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.PoliticDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.SpinnerAreaDataTmp;
 import com.hopeofseed.hopeofseed.R;
-import com.hopeofseed.hopeofseed.ui.SideBar;
-import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import citypickerview.widget.CityPicker;
-
-import static com.baidu.location.h.j.S;
 
 /**
  * Created by whisper on 2016/10/7.
@@ -65,9 +55,10 @@ public class SelectExpert extends AppCompatActivity implements View.OnClickListe
     ArrayList<PoliticData> arrPolitics = new ArrayList<>();
     ArrayList<PoliticData> arrPoliticsTmp = new ArrayList<>();
     Handler updateSpinnerHandle = new Handler();
-    Handler updateAreaHandle = new Handler();
     ArrayList<SpinnerAreaData> arrSpinnerAreaData = new ArrayList<>();
     private String StrProvince, StrCity, StrZone, StrPolitic;
+    Button go;
+    RadioButton one, two;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,7 +66,16 @@ public class SelectExpert extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.select_expert);
         getPoliticsData();
         initView();
+        initAddress();
         initViewPager();
+    }
+
+    private void initAddress() {
+        StrProvince = Const.Province;
+        StrCity = Const.City;
+        StrZone = Const.Zone;
+        go.setText("" + StrProvince + "  " + StrCity + "  "
+                + StrZone);
     }
 
 
@@ -97,7 +97,8 @@ public class SelectExpert extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-        final Button go = (Button) findViewById(R.id.go);
+
+        go = (Button) findViewById(R.id.go);
         go.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +152,8 @@ public class SelectExpert extends AppCompatActivity implements View.OnClickListe
         vp_main.setOffscreenPageLimit(2);
         vp_main.setCurrentItem(page);
         rg_menu = (RadioGroup) findViewById(R.id.rg_menu);
+        one = (RadioButton) findViewById(R.id.one);
+        two = (RadioButton) findViewById(R.id.two);
         rg_menu.setOnCheckedChangeListener(mChangeRadio);
     }
 
@@ -177,9 +180,11 @@ public class SelectExpert extends AppCompatActivity implements View.OnClickListe
             switch (position) {
                 case 0://列表显示
                     vp_main.setCurrentItem(0);
+                    one.setChecked(true);
                     break;
                 case 1://地图显示
-
+                    vp_main.setCurrentItem(1);
+                    two.setChecked(true);
                     break;
             }
         }

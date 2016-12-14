@@ -69,7 +69,7 @@ public class NetRunnable implements Runnable {
         if (mUrl.startsWith("http")) {
             if (isPostFile) {
                 json = postMethod ? HttpWork.postFiles(mUrl, mParam, mFileParam) : HttpWork.get();
-                Log.e(TAG, "run: " + json);
+               // Log.e(TAG, "run: " + json);
             } else {
                 json = postMethod ? HttpWork.post(mUrl, mParam) : HttpWork.get();
             }
@@ -87,7 +87,7 @@ public class NetRunnable implements Runnable {
             return;
         }
         RspBaseBean baseBean = null;
-        Log.e(TAG, "run: " + json);
+       // Log.e(TAG, "run: " + json);
         try {
             baseBean = mGson.fromJson(json, RspBaseBean.class);
         } catch (JsonSyntaxException e) {

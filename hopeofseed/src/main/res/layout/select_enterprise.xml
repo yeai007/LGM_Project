@@ -26,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:completionThreshold="1"
-            android:hint="" />
+            android:hint=""
+            android:imeOptions="actionSearch" />
     </LinearLayout>
 
     <RelativeLayout
@@ -40,7 +41,7 @@
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="地址" />
+            android:text="地区" />
 
         <Button
             android:id="@+id/go"

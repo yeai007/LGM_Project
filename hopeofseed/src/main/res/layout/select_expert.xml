@@ -13,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@+id/top"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff"
         android:orientation="horizontal">
 
         <TextView
@@ -31,14 +33,16 @@
         android:id="@+id/rel_area"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@+id/lin_politic">
+        android:layout_below="@+id/lin_politic"
+        android:layout_marginTop="3dp"
+        android:background="#ffffff">
 
         <TextView
             android:id="@+id/tv_area"
             android:layout_width="100dp"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="地址" />
+            android:text="地区" />
 
         <Button
             android:id="@+id/go"
@@ -49,36 +53,62 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/rel_variety_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_below="@+id/rel_area"
-        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff"
         android:orientation="horizontal">
 
         <RadioGroup
             android:id="@+id/rg_menu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:layout_centerHorizontal="true"
             android:background="#ffffff"
+            android:gravity="center"
             android:orientation="horizontal">
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
 
             <RadioButton
                 android:id="@+id/one"
-                style="@style/main_tab"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/radio_select"
+                android:button="@null"
+                android:checked="true"
                 android:gravity="center"
                 android:text="专家" />
 
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
             <RadioButton
                 android:id="@+id/two"
-                style="@style/main_tab"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/radio_select"
+                android:button="@null"
                 android:gravity="center"
                 android:text="专家分享" />
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
         </RadioGroup>
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_main"

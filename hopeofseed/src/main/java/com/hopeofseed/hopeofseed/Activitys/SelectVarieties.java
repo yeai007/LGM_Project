@@ -1,42 +1,32 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-
 import android.support.v7.app.AppCompatActivity;
-
 import android.text.format.DateUtils;
 import android.util.Log;
-
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.CropDataAdapter;
-
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-
 import com.hopeofseed.hopeofseed.JNXData.CropData;
 import com.hopeofseed.hopeofseed.JNXData.SortsData;
-
 import com.hopeofseed.hopeofseed.Data.Const;
-
 import com.hopeofseed.hopeofseed.JNXDataTmp.CropDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.SortsDataTmp;
 import com.hopeofseed.hopeofseed.R;
-
 import com.hopeofseed.hopeofseed.ui.CategoryTabStripNoPager;
 import com.lgm.utils.ObjectUtil;
 
@@ -66,7 +56,6 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
     ArrayList<SortsData> arr_SortsDataTmp = new ArrayList<>();
     EditText search_et_input;
     private boolean isSearch = false;
-    String StrInput = "";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +78,6 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
         btn_search.setOnClickListener(this);
         search_et_input = (EditText) findViewById(R.id.search_et_input);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
-        Context mContext = this;
         tabs = (CategoryTabStripNoPager) findViewById(R.id.category_strip);
         tabs.setData(catalogs);
         tabs.setOnSelectListener(new CategoryTabStripNoPager.OnSelectListener() {
@@ -111,12 +99,9 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
     private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-/*            Intent intent = new Intent(SelectVarieties.this, CropActivity.class);
-            intent.putExtra("CropId", String.valueOf(arr_CropDataTmp.get(i - 1).getCropId()));
-            startActivity(intent);*/
             Intent intent = new Intent(SelectVarieties.this, SearchAcitvity.class);
-
-            intent.putExtra("StrSearch",arr_CropDataTmp.get(i - 1).getVarietyName());
+            intent.putExtra("FirstShow","Crop");
+            intent.putExtra("StrSearch", arr_CropDataTmp.get(i - 1).getVarietyName());
             startActivity(intent);
         }
     };
@@ -163,12 +148,13 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
     }
 
     private void searchThisList() {
-        StrInput = search_et_input.getText().toString().trim();
-        if (!StrInput.equals("")) {
-            PageNo = 0;
-            isSearch = true;
-            getData(Str_search);
-        }
+        Str_search = search_et_input.getText().toString().trim();
+     /*   if (Str_search.equals("")) {*/
+        PageNo = 0;
+        isSearch = true;
+        getData(Str_search);
+/*        }*/
+
     }
 
     private void getHotSortData() {
@@ -183,8 +169,6 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
         Log.e(TAG, "getData: 获取品种数据");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("StrSearch", Str_search);
-        opt_map.put("Str_Faxian", "1");
-        opt_map.put("StrInput", StrInput);
         opt_map.put("PageNo", String.valueOf(PageNo));
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetSearchCropResult.php", opt_map, CropDataTmp.class, this);
@@ -259,7 +243,7 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
                         if (i == 0) {
                             catalogs.add(arr_CropDataTmp.get(i).getCropCategory2());
                         } else {
-                            if (!(arr_CropDataTmp.get(i).getCropCategory2().equals(arr_CropDataTmp.get(i - 1).getCropCategory2()))) {
+                            if (!catalogs.contains(arr_CropDataTmp.get(i).getCropCategory2())) {
                                 catalogs.add(arr_CropDataTmp.get(i).getCropCategory2());
                             }
                         }
@@ -269,7 +253,6 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
                 }
             }
         }
-
     };
 
     public void Search(String text) {

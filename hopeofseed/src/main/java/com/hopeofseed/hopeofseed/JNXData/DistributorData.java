@@ -12,18 +12,19 @@ package com.hopeofseed.hopeofseed.JNXData;
 public class DistributorData {
 
     /**
-     * user_id : 44
-     * user_name : zhuanjia
-     * nickname : 专家
+     * user_id : 1124
+     * user_name : 15628801370
+     * nickname : 用户01370
      * user_mobile :
      * user_email :
-     * createtime :
-     * user_permation :
-     * user_role : 3
+     * createtime : 2016-11-26 09:09:40
+     * user_permation : 0
+     * user_role : 1
      * user_field :
      * user_role_id : 3
-     * fllowed_count : 0
-     * been_fllowed_count : 0
+     * fllowed_count : 5
+     * been_fllowed_count : 3
+     * Distance : 300
      * DistributorId : 0000000003
      * DistributorName : 测试种业有限公司
      * DistributorTrademark :
@@ -35,8 +36,8 @@ public class DistributorData {
      * DistributorCity :
      * DistributorZone :
      * DistributorAddressDetail : 工业北路
-     * DistributorLat : 36.71058
-     * DistributorLon : 117.086453
+     * DistributorLat : 36.710602
+     * DistributorLon : 117.089726
      */
 
     private String user_id;
@@ -51,6 +52,7 @@ public class DistributorData {
     private String user_role_id;
     private String fllowed_count;
     private String been_fllowed_count;
+    private String Distance;
     private String DistributorId;
     private String DistributorName;
     private String DistributorTrademark;
@@ -159,6 +161,14 @@ public class DistributorData {
 
     public void setBeen_fllowed_count(String been_fllowed_count) {
         this.been_fllowed_count = been_fllowed_count;
+    }
+
+    public String getDistance() {
+        return Distance;
+    }
+
+    public void setDistance(String Distance) {
+        this.Distance = Distance;
     }
 
     public String getDistributorId() {
