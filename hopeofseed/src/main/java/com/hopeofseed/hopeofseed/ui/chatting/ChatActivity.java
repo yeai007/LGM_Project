@@ -24,6 +24,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
 import com.hopeofseed.hopeofseed.Activitys.ChatDetailActivity;
 import com.hopeofseed.hopeofseed.Activitys.PickPictureTotalActivity;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.BitmapLoader;
@@ -32,9 +33,11 @@ import com.hopeofseed.hopeofseed.ui.chatting.utils.FileHelper;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.IdHelper;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.SharePreferenceManager;
 import com.hopeofseed.hopeofseed.ui.entity.Event;
+
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.List;
+
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetGroupInfoCallback;
 import cn.jpush.im.android.api.content.EventNotificationContent;
@@ -48,6 +51,7 @@ import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.android.eventbus.EventBus;
+
 /*
  * 对话界面,合并了ChatController,整个chatting文件夹下的文件都使用反射机制获取相关资源文件,
  * 主要是为了实现插件式的聊天界面,让开发者可以即拿即用,会与UIKit的Chatting模块保持同步,如果只要聊天界面,
@@ -97,6 +101,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
 
     Window mWindow;
     InputMethodManager mImm;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
@@ -117,18 +122,18 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             mIsSingle = true;
             mConv = JMessageClient.getSingleConversation(mTargetId, mTargetAppKey);
             if (mConv != null) {
-                UserInfo userInfo = (UserInfo)mConv.getTargetInfo();
+                UserInfo userInfo = (UserInfo) mConv.getTargetInfo();
                 if (TextUtils.isEmpty(userInfo.getNickname())) {
                     mChatView.setChatTitle(userInfo.getUserName());
-                }else {
+                } else {
                     mChatView.setChatTitle(userInfo.getNickname());
                 }
             } else {
                 mConv = Conversation.createSingleConversation(mTargetId, mTargetAppKey);
-                UserInfo userInfo = (UserInfo)mConv.getTargetInfo();
+                UserInfo userInfo = (UserInfo) mConv.getTargetInfo();
                 if (TextUtils.isEmpty(userInfo.getNickname())) {
                     mChatView.setChatTitle(userInfo.getUserName());
-                }else {
+                } else {
                     mChatView.setChatTitle(userInfo.getNickname());
                 }
             }
@@ -145,50 +150,50 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                         intent.getIntExtra(MEMBERS_COUNT, 0));
                 mConv = JMessageClient.getGroupConversation(mGroupId);
             } else {*/
-                mConv = JMessageClient.getGroupConversation(mGroupId);
-                if (mConv != null) {
-                    GroupInfo groupInfo = (GroupInfo)mConv.getTargetInfo();
-                    Log.d(TAG, "GroupInfo: " + groupInfo.toString());
-                    UserInfo userInfo = groupInfo.getGroupMemberInfo(mMyInfo.getUserName(), mMyInfo.getAppKey());
-                    //如果自己在群聊中，聊天标题显示群人数
-                    if (userInfo != null) {
-                        if (!TextUtils.isEmpty(groupInfo.getGroupName())) {
-                            mGroupName = groupInfo.getGroupName();
-                            mChatView.setChatTitle(mGroupName, groupInfo.getGroupMembers().size());
-                        } else {
-                            mChatView.setChatTitle(IdHelper.getString(mContext, "group"),
-                                    groupInfo.getGroupMembers().size());
-                        }
-                        mChatView.showRightBtn();
+            mConv = JMessageClient.getGroupConversation(mGroupId);
+            if (mConv != null) {
+                GroupInfo groupInfo = (GroupInfo) mConv.getTargetInfo();
+                Log.d(TAG, "GroupInfo: " + groupInfo.toString());
+                UserInfo userInfo = groupInfo.getGroupMemberInfo(mMyInfo.getUserName(), mMyInfo.getAppKey());
+                //如果自己在群聊中，聊天标题显示群人数
+                if (userInfo != null) {
+                    if (!TextUtils.isEmpty(groupInfo.getGroupName())) {
+                        mGroupName = groupInfo.getGroupName();
+                        mChatView.setChatTitle(mGroupName, groupInfo.getGroupMembers().size());
                     } else {
-                        if (!TextUtils.isEmpty(groupInfo.getGroupName())) {
-                            mGroupName = groupInfo.getGroupName();
-                            mChatView.setChatTitle(mGroupName);
-                        } else {
-                            mChatView.setChatTitle(IdHelper.getString(mContext, "group"));
-                        }
-                        mChatView.dismissRightBtn();
+                        mChatView.setChatTitle(IdHelper.getString(mContext, "group"),
+                                groupInfo.getGroupMembers().size());
                     }
+                    mChatView.showRightBtn();
                 } else {
-                    mConv = Conversation.createGroupConversation(mGroupId);
-                    Log.i(TAG, "create group success");
-                }
-                //更新群名
-                JMessageClient.getGroupInfo(mGroupId, new GetGroupInfoCallback(false) {
-                    @Override
-                    public void gotResult(int status, String desc, GroupInfo groupInfo) {
-                        if (status == 0){
-                            mGroupInfo = groupInfo;
-                            mUIHandler.sendEmptyMessage(REFRESH_CHAT_TITLE);
-                        }
+                    if (!TextUtils.isEmpty(groupInfo.getGroupName())) {
+                        mGroupName = groupInfo.getGroupName();
+                        mChatView.setChatTitle(mGroupName);
+                    } else {
+                        mChatView.setChatTitle(IdHelper.getString(mContext, "group"));
                     }
-                });
+                    mChatView.dismissRightBtn();
+                }
+            } else {
+                mConv = Conversation.createGroupConversation(mGroupId);
+                Log.i(TAG, "create group success");
+            }
+            //更新群名
+            JMessageClient.getGroupInfo(mGroupId, new GetGroupInfoCallback(false) {
+                @Override
+                public void gotResult(int status, String desc, GroupInfo groupInfo) {
+                    if (status == 0) {
+                        mGroupInfo = groupInfo;
+                        mUIHandler.sendEmptyMessage(REFRESH_CHAT_TITLE);
+                    }
+                }
+            });
 /*            }*/
             //聊天信息标志改变
             mChatView.setGroupIcon();
 
             //UIKit 直接用getGroupInfo更新标题,而不用考虑从创建群聊跳转过来
-  //         JMessageClient.getGroupInfo(mGroupId, new GetGroupInfoCallback() {
+            //         JMessageClient.getGroupInfo(mGroupId, new GetGroupInfoCallback() {
 //                @Override
 //                public void gotResult(int status, String desc, GroupInfo groupInfo) {
 //                    if (status == 0) {
@@ -208,7 +213,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             mChatView.setInputText(draft);
         }
         mChatView.setChatListAdapter(mChatAdapter);
-
+        mChatView.showRightBtn();
 
         mChatAdapter.initMediaPlayer();
         //监听下拉刷新
@@ -264,7 +269,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             }
             dismissSoftInput();
             startChatDetailActivity(mTargetId, mTargetAppKey, mGroupId);
-        // 切换输入
+            // 切换输入
         } else if (v.getId() == IdHelper.getViewID(mContext, "jmui_switch_voice_ib")) {
             mChatView.dismissMoreMenu();
             isInputByKeyBoard = !isInputByKeyBoard;
@@ -319,7 +324,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             if (mChatView.getMoreMenu().getVisibility() == View.VISIBLE) {
                 mChatView.dismissMoreMenu();
             }
-        } else if (v.getId() == IdHelper.getViewID(mContext, "jmui_pick_from_local_btn")){
+        } else if (v.getId() == IdHelper.getViewID(mContext, "jmui_pick_from_local_btn")) {
             if (mChatView.getMoreMenu().getVisibility() == View.VISIBLE) {
                 mChatView.dismissMoreMenu();
             }
@@ -475,12 +480,12 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                         }
                     }
                 });
-            }  catch (NullPointerException e) {
+            } catch (NullPointerException e) {
                 Log.i(TAG, "onActivityResult unexpected result");
             }
         } else if (resultCode == RESULT_CODE_SELECT_PICTURE) {
             handleImgRefresh(data);
-        //如果作为UIKit使用,去掉以下几段代码
+            //如果作为UIKit使用,去掉以下几段代码
         } else if (resultCode == RESULT_CODE_CHAT_DETAIL) {
             if (!mIsSingle) {
                 GroupInfo groupInfo = (GroupInfo) mConv.getTargetInfo();
@@ -616,13 +621,13 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                             //检查自己是否在群组中
                             UserInfo info = activity.mGroupInfo.getGroupMemberInfo(activity.mMyInfo.getUserName(),
                                     activity.mMyInfo.getAppKey());
-                            if (!TextUtils.isEmpty(activity.mGroupInfo.getGroupName())){
+                            if (!TextUtils.isEmpty(activity.mGroupInfo.getGroupName())) {
                                 activity.mGroupName = activity.mGroupInfo.getGroupName();
-                                if (info != null){
+                                if (info != null) {
                                     activity.mChatView.setChatTitle(activity.mGroupName,
                                             activity.mGroupInfo.getGroupMembers().size());
                                     activity.mChatView.showRightBtn();
-                                }else {
+                                } else {
                                     activity.mChatView.setChatTitle(activity.mGroupName);
                                     activity.mChatView.dismissRightBtn();
                                 }
@@ -807,7 +812,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                                     ClipData clip = ClipData.newPlainText("Simple text", content);
                                     clipboard.setPrimaryClip(clip);
                                 } else {
-                                    android.text.ClipboardManager clip = (android.text.ClipboardManager)mContext
+                                    android.text.ClipboardManager clip = (android.text.ClipboardManager) mContext
                                             .getSystemService(Context.CLIPBOARD_SERVICE);
                                     if (clip.hasText()) {
                                         clip.getText();

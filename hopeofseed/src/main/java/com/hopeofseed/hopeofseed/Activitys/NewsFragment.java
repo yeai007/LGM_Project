@@ -268,9 +268,11 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
 
                 super.onScrolled(recyclerView, dx, dy);
 
-                int lastVisibleItemPosition = manager.findLastVisibleItemPosition();
-                Log.e(TAG, "onScrolled: " + lastVisibleItemPosition);
-                if (lastVisibleItemPosition + 1 == recy_news.getAdapter().getItemCount()) {
+                int lastVisibleItem = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+                int totalItemCount = manager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
                     if (!isLoading) {//一个布尔的变量，默认是false
                         Log.e(TAG, "onScrolled: loadingmaore");
                         isLoading = true;
@@ -513,6 +515,7 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
             arr_NewsData.addAll(arr_NewsDataTmp);
             mRecyclerViewAdapter.notifyDataSetChanged();
             mRefreshLayout.setRefreshing(false);
+            isLoading = false;
         }
 
     };

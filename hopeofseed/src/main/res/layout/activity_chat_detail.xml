@@ -4,9 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/mainbgcolor">
+
     <include
         layout="@layout/menu_title_bar"
         android:visibility="gone" />
+
     <ScrollView
         android:id="@+id/chat_detail_sv"
         android:layout_width="match_parent"
@@ -20,10 +22,9 @@
             android:orientation="vertical">
 
 
-
             <include
                 android:id="@+id/top"
-                layout="@layout/top_comright"/>
+                layout="@layout/top_comright" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -84,11 +85,11 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/rel_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:background="#ffffff"
-                android:id="@+id/rel_desc"
                 android:minHeight="50dp">
 
                 <TextView
@@ -161,7 +162,8 @@
 
             <RelativeLayout
                 android:id="@+id/no_disturb_rl"
-                style="@style/ChatDetailItem">
+                style="@style/ChatDetailItem"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/ChatDetailItemHit"
@@ -242,7 +244,8 @@
 
             <LinearLayout
                 android:id="@+id/group_chat_del_ll"
-                style="@style/ChatDetailItem">
+                style="@style/ChatDetailItem"
+                android:visibility="gone">
 
                 <TextView
                     style="@style/ChatDetailItemHit"
@@ -273,7 +276,8 @@
                     android:background="@drawable/chat_detail_btn_bg"
                     android:text="@string/group_exit_btn"
                     android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

@@ -82,8 +82,6 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
         rel_accountsetting.setOnClickListener(listener);
         RelativeLayout rel_securitysetting = (RelativeLayout) v.findViewById(R.id.rel_securitysetting);
         rel_securitysetting.setOnClickListener(listener);
-//        RelativeLayout rel_seedvariety = (RelativeLayout) v.findViewById(R.id.rel_seedvariety);
-//        rel_seedvariety.setOnClickListener(listener);
         RelativeLayout rel_signout = (RelativeLayout) v.findViewById(R.id.rel_signout);
         rel_signout.setOnClickListener(listener);
         RelativeLayout rel_add_commodity = (RelativeLayout) v.findViewById(R.id.rel_add_commodity);
@@ -97,7 +95,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
         tv__avatar = (ImageView) v.findViewById(img_user_avatar);
         tv__avatar.setOnClickListener(listener);
         img_corner = (ImageView) v.findViewById(R.id.img_corner);
-        getUserJpushInfo(Const.JPUSH_PREFIX+String.valueOf(Const.currentUser.user_id));
+        getUserJpushInfo(Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id));
 
     }
 
@@ -106,7 +104,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
                 if (userInfo.getAvatarFile() != null) {
-                  //  Log.e(TAG, "gotResult: " + Const.JPUSH_PREFIX+String.valueOf(Const.currentUser.user_id));
+                    //  Log.e(TAG, "gotResult: " + Const.JPUSH_PREFIX+String.valueOf(Const.currentUser.user_id));
                     Glide.with(getActivity())
                             .load(userInfo.getAvatarFile())
                             .centerCrop()
@@ -126,21 +124,21 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
 
                     break;
                 case 1:
-                  //  img_corner.setImageResource(R.drawable.corner_distributor);
+                    //  img_corner.setImageResource(R.drawable.corner_distributor);
                     Glide.with(getActivity())
                             .load(R.drawable.corner_distributor)
                             .centerCrop()
                             .into(img_corner);
                     break;
                 case 2:
-                  //  img_corner.setImageResource(R.drawable.corner_enterprise);
+                    //  img_corner.setImageResource(R.drawable.corner_enterprise);
                     Glide.with(getActivity())
                             .load(R.drawable.corner_enterprise)
                             .centerCrop()
                             .into(img_corner);
                     break;
                 case 3:
-                   // img_corner.setImageResource(corner_expert);
+                    // img_corner.setImageResource(corner_expert);
                     Glide.with(getActivity())
                             .load(R.drawable.corner_expert)
                             .centerCrop()
@@ -233,7 +231,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == UPDATE_USER_AVATAR) {
             if (resultCode == getActivity().RESULT_OK) {
-                getUserJpushInfo(Const.JPUSH_PREFIX+String.valueOf(Const.currentUser.user_id));
+                getUserJpushInfo(Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id));
             }
         }
     }
@@ -275,8 +273,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
             tv_fans_sum.setText(mUserDataNoRealm.getBeen_fllowed_count());
             app_title.setText(mUserDataNoRealm.getNickname());
             updateCorner();
-
-            getUserJpushInfo(Const.JPUSH_PREFIX+mUserDataNoRealm.getUser_id());
+            getUserJpushInfo(Const.JPUSH_PREFIX + mUserDataNoRealm.getUser_id());
 
         }
     };

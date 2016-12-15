@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Adapter.GroupMemberGridAdapter;
+import com.hopeofseed.hopeofseed.Adapter.listener;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.R;
 
@@ -25,6 +28,7 @@ import citypickerview.widget.CityPicker;
 import static com.hopeofseed.hopeofseed.R.id.chat_detail_group_address;
 
 public class ChatDetailView extends LinearLayout {
+    private static final String TAG = "ChatDetailView";
     private LinearLayout mAllGroupMemberLL;
     private View mSplitLine1;
     private View mSplitLine2;
@@ -53,6 +57,8 @@ public class ChatDetailView extends LinearLayout {
     TextView AppTitle;
     Button btn_topright, btn_topleft;
     RelativeLayout rel_desc;
+    RelativeLayout no_disturb_rl;
+
     public ChatDetailView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.mContext = context;
@@ -88,13 +94,13 @@ public class ChatDetailView extends LinearLayout {
         img_user_avatar = (ImageView) findViewById(R.id.img_user_avatar);
         chat_detail_group_desc = (TextView) findViewById(R.id.chat_detail_group_desc);
         AppTitle = (TextView) findViewById(R.id.apptitle);
-        AppTitle.setText("聊天详情");
+        AppTitle.setText("群主页");
         btn_topright = (Button) findViewById(R.id.btn_topright);
-        rel_desc=(RelativeLayout)findViewById(R.id.rel_desc);
+        rel_desc = (RelativeLayout) findViewById(R.id.rel_desc);
         btn_topright.setText("加入群");
-        btn_topright.setVisibility(View.VISIBLE);
+        btn_topright.setVisibility(View.GONE);
         btn_topleft = (Button) findViewById(R.id.btn_topleft);
-
+        no_disturb_rl = (RelativeLayout) findViewById(R.id.no_disturb_rl);
     }
 
     public void setListeners(OnClickListener onClickListener) {
@@ -121,9 +127,9 @@ public class ChatDetailView extends LinearLayout {
         mGridView.setOnItemClickListener(listener);
     }
 
-//	public void setLongClickListener(OnItemLongClickListener listener) {
-//		mGridView.setOnItemLongClickListener(listener);
-//	}
+    public void setLongClickListener(AdapterView.OnItemLongClickListener listener) {
+        mGridView.setOnItemLongClickListener(listener);
+    }
 
     public void setAdapter(GroupMemberGridAdapter adapter) {
         mGridView.setAdapter(adapter);
@@ -186,7 +192,6 @@ public class ChatDetailView extends LinearLayout {
     }
 
 
-
     public void setDesc(String desc) {
         if (!TextUtils.isEmpty(desc)) {
             chat_detail_group_desc.setText(desc);
@@ -195,5 +200,24 @@ public class ChatDetailView extends LinearLayout {
 
     public String getDesc() {
         return chat_detail_group_desc.getText().toString();
+    }
+
+    public void setBtnTopRight(boolean isMember) {
+        Log.e(TAG, "setBtnTopRight:btn_topright ");
+        if(isMember)
+        {
+            btn_topright.setVisibility(View.VISIBLE);
+            no_disturb_rl.setVisibility(View.VISIBLE);
+            mGroupChatDelLL.setVisibility(View.VISIBLE);
+            mDelGroupBtn.setVisibility(View.VISIBLE);
+        }
+        else
+        { btn_topright.setVisibility(View.GONE);
+            no_disturb_rl.setVisibility(View.GONE);
+            mGroupChatDelLL.setVisibility(View.GONE);
+            mDelGroupBtn.setVisibility(View.GONE);
+
+        }
+
     }
 }

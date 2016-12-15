@@ -336,12 +336,9 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     private void updateCorner() {
         Log.e(TAG, "updateCorner:userclass " + mUserDataNoRealm.getUser_role());
-
         if (mUserDataNoRealm.getUser_role() != null) {
             switch (Integer.parseInt(mUserDataNoRealm.getUser_role())) {
-
                 case 0:
-
                     break;
                 case 1:
                     //  img_corner.setImageResource(R.drawable.corner_distributor);

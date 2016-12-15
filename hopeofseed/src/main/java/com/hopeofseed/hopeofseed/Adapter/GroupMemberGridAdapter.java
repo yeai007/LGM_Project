@@ -163,9 +163,14 @@ public class GroupMemberGridAdapter extends BaseAdapter {
                 viewTag.name.setVisibility(View.VISIBLE);
             } else if (position == mCurrentNum) {
                 viewTag.icon.setImageResource(R.drawable.chat_detail_add);
-                viewTag.icon.setVisibility(View.VISIBLE);
-                viewTag.name.setVisibility(View.INVISIBLE);
 
+                viewTag.name.setVisibility(View.INVISIBLE);
+                if(mIsCreator) {
+                    viewTag.icon.setVisibility(View.VISIBLE);
+                }else
+                {  viewTag.icon.setVisibility(View.GONE);
+
+                }
                 //设置删除群成员按钮
             } else if (position == mCurrentNum + 1) {
                 if (mIsCreator && mCurrentNum > 1) {

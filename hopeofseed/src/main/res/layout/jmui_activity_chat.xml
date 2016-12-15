@@ -58,7 +58,7 @@
                 android:background="@drawable/shape_corner"
                 android:scaleType="centerInside"
                 android:text="群详情"
-                android:textColor="#ffffff" />
+                android:textColor="@color/text_title_color" />
 
         </RelativeLayout>
 

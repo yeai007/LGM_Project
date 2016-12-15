@@ -7,6 +7,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +43,7 @@ import java.util.HashMap;
  */
 public class DistributorListForFromWeb extends AppCompatActivity implements NetCallBack {
     private static final String TAG = "DistributorListFragment";
-    PullToRefreshListView lv_distributor;
+    RecyclerView lv_distributor;
     DistributorForCommodityAdapter mDistributorForCommodityAdapter;
     ArrayList<DistributorData> arr_DistributorData = new ArrayList<>();
     ArrayList<DistributorData> arr_DistributorDataTmp = new ArrayList<>();
@@ -62,7 +63,7 @@ public class DistributorListForFromWeb extends AppCompatActivity implements NetC
     private void initView() {
         TextView AppTitle = (TextView) findViewById(R.id.apptitle);
         AppTitle.setText("搜索结果");
-        lv_distributor = (PullToRefreshListView) findViewById(R.id.lv_distributor);
+        lv_distributor = (RecyclerView) findViewById(R.id.lv_distributor);
         mDistributorForCommodityAdapter = new DistributorForCommodityAdapter(getApplicationContext(), arr_DistributorData);
         lv_distributor.setAdapter(mDistributorForCommodityAdapter);
     }

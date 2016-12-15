@@ -91,7 +91,6 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         mContext = context;
         mList = list;
         this.isNeedMore = isNeedMore;
-        Log.e(TAG, "RecyclerViewAdapter: Adatper()" + mList.size());
     }
 
     public List<T> getList() {
@@ -171,7 +170,6 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.e(TAG, "onBindViewHolder: " + position);
         if (holder instanceof ViewHolder0) {
             initData((ViewHolder0) holder, position);
         } else if (holder instanceof ViewHolder1) {

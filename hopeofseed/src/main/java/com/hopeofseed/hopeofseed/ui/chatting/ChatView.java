@@ -54,7 +54,6 @@ public class ChatView extends RelativeLayout{
 	private boolean mHasInit;
 	private boolean mHasKeybord;
 	private int mHeight;
-
 	public ChatView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub

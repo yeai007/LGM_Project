@@ -24,7 +24,6 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.hopeofseed.hopeofseed.Adapter.AllMembersAdapter;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.R;
@@ -32,20 +31,17 @@ import com.hopeofseed.hopeofseed.ui.chatting.BaseActivity;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.DialogCreator;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.HandleResponseCode;
 import com.hopeofseed.hopeofseed.ui.tools.HanyuPinyin;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
-
 
 /**
  * Created by Ken on 2015/11/25.
@@ -82,6 +78,9 @@ public class MembersInChatActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mContext = this;
         setContentView(R.layout.activity_all_members);
+        TextView Apptitle = (TextView) findViewById(R.id.apptitle);
+        Apptitle.setText("群成员");
+        (findViewById(R.id.btn_topleft)).setOnClickListener(listener);
         mListView = (ListView) findViewById(R.id.members_list_view);
         mReturnBtn = (ImageButton) findViewById(R.id.return_btn);
         mTitle = (TextView) findViewById(R.id.number_tv);
@@ -131,6 +130,11 @@ public class MembersInChatActivity extends BaseActivity {
                     } else {
                         addMemberToGroup();
                     }
+                    break;
+                case R.id.btn_topleft:
+                    Intent intent1 = new Intent();
+                    setResult(Application.RESULT_CODE_ALL_MEMBER, intent1);
+                    finish();
                     break;
             }
         }

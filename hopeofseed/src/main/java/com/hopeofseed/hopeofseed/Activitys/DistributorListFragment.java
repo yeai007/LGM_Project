@@ -90,9 +90,11 @@ public class DistributorListFragment extends Fragment implements NetCallBack {
 
                 super.onScrolled(recyclerView, dx, dy);
 
-                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-                Log.e(TAG, "onScrolled: " + lastVisibleItemPosition);
-                if (lastVisibleItemPosition + 1 == recycler_list.getAdapter().getItemCount()) {
+                int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                int totalItemCount = layoutManager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
                     if (!isLoading) {//一个布尔的变量，默认是false
                         Log.e(TAG, "onScrolled: loadingmaore");
                         isLoading = true;

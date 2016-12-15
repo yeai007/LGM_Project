@@ -1,5 +1,6 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,7 +10,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Adapter.NotifyListAdapter;
@@ -50,6 +54,12 @@ public class SelectUser extends AppCompatActivity implements View.OnClickListene
     ArrayList<String> usernameList = new ArrayList<>();
     public static HashMap<Integer, Boolean> isSelected = new HashMap<Integer, Boolean>();
     String GroupId;
+    EditText search_et;
+    String StrSearch = "";
+    ImageButton btn_search;
+    boolean isSearch = false;
+    int PageNo = 0;
+    boolean isLoading = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +73,18 @@ public class SelectUser extends AppCompatActivity implements View.OnClickListene
     private void getData() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        opt_map.put("StrSearch", StrSearch);
+        opt_map.put("PageNo", String.valueOf(PageNo));
+        if (isSearch) {
+            if (StrSearch.equals("")) {
+                opt_map.put("IsSearch", "0");
+            } else {
+                opt_map.put("IsSearch", "1");
+            }
+
+        } else {
+            opt_map.put("IsSearch", "0");
+        }
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "getSelectUser.php", opt_map, UserDataNoRealmTmp.class, this);
     }
@@ -71,6 +93,9 @@ public class SelectUser extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.select_user_activity);
         TextView apptitle = (TextView) findViewById(R.id.apptitle);
         apptitle.setText("添加成员");
+        search_et = (EditText) findViewById(R.id.search_et);
+        btn_search = (ImageButton) findViewById(R.id.btn_search);
+        btn_search.setOnClickListener(this);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         Button btn_toprihgt = (Button) findViewById(R.id.btn_topright);
         btn_toprihgt.setText("添加");
@@ -82,6 +107,31 @@ public class SelectUser extends AppCompatActivity implements View.OnClickListene
         recycler_list.setLayoutManager(layoutManager);
         mAdapter = new UserListAdapter(SelectUser.this, arrUserDataNoRealm);
         recycler_list.setAdapter(mAdapter);
+
+        //滚动监听，在滚动监听里面去实现加载更多的功能
+        recycler_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                int totalItemCount = layoutManager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount && dy > 0) {
+                    if (!isLoading) {//一个布尔的变量，默认是false
+                        Log.e(TAG, "onScrolled: loadingmaore");
+                        isLoading = true;
+                        PageNo = PageNo + 1;
+                        getData();
+                    } else if (arrUserDataNoRealmTmp.size() < 20) {
+                        //当没有更多的数据的时候去掉加载更多的布局
+/*                        RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
+                        adapter.setIsNeedMore(false);
+                        adapter.notifyDataSetChanged();*/
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -92,6 +142,14 @@ public class SelectUser extends AppCompatActivity implements View.OnClickListene
                 break;
             case R.id.btn_topright:
                 addNewMember();
+                break;
+            case R.id.btn_search:
+                isSearch = true;
+                PageNo = 0;
+                StrSearch = search_et.getText().toString().trim();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(search_et.getWindowToken(), 0);
+                getData();
                 break;
         }
     }
@@ -131,20 +189,22 @@ public class SelectUser extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onError(String error) {
-
     }
 
     @Override
     public void onFail() {
-
     }
 
     Runnable updateList = new Runnable() {
         @Override
         public void run() {
             Log.e(TAG, "run: 更新");
+            if (PageNo == 0) {
+                arrUserDataNoRealm.clear();
+            }
             arrUserDataNoRealm.addAll(arrUserDataNoRealmTmp);
             mAdapter.notifyDataSetChanged();
+            isLoading = false;
         }
     };
 }

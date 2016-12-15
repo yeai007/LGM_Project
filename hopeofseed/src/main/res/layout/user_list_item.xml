@@ -68,12 +68,17 @@
             android:text="address"
             android:textColor="@color/text_content_color" />
 
-        <CheckBox
-            android:id="@+id/ischeck"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+        <RelativeLayout
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="20dp">
+
+            <CheckBox
+                android:id="@+id/ischeck"
+                android:layout_width="40dp"
+                android:layout_height="20dp"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

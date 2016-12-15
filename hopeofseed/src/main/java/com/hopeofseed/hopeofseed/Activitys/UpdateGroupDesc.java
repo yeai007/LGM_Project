@@ -1,22 +1,20 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXDataTmp.GroupInfoNoJpushTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
@@ -49,7 +47,7 @@ public class UpdateGroupDesc extends AppCompatActivity implements View.OnClickLi
 
     private void initView() {
         setContentView(R.layout.update_group_desc);
-        et_desc = (EditText) findViewById(R.id.et_desc);
+
         TextView appTitle = (TextView) findViewById(R.id.apptitle);
         appTitle.setText("更新群");
         Button btn_topriht = (Button) findViewById(R.id.btn_topright);
@@ -57,6 +55,9 @@ public class UpdateGroupDesc extends AppCompatActivity implements View.OnClickLi
         btn_topriht.setVisibility(View.VISIBLE);
         btn_topriht.setOnClickListener(this);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
+        et_desc = (EditText) findViewById(R.id.et_desc);
+        et_desc.requestFocus();
+
     }
 
     @Override

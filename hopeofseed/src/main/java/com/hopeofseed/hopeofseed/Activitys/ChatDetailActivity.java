@@ -20,10 +20,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.BaseActivity;
@@ -33,7 +31,6 @@ import com.hopeofseed.hopeofseed.ui.chatting.utils.HandleResponseCode;
 import com.hopeofseed.hopeofseed.ui.view.ChatDetailView;
 import java.lang.ref.WeakReference;
 import java.util.List;
-
 import citypickerview.widget.CityPicker;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
@@ -44,12 +41,10 @@ import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
 
-import static com.hopeofseed.hopeofseed.R.id.chat_detail_group_address;
-
 /*
  * 在对话界面中点击聊天信息按钮进来的聊天信息界面
  */
-public class ChatDetailActivity extends BaseActivity{
+public class ChatDetailActivity extends BaseActivity {
 
     private static final String TAG = "ChatDetailActivity";
     private ChatDetailView mChatDetailView;
@@ -81,41 +76,42 @@ public class ChatDetailActivity extends BaseActivity{
         chat_detail_group_address.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mChatDetailController.getmIsCreator()) {
+                    cityPicker = new CityPicker.Builder(mContext).textSize(20)
+                            .title("地址选择")
+                            .titleBackgroundColor("#5F9EA0")
+                            .onlyShowProvinceAndCity(false)
+                            .confirTextColor("#000000")
+                            .cancelTextColor("#000000")
+                            .province("山东省")
+                            .city("济南市")
+                            .district("全部")
+                            .textColor(Color.parseColor("#000000"))
+                            .provinceCyclic(false)
+                            .cityCyclic(false)
+                            .districtCyclic(false)
+                            .visibleItemsCount(7)
+                            .itemPadding(10)
+                            .build();
 
-                cityPicker = new CityPicker.Builder(mContext).textSize(20)
-                        .title("地址选择")
-                        .titleBackgroundColor("#5F9EA0")
-                        .onlyShowProvinceAndCity(false)
-                        .confirTextColor("#000000")
-                        .cancelTextColor("#000000")
-                        .province("山东省")
-                        .city("济南市")
-                        .district("全部")
-                        .textColor(Color.parseColor("#000000"))
-                        .provinceCyclic(false)
-                        .cityCyclic(false)
-                        .districtCyclic(false)
-                        .visibleItemsCount(7)
-                        .itemPadding(10)
-                        .build();
+                    cityPicker.show();
+                    cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
+                        @Override
+                        public void onSelected(String... citySelected) {
 
-                cityPicker.show();
-                cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
-                    @Override
-                    public void onSelected(String... citySelected) {
-
-                        chat_detail_group_address.setText("" + citySelected[0] + "  " + citySelected[1] + "  " + citySelected[2]);
-                        StrProvince = citySelected[0];
-                        StrCity = citySelected[1];
-                        StrZone = citySelected[2];
-                        mChatDetailController.updateInfoNoJpush();
-                    }
-                });
+                            chat_detail_group_address.setText("" + citySelected[0] + "  " + citySelected[1] + "  " + citySelected[2]);
+                            StrProvince = citySelected[0];
+                            StrCity = citySelected[1];
+                            StrZone = citySelected[2];
+                            mChatDetailController.updateInfoNoJpush();
+                        }
+                    });
+                }
             }
         });
     }
-
     public void setAddress(String Province, String City, String Zone) {
+
         if (!TextUtils.isEmpty(Province)) {
             StrProvince = Province;
             StrCity = City;
@@ -278,9 +274,7 @@ public class ChatDetailActivity extends BaseActivity{
             }
         } else if (requestCode == Application.REQUEST_CODE_ALL_MEMBER) {
             mChatDetailController.refreshMemberList();
-        }
-        else if(requestCode==801||requestCode==802||requestCode==803)
-        {
+        } else if (requestCode == 801 || requestCode == 802 || requestCode == 803) {
             mChatDetailController.refreshAvatar();
             mChatDetailController.refreshMemberList();
         }
@@ -312,11 +306,11 @@ public class ChatDetailActivity extends BaseActivity{
 
 
     public void startMainActivity() {
-   /*     Intent intent = new Intent();
+        Intent intent = new Intent();
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.setClass(this, MainActivity.class);
-        startActivity(intent);*/
+        intent.setClass(this, HomePageActivity.class);
+        startActivity(intent);
     }
 
     public void startChatActivity(long groupID, String groupName) {

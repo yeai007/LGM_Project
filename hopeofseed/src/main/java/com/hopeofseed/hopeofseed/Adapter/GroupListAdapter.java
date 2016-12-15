@@ -88,8 +88,18 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
 
                     isMember[0] = true;
                     holder.img_btn_join.setImageResource(R.drawable.is_join);
+                    holder.rel_item.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext.getApplicationContext(), ChatActivity.class);
+                            intent.putExtra(Application.GROUP_ID, Long.parseLong(itemData.getAppJpushGroupId()));
+                            intent.putExtra("fromGroup", false);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                    | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            mContext.startActivity(intent);
+                        }
+                    });
                 } else {
-
                     isMember[0] = false;
                     holder.img_btn_join.setImageResource(R.drawable.is_join_null);
                     holder.img_btn_join.setOnClickListener(new View.OnClickListener() {

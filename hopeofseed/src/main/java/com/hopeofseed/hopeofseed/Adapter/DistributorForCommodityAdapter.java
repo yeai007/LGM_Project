@@ -2,6 +2,7 @@ package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +36,7 @@ import cn.jpush.im.android.api.model.UserInfo;
  * 修改时间：2016/10/17 15:09
  * 修改备注：
  */
-public class DistributorForCommodityAdapter extends BaseAdapter {
+public class DistributorForCommodityAdapter extends RecyclerView.Adapter<DistributorForCommodityAdapter.ViewHolder> {
     private static final String TAG = "DistributorForCommodity";
     Context mContext;
     List<DistributorData> mlist;
@@ -47,41 +48,20 @@ public class DistributorForCommodityAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
-        return mlist.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return mlist.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
-        final DistributorData mData;
-        mData = mlist.get(i);
-        ViewHolder holder;
-        if (view == null) {
-            holder = new ViewHolder();
-            view = _LayoutInflater.inflate(R.layout.distributor_for_commodity_items, null);
-            holder.tv_distributor_name = (TextView) view.findViewById(R.id.tv_distributor_name);
-            holder.tv_address = (TextView) view.findViewById(R.id.tv_address);
-            holder.btn_commodity_setting = (TextView) view.findViewById(R.id.btn_commodity_setting);
-            Log.e(TAG, "getView: " + mData.getDistributorName());
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
+        View view = _LayoutInflater.inflate(R.layout.distributor_for_commodity_items, null);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
+    }
 
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final DistributorData mData;
+        mData = mlist.get(position);
         holder.tv_distributor_name.setText(mData.getDistributorName());
-        holder.tv_address.setText(mData.getDistributorProvince()+" "+mData.getDistributorCity()+" "+mData.getDistributorZone()+"\n"+mData.getDistributorAddressDetail());
-        getUserJpushInfo(Const.JPUSH_PREFIX+mData.getUser_id(), holder);
+        holder.tv_address.setText(mData.getDistributorProvince() + " " + mData.getDistributorCity() + " " + mData.getDistributorZone() + "\n" + mData.getDistributorAddressDetail());
+        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), holder);
         holder.btn_commodity_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,12 +70,28 @@ public class DistributorForCommodityAdapter extends BaseAdapter {
                 MyCommodity.mactivity.startActivity(intent);
             }
         });
-        return view;
     }
 
-    class ViewHolder {
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public int getItemCount() {
+        return mlist.size();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img_user;
         TextView tv_distributor_name, btn_commodity_setting, tv_address;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            tv_distributor_name = (TextView) itemView.findViewById(R.id.tv_distributor_name);
+            tv_address = (TextView) itemView.findViewById(R.id.tv_address);
+            btn_commodity_setting = (TextView) itemView.findViewById(R.id.btn_commodity_setting);
+        }
     }
 
     private void getUserJpushInfo(String user_name, final ViewHolder holder) {

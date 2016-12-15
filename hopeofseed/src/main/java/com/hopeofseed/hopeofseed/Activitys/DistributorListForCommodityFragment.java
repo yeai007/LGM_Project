@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +44,7 @@ import java.util.HashMap;
  */
 public class DistributorListForCommodityFragment extends Fragment implements NetCallBack {
     private static final String TAG = "DistributorListFragment";
-    PullToRefreshListView lv_distributor;
+    RecyclerView lv_distributor;
     DistributorForCommodityAdapter mDistributorForCommodityAdapter;
     ArrayList<DistributorData> arr_DistributorData = new ArrayList<>();
     ArrayList<DistributorData> arr_DistributorDataTmp = new ArrayList<>();
@@ -56,7 +57,7 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final View v = inflater.inflate(R.layout.pager_list_distributor, null);
+        final View v = inflater.inflate(R.layout.distributor_commodity_fragment, null);
         initView(v);
         initData();
         getData();
@@ -73,7 +74,7 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
     }
 
     private void initView(View v) {
-        lv_distributor = (PullToRefreshListView) v.findViewById(R.id.lv_distributor);
+        lv_distributor = (RecyclerView) v.findViewById(R.id.lv_distributor);
         mDistributorForCommodityAdapter = new DistributorForCommodityAdapter(getActivity(), arr_DistributorData);
         lv_distributor.setAdapter(mDistributorForCommodityAdapter);
         tv_search = (AutoCompleteTextView) v.findViewById(R.id.tv_search);
