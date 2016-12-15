@@ -12,22 +12,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.AuthorDataAdapter;
-
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.AuthorData;
-
 import com.hopeofseed.hopeofseed.JNXDataTmp.AuthorDataTmp;
-
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

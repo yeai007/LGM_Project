@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.mapapi.map.BaiduMap;
@@ -35,7 +34,6 @@ import com.hopeofseed.hopeofseed.ui.MapDataInfoPopupWindow;
 import com.hopeofseed.hopeofseed.Services.LocationService;
 import com.hopeofseed.hopeofseed.util.OverlayManager;
 import com.lgm.utils.ObjectUtil;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;

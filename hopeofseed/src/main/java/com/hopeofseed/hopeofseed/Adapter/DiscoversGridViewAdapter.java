@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.SelectAuthor;
 import com.hopeofseed.hopeofseed.Activitys.SelectDistributor;
@@ -18,9 +17,7 @@ import com.hopeofseed.hopeofseed.Activitys.SelectExpert;
 import com.hopeofseed.hopeofseed.Activitys.SelectSeedFriend;
 import com.hopeofseed.hopeofseed.Activitys.SelectVarieties;
 import com.hopeofseed.hopeofseed.R;
-
 import java.util.ArrayList;
-
 import static com.hopeofseed.hopeofseed.Activitys.DiscoverFragment.SELECT_AUTHOR;
 import static com.hopeofseed.hopeofseed.Activitys.DiscoverFragment.SELECT_BUSINESS;
 import static com.hopeofseed.hopeofseed.Activitys.DiscoverFragment.SELECT_DISTRIBUTOR;

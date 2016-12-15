@@ -6,13 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
-import com.hopeofseed.hopeofseed.JNXData.PoliticData;
 import com.hopeofseed.hopeofseed.R;
-
 import java.util.ArrayList;
-
-import static com.hopeofseed.hopeofseed.R.id.tv_name;
 
 /**
  * 项目名称：liguangming
