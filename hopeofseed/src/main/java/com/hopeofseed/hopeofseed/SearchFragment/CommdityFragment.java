@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Activitys.AllCommodityActivity;
 import com.hopeofseed.hopeofseed.Adapter.CommodityRecycleListAdapter;
@@ -62,6 +63,7 @@ public class CommdityFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initView(View v) {
+
         btn_show_all = (Button) v.findViewById(R.id.btn_show_all);
         btn_show_all.setOnClickListener(this);
         recy_list = (RecyclerView) v.findViewById(R.id.recy_list);

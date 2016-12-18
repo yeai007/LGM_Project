@@ -556,6 +556,11 @@
             android:name=".Activitys.GroupNofityActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.CommoditySettingActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -41,6 +41,7 @@ import com.hopeofseed.hopeofseed.JNXDataTmp.CropDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
+import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 import java.io.File;
 import java.io.IOException;
@@ -51,6 +52,8 @@ import me.shaohui.advancedluban.Luban;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import static com.hopeofseed.hopeofseed.Activitys.PubishMainActivity.verifyStoragePermissions;
+import static com.hopeofseed.hopeofseed.R.color.text_content_color;
+
 /**
  * 项目名称：liguangming
  * 类描述：
@@ -325,7 +328,7 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
         if (requestCode == TO_SELECT_PHOTO && resultCode == RESULT_OK && null != data) {
 
             final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-            verifyStoragePermissions(this);
+                        if (isKitKat) {                 AppUtil.verifyStoragePermissions(this);             }
             Uri selectedImage = data.getData();
             mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
             if (images.size() < 10) {

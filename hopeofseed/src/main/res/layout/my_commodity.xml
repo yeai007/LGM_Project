@@ -2,19 +2,75 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mainbgcolor"
     android:orientation="vertical">
 
     <include
         android:id="@+id/top"
         layout="@layout/top_comright" />
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/lv_groups"
+    <RelativeLayout
+        android:id="@+id/rel_fenlei"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/top"
+        android:layout_marginTop="10dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/rel_arrow"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/imageview_padding">
+
+            <ImageView
+                android:id="@+id/img_all"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+
+                android:src="@drawable/arrow_all" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/rel_variety_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lin_search"
+            android:layout_toLeftOf="@+id/rel_arrow"
+            android:background="@drawable/rel_padding"
+            android:orientation="horizontal">
+
+            <com.hopeofseed.hopeofseed.ui.CategoryTabStripNoPager
+                android:id="@+id/category_strip"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:clipToPadding="false"
+                android:paddingLeft="6.0dip"
+                android:paddingRight="6.0dip" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/top" />
+        android:layout_below="@+id/rel_fenlei">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recy_catas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rel_padding"
+        android:layout_below="@+id/rel_fenlei"
+        android:visibility="gone" />
     <Button
         android:id="@+id/btn_add_commodity"
         android:layout_width="match_parent"

@@ -67,7 +67,7 @@ public class DistributorForCommodityAdapter extends RecyclerView.Adapter<Distrib
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, SettingCommodityActivity.class);
                 intent.putExtra("DistributorId", mData.getDistributorId());
-                MyCommodity.mactivity.startActivity(intent);
+                mContext.startActivity(intent);
             }
         });
     }

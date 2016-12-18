@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -15,13 +18,14 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.hopeofseed.hopeofseed.R;
-import java.util.ArrayList;
 
-import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
+import com.hopeofseed.hopeofseed.R;
+
+import java.util.ArrayList;
 
 
 public class CategoryTabStripNoPager extends HorizontalScrollView {
+    private static final String TAG = "CategoryTabStripNoPager";
     Context mContext;
     private LayoutInflater mLayoutInflater;
 
@@ -77,11 +81,12 @@ public class CategoryTabStripNoPager extends HorizontalScrollView {
         scrollOffset = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, scrollOffset, dm);
         defaultTabLayoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         // 绘制高亮区域作为滑动分页指示器
-        indicator = getResources().getDrawable(R.drawable.bg_category_indicator);
+        indicator = ContextCompat.getDrawable(mContext, R.drawable.bg_category_indicator);
         // 左右边界阴影效果
         //left_edge = getResources().getDrawable(R.drawable.ic_category_left_edge);
         //right_edge = getResources().getDrawable(R.drawable.ic_category_right_edge);
     }
+
 
     public void setData(ArrayList<String> arrData) {
         this.arrCropClass.clear();
@@ -107,7 +112,7 @@ public class CategoryTabStripNoPager extends HorizontalScrollView {
     private OnSelectListener mOnSelectListener;
 
     public void setOnSelectListener(OnSelectListener onSelectListener) {
-        mOnSelectListener=onSelectListener;
+        mOnSelectListener = onSelectListener;
     }
 
     private void addTab(final int position, String title) {
@@ -117,7 +122,7 @@ public class CategoryTabStripNoPager extends HorizontalScrollView {
         category_text.setGravity(Gravity.CENTER);
         category_text.setSingleLine();
         category_text.setFocusable(true);
-        category_text.setTextColor(getResources().getColor(R.color.category_tab_text));
+        category_text.setTextColor(ContextCompat.getColor(mContext, R.color.category_tab_text));
         category_text.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -208,7 +213,7 @@ public class CategoryTabStripNoPager extends HorizontalScrollView {
                     canvas.clipRect(indicatorRect);
                     textDrawable.setText(category_text.getText());
                     textDrawable.setTextSize(0, category_text.getTextSize());
-                    textDrawable.setTextColor(getResources().getColor(R.color.category_tab_highlight_text));
+                    textDrawable.setTextColor(ContextCompat.getColor(mContext, R.color.category_tab_highlight_text));
                     int left = tab.getLeft() + category_text.getLeft() + (category_text.getWidth() - textDrawable.getIntrinsicWidth()) / 2 + getPaddingLeft();
                     int top = tab.getTop() + category_text.getTop() + (category_text.getHeight() - textDrawable.getIntrinsicHeight()) / 2 + getPaddingTop();
                     textDrawable.setBounds(left, top, textDrawable.getIntrinsicWidth() + left, textDrawable.getIntrinsicHeight() + top);
@@ -221,8 +226,8 @@ public class CategoryTabStripNoPager extends HorizontalScrollView {
 
         i = canvas.save();
         int top = getScrollX();
-        int height = getHeight();
-        int width = getWidth();
+/*        int height = getHeight();
+        int width = getWidth();*/
         canvas.translate((float) top, 0.0f);
         canvas.restoreToCount(i);
     }

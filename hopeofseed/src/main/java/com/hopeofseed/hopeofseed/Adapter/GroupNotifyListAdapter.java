@@ -13,8 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.hopeofseed.hopeofseed.Activitys.SystemNofityDetailActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.GroupNotifyDataNorealm;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;

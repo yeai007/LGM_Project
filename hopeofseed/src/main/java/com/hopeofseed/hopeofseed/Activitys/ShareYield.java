@@ -48,6 +48,7 @@ import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.ShowImage;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
+import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.view.ImageSelectorActivity;
 
@@ -63,6 +64,7 @@ import rx.functions.Action1;
 
 import static android.R.id.edit;
 import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
+import static com.hopeofseed.hopeofseed.R.color.text_content_color;
 import static com.hopeofseed.hopeofseed.R.id.et_essay;
 import static com.hopeofseed.hopeofseed.R.id.et_yield_sum;
 
@@ -334,7 +336,9 @@ public class ShareYield extends AppCompatActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TO_SELECT_PHOTO && resultCode == RESULT_OK && null != data) {
             final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-            verifyStoragePermissions(this);
+            if (isKitKat) {
+                AppUtil.verifyStoragePermissions(this);
+            }
             Uri selectedImage = data.getData();
             mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
             if (images.size() < 10) {

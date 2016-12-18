@@ -97,7 +97,7 @@ public class CommodityListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, CommodityActivity.class);
                 intent.putExtra("CommodityId", itemData.getCommodityId());
-                MyCommodity.mactivity.startActivity(intent);
+                mContext.startActivity(intent);
             }
         });
         holder.tv_content.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +105,7 @@ public class CommodityListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, CommodityActivity.class);
                 intent.putExtra("CommodityId", itemData.getCommodityId());
-                MyCommodity.mactivity.startActivity(intent);
+                mContext.startActivity(intent);
             }
         });
         holder.tv_name.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +113,7 @@ public class CommodityListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, CommodityActivity.class);
                 intent.putExtra("CommodityId", itemData.getCommodityId());
-                MyCommodity.mactivity.startActivity(intent);
+                mContext.startActivity(intent);
             }
         });
         holder.btn_distributor_setting.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +121,7 @@ public class CommodityListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, SettingDistributorActivity.class);
                 intent.putExtra("CommodityId", itemData.getCommodityId());
-                MyCommodity.mactivity.startActivity(intent);
+                mContext.startActivity(intent);
             }
         });
         holder.img.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +129,7 @@ public class CommodityListAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, CommodityActivity.class);
                 intent.putExtra("CommodityId", itemData.getCommodityId());
-                MyCommodity.mactivity.startActivity(intent);
+                mContext.startActivity(intent);
             }
         });
 

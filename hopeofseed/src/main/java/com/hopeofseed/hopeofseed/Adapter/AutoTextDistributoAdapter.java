@@ -78,7 +78,7 @@ public class AutoTextDistributoAdapter extends BaseAdapter implements Filterable
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, SettingCommodityActivity.class);
                     intent.putExtra("DistributorId", mData.getDistributorId());
-                    MyCommodity.mactivity.startActivity(intent);
+                    mContext.startActivity(intent);
                 }
             });
             btn_search_from_web.setOnClickListener(new View.OnClickListener() {
@@ -92,7 +92,7 @@ public class AutoTextDistributoAdapter extends BaseAdapter implements Filterable
                         putStr = StrSearch.toString().toLowerCase();
                     }
                     intent.putExtra("StrSearch", putStr);
-                    MyCommodity.mactivity.startActivity(intent);
+                    mContext.startActivity(intent);
                 }
             });
 

@@ -19,13 +19,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Adapter.GroupMemberGridAdapter;
-import com.hopeofseed.hopeofseed.Adapter.listener;
+
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.R;
-
-import citypickerview.widget.CityPicker;
-
-import static com.hopeofseed.hopeofseed.R.id.chat_detail_group_address;
 
 public class ChatDetailView extends LinearLayout {
     private static final String TAG = "ChatDetailView";
@@ -175,7 +171,6 @@ public class ChatDetailView extends LinearLayout {
         mSplitLine2.setVisibility(View.GONE);
         mAllGroupMemberLL.setVisibility(View.GONE);
     }
-
     public void initNoDisturb(int status) {
         mNoDisturbBtn.setChecked(status == 1);
     }
@@ -190,14 +185,11 @@ public class ChatDetailView extends LinearLayout {
                 .centerCrop()
                 .into(img_user_avatar);
     }
-
-
     public void setDesc(String desc) {
         if (!TextUtils.isEmpty(desc)) {
             chat_detail_group_desc.setText(desc);
         }
     }
-
     public String getDesc() {
         return chat_detail_group_desc.getText().toString();
     }
@@ -216,8 +208,6 @@ public class ChatDetailView extends LinearLayout {
             no_disturb_rl.setVisibility(View.GONE);
             mGroupChatDelLL.setVisibility(View.GONE);
             mDelGroupBtn.setVisibility(View.GONE);
-
         }
-
     }
 }
