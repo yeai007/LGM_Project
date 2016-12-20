@@ -64,18 +64,14 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
         this.mList = list;
         inflater = LayoutInflater.from(mContext);
     }
-
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.group_list_item, null, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
-
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Log.e(TAG, "onBindViewHolder:getUnReadMsgCnt " + position);
         final GroupData itemData = mList.get(position);
         holder.item_content.setText(itemData.getAppGroupName());
         holder.item_address.setText(itemData.getAppGroupProvince() + "  " + itemData.getAppGroupCity() + "   " + itemData.getAppGroupZone());
@@ -85,7 +81,6 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
             public void gotResult(int i, String s, List<UserInfo> list) {
                 holder.item_members_count.setText(list.size() + "人");
                 if (list.contains(JMessageClient.getMyInfo())) {
-
                     isMember[0] = true;
                     holder.img_btn_join.setImageResource(R.drawable.is_join);
                     holder.rel_item.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +111,6 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
         holder.rel_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 if (isMember[0]) {
                     Intent intent = new Intent(mContext.getApplicationContext(), ChatActivity.class);
                     intent.putExtra(Application.GROUP_ID, Long.parseLong(itemData.getAppJpushGroupId()));
@@ -132,10 +126,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                             | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     mContext.startActivity(intent);
-
-
                 }
-
             }
         });
     }
@@ -150,7 +141,6 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
         TextView item_content, item_members_count, item_address;
         RelativeLayout rel_item;
         ImageButton img_btn_join;
-
         public ViewHolder(View itemView) {
             super(itemView);
             img_item = (ImageView) itemView.findViewById(R.id.img_item);

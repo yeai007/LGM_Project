@@ -61,7 +61,6 @@ public class NotifyListAdapter extends RecyclerView.Adapter<NotifyListAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.e(TAG, "onBindViewHolder:getUnReadMsgCnt " + position);
         final NotifyDataNorealm itemData = mList.get(position);
         updateTime(holder, itemData.getNotifyCreateTime());
         holder.item_title.setText(itemData.getNotifyTitle());

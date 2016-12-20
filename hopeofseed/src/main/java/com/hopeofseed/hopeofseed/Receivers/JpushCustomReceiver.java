@@ -61,6 +61,7 @@ public class JpushCustomReceiver extends IMReceiver {
             Log.e(TAG, "用户点击打开了通知");
             openNotification(context, bundle);
         } else if (intent.getAction().equals("cn.jpush.im.android.action.IM_RESPONSE")) {
+            Log.e(TAG, "cn.jpush.im.android.action.IM_RESPONSE");
             mHandler.postDelayed(rSendUpdateMessage, 3000);
         } else if (intent.getAction().equals("cn.jpush.im.android.action.NOTIFICATION_CLICK_PROXY")) {
             Log.e(TAG, "onReceive:用户打开了通知");

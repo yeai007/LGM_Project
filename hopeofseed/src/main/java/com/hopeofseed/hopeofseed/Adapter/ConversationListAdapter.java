@@ -54,11 +54,9 @@ public class ConversationListAdapter extends RecyclerView.Adapter<ConversationLi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Log.e(TAG, "onBindViewHolder:getUnReadMsgCnt " + position);
         final Conversation itemData = mList.get(position);
         String date = DateTools.getDateToString(String.valueOf(itemData.getLastMsgDate()));
         updateTime(holder,date);
-        Log.e(TAG, "onBindViewHolder: getUnReadMsgCnt" + itemData.getUnReadMsgCnt());
         holder.item_content.setText(itemData.getTitle());
         if (itemData.getUnReadMsgCnt() > 99) {
             holder.tv_unread_count.setText("99");

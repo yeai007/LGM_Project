@@ -3,9 +3,10 @@ package com.hopeofseed.hopeofseed.Adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +14,35 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Application;
+import com.hopeofseed.hopeofseed.Data.Const;
+import com.hopeofseed.hopeofseed.JNXData.ConvAndGroupData;
+import com.hopeofseed.hopeofseed.JNXData.GroupData;
 import com.hopeofseed.hopeofseed.R;
-import com.hopeofseed.hopeofseed.ui.chatting.BaseActivity;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
+import com.hopeofseed.hopeofseed.ui.chatting.utils.HandleResponseCode;
 import com.hopeofseed.hopeofseed.ui.iosDialog;
 import com.lgm.utils.DateTools;
 
 import java.text.ParseException;
 import java.util.List;
 
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.GetGroupInfoCallback;
+import cn.jpush.im.android.api.callback.GetUserInfoCallback;
+import cn.jpush.im.android.api.content.EventNotificationContent;
+import cn.jpush.im.android.api.content.TextContent;
+import cn.jpush.im.android.api.content.VoiceContent;
+import cn.jpush.im.android.api.enums.ContentType;
+import cn.jpush.im.android.api.enums.ConversationType;
+import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.Conversation;
+import cn.jpush.im.android.api.model.GroupInfo;
+import cn.jpush.im.android.api.model.Message;
+import cn.jpush.im.android.api.model.UserInfo;
 
+import static com.hopeofseed.hopeofseed.R.id.tv_content;
 
 /**
  * 项目名称：LGM_Project
@@ -37,11 +55,11 @@ import cn.jpush.im.android.api.model.Conversation;
  */
 public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadConversationListAdapter.ViewHolder> {
     private static final String TAG = "UnReadConversationListA";
-    List<Conversation> mList;
+    List<ConvAndGroupData> mList;
     Context mContext;
     private LayoutInflater inflater;
 
-    public UnReadConversationListAdapter(Context context, List<Conversation> list) {
+    public UnReadConversationListAdapter(Context context, List<ConvAndGroupData> list) {
         super();
         this.mContext = context;
         this.mList = list;
@@ -57,25 +75,161 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        Log.e(TAG, "onBindViewHolder:getUnReadMsgCnt " + position);
-        final Conversation itemData = mList.get(position);
-        String date = DateTools.getDateToString(String.valueOf(itemData.getLastMsgDate()));
-        updateTime(holder, date);
-        Log.e(TAG, "onBindViewHolder: getUnReadMsgCnt" + itemData.getUnReadMsgCnt());
-        //holder.item_content.setText();
-        if (itemData.getUnReadMsgCnt() > 99) {
-            holder.tv_unread_count.setText("99");
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        Conversation itemData = mList.get(position).getConversation();
+        final GroupData itemGroup = mList.get(position).getGroupData();
+        if (itemData == null) {
+            itemData = Conversation.createGroupConversation(Long.parseLong(itemGroup.getAppJpushGroupId()));
+        }
+        Log.i(TAG, "create group success");
+        JMessageClient.getGroupInfo(Long.parseLong(itemGroup.getAppJpushGroupId()), new GetGroupInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, GroupInfo groupInfo) {
+                GroupInfo getGroup = groupInfo;
+                holder.item_title.setText(getGroup.getGroupName());
+            }
+        });
+        if (itemData != null) {
+            holder.item_title.setVisibility(View.VISIBLE);
+            if (!TextUtils.isEmpty(itemGroup.getAppGroupAvatar())) {
+                Glide.with(mContext)
+                        .load(Const.IMG_URL + itemGroup.getAppGroupAvatar())
+                        .centerCrop()
+                        .into(holder.img_item);
+            } else {
+                Glide.with(mContext)
+                        .load(R.drawable.img_group_default)
+                        .centerCrop()
+                        .into(holder.img_item);
+            }
+            if (itemData.getUnReadMsgCnt() > 0) {
+                Message lastMessage = itemData.getLatestMessage();
+                if (itemData.getLatestMessage() != null) {
+                    String date = DateTools.getDateToString(String.valueOf(itemData.getLatestMessage().getCreateTime()));
+                    updateTime(holder, date);
+                }
+            }
+
+
+            if (itemData.getUnReadMsgCnt() > 99) {
+                Message lastMessage = itemData.getLatestMessage();
+                holder.tv_unread_count.setText("99");
+                holder.item_content.setVisibility(View.VISIBLE);
+                switch (lastMessage.getContentType()) {
+                    case text:
+                        TextContent textContent = (TextContent) lastMessage.getContent();
+                        holder.item_content.setText(textContent.getText());
+                        break;
+                    case image:
+                        holder.item_content.setText("[图片消息]");
+                        break;
+                    case voice:
+                        VoiceContent voiceContent = (VoiceContent) lastMessage.getContent();
+                        voiceContent.getLocalPath();//语音文件本地地址
+                        voiceContent.getDuration();//语音文件时长
+                        holder.item_content.setText("[语音消息]");
+                        break;
+                    case custom:
+                        holder.item_content.setText("新消息");
+                        break;
+                    case eventNotification:
+                        //处理事件提醒消息
+                        EventNotificationContent eventNotificationContent = (EventNotificationContent) lastMessage.getContent();
+                        switch (eventNotificationContent.getEventNotificationType()) {
+                            case group_member_added:
+                                //群成员加群事件
+                                holder.item_content.setText(eventNotificationContent.getEventText());
+                                holder.item_content.setSingleLine(false);
+                                holder.item_content.setMaxLines(1);
+                                holder.item_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+                                break;
+                            case group_member_removed:
+                                //群成员被踢事件
+                                holder.item_content.setText(eventNotificationContent.getEventText());
+                                break;
+                            case group_member_exit:
+                                //群成员退群事件
+                                holder.item_content.setText(eventNotificationContent.getEventText());
+                                break;
+                        }
+                        break;
+                }
+
+            } else {
+                Message lastMessage = itemData.getLatestMessage();
+                if (lastMessage == null) {
+                    holder.tv_unread_count.setVisibility(View.GONE);
+                    holder.img_unread_count.setVisibility(View.GONE);
+                    holder.item_content.setVisibility(View.GONE);
+                } else if (lastMessage != null) {
+                    if (itemData.getUnReadMsgCnt() > 0) {
+                        holder.tv_unread_count.setVisibility(View.VISIBLE);
+                        holder.img_unread_count.setVisibility(View.VISIBLE);
+                        holder.item_content.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.tv_unread_count.setVisibility(View.GONE);
+                        holder.img_unread_count.setVisibility(View.GONE);
+                        holder.item_content.setVisibility(View.GONE);
+                    }
+                    holder.tv_unread_count.setText("99");
+                    holder.item_content.setVisibility(View.VISIBLE);
+                    switch (lastMessage.getContentType()) {
+                        case text:
+                            TextContent textContent = (TextContent) lastMessage.getContent();
+                            holder.item_content.setText(textContent.getText());
+                            break;
+                        case image:
+                            holder.item_content.setText("[图片消息]");
+                            break;
+                        case voice:
+                            VoiceContent voiceContent = (VoiceContent) lastMessage.getContent();
+                            voiceContent.getLocalPath();//语音文件本地地址
+                            voiceContent.getDuration();//语音文件时长
+                            holder.item_content.setText("[语音消息]");
+                            break;
+                        case custom:
+                            holder.item_content.setText("新消息");
+                            break;
+                        case eventNotification:
+                            //处理事件提醒消息
+                            EventNotificationContent eventNotificationContent = (EventNotificationContent) lastMessage.getContent();
+                            switch (eventNotificationContent.getEventNotificationType()) {
+                                case group_member_added:
+                                    //群成员加群事件
+                                    holder.item_content.setText(eventNotificationContent.getEventText());
+                                    holder.item_content.setSingleLine(false);
+                                    holder.item_content.setMaxLines(1);
+                                    holder.item_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+                                    holder.item_content.setVisibility(View.VISIBLE);
+                                    break;
+                                case group_member_removed:
+                                    //群成员被踢事件
+                                    holder.item_content.setText(eventNotificationContent.getEventText());
+                                    holder.item_content.setVisibility(View.VISIBLE);
+                                    break;
+                                case group_member_exit:
+                                    //群成员退群事件
+                                    holder.item_content.setText(eventNotificationContent.getEventText());
+                                    holder.item_content.setVisibility(View.VISIBLE);
+                                    break;
+                            }
+                            break;
+                    }
+                }
+
+                holder.tv_unread_count.setText(String.valueOf(itemData.getUnReadMsgCnt()));
+            }
+
         } else {
-            holder.tv_unread_count.setText(String.valueOf(itemData.getUnReadMsgCnt()));
+
         }
         holder.rel_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent notificationIntent = new Intent(mContext, ChatActivity.class);
 
-                notificationIntent.putExtra(Application.TARGET_APP_KEY, itemData.getTargetAppKey());
-                notificationIntent.putExtra(Application.GROUP_ID, Long.parseLong(itemData.getTargetId()));
+                notificationIntent.putExtra(Application.TARGET_APP_KEY, itemGroup.getAppJpushGroupId());
+                notificationIntent.putExtra(Application.GROUP_ID, Long.parseLong(itemGroup.getAppJpushGroupId()));
 
                 notificationIntent.putExtra("fromGroup", false);
                 notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -93,7 +247,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Log.e(TAG, "onClick: 确认删除");
-                                itemData.setUnReadMessageCnt(0);
+                                mList.get(position).getConversation().setUnReadMessageCnt(0);
                                 mList.remove(position);
                                 notifyItemRemoved(position);
                                 dialog.dismiss();
@@ -123,17 +277,19 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView img_item;
-        TextView item_content, tv_unread_count, tv_time;
+        ImageView img_item, img_unread_count;
+        TextView item_content, tv_unread_count, tv_time, item_title;
         RelativeLayout rel_item;
 
         public ViewHolder(View itemView) {
             super(itemView);
             img_item = (ImageView) itemView.findViewById(R.id.img_item);
+            img_unread_count = (ImageView) itemView.findViewById(R.id.img_unread_count);
             item_content = (TextView) itemView.findViewById(R.id.item_content);
             tv_unread_count = (TextView) itemView.findViewById(R.id.tv_unread_count);
             rel_item = (RelativeLayout) itemView.findViewById(R.id.rel_item);
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);
+            item_title = (TextView) itemView.findViewById(R.id.item_title);
         }
     }
 
@@ -161,4 +317,5 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
             holder.tv_time.setText(DateTools.StringDateTimeToDateNoYear(time));
         }
     }
+
 }

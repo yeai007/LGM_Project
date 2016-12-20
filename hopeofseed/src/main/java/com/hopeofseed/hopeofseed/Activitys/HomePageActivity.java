@@ -1,12 +1,15 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,13 +21,24 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.util.LogTime;
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.ui.chatting.BaseActivity;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.content.EventNotificationContent;
+import cn.jpush.im.android.api.enums.ContentType;
+import cn.jpush.im.android.api.enums.ConversationType;
+import cn.jpush.im.android.api.event.MessageEvent;
+import cn.jpush.im.android.api.model.Conversation;
+
+import static cn.jpush.im.android.api.model.Conversation.createGroupConversation;
+import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
 
 
 /**
@@ -37,6 +51,8 @@ import java.util.List;
  * 修改备注：
  */
 public class HomePageActivity extends FragmentActivity {
+    private static final String TAG = "HomePageActivity";
+    public static String MESSAGE_RECEIVE = "MESSAGE_RECEIVE";
     private ViewPager vp_main;
     private MainViewPagerAdapter mainViewPagerAdapter;
     /**
@@ -51,13 +67,45 @@ public class HomePageActivity extends FragmentActivity {
     public Button btn_topright, btn_topleft;
     int page = 2;
     TextView apptitle;
-RadioButton two;
+    RadioButton two;
+
+    class UpdateBroadcastReceiver extends BroadcastReceiver {
+        /* 覆写该方法，对广播事件执行响应的动作  */
+        public void onReceive(Context context, Intent intent) {
+            Log.e(TAG, "onReceive: 收到启动消息广播");
+            registerJpush();
+        }
+    }
+
+    private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         initView();
+        initReceiver();
+    }
+
+    @Override
+    protected void onDestroy() {
+        JMessageClient.unRegisterEventReceiver(this);
+        unregisterReceiver(updateBroadcastReceiver);
+        super.onDestroy();
+    }
+
+    private void initReceiver() {
+
+        // 注册广播接收
+        updateBroadcastReceiver = new UpdateBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MESSAGE_RECEIVE);    //只有持有相同的action的接受者才能接收此广播
+        registerReceiver(updateBroadcastReceiver, filter);
+    }
+
+    public void registerJpush() {
+        JMessageClient.registerEventReceiver(this);
     }
 
     private void initView() {
@@ -81,7 +129,7 @@ RadioButton two;
         vp_main.setAdapter(mainViewPagerAdapter);
         vp_main.setOffscreenPageLimit(4);
         rg_menu.setOnCheckedChangeListener(mChangeRadio);
-        two=(RadioButton)findViewById(R.id.two) ;
+        two = (RadioButton) findViewById(R.id.two);
         btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topleft = (Button) findViewById(R.id.btn_topleft);
         vp_main.setCurrentItem(page);
@@ -202,6 +250,49 @@ RadioButton two;
             two.setBackgroundResource(R.drawable.btn_main_radio_xiaoxi_message);
         } else {
             two.setBackgroundResource(R.drawable.btn_main_radio_xiaoxi);
+        }
+    }
+
+    /**
+     * 接收群成员变化事件
+     *
+     * @param event 消息事件
+     */
+    public void onEvent(MessageEvent event) {
+        Log.e(TAG, "onEvent: onEvent");
+        final cn.jpush.im.android.api.model.Message msg = event.getMessage();
+        if (msg.getContentType() == ContentType.eventNotification) {
+            EventNotificationContent.EventNotificationType msgType = ((EventNotificationContent) msg
+                    .getContent()).getEventNotificationType();
+            EventNotificationContent eventNotificationContent = (EventNotificationContent) msg.getContent();
+            switch (msgType) {
+                //添加群成员事件特殊处理
+                case group_member_added:
+                    String targetId = msg.getTargetID();
+                    String appKey = msg.getFromAppKey();
+                    ConversationType type = msg.getTargetType();
+                    if (type == ConversationType.single) {
+                        Log.e(TAG, "onEvent: createSingleConversation");
+                        Conversation con = JMessageClient.getGroupConversation(Long.parseLong(targetId));
+                        if (con == null) {
+                            con = createGroupConversation(Long.parseLong(targetId));
+                        }
+                        con.setUnReadMessageCnt(1);
+                    } else {
+
+                        Conversation con = JMessageClient.getGroupConversation(Long.parseLong(targetId));
+                        if (con == null) {
+                            Log.e(TAG, "onEvent: createGroupConversation");
+                            con = Conversation.createGroupConversation(Long.parseLong(targetId));
+                        }
+                        con.setUnReadMessageCnt(1);
+                    }
+                    break;
+                case group_member_removed:
+                    break;
+                case group_member_exit:
+                    break;
+            }
         }
     }
 }

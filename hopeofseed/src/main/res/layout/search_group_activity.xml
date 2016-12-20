@@ -32,10 +32,10 @@
                 android:drawableLeft="@drawable/search_icon"
                 android:drawablePadding="5dp"
                 android:hint="请输入关键字"
-                android:imeOptions="actionSearch"
+
                 android:inputType="text"
                 android:textSize="16sp" />
-
+            <!--                android:imeOptions="actionSearch"-->
             <ImageView
                 android:id="@+id/search_iv_delete"
                 android:layout_width="wrap_content"

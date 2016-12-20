@@ -19,14 +19,31 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/img_pinglun" />
+            android:src="@drawable/img_pinglun"
+            />
+
+        <TextView
+            android:id="@+id/item_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/img_item"
+            android:gravity="left|center"
+            android:text="标题"
+            android:textColor="@color/text_title_color"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/item_content"
             android:layout_width="wrap_content"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_title"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/img_item"
+            android:maxLines="1"
+            android:layout_marginRight="40dp"
             android:gravity="left|center"
             android:text="评论"
             android:textColor="@color/text_title_color" />
@@ -46,10 +63,11 @@
                 android:layout_marginTop="2dp" />
 
             <ImageView
+                android:id="@+id/img_unread_count"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:src="@drawable/img_message_count" />
 
@@ -57,8 +75,8 @@
                 android:id="@+id/tv_unread_count"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:text="10"

@@ -2,8 +2,6 @@ package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +11,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.GroupNotifyDataNorealm;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
-import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.iosDialog;
 import com.lgm.utils.DateTools;
@@ -63,7 +61,6 @@ public class GroupNotifyListAdapter extends RecyclerView.Adapter<GroupNotifyList
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Log.e(TAG, "onBindViewHolder:getUnReadMsgCnt " + position);
         final GroupNotifyDataNorealm itemData = mList.get(position);
         updateTime(holder, itemData.getAppGroupApplyTime());
         holder.item_title.setText(itemData.getAppGroupApplyTitle());
@@ -118,9 +115,6 @@ public class GroupNotifyListAdapter extends RecyclerView.Adapter<GroupNotifyList
 
                 NotifyData inNotifyData = myRealm.copyToRealmOrUpdate(results1);
                 myRealm.commitTransaction();
-
-
-                //Log.e(TAG, "onClick: "+itemData.getAppGroupApplyGroupId()+arrUser);
                 JMessageClient.addGroupMembers(Long.parseLong(itemData.getAppGroupApplyGroupId()), arrUser, new BasicCallback() {
                     @Override
                     public void gotResult(int i, String s) {

@@ -75,7 +75,6 @@ public class HuodongListAdapter extends RecyclerView.Adapter<HuodongListAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        Log.e(TAG, "onBindViewHolder:getUnReadMsgCnt " + position);
         final HuodongData itemData = mList.get(position);
         String[] arrImage = itemData.getHuodongImg().split(";");
         List<String> images = java.util.Arrays.asList(arrImage);

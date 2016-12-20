@@ -36,6 +36,7 @@ public class JpushUtil {
     private static final String TAG = "JpushUtil";
     Context mContext;
     private int initCount = 0;
+    public static String MESSAGE_RECEIVE = "MESSAGE_RECEIVE";
 
     public JpushUtil(Context context) {
         super();
@@ -66,6 +67,9 @@ public class JpushUtil {
                     if (responseCode == 0) {
                         Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT).show();
                         Log.i(TAG, "JMessageClient.login" + ", responseCode = " + responseCode + " ; LoginDesc = " + LoginDesc);
+                        Intent intent_update = new Intent();  //Itent就是我们要发送的内容
+                        intent_update.setAction(MESSAGE_RECEIVE);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+                        mContext.sendBroadcast(intent_update);   //发送广播
                         updateJpushNickName();
                     } else if (responseCode == 871308) {
                         Log.e(TAG, "gotResult: 尚未初始化/初始化失败->重新初始化");

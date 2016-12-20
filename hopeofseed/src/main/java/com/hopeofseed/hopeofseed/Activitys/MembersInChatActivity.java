@@ -24,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.hopeofseed.hopeofseed.Adapter.AllMembersAdapter;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.R;
@@ -31,11 +32,13 @@ import com.hopeofseed.hopeofseed.ui.chatting.BaseActivity;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.DialogCreator;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.HandleResponseCode;
 import com.hopeofseed.hopeofseed.ui.tools.HanyuPinyin;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.Conversation;
@@ -72,6 +75,7 @@ public class MembersInChatActivity extends BaseActivity {
     private boolean mIsDeleteMode;
     private boolean mIsCreator;
     private String mSearchText;
+    Button btn_topright;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +89,8 @@ public class MembersInChatActivity extends BaseActivity {
         mReturnBtn = (ImageButton) findViewById(R.id.return_btn);
         mTitle = (TextView) findViewById(R.id.number_tv);
         mRightBtn = (Button) findViewById(R.id.right_btn);
+        btn_topright = (Button) findViewById(R.id.btn_topright);
+
         mSearchEt = (EditText) findViewById(R.id.search_et);
         mBackgroundThread = new HandlerThread("Work on MembersInChatActivity");
         mBackgroundThread.start();
@@ -104,12 +110,17 @@ public class MembersInChatActivity extends BaseActivity {
         mTitle.setText(String.format(title, mMemberInfoList.size() + ""));
         if (mIsDeleteMode) {
             mRightBtn.setText(this.getString(R.string.jmui_delete));
+            btn_topright.setText("删除");
+            btn_topright.setVisibility(View.VISIBLE);
         } else {
             mRightBtn.setText(this.getString(R.string.add));
+            btn_topright.setText("添加");
+            btn_topright.setVisibility(View.VISIBLE);
         }
         mReturnBtn.setOnClickListener(listener);
         mRightBtn.setOnClickListener(listener);
         mSearchEt.addTextChangedListener(watcher);
+        btn_topright.setOnClickListener(listener);
     }
 
     View.OnClickListener listener = new View.OnClickListener() {
@@ -135,6 +146,16 @@ public class MembersInChatActivity extends BaseActivity {
                     Intent intent1 = new Intent();
                     setResult(Application.RESULT_CODE_ALL_MEMBER, intent1);
                     finish();
+                    break;
+                case R.id.btn_topright:
+                    if (mIsDeleteMode) {
+                        List<String> deleteList = mAdapter.getSelectedList();
+                        if (deleteList.size() > 0) {
+                            showDeleteMemberDialog(deleteList);
+                        }
+                    } else {
+                        addMemberToGroup();
+                    }
                     break;
             }
         }

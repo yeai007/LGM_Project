@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,32 +22,33 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.hopeofseed.hopeofseed.Adapter.UnReadConversationListAdapter;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.ConvAndGroupData;
+import com.hopeofseed.hopeofseed.JNXData.GroupData;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.UserMessageData;
 import com.hopeofseed.hopeofseed.JNXData.pushFileResult;
+import com.hopeofseed.hopeofseed.JNXDataTmp.GroupDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserMessageDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
+import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
 import com.lgm.utils.ObjectUtil;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import cn.jpush.im.android.api.model.Conversation;
+import java.util.List;
+import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.android.api.callback.GetGroupIDListCallback;
 import io.realm.Realm;
 import io.realm.RealmResults;
-
-import static cn.jpush.im.android.api.JMessageClient.getConversationList;
-import static com.hopeofseed.hopeofseed.R.drawable.jmui_picture_not_found;
-import static com.hopeofseed.hopeofseed.R.id.img_corner;
-
 
 /**
  * 项目名称：liguangming
@@ -67,14 +69,17 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     RelativeLayout rel_pinglun, rel_zan, rel_hangye, rel_xitong, rel_group;
     RecyclerView recycler_list;
     UnReadConversationListAdapter mAdapter;
-    ArrayList<Conversation> mList = new ArrayList<>();
-    ArrayList<Conversation> mListTmp = new ArrayList<>();
+    ArrayList<GroupData> arrGroupListTmp = new ArrayList<>();
+    ArrayList<ConvAndGroupData> arrConvAndGroupDataTmpUnRead = new ArrayList<>();
+    ArrayList<ConvAndGroupData> arrConvAndGroupDataTmp = new ArrayList<>();
+    ArrayList<ConvAndGroupData> arrConvAndGroupData = new ArrayList<>();
     private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
     Handler mHandler = new Handler();
     Realm myRealm = Realm.getDefaultInstance();
     ImageView pinglun_img, xitong_img, hangye_img, group_img;
     TextView pinglun_unread_count, xitong_unread_count, hangye_unread_count, group_unread_count;
     int unReadCount = 0;
+    private SwipeRefreshLayout mRefreshLayout;
 
     @Nullable
     @Override
@@ -87,7 +92,9 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         return v;
     }
 
+
     private void initReceiver() {
+
         // 注册广播接收
         updateBroadcastReceiver = new UpdateBroadcastReceiver();
         IntentFilter filter = new IntentFilter();
@@ -96,10 +103,14 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     }
 
     private void getData() {
-        if ((ArrayList<Conversation>) getConversationList() != null) {
-            mListTmp = (ArrayList<Conversation>) getConversationList();
-            mHandler.post(updatelist);
-        }
+        JMessageClient.getGroupIDList(new GetGroupIDListCallback() {
+            @Override
+            public void gotResult(int i, String s, List<Long> list) {
+                if (i == 0) {
+                    getGroupHttp(list);
+                }
+            }
+        });
     }
 
     private void getNotifyData() {
@@ -170,7 +181,7 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         @Override
         public void run() {
             if (unReadCount > 0) {
-               // pinglun_img.setImageResource(R.drawable.img_message_count);
+                // pinglun_img.setImageResource(R.drawable.img_message_count);
                 Glide.with(getActivity())
                         .load(R.drawable.img_message_count)
                         .centerCrop()
@@ -192,16 +203,11 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     Runnable updatelist = new Runnable() {
         @Override
         public void run() {
-            Log.e(TAG, "getData: " + mListTmp);
-            if (mListTmp.size() > 0) {
-                mList.clear();
-                for (int i = 0; i < mListTmp.size(); i++) {
-                    if (mListTmp.get(i).getUnReadMsgCnt() > 0) {
-                        mList.add(mListTmp.get(i));
-                    }
-                }
-                mAdapter.notifyDataSetChanged();
-            }
+            mRefreshLayout.setRefreshing(false);
+            arrConvAndGroupData.clear();
+            arrConvAndGroupData.addAll(arrConvAndGroupDataTmpUnRead);
+            arrConvAndGroupData.addAll(arrConvAndGroupDataTmp);
+            mAdapter.notifyDataSetChanged();
         }
     };
 
@@ -218,9 +224,38 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         hu.httpPost(Const.BASE_URL + "GetUserMessageData.php", opt_map, UserMessageDataTmp.class, this);
     }
 
+    private void getGroupHttp(List<Long> list) {
+        Gson mGson = new GsonBuilder()
+                .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
+                .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                .create();
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("AllGroupIds", mGson.toJson(list));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "GetGroupHttp.php", opt_map, GroupDataTmp.class, this);
+    }
+
     private void initView(View v) {
         TextView app_title = (TextView) v.findViewById(R.id.apptitle);
         app_title.setText("消息");
+
+
+        mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.layout_swipe_refresh);
+        //这个是下拉刷新出现的那个圈圈要显示的颜色
+        mRefreshLayout.setColorSchemeResources(
+                R.color.colorRed,
+                R.color.colorYellow,
+                R.color.colorGreen
+        );
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.e(TAG, "onReceive: 收到广播");
+                getData();
+                getNotifyData();
+            }
+        });
+
         (v.findViewById(R.id.btn_topright)).setOnClickListener(listener);
         (v.findViewById(R.id.btn_topleft)).setOnClickListener(listener);
         RelativeLayout rel_search = (RelativeLayout) v.findViewById(R.id.rel_search);
@@ -248,7 +283,7 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         recycler_list.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recycler_list.setLayoutManager(layoutManager);
-        mAdapter = new UnReadConversationListAdapter(getActivity(), mList);
+        mAdapter = new UnReadConversationListAdapter(getActivity(), arrConvAndGroupData);
         recycler_list.setAdapter(mAdapter);
     }
 
@@ -298,6 +333,28 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
             pushFileResult mPushFileResult = ((pushFileResultTmp) rspBaseBean).getDetail();
             unReadCount = mPushFileResult.getNew_id();
             mHandle.post(updateCommend);
+        } else if (rspBaseBean.RequestSign.equals("GetGroupHttp")) {
+            GroupDataTmp mGroupDataTmp = ObjectUtil.cast(rspBaseBean);
+            arrGroupListTmp = mGroupDataTmp.getDetail();
+            arrConvAndGroupDataTmpUnRead.clear();
+            arrConvAndGroupDataTmp.clear();
+            for (int i = 0; i < arrGroupListTmp.size(); i++) {
+                ConvAndGroupData mConvAndGroupData = new ConvAndGroupData();
+                mConvAndGroupData.setConversation(JMessageClient.getGroupConversation(Long.parseLong(arrGroupListTmp.get(i).getAppJpushGroupId())));
+                mConvAndGroupData.setGroupData(arrGroupListTmp.get(i));
+                if (mConvAndGroupData.getConversation() == null) {
+                    arrConvAndGroupDataTmp.add(mConvAndGroupData);
+                } else {
+                    if (mConvAndGroupData.getConversation().getUnReadMsgCnt() > 0) {
+                        Log.e(TAG, "onSuccess: getUnReadMsgCnt" + mConvAndGroupData.getConversation().getUnReadMsgCnt()+mConvAndGroupData.getGroupData().getAppGroupName());
+                        arrConvAndGroupDataTmpUnRead.add(mConvAndGroupData);
+                    } else {
+                        arrConvAndGroupDataTmp.add(mConvAndGroupData);
+                        Log.e(TAG, "onSuccess: getUnReadMsgCnt" + mConvAndGroupData.getConversation().getUnReadMsgCnt()+mConvAndGroupData.getGroupData().getAppGroupName());
+                    }
+                }
+            }
+            mHandle.post(updatelist);
         } else {
             arrUserMessageDataTmp = ((UserMessageDataTmp) rspBaseBean).getDetail();
         }
@@ -351,14 +408,15 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         }
     }
 
-    class UpdateBroadcastReceiver extends BroadcastReceiver {
 
+    class UpdateBroadcastReceiver extends BroadcastReceiver {
         /* 覆写该方法，对广播事件执行响应的动作  */
         public void onReceive(Context context, Intent intent) {
-
             Log.e(TAG, "onReceive: 收到广播");
             getData();
             getNotifyData();
         }
     }
+
+
 }
