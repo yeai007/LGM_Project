@@ -38,7 +38,9 @@ import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
 import com.hopeofseed.hopeofseed.Activitys.BrowserViewPagerActivity;
+import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.Application;
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.ui.CircleImageView;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.DialogCreator;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.FileHelper;
@@ -522,7 +524,7 @@ public class MsgListAdapter extends BaseAdapter {
             } else {
                 long lastDate = mMsgList.get(position - 1).getCreateTime();
                 // 如果两条消息之间的间隔超过十分钟则显示时间
-                if (nowDate - lastDate > 600000) {
+                if (nowDate - lastDate > 0) {
                     TimeFormat timeFormat = new TimeFormat(mContext, nowDate);
                     msgTime.setText(timeFormat.getDetailTime());
                     msgTime.setVisibility(View.VISIBLE);
@@ -540,7 +542,7 @@ public class MsgListAdapter extends BaseAdapter {
             } else {
                 long lastDate = mMsgList.get(position - 1).getCreateTime();
                 // 如果两条消息之间的间隔超过十分钟则显示时间
-                if (nowDate - lastDate > 600000) {
+                if (nowDate - lastDate > 0) {
                     TimeFormat timeFormat = new TimeFormat(mContext, nowDate);
                     msgTime.setText(timeFormat.getDetailTime());
                     msgTime.setVisibility(View.VISIBLE);
@@ -574,21 +576,20 @@ public class MsgListAdapter extends BaseAdapter {
 
                 @Override
                 public void onClick(View arg0) {
-                 /*   Intent intent = new Intent();
+                   Intent intent = new Intent();
                     if (msg.getDirect() == MessageDirect.send) {
-                        intent.putExtra(Application.TARGET_ID, mTargetId);
+                     /*   intent.putExtra(Application.TARGET_ID, mTargetId);
                         Log.i(TAG, "msg.getFromName() " + mTargetId);
                         intent.setClass(mContext, MeInfoActivity.class);
-                        mContext.startActivity(intent);
+                        mContext.startActivity(intent);*/
                     } else {
                         String targetID = userInfo.getUserName();
-                        intent.putExtra(Application.TARGET_ID, targetID);
-                        intent.putExtra(Application.TARGET_APP_KEY, userInfo.getAppKey());
-                        intent.putExtra(Application.GROUP_ID, mGroupId);
-                        intent.setClass(mContext, FriendInfoActivity.class);
+                        intent.putExtra("userid",targetID.replace(Const.JPUSH_PREFIX,""));
+
+                        intent.setClass(mContext, UserActivity.class);
                         ((Activity) mContext).startActivityForResult(intent,
                                 Application.REQUEST_CODE_FRIEND_INFO);
-                    }*/
+                    }
                 }
             });
         }

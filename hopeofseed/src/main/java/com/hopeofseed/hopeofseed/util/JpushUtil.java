@@ -12,6 +12,10 @@ import com.hopeofseed.hopeofseed.Adapter.NewsListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.R;
 
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
@@ -66,6 +70,16 @@ public class JpushUtil {
                 public void gotResult(int responseCode, String LoginDesc) {
                     if (responseCode == 0) {
                         Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT).show();
+                        JPushInterface.setAlias(mContext, Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim(), new TagAliasCallback() {
+                            @Override
+                            public void gotResult(int i, String s, Set<String> set) {
+                                if (i == 0) {
+                                    Log.e(TAG, "gotResult: jpush别名设置成功");
+                                } else {
+                                    Log.e(TAG, "gotResult: 别名设置失败");
+                                }
+                            }
+                        });
                         Log.i(TAG, "JMessageClient.login" + ", responseCode = " + responseCode + " ; LoginDesc = " + LoginDesc);
                         Intent intent_update = new Intent();  //Itent就是我们要发送的内容
                         intent_update.setAction(MESSAGE_RECEIVE);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播

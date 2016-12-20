@@ -95,6 +95,7 @@ public class SeedfriendDataAdapter extends BaseAdapter {
         JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
+                holder.img_corner.setVisibility(View.GONE);
                 switch (user_role) {
                     case 0:
                         Log.e(TAG, "gotResult: 农友");
@@ -204,6 +205,46 @@ public class SeedfriendDataAdapter extends BaseAdapter {
                         if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
                                     .load(R.drawable.header_author_default)
+                                    .centerCrop()
+                                    .into(holder.img_user_avatar);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user_avatar);
+                        }
+                    case 5:
+                        holder.tv_user_role.setText("【媒体】");
+                        holder.img_corner.setVisibility(View.GONE);
+                        Glide.with(mContext)
+                                .load(R.drawable.user_media)
+                                .centerCrop()
+                                .into(holder.img_user_avatar);
+
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.user_media)
+                                    .centerCrop()
+                                    .into(holder.img_user_avatar);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder.img_user_avatar);
+                        }
+                    case 6:
+                        holder.tv_user_role.setText("【管理员】");
+                        holder.img_corner.setVisibility(View.GONE);
+                        Glide.with(mContext)
+                                .load(R.drawable.user_system)
+                                .centerCrop()
+                                .into(holder.img_user_avatar);
+
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.user_system)
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
 

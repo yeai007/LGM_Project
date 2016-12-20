@@ -324,5 +324,16 @@ public class DateTools {
 
     }
 
+    /**
+     * 调用此方法输入所要转换的时间戳(Long)输入例如（1402733340）输出（"yyyy-MM-dd HH:mm:ss"）
+     *
+     * @param time
+     * @return
+     */
+    public static String getLongToString(long cc_time) {
+        SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sd.format(cc_time);
+
+    }
 
 }

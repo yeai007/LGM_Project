@@ -9,11 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
 import com.hopeofseed.hopeofseed.Adapter.NotifyListAdapter;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
 import com.hopeofseed.hopeofseed.R;
+
 import java.util.ArrayList;
+
 import cn.jpush.im.android.api.model.Conversation;
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -34,20 +37,21 @@ public class SystemNofityActivity extends AppCompatActivity implements View.OnCl
     ArrayList<Conversation> mListTmp = new ArrayList<>();
     Handler mHandler = new Handler();
     Realm myRealm = Realm.getDefaultInstance();
-    String type="1";
+    String type = "1";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.system_notify_activity);
-        Intent intent=getIntent();
-        type=intent.getStringExtra("type");
+        Intent intent = getIntent();
+        type = intent.getStringExtra("type");
         initView();
         getData();
     }
 
     private void getData() {
         RealmResults<NotifyData> results1 =
-                myRealm.where(NotifyData.class).equalTo("NotifyIsRead",  "0").equalTo("NotifyType", type).findAll();
+                myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", type).findAll();
         for (NotifyData item : results1) {
             NotifyDataNorealm mNotifyDataNorealm = new NotifyDataNorealm();
             mNotifyDataNorealm.setNotifyId(item.getNotifyId());
@@ -68,7 +72,11 @@ public class SystemNofityActivity extends AppCompatActivity implements View.OnCl
 
     private void initView() {
         TextView appTitle = (TextView) findViewById(R.id.apptitle);
-        appTitle.setText("系统通知");
+        if (type.equals("1")) {
+            appTitle.setText("系统通知");
+        } else {
+            appTitle.setText("行业通知");
+        }
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         recycler_list = (RecyclerView) findViewById(R.id.recycler_list);
         recycler_list.setHasFixedSize(true);

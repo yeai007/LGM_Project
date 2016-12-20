@@ -17,11 +17,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hopeofseed.hopeofseed.Adapter.UnReadConversationListAdapter;
@@ -32,7 +30,6 @@ import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.ConvAndGroupData;
 import com.hopeofseed.hopeofseed.JNXData.GroupData;
-import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.UserMessageData;
 import com.hopeofseed.hopeofseed.JNXData.pushFileResult;
 import com.hopeofseed.hopeofseed.JNXDataTmp.GroupDataTmp;
@@ -42,13 +39,17 @@ import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
 import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
 import com.lgm.utils.ObjectUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetGroupIDListCallback;
-import io.realm.Realm;
-import io.realm.RealmResults;
+import cn.jpush.im.android.api.model.Conversation;
+
+import static cn.jpush.im.android.api.enums.ConversationType.single;
+
 
 /**
  * 项目名称：liguangming
@@ -66,7 +67,6 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     ArrayList<UserMessageData> arrUserMessageData = new ArrayList<>();
     ArrayList<UserMessageData> arrUserMessageDataTmp = new ArrayList<>();
     Handler mHandle = new Handler();
-    RelativeLayout rel_pinglun, rel_zan, rel_hangye, rel_xitong, rel_group;
     RecyclerView recycler_list;
     UnReadConversationListAdapter mAdapter;
     ArrayList<GroupData> arrGroupListTmp = new ArrayList<>();
@@ -75,11 +75,9 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     ArrayList<ConvAndGroupData> arrConvAndGroupData = new ArrayList<>();
     private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
     Handler mHandler = new Handler();
-    Realm myRealm = Realm.getDefaultInstance();
-    ImageView pinglun_img, xitong_img, hangye_img, group_img;
-    TextView pinglun_unread_count, xitong_unread_count, hangye_unread_count, group_unread_count;
     int unReadCount = 0;
     private SwipeRefreshLayout mRefreshLayout;
+    ArrayList<Conversation> arrConversation = new ArrayList<>();
 
     @Nullable
     @Override
@@ -115,98 +113,20 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
 
     private void getNotifyData() {
         getUnReadComment();
-        //系统通知
-        RealmResults<NotifyData> results1 =
-                myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "1").findAll();
-        if (results1.size() > 0) {
-            //xitong_img.setImageResource(R.drawable.img_message_count);
-            Glide.with(getActivity())
-                    .load(R.drawable.img_message_count)
-                    .centerCrop()
-                    .into(xitong_img);
-            xitong_unread_count.setVisibility(View.VISIBLE);
-            xitong_unread_count.setText(String.valueOf(results1.size()));
-            ((HomePageActivity) getActivity()).isHavaMessage(true);
-        } else {
-            //xitong_img.setImageResource(R.drawable.right_arrow);
-            Glide.with(getActivity())
-                    .load(R.drawable.right_arrow)
-                    .centerCrop()
-                    .into(xitong_img);
-            xitong_unread_count.setVisibility(View.INVISIBLE);
-        }
-        //行业通知
-        RealmResults<NotifyData> results2 =
-                myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "2").findAll();
-        if (results2.size() > 0) {
-            //  hangye_img.setImageResource(R.drawable.img_message_count);
-            Glide.with(getActivity())
-                    .load(R.drawable.img_message_count)
-                    .centerCrop()
-                    .into(hangye_img);
-            hangye_unread_count.setVisibility(View.VISIBLE);
-            hangye_unread_count.setText(String.valueOf(results2.size()));
-            ((HomePageActivity) getActivity()).isHavaMessage(true);
-        } else {
-            //hangye_img.setImageResource(R.drawable.right_arrow);
-            Glide.with(getActivity())
-                    .load(R.drawable.right_arrow)
-                    .centerCrop()
-                    .into(hangye_img);
-            hangye_unread_count.setVisibility(View.INVISIBLE);
-        }
-        //群通知
-        RealmResults<NotifyData> results3 =
-                myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "3").findAll();
-        if (results3.size() > 0) {
-            //group_img.setImageResource(R.drawable.img_message_count);
-            Glide.with(getActivity())
-                    .load(R.drawable.img_message_count)
-                    .centerCrop()
-                    .into(group_img);
-            group_unread_count.setVisibility(View.VISIBLE);
-            group_unread_count.setText(String.valueOf(results3.size()));
-            ((HomePageActivity) getActivity()).isHavaMessage(true);
-        } else {
-            //  group_img.setImageResource(R.drawable.right_arrow);
-            Glide.with(getActivity())
-                    .load(R.drawable.right_arrow)
-                    .centerCrop()
-                    .into(group_img);
-            group_unread_count.setVisibility(View.INVISIBLE);
-        }
     }
 
     Runnable updateCommend = new Runnable() {
         @Override
         public void run() {
-            if (unReadCount > 0) {
-                // pinglun_img.setImageResource(R.drawable.img_message_count);
-                Glide.with(getActivity())
-                        .load(R.drawable.img_message_count)
-                        .centerCrop()
-                        .into(pinglun_img);
-                pinglun_unread_count.setVisibility(View.VISIBLE);
-                pinglun_unread_count.setText(String.valueOf(unReadCount));
-                ((HomePageActivity) getActivity()).isHavaMessage(true);
-            } else {
-                //pinglun_img.setImageResource(R.drawable.right_arrow);
-                Glide.with(getActivity())
-                        .load(R.drawable.right_arrow)
-                        .centerCrop()
-                        .into(pinglun_img);
-                pinglun_unread_count.setVisibility(View.INVISIBLE);
-            }
-
+            mAdapter.setPinglun(unReadCount);
+            mAdapter.notifyItemChanged(0);
         }
     };
     Runnable updatelist = new Runnable() {
         @Override
         public void run() {
             mRefreshLayout.setRefreshing(false);
-            arrConvAndGroupData.clear();
-            arrConvAndGroupData.addAll(arrConvAndGroupDataTmpUnRead);
-            arrConvAndGroupData.addAll(arrConvAndGroupDataTmp);
+            mAdapter.setStatus();
             mAdapter.notifyDataSetChanged();
         }
     };
@@ -260,24 +180,6 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         (v.findViewById(R.id.btn_topleft)).setOnClickListener(listener);
         RelativeLayout rel_search = (RelativeLayout) v.findViewById(R.id.rel_search);
         rel_search.setOnClickListener(this);
-        rel_pinglun = (RelativeLayout) v.findViewById(R.id.rel_pinglun);
-        rel_zan = (RelativeLayout) v.findViewById(R.id.rel_zan);
-        rel_hangye = (RelativeLayout) v.findViewById(R.id.rel_hangye);
-        rel_xitong = (RelativeLayout) v.findViewById(R.id.rel_xitong);
-        rel_group = (RelativeLayout) v.findViewById(R.id.rel_group);
-        rel_group.setOnClickListener(listener);
-        rel_pinglun.setOnClickListener(listener);
-        rel_zan.setOnClickListener(listener);
-        rel_hangye.setOnClickListener(listener);
-        rel_xitong.setOnClickListener(listener);
-        pinglun_img = (ImageView) v.findViewById(R.id.pinglun_img);
-        pinglun_unread_count = (TextView) v.findViewById(R.id.pinglun_unread_count);
-        xitong_img = (ImageView) v.findViewById(R.id.xitong_img);
-        xitong_unread_count = (TextView) v.findViewById(R.id.xitong_unread_count);
-        hangye_img = (ImageView) v.findViewById(R.id.hangye_img);
-        hangye_unread_count = (TextView) v.findViewById(R.id.hangye_unread_count);
-        group_img = (ImageView) v.findViewById(R.id.group_img);
-        group_unread_count = (TextView) v.findViewById(R.id.group_unread_count);
         getData();
         recycler_list = (RecyclerView) v.findViewById(R.id.recycler_list);
         recycler_list.setHasFixedSize(true);
@@ -300,29 +202,6 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
                     intent = new Intent(getActivity(), CreateGroupActivity.class);
                     startActivity(intent);
                     break;
-                case R.id.rel_pinglun:
-                    intent = new Intent(getActivity(), CommentAboutMe.class);
-                    startActivity(intent);
-                    break;
-                case R.id.rel_zan:
-                    intent = new Intent(getActivity(), CommentAboutMe.class);
-                    startActivity(intent);
-                    break;
-                case R.id.rel_hangye:
-                    intent = new Intent(getActivity(), SystemNofityActivity.class);
-                    intent.putExtra("type", "2");
-                    startActivity(intent);
-                    break;
-                case R.id.rel_xitong:
-                    intent = new Intent(getActivity(), SystemNofityActivity.class);
-                    intent.putExtra("type", "1");
-                    startActivity(intent);
-                    break;
-                case R.id.rel_group:
-                    intent = new Intent(getActivity(), GroupNofityActivity.class);
-                    intent.putExtra("type", "3");
-                    startActivity(intent);
-                    break;
             }
         }
     };
@@ -340,21 +219,44 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
             arrConvAndGroupDataTmp.clear();
             for (int i = 0; i < arrGroupListTmp.size(); i++) {
                 ConvAndGroupData mConvAndGroupData = new ConvAndGroupData();
+                mConvAndGroupData.setConverType(0);
                 mConvAndGroupData.setConversation(JMessageClient.getGroupConversation(Long.parseLong(arrGroupListTmp.get(i).getAppJpushGroupId())));
                 mConvAndGroupData.setGroupData(arrGroupListTmp.get(i));
                 if (mConvAndGroupData.getConversation() == null) {
                     arrConvAndGroupDataTmp.add(mConvAndGroupData);
                 } else {
                     if (mConvAndGroupData.getConversation().getUnReadMsgCnt() > 0) {
-                        Log.e(TAG, "onSuccess: getUnReadMsgCnt" + mConvAndGroupData.getConversation().getUnReadMsgCnt()+mConvAndGroupData.getGroupData().getAppGroupName());
+                        Log.e(TAG, "onSuccess: getUnReadMsgCnt" + mConvAndGroupData.getConversation().getUnReadMsgCnt() + mConvAndGroupData.getGroupData().getAppGroupName());
                         arrConvAndGroupDataTmpUnRead.add(mConvAndGroupData);
                     } else {
                         arrConvAndGroupDataTmp.add(mConvAndGroupData);
-                        Log.e(TAG, "onSuccess: getUnReadMsgCnt" + mConvAndGroupData.getConversation().getUnReadMsgCnt()+mConvAndGroupData.getGroupData().getAppGroupName());
+                        Log.e(TAG, "onSuccess: getUnReadMsgCnt" + mConvAndGroupData.getConversation().getUnReadMsgCnt() + mConvAndGroupData.getGroupData().getAppGroupName());
                     }
                 }
             }
-            mHandle.post(updatelist);
+            arrConversation.clear();
+            List<Conversation> arrConversationTmp = JMessageClient.getConversationList();
+            if (arrConversationTmp != null) {
+                if (arrConversationTmp.size() > 0) {
+                    arrConversation.addAll(arrConversationTmp);
+                    for (int i = 0; i < arrConversation.size(); i++) {
+                        if (arrConversation.get(i).getType() == single) {
+                            ConvAndGroupData iConvAndGroupData = new ConvAndGroupData();
+                            iConvAndGroupData.setConverType(1);
+                            iConvAndGroupData.setConversation(arrConversation.get(i));
+                            if (iConvAndGroupData.getConversation().getUnReadMsgCnt() > 0) {
+                                arrConvAndGroupDataTmpUnRead.add(iConvAndGroupData);
+                            } else {
+                                arrConvAndGroupDataTmp.add(iConvAndGroupData);
+                            }
+                        }
+                    }
+                }
+            }
+            arrConvAndGroupData.clear();
+            arrConvAndGroupData.addAll(arrConvAndGroupDataTmpUnRead);
+            arrConvAndGroupData.addAll(arrConvAndGroupDataTmp);
+            mHandle.postDelayed(updatelist, 1000);
         } else {
             arrUserMessageDataTmp = ((UserMessageDataTmp) rspBaseBean).getDetail();
         }
@@ -414,7 +316,7 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
         public void onReceive(Context context, Intent intent) {
             Log.e(TAG, "onReceive: 收到广播");
             getData();
-            getNotifyData();
+            //  getNotifyData();
         }
     }
 

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -58,6 +59,7 @@ public class UpdateUserAvatar extends Activity implements View.OnClickListener {
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
+                intent.putExtra("return-data", true);
                 startActivityForResult(intent, RESULT_LOAD_IMAGE);
             }
         });
@@ -117,12 +119,14 @@ public class UpdateUserAvatar extends Activity implements View.OnClickListener {
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+/*            String[] filePathColumn = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
             mPicturePath = cursor.getString(columnIndex);
-            cursor.close();
+            cursor.close();*/
+
+            mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
             ImageView imageView = (ImageView) findViewById(R.id.iv_show_image);
             mBitmap = BitmapFactory.decodeFile(mPicturePath);
             imageView.setImageBitmap(mBitmap);

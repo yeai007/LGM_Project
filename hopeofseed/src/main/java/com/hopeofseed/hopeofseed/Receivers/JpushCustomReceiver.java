@@ -6,15 +6,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
+
 import org.json.JSONObject;
+
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.helpers.IMReceiver;
 import io.realm.Realm;
+
 import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
 
 
@@ -56,13 +60,13 @@ public class JpushCustomReceiver extends IMReceiver {
            /* Bundle bundle = intent.getExtras();
             String title = bundle.getString(JPushInterface.EXTRA_NOTIFICATION_TITLE);*/
             receivingNotification(context, bundle);
-            mHandler.postDelayed(rSendUpdateMessage, 3000);
+            mHandler.postDelayed(rSendUpdateMessage, 1000);
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
             Log.e(TAG, "用户点击打开了通知");
             openNotification(context, bundle);
         } else if (intent.getAction().equals("cn.jpush.im.android.action.IM_RESPONSE")) {
             Log.e(TAG, "cn.jpush.im.android.action.IM_RESPONSE");
-            mHandler.postDelayed(rSendUpdateMessage, 3000);
+            mHandler.postDelayed(rSendUpdateMessage,1000);
         } else if (intent.getAction().equals("cn.jpush.im.android.action.NOTIFICATION_CLICK_PROXY")) {
             Log.e(TAG, "onReceive:用户打开了通知");
         } else {
@@ -102,7 +106,7 @@ public class JpushCustomReceiver extends IMReceiver {
                     .create();
             NotifyData insertNotifyData = new NotifyData();
             insertNotifyData = gson.fromJson(extras, NotifyData.class);
-            insertNotifyData.setNotifyIsRead("1");
+            //insertNotifyData.setNotifyIsRead("1");
             insertRealm(insertNotifyData);
         } catch (Exception e) {
             Log.w(TAG, "Unexpected: extras is not a valid json", e);

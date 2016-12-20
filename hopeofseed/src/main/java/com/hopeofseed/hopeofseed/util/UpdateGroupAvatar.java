@@ -81,6 +81,7 @@ public class UpdateGroupAvatar extends Activity implements View.OnClickListener,
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
+                intent.putExtra("return-data", true);
                 startActivityForResult(intent, RESULT_LOAD_IMAGE);
             }
         });
@@ -152,12 +153,7 @@ public class UpdateGroupAvatar extends Activity implements View.OnClickListener,
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            mPicturePath = cursor.getString(columnIndex);
-            cursor.close();
+            mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
             ImageView imageView = (ImageView) findViewById(R.id.iv_show_image);
             mBitmap = BitmapFactory.decodeFile(mPicturePath);
             imageView.setImageBitmap(mBitmap);

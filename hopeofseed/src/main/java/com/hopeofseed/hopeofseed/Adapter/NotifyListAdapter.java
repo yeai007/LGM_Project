@@ -26,6 +26,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static android.R.attr.type;
+import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
 
 
 /**
@@ -68,6 +69,7 @@ public class NotifyListAdapter extends RecyclerView.Adapter<NotifyListAdapter.Vi
         holder.rel_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 NotifyData results1 =
                         myRealm.where(NotifyData.class).equalTo("NotifyId", itemData.getNotifyId()).findFirst();
 
@@ -80,6 +82,9 @@ public class NotifyListAdapter extends RecyclerView.Adapter<NotifyListAdapter.Vi
                 bundle.putParcelable("data", itemData);
                 intent.putExtras(bundle);
                 mContext.startActivity(intent);
+                Intent intent_update = new Intent();  //Itent就是我们要发送的内容
+                intent_update.setAction(MESSAGE_UPDATE_LIST);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+                mContext.sendBroadcast(intent_update);   //发送广播
             }
         });
     }

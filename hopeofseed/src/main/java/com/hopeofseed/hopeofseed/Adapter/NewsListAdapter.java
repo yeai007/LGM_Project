@@ -946,6 +946,7 @@ public class NewsListAdapter extends BaseAdapter {
             public void gotResult(int i, String s, UserInfo userInfo) {
                 //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
                 //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
+                holder0.img_corner.setVisibility(View.VISIBLE);
                 switch (user_role) {
                     case 0:
                         Glide.with(mContext)
@@ -1027,6 +1028,40 @@ public class NewsListAdapter extends BaseAdapter {
                         if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
                                     .load(R.drawable.header_author_default)
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+                        }
+                        break;
+                    case 5:
+                        holder0.img_corner.setVisibility(View.GONE);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.user_media)
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+
+                        } else {
+                            Glide.with(mContext)
+                                    .load(userInfo.getAvatarFile())
+                                    .centerCrop()
+                                    .into(holder0.img_user);
+                        }
+                        break;
+                    case 6:
+                        holder0.img_corner.setVisibility(View.GONE);
+                        Glide.with(mContext)
+                                .load(R.drawable.corner_author)
+                                .centerCrop()
+                                .into(holder0.img_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext)
+                                    .load(R.drawable.user_system)
                                     .centerCrop()
                                     .into(holder0.img_user);
 

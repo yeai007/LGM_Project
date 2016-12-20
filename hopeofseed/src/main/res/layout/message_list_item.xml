@@ -19,7 +19,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/img_pinglun"
             />
 
         <TextView
@@ -30,7 +29,6 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/img_item"
             android:gravity="left|center"
-            android:text="标题"
             android:textColor="@color/text_title_color"
             android:visibility="gone" />
 
@@ -45,7 +43,6 @@
             android:maxLines="1"
             android:layout_marginRight="40dp"
             android:gravity="left|center"
-            android:text="评论"
             android:textColor="@color/text_title_color" />
 
         <RelativeLayout

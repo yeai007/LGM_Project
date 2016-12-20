@@ -204,11 +204,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra(Application.TARGET_APP_KEY, mUserInfo.getAppKey());
         intent.setClass(this, ChatActivity.class);
         startActivity(intent);
-/*
-        Intent intent = new Intent();
-        intent.putExtra("returnChatActivity", true);
-        intent.putExtra(Application.NICKNAME, Const.currentUser.nickname);
-        setResult(Application.RESULT_CODE_FRIEND_INFO, intent);*/
         Conversation conv = JMessageClient.getSingleConversation(mUserInfo.getUserName(), mUserInfo.getAppKey());
         //如果会话为空，使用EventBus通知会话列表添加新会话
         if (conv == null) {

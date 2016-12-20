@@ -12,6 +12,15 @@ import cn.jpush.im.android.api.model.Conversation;
  * 修改备注：
  */
 public class ConvAndGroupData {
+    private int ConverType;
+
+    public int getConverType() {
+        return this.ConverType;
+    }
+
+    public void setConverType(int result) {
+        this.ConverType = result;
+    }
 
     private GroupData GroupData;
 

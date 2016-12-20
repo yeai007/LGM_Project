@@ -151,6 +151,14 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
                             .centerCrop()
                             .into(img_corner);
                     break;
+                case 5:
+                    // img_corner.setImageResource(corner_expert);
+                    img_corner.setVisibility(View.GONE);
+                    break;
+                case 6:
+                    //img_corner.setImageResource(corner_enterprise);
+                    img_corner.setVisibility(View.GONE);
+                    break;
             }
         }
     }
@@ -229,11 +237,9 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == UPDATE_USER_AVATAR) {
             if (resultCode == getActivity().RESULT_OK) {
                 getUserJpushInfo(Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id));
             }
-        }
     }
 
     private void getData() {

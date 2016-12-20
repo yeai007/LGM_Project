@@ -2,6 +2,7 @@ package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.GroupNotifyDataNorealm;
@@ -26,6 +28,8 @@ import java.util.List;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;
 import io.realm.Realm;
+
+import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
 
 
 /**
@@ -91,6 +95,9 @@ public class GroupNotifyListAdapter extends RecyclerView.Adapter<GroupNotifyList
                                 mList.remove(position);
                                 notifyItemRemoved(position);
                                 dialog.dismiss();
+                                Intent intent_update = new Intent();  //Itent就是我们要发送的内容
+                                intent_update.setAction(MESSAGE_UPDATE_LIST);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+                                mContext.sendBroadcast(intent_update);   //发送广播
                             }
                         })
                         .setNegativeButton("暂不删除", new DialogInterface.OnClickListener() {
@@ -112,7 +119,6 @@ public class GroupNotifyListAdapter extends RecyclerView.Adapter<GroupNotifyList
                         myRealm.where(NotifyData.class).equalTo("NotifyId", itemData.getNotifyId()).findFirst();
                 myRealm.beginTransaction();
                 results1.setNotifyIsRead("1");
-
                 NotifyData inNotifyData = myRealm.copyToRealmOrUpdate(results1);
                 myRealm.commitTransaction();
                 JMessageClient.addGroupMembers(Long.parseLong(itemData.getAppGroupApplyGroupId()), arrUser, new BasicCallback() {
@@ -127,6 +133,12 @@ public class GroupNotifyListAdapter extends RecyclerView.Adapter<GroupNotifyList
                             results1.setNotifyIsRead("1");
                             NotifyData inNotifyData = myRealm.copyToRealmOrUpdate(results1);
                             myRealm.commitTransaction();
+                            notifyItemRemoved(position);
+                            Intent intent_update = new Intent();  //Itent就是我们要发送的内容
+                            intent_update.setAction(MESSAGE_UPDATE_LIST);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+                            mContext.sendBroadcast(intent_update);   //发送广播
+                        } else {
+                            Toast.makeText(mContext, "操作失败！请稍后再试", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
