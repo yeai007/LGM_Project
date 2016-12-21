@@ -259,9 +259,9 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
  * 群聊
  * */
                 final GroupData itemGroup = mList.get(position - 4).getGroupData();
-                if (itemData == null) {
+/*                if (itemData == null) {
                     itemData = Conversation.createGroupConversation(Long.parseLong(itemGroup.getAppJpushGroupId()));
-                }
+                }*/
                 JMessageClient.getGroupInfo(Long.parseLong(itemGroup.getAppJpushGroupId()), new GetGroupInfoCallback() {
                     @Override
                     public void gotResult(int i, String s, GroupInfo groupInfo) {
@@ -370,6 +370,8 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                             holder.tv_time.setText(DateTools.StringDateTimeToDateNoYear(time));
                         }
                     }
+                } else {
+                    holder.tv_time.setVisibility(View.GONE);
                 }
                 holder.rel_item.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
@@ -400,16 +402,15 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                                             }
 
                                         }
-
-
                                         Log.e(TAG, "onClick: 确认删除");
                                         mList.get(position - 4).getConversation().setUnReadMessageCnt(0);
                                         mList.remove(position - 4);
                                         notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position, mList.size());
                                         dialog.dismiss();
-                                        Intent intent_update = new Intent();  //Itent就是我们要发送的内容
+                                      /*  Intent intent_update = new Intent();  //Itent就是我们要发送的内容
                                         intent_update.setAction(MESSAGE_UPDATE_LIST);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
-                                        mContext.sendBroadcast(intent_update);   //发送广播
+                                        mContext.sendBroadcast(intent_update);   //发送广播*/
                                     }
                                 })
                                 .setNegativeButton("暂不删除", new DialogInterface.OnClickListener() {
@@ -565,9 +566,6 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
         }
     }
 
-    private void updateTime(ViewHolder holder, String time) {
-
-    }
 
     public void updateStatus() {
         if (isShow) {

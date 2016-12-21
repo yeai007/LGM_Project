@@ -273,6 +273,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_content).setOnClickListener(this);
         holder.getView(R.id.user_name).setTag(mData);
         holder.getView(R.id.user_name).setOnClickListener(this);
+        holder.getView(R.id.rel_img_user_avatar).setTag(mData);
+        holder.getView(R.id.rel_img_user_avatar).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
@@ -324,6 +326,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_content).setOnClickListener(this);
         holder.getView(R.id.user_name).setTag(mData);
         holder.getView(R.id.user_name).setOnClickListener(this);
+        holder.getView(R.id.rel_img_user_avatar).setTag(mData);
+        holder.getView(R.id.rel_img_user_avatar).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
@@ -375,6 +379,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_content).setOnClickListener(this);
         holder.getView(R.id.user_name).setTag(mData);
         holder.getView(R.id.user_name).setOnClickListener(this);
+        holder.getView(R.id.rel_img_user_avatar).setTag(mData);
+        holder.getView(R.id.rel_img_user_avatar).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
@@ -427,6 +433,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_content).setOnClickListener(this);
         holder.getView(R.id.user_name).setTag(mData);
         holder.getView(R.id.user_name).setOnClickListener(this);
+        holder.getView(R.id.rel_img_user_avatar).setTag(mData);
+        holder.getView(R.id.rel_img_user_avatar).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
@@ -479,6 +487,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_content).setOnClickListener(this);
         holder.getView(R.id.user_name).setTag(mData);
         holder.getView(R.id.user_name).setOnClickListener(this);
+        holder.getView(R.id.rel_img_user_avatar).setTag(mData);
+        holder.getView(R.id.rel_img_user_avatar).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
@@ -531,6 +541,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_content).setOnClickListener(this);
         holder.getView(R.id.user_name).setTag(mData);
         holder.getView(R.id.user_name).setOnClickListener(this);
+        holder.getView(R.id.rel_img_user_avatar).setTag(mData);
+        holder.getView(R.id.rel_img_user_avatar).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
@@ -583,6 +595,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_content).setOnClickListener(this);
         holder.getView(R.id.user_name).setTag(mData);
         holder.getView(R.id.user_name).setOnClickListener(this);
+        holder.getView(R.id.rel_img_user_avatar).setTag(mData);
+        holder.getView(R.id.rel_img_user_avatar).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
@@ -635,6 +649,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_content).setOnClickListener(this);
         holder.getView(R.id.user_name).setTag(mData);
         holder.getView(R.id.user_name).setOnClickListener(this);
+        holder.getView(R.id.rel_img_user_avatar).setTag(mData);
+        holder.getView(R.id.rel_img_user_avatar).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
     }
 
@@ -681,6 +697,8 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         holder.getView(R.id.rel_share_new).setOnClickListener(this);
         holder.getView(R.id.user_name).setTag(mData);
         holder.getView(R.id.user_name).setOnClickListener(this);
+        holder.getView(R.id.rel_img_user_avatar).setTag(mData);
+        holder.getView(R.id.rel_img_user_avatar).setOnClickListener(this);
         //*****************************OnclickEnd****************************************************
 
     }
@@ -1063,9 +1081,9 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         JMessageClient.getUserInfo(Const.JPUSH_PREFIX + mData.getUser_id(), new GetUserInfoCallback() {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
-                //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
-                //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
+
                 int user_role = Integer.parseInt(mData.getUser_role());
+                finalImg_corner.setVisibility(View.VISIBLE);
                 switch (user_role) {
                     case 0:
                         Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(finalImg_corner);
@@ -1106,6 +1124,26 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
                         Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(finalImg_corner);
                         if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext).load(R.drawable.header_author_default).centerCrop().into(finalImg_user);
+
+                        } else {
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
+                        }
+                        break;
+                    case 5:
+                        finalImg_corner.setVisibility(View.GONE);
+                        Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(finalImg_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext).load(R.drawable.user_media).centerCrop().into(finalImg_user);
+
+                        } else {
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
+                        }
+                        break;
+                    case 6:
+                        finalImg_corner.setVisibility(View.GONE);
+                        Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(finalImg_corner);
+                        if (userInfo.getAvatarFile() == null) {
+                            Glide.with(mContext).load(R.drawable.user_system).centerCrop().into(finalImg_user);
 
                         } else {
                             Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);

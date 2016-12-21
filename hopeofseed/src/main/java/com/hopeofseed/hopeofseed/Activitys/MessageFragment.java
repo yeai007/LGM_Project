@@ -38,9 +38,12 @@ import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
 import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
+import com.hopeofseed.hopeofseed.util.SortComparator;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -223,7 +226,7 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
                 mConvAndGroupData.setConversation(JMessageClient.getGroupConversation(Long.parseLong(arrGroupListTmp.get(i).getAppJpushGroupId())));
                 mConvAndGroupData.setGroupData(arrGroupListTmp.get(i));
                 if (mConvAndGroupData.getConversation() == null) {
-                    arrConvAndGroupDataTmp.add(mConvAndGroupData);
+                    //arrConvAndGroupDataTmp.add(mConvAndGroupData);
                 } else {
                     if (mConvAndGroupData.getConversation().getUnReadMsgCnt() > 0) {
                         Log.e(TAG, "onSuccess: getUnReadMsgCnt" + mConvAndGroupData.getConversation().getUnReadMsgCnt() + mConvAndGroupData.getGroupData().getAppGroupName());
@@ -256,7 +259,9 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
             arrConvAndGroupData.clear();
             arrConvAndGroupData.addAll(arrConvAndGroupDataTmpUnRead);
             arrConvAndGroupData.addAll(arrConvAndGroupDataTmp);
-            mHandle.postDelayed(updatelist, 1000);
+
+            mHandle.postDelayed(sortlist, 1000);
+
         } else {
             arrUserMessageDataTmp = ((UserMessageDataTmp) rspBaseBean).getDetail();
         }
@@ -271,7 +276,14 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     public void onFail() {
 
     }
-
+Runnable sortlist=new Runnable() {
+    @Override
+    public void run() {
+        Comparator comp = new SortComparator();
+        Collections.sort(arrConvAndGroupData,comp);
+        mHandle.postDelayed(updatelist, 1000);
+    }
+};
     AdapterView.OnItemClickListener list_listener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

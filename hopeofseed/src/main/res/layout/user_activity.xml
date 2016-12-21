@@ -30,7 +30,6 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="1851"
                 android:textColor="@color/text_content_color" />
 
             <TextView
@@ -120,8 +119,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/corner_distributor" />
+                android:layout_alignParentRight="true" />
         </RelativeLayout>
 
         <TextView

@@ -46,6 +46,7 @@ import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.android.eventbus.EventBus;
 
+import static com.hopeofseed.hopeofseed.R.drawable.corner_enterprise;
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
@@ -331,6 +332,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
 
     private void updateCorner() {
         Log.e(TAG, "updateCorner:userclass " + mUserDataNoRealm.getUser_role());
+        img_corner.setVisibility(View.VISIBLE);
         if (mUserDataNoRealm.getUser_role() != null) {
             switch (Integer.parseInt(mUserDataNoRealm.getUser_role())) {
                 case 0:
@@ -345,7 +347,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 case 2:
                     //  img_corner.setImageResource(R.drawable.corner_enterprise);
                     Glide.with(getApplicationContext())
-                            .load(R.drawable.corner_enterprise)
+                            .load(corner_enterprise)
                             .centerCrop()
                             .into(img_corner);
                     break;
@@ -359,9 +361,16 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 case 4:
                     //img_corner.setImageResource(corner_enterprise);
                     Glide.with(getApplicationContext())
-                            .load(R.drawable.corner_enterprise)
+                            .load(corner_enterprise)
                             .centerCrop()
                             .into(img_corner);
+                    break;
+                case 5:
+                    img_corner.setVisibility(View.GONE);
+                    break;
+                case 6:
+                    img_corner.setVisibility(View.GONE);
+
                     break;
             }
         }

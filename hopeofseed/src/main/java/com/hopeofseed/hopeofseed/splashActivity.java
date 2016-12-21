@@ -109,6 +109,8 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
                     } else {
                         tv_log.setText("已是最新版本");
                         editor.putBoolean("hasNewVersion", false);
+                        initFirst();
+                        initLocation();
                     }
                 } else {
                     tv_log.setText("已是最新版本");

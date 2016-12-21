@@ -7,6 +7,8 @@
  */
 package com.lgm.utils;
 
+import android.util.Log;
+
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -29,6 +31,7 @@ import java.util.Map;
  */
 
 public class DateTools {
+    private static final String TAG = "DateTools";
     static Calendar now_time = Calendar.getInstance();
 
     /**
@@ -287,8 +290,8 @@ public class DateTools {
             longDiff[1] = longDiff[0] / (1000 * 60 * 60 * 24);//DAY
             longDiff[2] = (longDiff[0] - longDiff[1] * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60);//HOUR
             longDiff[3] = (longDiff[0] - longDiff[1] * (1000 * 60 * 60 * 24) - longDiff[2] * (1000 * 60 * 60)) / (1000 * 60);//MINITUS
-
-            System.out.println("" + longDiff[1] + "天" + longDiff[2] + "小时" + longDiff[3] + "分");
+            Log.e(TAG, "getDiffTime: "+"" + longDiff[1] + "天" + longDiff[2] + "小时" + longDiff[3] + "分");
+           // System.out.println("" + longDiff[1] + "天" + longDiff[2] + "小时" + longDiff[3] + "分");
         } catch (Exception e) {
         }
         return longDiff;
@@ -335,5 +338,4 @@ public class DateTools {
         return sd.format(cc_time);
 
     }
-
 }

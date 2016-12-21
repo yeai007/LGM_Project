@@ -19,6 +19,7 @@ import com.hopeofseed.hopeofseed.Activitys.JoinTheGroup;
 import com.hopeofseed.hopeofseed.Activitys.MembersInChatActivity;
 import com.hopeofseed.hopeofseed.Activitys.SelectUser;
 import com.hopeofseed.hopeofseed.Activitys.UpdateGroupDesc;
+import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.Adapter.GroupMemberGridAdapter;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
@@ -375,15 +376,9 @@ public class ChatDetailController implements OnClickListener, OnItemClickListene
         if (mIsGroup) {
             // 点击群成员项时
             if (position < mCurrentNum) {
-                if (mMemberInfoList.get(position).getUserName().equals(mMyUsername)) {
-                    //  intent.setClass(mContext, MeInfoActivity.class);
-                } else {
-                    UserInfo userInfo = mMemberInfoList.get(position);
-                    intent.putExtra(Application.TARGET_ID, userInfo.getUserName());
-                    intent.putExtra(Application.TARGET_APP_KEY, userInfo.getAppKey());
-                    intent.putExtra(Application.GROUP_ID, mGroupId);
-                    //intent.setClass(mContext, FriendInfoActivity.class);
-                }
+                UserInfo userInfo = mMemberInfoList.get(position);
+                intent.putExtra("userid", userInfo.getUserName().replace(Const.JPUSH_PREFIX, ""));
+                intent.setClass(mContext, UserActivity.class);
                 mContext.startActivity(intent);
                 // 点击添加成员按钮
             } else if (position == mCurrentNum) {

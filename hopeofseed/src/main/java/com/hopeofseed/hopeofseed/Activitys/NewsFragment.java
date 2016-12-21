@@ -158,6 +158,11 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
             public void onItemClick(View view, NewsData data) {
                 Intent intent;
                 switch (view.getId()) {
+                    case R.id.rel_img_user_avatar://点击头像
+                        intent = new Intent(getActivity(), UserActivity.class);
+                        intent.putExtra("userid", String.valueOf(data.getUser_id()));
+                        startActivity(intent);
+                        break;
                     case R.id.rel_forward://转发
 
                         intent = new Intent(getActivity(), ForwardNew.class);
