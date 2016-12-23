@@ -106,8 +106,9 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_edittext"
             android:gravity="left"
-            android:hint="问题字数300字以内"
+            android:hint="问题描述（300字以内）"
             android:inputType="textMultiLine"
+            android:maxLength="300"
             android:textColor="#b2b2b2"
             android:textColorHint="#b2b2b2" />
     </RelativeLayout>

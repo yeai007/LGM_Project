@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.hopeofseed.hopeofseed.R.id.lv_groups;
+import static com.hopeofseed.hopeofseed.R.id.recy_news;
 
 /**
  * 项目名称：liguangming
@@ -75,6 +77,7 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
     RecyclerView recy_catas;
     StringGridListAdapter mStringGridListAdapter;
     StringVariety first = new StringVariety();
+    boolean isLoading = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +85,7 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
         setContentView(R.layout.my_commodity);
         first.setVariety("全部");
         first.setCount("0");
+        Str_search = "";
         initView();
         getHotSortData();
         getData();
@@ -93,9 +97,12 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("维护");
-        btn_topright.setVisibility(View.VISIBLE);
+        if (Const.currentUser.user_role.equals("2")) {
+            btn_topright.setVisibility(View.VISIBLE);
+        }
         btn_topright.setOnClickListener(this);
-        btn_add_commodity=(Button)findViewById(R.id.btn_add_commodity);
+        
+        btn_add_commodity = (Button) findViewById(R.id.btn_add_commodity);
         btn_add_commodity.setOnClickListener(this);
         catalogs.add("全部");
         img_all = (ImageView) findViewById(R.id.img_all);
@@ -108,6 +115,7 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
                 PageNo = 0;
                 Log.e(TAG, "updateSelect: " + position);
                 Str_search = arrStringVariety.get(position).getVariety();
+                PageNo = 0;
                 getData();
             }
         });
@@ -118,7 +126,7 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
         recy_catas.setLayoutManager(manager1);
         mStringGridListAdapter = new StringGridListAdapter(MyCommodity.this, arrStringVariety);
         recy_catas.setAdapter(mStringGridListAdapter);
-        recy_list = (RecyclerView) findViewById(R.id.recy_list);
+
         mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
         //这个是下拉刷新出现的那个圈圈要显示的颜色
         mRefreshLayout.setColorSchemeResources(
@@ -127,11 +135,37 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
                 R.color.colorGreen
         );
         mRefreshLayout.setOnRefreshListener(this);
-
+        recy_list = (RecyclerView) findViewById(R.id.recy_list);
         final GridLayoutManager manager = new GridLayoutManager(MyCommodity.this, 2);
         recy_list.setLayoutManager(manager);
         mCommodityRecycleListAdapter = new MyCommodityRecycleListAdapter(MyCommodity.this, arr_CommodityData);
         recy_list.setAdapter(mCommodityRecycleListAdapter);
+        //滚动监听，在滚动监听里面去实现加载更多的功能
+        recy_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                super.onScrolled(recyclerView, dx, dy);
+
+                int lastVisibleItem = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+                int totalItemCount = manager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
+                    if (!isLoading) {//一个布尔的变量，默认是false
+                        Log.e(TAG, "onScrolled: loadingmaore");
+                        isLoading = true;
+                        PageNo = PageNo + 1;
+                        getData();
+                    } else if (arr_CommodityData.size() < 20) {
+                        //当没有更多的数据的时候去掉加载更多的布局
+/*                        RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
+                        adapter.setIsNeedMore(false);
+                        adapter.notifyDataSetChanged();*/
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -231,6 +265,7 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
             arr_CommodityData.addAll(arr_CommodityDataTmp);
             mCommodityRecycleListAdapter.notifyDataSetChanged();
             mRefreshLayout.setRefreshing(false);
+            isLoading = false;
         }
     };
     Runnable updateTabs = new Runnable() {
@@ -249,6 +284,7 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onRefresh() {
+        PageNo = 0;
         getData();
     }
 
@@ -273,7 +309,8 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
             img_all.startAnimation(anim);
         }
     }
-    public void getDataForOut(String search,int position) {
+
+    public void getDataForOut(String search, int position) {
         Str_search = search;
         getData();
     }

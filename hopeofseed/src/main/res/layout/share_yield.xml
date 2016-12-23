@@ -6,7 +6,7 @@
 
     <include
         android:id="@+id/top"
-        layout="@layout/top" />
+        layout="@layout/top_comright" />
 
     <RelativeLayout
         android:id="@+id/rel_variety"
@@ -162,9 +162,10 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_edittext"
             android:gravity="left"
-            android:hint="内容"
+            android:hint="表现：（1000字以内）"
             android:inputType="textMultiLine"
             android:textColor="#b2b2b2"
+            android:maxLength="1000"
             android:textColorHint="#b2b2b2" />
     </RelativeLayout>
 </RelativeLayout>

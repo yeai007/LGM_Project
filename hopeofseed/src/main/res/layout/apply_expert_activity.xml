@@ -44,12 +44,14 @@
             android:gravity="center"
             android:text="性别：" />
 
-        <EditText
-            android:id="@+id/et_sex"
+        <Spinner
+            android:id="@+id/sp_sex"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/bg_edittext"
-            android:gravity="center_vertical" />
+            android:gravity="center"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
@@ -64,14 +66,14 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="center"
-            android:text="地址：" />
+            android:text="地区：" />
 
-        <EditText
-            android:id="@+id/et_area"
+        <Button
+            android:id="@+id/go"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_edittext"
-            android:gravity="center_vertical" />
+            android:layout_height="60dp"
+            android:layout_toRightOf="@+id/tv_companyaddress"
+            android:text="选择省市区" />
     </LinearLayout>
 
     <LinearLayout
@@ -86,10 +88,10 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="center"
-            android:text="专业领域：" />
+            android:text="工作单位：" />
 
         <EditText
-            android:id="@+id/et_sort"
+            android:id="@+id/et_work_place"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bg_edittext"
@@ -110,11 +112,42 @@
             android:gravity="center"
             android:text="资格证书：" />
 
+        <Button
+            android:id="@+id/btn_certificate"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="点击上传" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_certificate"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_below="@+id/rel_price"
+        android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="简介：" />
+
         <EditText
-            android:id="@+id/et_certificate"
+            android:id="@+id/et_jianjie"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bg_edittext"
             android:gravity="center_vertical" />
     </LinearLayout>
+
+
 </LinearLayout>

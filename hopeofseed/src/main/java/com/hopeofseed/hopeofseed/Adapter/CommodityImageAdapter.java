@@ -3,6 +3,7 @@ package com.hopeofseed.hopeofseed.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,21 +59,22 @@ public class CommodityImageAdapter extends RecyclerView.Adapter<CommodityImageAd
 
     @Override
     public void onBindViewHolder(CommodityImageAdapter.ViewHolder holder, final int position) {
-
-/*        Log.e(TAG, "onBindViewHolder: " + Const.IMG_URL + images.get(position));*/
         CommodityDataNoUser itemdata = new CommodityDataNoUser();
         itemdata = images.get(position);
-        if(!(itemdata.getCommodityImgs() ==null)){
-        String[] arrImage = itemdata.getCommodityImgs().split(";");
-        for (int i = 0; i < arrImage.length; i++) {
-            arrImage[i] = Const.IMG_URL + arrImage[i];
+        if (!(TextUtils.isEmpty(itemdata.getCommodityImgs()))) {
+            Log.e(TAG, "onBindViewHolder: "+itemdata.getCommodityImgs());
+            String[] arrImage = itemdata.getCommodityImgs().split(";");
+            for (int i = 0; i < arrImage.length; i++) {
+                arrImage[i] = Const.IMG_URL + arrImage[i];
+            }
+            if (arrImage.length > 0 ) {
+                Log.e(TAG, "onBindViewHolder: "+Const.IMG_URL + arrImage[0]);
+                Glide.with(mContext)
+                        .load(arrImage[0])
+                        .centerCrop()
+                        .into(holder.imageView);
+            }
         }
-        if (arrImage.length > 0) {
-            Glide.with(mContext)
-                    .load(Const.IMG_URL + arrImage[0])
-                    .centerCrop()
-                    .into(holder.imageView);
-        }}
         holder.tv_commodity_name.setText(itemdata.getCommodityName());
         holder.tv_commodity_name.getBackground().setAlpha(80);
         final CommodityDataNoUser finalItemdata = itemdata;

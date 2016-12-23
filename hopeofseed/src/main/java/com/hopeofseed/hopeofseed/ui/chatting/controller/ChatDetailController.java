@@ -378,6 +378,12 @@ public class ChatDetailController implements OnClickListener, OnItemClickListene
             if (position < mCurrentNum) {
                 UserInfo userInfo = mMemberInfoList.get(position);
                 intent.putExtra("userid", userInfo.getUserName().replace(Const.JPUSH_PREFIX, ""));
+                if (TextUtils.isEmpty(userInfo.getSignature())) {
+                    intent.putExtra("UserRole", 0);
+                } else {
+                    intent.putExtra("UserRole", Integer.parseInt(userInfo.getSignature()));
+                }
+
                 intent.setClass(mContext, UserActivity.class);
                 mContext.startActivity(intent);
                 // 点击添加成员按钮
@@ -402,6 +408,24 @@ public class ChatDetailController implements OnClickListener, OnItemClickListene
             intent.putExtra(Application.TARGET_APP_KEY, mTargetAppKey);
             // intent.setClass(mContext, FriendInfoActivity.class);
             //  mContext.startActivityForResult(intent, Application.REQUEST_CODE_FRIEND_INFO);
+            UserInfo userInfo = mMemberInfoList.get(position);
+
+            JMessageClient.getUserInfo(mTargetId, new GetUserInfoCallback() {
+                @Override
+                public void gotResult(int i, String s, UserInfo userInfo) {
+                    Intent intent = new Intent();
+                    intent.putExtra("userid", userInfo.getUserName().replace(Const.JPUSH_PREFIX, ""));
+                    if (TextUtils.isEmpty(userInfo.getSignature())) {
+                        intent.putExtra("UserRole", 0);
+                    } else {
+                        intent.putExtra("UserRole", Integer.parseInt(userInfo.getSignature()));
+                    }
+
+                    intent.setClass(mContext, UserActivity.class);
+                    mContext.startActivity(intent);
+                }
+            });
+
         } else if (position == mCurrentNum) {
             addMemberToGroup();
         }
@@ -418,68 +442,7 @@ public class ChatDetailController implements OnClickListener, OnItemClickListene
         Intent intent = new Intent(mContext, SelectUser.class);
         intent.putExtra("GroupId", String.valueOf(mGroupId));
         mContext.startActivityForResult(intent, 803);
-      /*  final Dialog dialog = new Dialog(mContext, R.style.jmui_default_dialog_style);
-        final View view = LayoutInflater.from(mContext)
-                .inflate(R.layout.dialog_add_friend_to_conv_list, null);
-        dialog.setContentView(view);
-        dialog.getWindow().setLayout((int) (0.8 * mWidth), WindowManager.LayoutParams.WRAP_CONTENT);
-        dialog.show();
-        TextView title = (TextView) view.findViewById(R.id.dialog_name);
-        title.setText(mContext.getString(R.string.add_friend_to_group_title));
-        final EditText userNameEt = (EditText) view.findViewById(R.id.user_name_et);
-        final Button cancel = (Button) view.findViewById(R.id.jmui_cancel_btn);
-        final Button commit = (Button) view.findViewById(R.id.jmui_commit_btn);
-        OnClickListener listener = new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (view.getId()) {
-                    case R.id.jmui_cancel_btn:
-                        dialog.cancel();
-                        break;
-                    case R.id.jmui_commit_btn:
-                        final String targetId = userNameEt.getText().toString().trim();
-                        Log.i(TAG, "targetID " + targetId);
-                        if (TextUtils.isEmpty(targetId)) {
-                            HandleResponseCode.onHandle(mContext, 801001, true);
-                            break;
-                            //检查群组中是否包含该用户
-                        } else if (checkIfNotContainUser(targetId)) {
-                            mLoadingDialog = DialogCreator.createLoadingDialog(mContext,
-                                    mContext.getString(R.string.searching_user));
-                            mLoadingDialog.show();
-                            getUserInfo(targetId, dialog);
-                        } else {
-                            userNameEt.setText("");
-                            HandleResponseCode.onHandle(mContext, 1002, true);
-                        }
-                        break;
-                }
-            }
-        };
-        cancel.setOnClickListener(listener);
-        commit.setOnClickListener(listener);*/
     }
-
-    private void getUserInfo(final String targetId, final Dialog dialog) {
-        JMessageClient.getUserInfo(targetId, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(final int status, String desc, final UserInfo userInfo) {
-                if (mLoadingDialog != null) {
-                    mLoadingDialog.dismiss();
-                }
-                if (status == 0) {
-                    Message msg = myHandler.obtainMessage();
-                    msg.what = ADD_TO_GRIDVIEW;
-                    msg.obj = userInfo;
-                    msg.sendToTarget();
-                    dialog.cancel();
-                } else {
-                    HandleResponseCode.onHandle(mContext, status, true);
-                }
-            }
-        });
-    }
-
     /**
      * 添加成员时检查是否存在该群成员
      *

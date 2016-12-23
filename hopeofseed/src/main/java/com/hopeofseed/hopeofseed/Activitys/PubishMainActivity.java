@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -143,6 +144,17 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
         initView();
     }
 
+    private boolean checkInput() {
+        boolean ischecked = true;
+        if (TextUtils.isEmpty(et_message.getText().toString().trim())) {
+            ischecked = false;
+            Toast.makeText(getApplicationContext(), "信息不能为空", Toast.LENGTH_SHORT).show();
+        } else {
+            ischecked = true;
+        }
+        return ischecked;
+    }
+
     private void initView() {
         uploadImageResult = (TextView) findViewById(R.id.uploadImageResult);
         progressDialog = new ProgressDialog(this);
@@ -167,7 +179,9 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TO_SELECT_PHOTO && resultCode == RESULT_OK && null != data) {
             final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-                        if (isKitKat) {                 AppUtil.verifyStoragePermissions(this);             }
+            if (isKitKat) {
+                AppUtil.verifyStoragePermissions(this);
+            }
             Uri selectedImage = data.getData();
             mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
             if (images.size() < 10) {
@@ -198,14 +212,12 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
         btn_topright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Toast.makeText(PubishMainActivity.this, "sender", Toast.LENGTH_SHORT).show();
-                //发送纯文字信息
-                //+6 sendWords();
-                //发送图片和文字
-                try {
-                    sendWordAndImg();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (checkInput()) {
+                    try {
+                        sendWordAndImg();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -256,12 +268,12 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
     private void SendWordAndImage(List<File> fileList) {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
-        opt_map.put("WordsStr", et_message.getText().toString().trim().replace("\n","\\n"));
+        opt_map.put("WordsStr", et_message.getText().toString().trim().replace("\n", "\\n"));
         opt_map.put("LocLat", String.valueOf(Const.LocLat));
         opt_map.put("LocLng", String.valueOf(Const.LocLng));
-        opt_map.put("Province",Const.Province);
-        opt_map.put("City",Const.City);
-        opt_map.put("Zone",Const.Zone);
+        opt_map.put("Province", Const.Province);
+        opt_map.put("City", Const.City);
+        opt_map.put("Zone", Const.Zone);
         HttpUtils hu = new HttpUtils();
         hu.httpPostFiles(Const.BASE_URL + "send_WordAndImg.php", opt_map, fileList, pushFileResultTmp.class, this);
     }

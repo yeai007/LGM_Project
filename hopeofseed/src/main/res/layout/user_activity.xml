@@ -88,7 +88,7 @@
                 android:layout_height="20dp"
                 android:layout_below="@+id/tv_fans_sum"
                 android:gravity="center"
-                android:text="粉丝"
+                android:text="人气"
                 android:textColor="@color/text_content_color" />
         </RelativeLayout>
     </LinearLayout>

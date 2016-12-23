@@ -49,11 +49,11 @@ public class JpushUtil {
 
     public void initJpushUser() {
         initCount = initCount + 1;
-        Log.e(TAG, "initJpushUser: " + initCount + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
+        // Log.e(TAG, "initJpushUser: " + initCount + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
         final String userName = Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim();
         final String password = Const.currentUser.password;
         if (userName.equals(Const.JPUSH_PREFIX + "0")) {
-            Log.e(TAG, "initJpushUser: refresh initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
+            // Log.e(TAG, "initJpushUser: refresh initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
             Handler mHandler = new Handler();
             mHandler.postDelayed(new Runnable() {
                 @Override
@@ -63,7 +63,7 @@ public class JpushUtil {
             }, 1000);
 
         } else {
-            Log.e(TAG, "initJpushUser: to initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
+            //  Log.e(TAG, "initJpushUser: to initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
             /**=================     调用SDk登陆接口    =================*/
             JMessageClient.login(userName, password, new BasicCallback() {
                 @Override
@@ -138,6 +138,17 @@ public class JpushUtil {
                     intent.setAction(MESSAGE_UPDATE_LIST);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
                     mContext.sendBroadcast(intent);   //发送广播
                     Log.i(TAG, "昵称修改成功 " + ", responseCode = " + responseCode + " ; registerDesc = " + s);
+                } else {
+                    Log.i(TAG, "JMessageClient.register " + ", responseCode = " + responseCode + " ; registerDesc = " + s);
+                }
+            }
+        });
+        JMessageClient.getMyInfo().setSignature(Const.currentUser.user_role);
+        JMessageClient.updateMyInfo(UserInfo.Field.signature, JMessageClient.getMyInfo(), new BasicCallback() {
+            @Override
+            public void gotResult(int responseCode, String s) {
+                if (responseCode == 0) {
+                    Log.i(TAG, "用户级别修改成功 " + ", responseCode = " + responseCode + " ; registerDesc = " + s);
                 } else {
                     Log.i(TAG, "JMessageClient.register " + ", responseCode = " + responseCode + " ; registerDesc = " + s);
                 }

@@ -98,6 +98,7 @@ public class SettingCommodityActivity extends AppCompatActivity implements View.
         btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("确定");
         btn_topright.setOnClickListener(this);
+        btn_topright.setVisibility(View.VISIBLE);
         lv_list = (PullToRefreshListView) findViewById(R.id.lv_list);
         mSelectCommodityAdapter = new SelectCommodityAdapter(SettingCommodityActivity.this, arrCommodityData);
         lv_list.setAdapter(mSelectCommodityAdapter);

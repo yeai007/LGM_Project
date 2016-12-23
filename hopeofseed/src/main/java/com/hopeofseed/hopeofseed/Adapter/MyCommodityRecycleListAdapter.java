@@ -3,6 +3,7 @@ package com.hopeofseed.hopeofseed.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.CommodityActivity;
@@ -52,22 +54,28 @@ public class MyCommodityRecycleListAdapter extends RecyclerView.Adapter<MyCommod
     public void onBindViewHolder(ViewHolder holder, int position) {
         final CommodityData itemData = mList.get(position);
         String[] arrImage = itemData.getCommodityImgs().split(";");
-        if (arrImage.length > 0) {
+        if (arrImage.length > 0&& (!TextUtils.isEmpty(arrImage[0]))) {
             Log.e(TAG, "getView: " + Const.IMG_URL + arrImage[0]);
             Glide.with(mContext)
                     .load(Const.IMG_URL + arrImage[0])
                     .centerCrop()
                     .into(holder.commodity_img);
+        } else {
+            holder.commodity_img.setImageResource(R.drawable.no_have_img);
         }
         holder.commodity_name.setText(itemData.getCommodityName());
         holder.commodity_price.setText("￥" + itemData.getCommodityPrice());
         holder.item_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, CommoditySettingActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("CommodityId", itemData.getCommodityId());
-                mContext.startActivity(intent);
+                if (Integer.parseInt(itemData.getOwner()) == Const.currentUser.user_id) {
+                    Intent intent = new Intent(mContext, CommoditySettingActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra("CommodityId", itemData.getCommodityId());
+                    mContext.startActivity(intent);
+                } else {
+                    Toast.makeText(mContext, "代理商品不支持修改", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

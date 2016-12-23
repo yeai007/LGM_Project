@@ -3,6 +3,7 @@ package com.hopeofseed.hopeofseed.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +52,7 @@ public class CommodityRecycleListAdapter extends RecyclerView.Adapter<CommodityR
     public void onBindViewHolder(ViewHolder holder, int position) {
         final CommodityData itemData = mList.get(position);
         String[] arrImage = itemData.getCommodityImgs().split(";");
-        if (arrImage.length > 0) {
+        if (arrImage.length > 0 && (!TextUtils.isEmpty(arrImage[0]))) {
             Log.e(TAG, "getView: " + Const.IMG_URL + arrImage[0]);
             Glide.with(mContext)
                     .load(Const.IMG_URL + arrImage[0])

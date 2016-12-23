@@ -15,6 +15,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -125,7 +126,7 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
     GridView gv_photo;
     private ArrayList<Map<String, String>> arrPublishData = new ArrayList<>();
     PublishImgsAdapter mPublishImgsAdapter;
-    EditText et_message;
+
     private RecyclerView resultRecyclerView;
     private ArrayList<String> images = new ArrayList<>();
     GridAdapter gridAdapter;
@@ -144,7 +145,7 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
         ((TextView) findViewById(R.id.apptitle)).setText("发起活动");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         btn_topright = (Button) findViewById(R.id.btn_topright);
-        btn_topright.setText("发起");
+        btn_topright.setText("发送");
         btn_topright.setVisibility(View.VISIBLE);
         btn_topright.setOnClickListener(this);
         et_title = (EditText) findViewById(R.id.et_title);
@@ -202,27 +203,43 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
             }
         }).start();
     }
-
+private boolean isChecked()
+{
+    boolean ischeck=true;
+    if(TextUtils.isEmpty(et_title.getText().toString()))
+    {
+        ischeck=false;
+        Toast.makeText(getApplicationContext(),"标题不能为空",Toast.LENGTH_SHORT).show();
+    }
+    if(TextUtils.isEmpty(et_content.getText().toString()))
+    {
+        ischeck=false;
+        Toast.makeText(getApplicationContext(),"内容不能为空",Toast.LENGTH_SHORT).show();
+    }
+    return ischeck;
+}
     private void SubmitHuoDong(List<File> fileList) {
-        Log.e(TAG, "getData: 获取经销商数据");
-        HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("HuoDongTitle", et_title.getText().toString().replace("\n", "\\n"));
-        opt_map.put("HuoDongContent", et_content.getText().toString().replace("\n", "\\n"));
-        opt_map.put("CreateUser", String.valueOf(Const.currentUser.user_id));
-        opt_map.put("LocLat", String.valueOf(Const.LocLat));
-        opt_map.put("Loclng", String.valueOf(Const.LocLng));
-        opt_map.put("Province", Const.Province);
-        opt_map.put("City", Const.City);
-        opt_map.put("Zone", Const.Zone);
-        HttpUtils hu = new HttpUtils();
-        //  hu.httpPost(Const.BASE_URL + "AddNewHuodongData.php", opt_map, CommHttpResultTmp.class, this);
-        hu.httpPostFiles(Const.BASE_URL + "AddNewHuodongDataImg.php", opt_map, fileList, pushFileResultTmp.class, this);
+        if (isChecked()) {
+            Log.e(TAG, "getData: 获取经销商数据");
+            HashMap<String, String> opt_map = new HashMap<>();
+            opt_map.put("HuoDongTitle", et_title.getText().toString().replace("\n", "\\n"));
+            opt_map.put("HuoDongContent", et_content.getText().toString().replace("\n", "\\n"));
+            opt_map.put("CreateUser", String.valueOf(Const.currentUser.user_id));
+            opt_map.put("LocLat", String.valueOf(Const.LocLat));
+            opt_map.put("Loclng", String.valueOf(Const.LocLng));
+            opt_map.put("Province", Const.Province);
+            opt_map.put("City", Const.City);
+            opt_map.put("Zone", Const.Zone);
+            HttpUtils hu = new HttpUtils();
+            //  hu.httpPost(Const.BASE_URL + "AddNewHuodongData.php", opt_map, CommHttpResultTmp.class, this);
+            hu.httpPostFiles(Const.BASE_URL + "AddNewHuodongDataImg.php", opt_map, fileList, pushFileResultTmp.class, this);
+        }
     }
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
         if (rspBaseBean.RequestSign.equals("AddNewHuodongData")) {
-            mCommResultTmp= ObjectUtil.cast(rspBaseBean);
+            mCommResultTmp = ObjectUtil.cast(rspBaseBean);
             mHandler.post(resultPushFile);
         }
 

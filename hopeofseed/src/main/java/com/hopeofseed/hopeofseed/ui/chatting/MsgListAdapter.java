@@ -585,7 +585,11 @@ public class MsgListAdapter extends BaseAdapter {
                     } else {
                         String targetID = userInfo.getUserName();
                         intent.putExtra("userid",targetID.replace(Const.JPUSH_PREFIX,""));
-
+                        if (TextUtils.isEmpty(userInfo.getSignature())) {
+                            intent.putExtra("UserRole", 0);
+                        } else {
+                            intent.putExtra("UserRole", Integer.parseInt(userInfo.getSignature()));
+                        }
                         intent.setClass(mContext, UserActivity.class);
                         ((Activity) mContext).startActivityForResult(intent,
                                 Application.REQUEST_CODE_FRIEND_INFO);

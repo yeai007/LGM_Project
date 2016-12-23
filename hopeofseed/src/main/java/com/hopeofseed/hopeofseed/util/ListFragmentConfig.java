@@ -1,8 +1,5 @@
 package com.hopeofseed.hopeofseed.util;
 
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-
 import com.hopeofseed.hopeofseed.JNXData.FragmentListDatas;
 import com.hopeofseed.hopeofseed.SearchFragment.AuthorFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.CommdityFragment;
@@ -11,6 +8,7 @@ import com.hopeofseed.hopeofseed.SearchFragment.DistributorFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.EnterpriseFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.ExperienceFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.ExpertFragment;
+import com.hopeofseed.hopeofseed.SearchFragment.HuodongFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.NowFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.ProblemFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.SeedfriendFragment;
@@ -28,8 +26,10 @@ import java.util.ArrayList;
  * 修改备注：
  */
 public class ListFragmentConfig {
+    String UserId = "";
 
-    public ArrayList<FragmentListDatas> getCommUser(int[] arr_i) {
+    public ArrayList<FragmentListDatas> getCommUser(int[] arr_i, String userId) {
+        this.UserId = userId;
         ArrayList<FragmentListDatas> fragmentList = new ArrayList<>();
         for (int i = 0; i < arr_i.length; i++) {
             fragmentList.add(getFragment(arr_i[i]));
@@ -72,30 +72,35 @@ public class ListFragmentConfig {
                 mData.setFragmentName("机构");
                 break;
             case 6:
-                ExperienceFragment mExperienceFragment = new ExperienceFragment("");
+                ExperienceFragment mExperienceFragment = new ExperienceFragment("",this.UserId);
                 mData.setMFragment(mExperienceFragment);
                 mData.setFragmentName("农技经验");
                 break;
             case 7://实时
-                ProblemFragment mProblemFragment = new ProblemFragment("");
+                ProblemFragment mProblemFragment = new ProblemFragment("",this.UserId);
                 mData.setMFragment(mProblemFragment);
                 mData.setFragmentName("问题");
                 break;
             case 8://实时
-                YieldFragment mYieldFragment = new YieldFragment("");
+                YieldFragment mYieldFragment = new YieldFragment("",this.UserId);
                 mData.setMFragment(mYieldFragment);
                 mData.setFragmentName("产量表现");
                 break;
             case 9:
-                NowFragment mNowFragment = new NowFragment("");
+                NowFragment mNowFragment = new NowFragment("",this.UserId);
                 mData.setMFragment(mNowFragment);
                 mData.setFragmentName("实时");
                 break;
 
             case 10:
-                CommdityFragment mCommdityFragment = new CommdityFragment();
+                CommdityFragment mCommdityFragment = new CommdityFragment(this.UserId);
                 mData.setMFragment(mCommdityFragment);
                 mData.setFragmentName("商品");
+                break;
+            case 11:
+                HuodongFragment mHuodongFragment = new HuodongFragment("",this.UserId);
+                mData.setMFragment(mHuodongFragment);
+                mData.setFragmentName("活动");
                 break;
        /*     case 0:
                 NowFragment mNowFragment = new NowFragment();

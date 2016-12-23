@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -231,21 +232,35 @@ public class ShareExperience extends AppCompatActivity implements View.OnClickLi
     }
 
     private void SubmitExperienceData(List<File> fileList) {
-        Log.e(TAG, "getData: 获取经销商数据");
-        HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("StrTitle", et_title.getText().toString());
-        opt_map.put("StrContent", et_content.getText().toString().replace("\n", "\\n"));
-        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
-        opt_map.put("ClassName", ClassName);
-        opt_map.put("ClassId", ClassId);
-        opt_map.put("LocLat", String.valueOf(Const.LocLat));
-        opt_map.put("Loclng", String.valueOf(Const.LocLng));
-        opt_map.put("Province", Const.Province);
-        opt_map.put("City", Const.City);
-        opt_map.put("Zone", Const.Zone);
-        HttpUtils hu = new HttpUtils();
-        //  hu.httpPost(Const.BASE_URL + "AddNewsExperience.php", opt_map, CommHttpResultTmp.class, this);
-        hu.httpPostFiles(Const.BASE_URL + "AddNewExperienceDataImg.php", opt_map, fileList, pushFileResultTmp.class, this);
+        if (isChecked()) {
+            HashMap<String, String> opt_map = new HashMap<>();
+            opt_map.put("StrTitle", et_title.getText().toString());
+            opt_map.put("StrContent", et_content.getText().toString().replace("\n", "\\n"));
+            opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+            opt_map.put("ClassName", ClassName);
+            opt_map.put("ClassId", ClassId);
+            opt_map.put("LocLat", String.valueOf(Const.LocLat));
+            opt_map.put("Loclng", String.valueOf(Const.LocLng));
+            opt_map.put("Province", Const.Province);
+            opt_map.put("City", Const.City);
+            opt_map.put("Zone", Const.Zone);
+            HttpUtils hu = new HttpUtils();
+            //  hu.httpPost(Const.BASE_URL + "AddNewsExperience.php", opt_map, CommHttpResultTmp.class, this);
+            hu.httpPostFiles(Const.BASE_URL + "AddNewExperienceDataImg.php", opt_map, fileList, pushFileResultTmp.class, this);
+        }
+    }
+
+    private boolean isChecked() {
+        boolean ischeck = true;
+        if (TextUtils.isEmpty(et_title.getText().toString())) {
+            ischeck = false;
+            Toast.makeText(getApplicationContext(), "标题不能为空", Toast.LENGTH_SHORT).show();
+        }
+        if (TextUtils.isEmpty(et_content.getText().toString())) {
+            ischeck = false;
+            Toast.makeText(getApplicationContext(), "内容不能为空", Toast.LENGTH_SHORT).show();
+        }
+        return ischeck;
     }
 
     AdapterView.OnItemSelectedListener spTitleListtener = new AdapterView.OnItemSelectedListener() {

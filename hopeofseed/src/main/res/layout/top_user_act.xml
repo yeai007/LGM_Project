@@ -49,9 +49,9 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="0dp"
             android:gravity="center"
-            android:visibility="gone"
             android:textColor="#bcbec4"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -71,7 +71,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/shape_corner"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_content_color"
             android:visibility="gone" />
     </RelativeLayout>
 </RelativeLayout>

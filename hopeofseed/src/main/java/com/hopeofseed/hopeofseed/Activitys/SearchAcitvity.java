@@ -469,7 +469,7 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
                     break;
                 case 5://农技经验
                     // mFragment = ExperienceFragment.newInstance(position, StrSearch);
-                    mFragment = new ExperienceFragment(StrSearch);
+                    mFragment = new ExperienceFragment(StrSearch,null);
                     b = new Bundle();
                     b.putInt("position", position);
                     b.putString(STR_SEARCH, StrSearch);
@@ -477,7 +477,7 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
                     break;
                 case 6://产量表现
                     // mFragment = YieldFragment.newInstance(position, StrSearch);
-                    mFragment = new YieldFragment(StrSearch);
+                    mFragment = new YieldFragment(StrSearch,null);
                     b = new Bundle();
                     b.putInt(ARG_POSITION, position);
                     b.putString(STR_SEARCH, StrSearch);
@@ -485,7 +485,7 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
                     break;
                 case 7://活动
                     // mFragment = YieldFragment.newInstance(position, StrSearch);
-                    mFragment = new HuodongFragment(StrSearch);
+                    mFragment = new HuodongFragment(StrSearch,null);
                     b = new Bundle();
                     b.putInt(ARG_POSITION, position);
                     b.putString(STR_SEARCH, StrSearch);
@@ -493,7 +493,7 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
                     break;
                 case 8://发问
                     //   mFragment = ProblemFragment.newInstance(position, StrSearch);
-                    mFragment = new ProblemFragment(StrSearch);
+                    mFragment = new ProblemFragment(StrSearch,null);
                     b = new Bundle();
                     b.putInt(ARG_POSITION, position);
                     b.putString(STR_SEARCH, StrSearch);
@@ -509,7 +509,7 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
                     break;
                 case 10://实时
                     // mFragment = NowFragment.newInstance(position);
-                    mFragment = new NowFragment(StrSearch);
+                    mFragment = new NowFragment(StrSearch,String.valueOf(Const.currentUser.user_id));
                     b = new Bundle();
                     b.putInt("position", position);
                     b.putString(STR_SEARCH, StrSearch);

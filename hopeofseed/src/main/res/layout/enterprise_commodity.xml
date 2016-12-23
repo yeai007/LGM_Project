@@ -8,35 +8,62 @@
     <include
         android:id="@+id/top"
         layout="@layout/top_comright" />
-
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/rel_variety_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_below="@+id/top"
+        android:layout_centerHorizontal="true"
+        android:background="#ffffff"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <RadioGroup
             android:id="@+id/rg_menu"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
             android:background="#ffffff"
+            android:gravity="center"
             android:orientation="horizontal">
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
 
             <RadioButton
                 android:id="@+id/one"
-                style="@style/main_tab"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/radio_select"
+                android:button="@null"
+                android:checked="true"
                 android:gravity="center"
                 android:text="商品" />
 
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+
             <RadioButton
                 android:id="@+id/two"
-                style="@style/main_tab"
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/radio_select"
+                android:button="@null"
                 android:gravity="center"
                 android:text="经销商" />
-        </RadioGroup>
-    </LinearLayout>
 
+            <View
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+        </RadioGroup>
+    </RelativeLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/vp_main"
         android:layout_width="match_parent"

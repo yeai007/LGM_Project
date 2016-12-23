@@ -29,6 +29,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Adapter.Sp_VarietyAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
@@ -56,7 +57,6 @@ import java.util.List;
 import me.shaohui.advancedluban.Luban;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-
 
 
 /**
@@ -102,7 +102,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
     long start;
     pushFileResultTmp mCommResultTmp;
     String DelImage = "";
-
+    pushFileResultTmp mCommResultTmp2 = new pushFileResultTmp();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +122,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
         rb_fertilizer = (RadioButton) findViewById(R.id.rb_fertilizer);
         rb_pesticide = (RadioButton) findViewById(R.id.rb_pesticide);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
+        (findViewById(R.id.del_this)).setOnClickListener(this);
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setVisibility(View.VISIBLE);
         btn_topright.setOnClickListener(this);
@@ -195,7 +196,17 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
                     e.printStackTrace();
                 }
                 break;
+            case R.id.del_this:
+                deleteThis();
+                break;
         }
+    }
+
+    private void deleteThis() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("CommodityId", CommodityId);
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "DeleteCommodityById.php", opt_map, pushFileResultTmp.class, this);
     }
 
     private void updateCommodity() throws IOException {
@@ -290,6 +301,9 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
         } else if (rspBaseBean.RequestSign.equals("updateCommodity")) {
             mCommResultTmp = ObjectUtil.cast(rspBaseBean);
             mHandler.post(resultPushFile);
+        } else if (rspBaseBean.RequestSign.equals("DeleteCommodityById")) {
+            mCommResultTmp2 = ObjectUtil.cast(rspBaseBean);
+            mHandler.post(DeleteResult);
         }
 
     }
@@ -304,6 +318,18 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
 
     }
 
+    Runnable DeleteResult = new Runnable() {
+        @Override
+        public void run() {
+            if (mCommResultTmp2.getDetail().getContent().equals("删除成功")) {
+                Toast.makeText(getApplicationContext(), mCommResultTmp2.getDetail().getContent(), Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(getApplicationContext(), mCommResultTmp2.getDetail().getContent(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    };
     Runnable updateThis = new Runnable() {
         @Override
         public void run() {

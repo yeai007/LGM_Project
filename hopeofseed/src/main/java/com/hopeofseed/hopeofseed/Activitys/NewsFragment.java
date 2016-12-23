@@ -161,6 +161,8 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
                     case R.id.rel_img_user_avatar://点击头像
                         intent = new Intent(getActivity(), UserActivity.class);
                         intent.putExtra("userid", String.valueOf(data.getUser_id()));
+                        intent.putExtra("UserRole", Integer.parseInt(data.getUser_role()));
+                        Log.e(TAG, "onItemClick: UserRole" + String.valueOf(data.getUser_role()));
                         startActivity(intent);
                         break;
                     case R.id.rel_forward://转发
@@ -182,7 +184,6 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
                             intent.putExtra("NEWID", String.valueOf(data.getId()));
                             startActivityForResult(intent, 0);
                         }
-
                         break;
                     case R.id.rel_zambia:
                         updatePosition = String.valueOf(data.getId());
@@ -191,9 +192,9 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
                     case R.id.user_name:
                         intent = new Intent(getActivity(), UserActivity.class);
                         intent.putExtra("userid", data.getUser_id());
+                        intent.putExtra("UserRole", Integer.parseInt(data.getUser_role()));
                         startActivity(intent);
                         break;
-
                     case R.id.tv_title:
                         Log.e(TAG, "onItemClick: tv_title");
                         intent = new Intent(getActivity(), NewsInfoNewActivity.class);

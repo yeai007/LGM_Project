@@ -64,8 +64,8 @@ public class NotifyListAdapter extends RecyclerView.Adapter<NotifyListAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         final NotifyDataNorealm itemData = mList.get(position);
         updateTime(holder, itemData.getNotifyCreateTime());
-        holder.item_title.setText(itemData.getNotifyTitle());
-        holder.item_content.setText(itemData.getNotifyContent());
+        holder.item_title.setText(itemData.getNotifyShowTitle());
+        holder.item_content.setText(itemData.getNotifyShowTitle());
         holder.rel_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

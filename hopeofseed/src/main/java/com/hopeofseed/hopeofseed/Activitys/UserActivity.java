@@ -19,16 +19,13 @@ import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Adapter.UsersPagerAdapter;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.DataForHttp.GetMyFollow;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.DistributorData;
 import com.hopeofseed.hopeofseed.JNXData.FollowedFriend;
 import com.hopeofseed.hopeofseed.JNXData.FragmentListDatas;
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.FollowedFriendTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataNoRealmTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.CategoryTabStrip;
@@ -75,6 +72,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     Handler mHandler = new Handler();
     int isAddOrDel = 0;
     UserInfo mUserInfo;
+    int UserRole = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,19 +80,65 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.user_activity);
         Intent intent = getIntent();
         UserId = intent.getStringExtra("userid");
+        UserRole = intent.getIntExtra("UserRole", 0);
+        Log.e(TAG, "onCreate: UserRole" + UserRole);
         initView();
         getData();
     }
 
     private void setFrament() {
-        int[] fregments = {6, 7, 8, 9, 10};
+        int[] fregments = null;
+        switch (UserRole) {
+            /**
+             * 农友
+             * */
+            case 0:
+                fregments = new int[]{9, 8, 6, 7};
+                break;
+            /**
+             * 经销商
+             * */
+            case 1:
+                fregments = new int[]{10, 11, 8, 6, 9, 7};
+                break;
+            /**
+             * 企业
+             * */
+            case 2:
+                fregments = new int[]{10, 11, 6, 8, 9};
+                break;
+            /**
+             * 机构
+             * */
+            case 4:
+                fregments = new int[]{9, 6, 8, 11};
+                break;
+            /**
+             * 专家
+             * */
+            case 3:
+                fregments = new int[]{9, 6, 8, 7};
+                break;
+            /**
+             * 管理员
+             * */
+            case 5:
+                fregments = new int[]{9, 6, 8, 11};
+                break;
+            /**
+             * 媒体
+             * */
+            case 6:
+                fregments = new int[]{9, 6, 8, 11};
+                break;
+        }
         ListFragmentConfig lfc = new ListFragmentConfig();
-        fragmentList.addAll(lfc.getCommUser(fregments));
+        fragmentList.addAll(lfc.getCommUser(fregments, UserId));
     }
 
     private void initView() {
         appTitle = (TextView) findViewById(R.id.apptitle);
-        appTitle.setVisibility(View.GONE);
+        //appTitle.setVisibility(View.GONE);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("更多资料");
@@ -129,7 +173,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         switch (view.getId()) {
             case R.id.btn_topleft:
-                Toast.makeText(getApplicationContext(), "OnClick", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "OnClick", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
             case R.id.btn_topright:
@@ -305,7 +349,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 case 2://用户关注当前页帐号
                     btn_submit_followed.setText("已关注");
                     isAddOrDel = 0;
-                    Toast.makeText(getApplicationContext(), "已经关注", Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(getApplicationContext(), "已经关注", Toast.LENGTH_SHORT).show();
                     break;
 
                 case 3://双向关注
@@ -318,6 +362,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     private Handler updateViewHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            //setFrament(Integer.parseInt(mUserDataNoRealm.getUser_role()));
             Log.e(TAG, "handleMessage: updateview");
             appTitle.setText(mUserDataNoRealm.getNickname());
             tv_username.setText(mUserDataNoRealm.getNickname());

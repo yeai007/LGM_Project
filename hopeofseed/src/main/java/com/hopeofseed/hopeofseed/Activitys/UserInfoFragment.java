@@ -88,6 +88,11 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
         rel_add_commodity.setOnClickListener(listener);
         RelativeLayout rel_expert = (RelativeLayout) v.findViewById(R.id.rel_expert);
         rel_expert.setOnClickListener(listener);
+        RelativeLayout rel_push = (RelativeLayout) v.findViewById(R.id.rel_push);
+        rel_push.setOnClickListener(listener);
+        if (Integer.parseInt(Const.currentUser.user_role) == 0) {
+            rel_expert.setVisibility(View.VISIBLE);
+        }
         rel_fans = (RelativeLayout) v.findViewById(R.id.rel_fans);
         rel_fans.setOnClickListener(listener);
         rel_follow = (RelativeLayout) v.findViewById(R.id.rel_follow);
@@ -226,8 +231,16 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
                     intent.putExtra("UserId", mUserDataNoRealm.getUser_id());
                     startActivity(intent);
                     break;
+                /**
+                 * 申请成为专家
+                 * */
                 case R.id.rel_expert:
+
                     intent = new Intent(getActivity(), ApplyExpertActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.rel_push:
+                    intent = new Intent(getActivity(), CustomPushActivity.class);
                     startActivity(intent);
                     break;
             }
@@ -237,9 +250,9 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == getActivity().RESULT_OK) {
-                getUserJpushInfo(Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id));
-            }
+        if (resultCode == getActivity().RESULT_OK) {
+            getUserJpushInfo(Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id));
+        }
     }
 
     private void getData() {

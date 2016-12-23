@@ -182,6 +182,7 @@ public class SelectEnterprise extends AppCompatActivity implements View.OnClickL
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), UserActivity.class);
                 intent.putExtra("userid", String.valueOf(arr_EnterpriseData.get(position - 1).getUser_id()));
+                intent.putExtra("UserRole",String.valueOf(arr_EnterpriseData.get(position-1).getUser_role()));
                 startActivity(intent);
             }
         });

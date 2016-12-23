@@ -148,6 +148,7 @@ public class AuthorFragment extends Fragment {
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Intent intent = new Intent(getActivity(), UserActivity.class);
             intent.putExtra("userid", String.valueOf(arr_AuthorData.get(i - 1).getUser_id()));
+            intent.putExtra("UserRole", String.valueOf(arr_AuthorData.get(i - 1).getUser_role()));
             startActivity(intent);
             Toast.makeText(getActivity(), arr_AuthorData.get(i - 1).getAuthorName(), Toast.LENGTH_SHORT).show();
         }

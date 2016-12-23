@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,11 +53,11 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
     ArrayList<DistributorData> arrAutoDistributorDataTmp = new ArrayList<>();
     ArrayList<DistributorData> arrAutoDistributorData = new ArrayList<>();
     AutoTextDistributoAdapter mAutoTextDistributoAdapter;
+    Handler mHandler = new Handler();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         final View v = inflater.inflate(R.layout.distributor_commodity_fragment, null);
         initView(v);
         initData();
@@ -70,15 +71,19 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "GetDistributor.php", opt_map, DistributorDataTmp.class, this);
+        hu.httpPost(Const.BASE_URL + "GetDistributorByAddRelation.php", opt_map, DistributorDataTmp.class, this);
     }
 
     private void initView(View v) {
         lv_distributor = (RecyclerView) v.findViewById(R.id.lv_distributor);
-        mDistributorForCommodityAdapter = new DistributorForCommodityAdapter(getActivity(), arr_DistributorData);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        lv_distributor.setLayoutManager(linearLayoutManager);
+
+        mDistributorForCommodityAdapter = new DistributorForCommodityAdapter(getContext(), arr_DistributorData);
         lv_distributor.setAdapter(mDistributorForCommodityAdapter);
         tv_search = (AutoCompleteTextView) v.findViewById(R.id.tv_search);
-        mAutoTextDistributoAdapter = new AutoTextDistributoAdapter(getActivity(), arr_DistributorData);
+        mAutoTextDistributoAdapter = new AutoTextDistributoAdapter(getContext(), arr_DistributorData);
         tv_search.setAdapter(mAutoTextDistributoAdapter);
     }
 
@@ -100,7 +105,7 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
             DistributorDataTmp distibutorDataTmp = ObjectUtil.cast(rspBaseBean);
             Log.e(TAG, "onSuccess: " + distibutorDataTmp.toString());
             arr_DistributorDataTmp = distibutorDataTmp.getDetail();
-            updateView();
+            mHandler.post(updateList);
         }
     }
 
@@ -114,15 +119,20 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
 
     }
 
+    Runnable updateList = new Runnable() {
+        @Override
+        public void run() {
+            arr_DistributorData.clear();
+            arr_DistributorData.addAll(arr_DistributorDataTmp);
+            mDistributorForCommodityAdapter.notifyDataSetChanged();
+        }
+    };
+
     private void updateAutoDistributor() {
         Message msg = updateAutoDistributorHandle.obtainMessage();
         msg.sendToTarget();
     }
 
-    private void updateView() {
-        Message msg = updateViewHandle.obtainMessage();
-        msg.sendToTarget();
-    }
 
     private Handler updateAutoDistributorHandle = new Handler() {
         @Override
@@ -135,12 +145,5 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
 
         }
     };
-    private Handler updateViewHandle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            arr_DistributorData.clear();
-            arr_DistributorData.addAll(arr_DistributorDataTmp);
-            mDistributorForCommodityAdapter.notifyDataSetChanged();
-        }
-    };
+
 }

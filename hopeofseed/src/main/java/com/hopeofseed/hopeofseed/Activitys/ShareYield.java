@@ -16,6 +16,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,7 +66,9 @@ import rx.functions.Action1;
 import static android.R.id.edit;
 import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 import static com.hopeofseed.hopeofseed.R.color.text_content_color;
+import static com.hopeofseed.hopeofseed.R.id.et_content;
 import static com.hopeofseed.hopeofseed.R.id.et_essay;
+import static com.hopeofseed.hopeofseed.R.id.et_title;
 import static com.hopeofseed.hopeofseed.R.id.et_yield_sum;
 
 /**
@@ -229,22 +232,37 @@ public class ShareYield extends AppCompatActivity implements View.OnClickListene
     }
 
     private void AddNewYield(List<File> fileList) {
-        Log.e(TAG, "getData: 获取经销商数据");
-        HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("YieldVariety", et_variety.getText().toString());
-        opt_map.put("YieldSum", et_yield_sum.getText().toString());
-        opt_map.put("YieldArea", et_planting_area.getText().toString());
-        opt_map.put("YieldYield", et_yield.getText().toString());
-        opt_map.put("YieldEssay", et_essay.getText().toString());
-        opt_map.put("YieldCreateUser", String.valueOf(Const.currentUser.user_id));
-        opt_map.put("LocLat", String.valueOf(Const.LocLat));
-        opt_map.put("Loclng", String.valueOf(Const.LocLng));
-        opt_map.put("Province", Const.Province);
-        opt_map.put("City", Const.City);
-        opt_map.put("Zone", Const.Zone);
-        HttpUtils hu = new HttpUtils();
-        // hu.httpPost(Const.BASE_URL + "AddNewYieldData.php", opt_map, CommHttpResultTmp.class, this);
-        hu.httpPostFiles(Const.BASE_URL + "AddNewYieldDataImg.php", opt_map, fileList, pushFileResultTmp.class, this);
+        if (isChecked()) {
+            HashMap<String, String> opt_map = new HashMap<>();
+            opt_map.put("YieldVariety", et_variety.getText().toString());
+            opt_map.put("YieldSum", et_yield_sum.getText().toString());
+            opt_map.put("YieldArea", et_planting_area.getText().toString());
+            opt_map.put("YieldYield", et_yield.getText().toString());
+            opt_map.put("YieldEssay", et_essay.getText().toString());
+            opt_map.put("YieldCreateUser", String.valueOf(Const.currentUser.user_id));
+            opt_map.put("LocLat", String.valueOf(Const.LocLat));
+            opt_map.put("Loclng", String.valueOf(Const.LocLng));
+            opt_map.put("Province", Const.Province);
+            opt_map.put("City", Const.City);
+            opt_map.put("Zone", Const.Zone);
+            HttpUtils hu = new HttpUtils();
+            // hu.httpPost(Const.BASE_URL + "AddNewYieldData.php", opt_map, CommHttpResultTmp.class, this);
+            hu.httpPostFiles(Const.BASE_URL + "AddNewYieldDataImg.php", opt_map, fileList, pushFileResultTmp.class, this);
+        }
+    }
+
+    private boolean isChecked() {
+        boolean ischeck = true;
+        if (TextUtils.isEmpty(et_variety.getText().toString())) {
+            ischeck = false;
+            Toast.makeText(getApplicationContext(), "品种不能为空", Toast.LENGTH_SHORT).show();
+        }
+
+        if (TextUtils.isEmpty(et_essay.getText().toString())) {
+            ischeck = false;
+            Toast.makeText(getApplicationContext(), "描述不能为空", Toast.LENGTH_SHORT).show();
+        }
+        return ischeck;
     }
 
     private void initData() {

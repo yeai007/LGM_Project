@@ -69,7 +69,7 @@ public class NetRunnable implements Runnable {
         if (mUrl.startsWith("http")) {
             if (isPostFile) {
                 json = postMethod ? HttpWork.postFiles(mUrl, mParam, mFileParam) : HttpWork.get();
-               // Log.e(TAG, "run: " + json);
+                // Log.e(TAG, "run: " + json);
             } else {
                 json = postMethod ? HttpWork.post(mUrl, mParam) : HttpWork.get();
             }
@@ -87,12 +87,12 @@ public class NetRunnable implements Runnable {
             return;
         }
         RspBaseBean baseBean = null;
-       // Log.e(TAG, "run: " + json);
+        // Log.e(TAG, "run: " + json);
         try {
             baseBean = mGson.fromJson(json, RspBaseBean.class);
         } catch (JsonSyntaxException e) {
             Log.e(TAG, "run:data error ");
-            mNetCallBack.onError(json);
+            mNetCallBack.onError("错误代码：1000001");
             return;
         }
         if (baseBean.result != 1) {

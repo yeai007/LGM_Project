@@ -94,6 +94,7 @@ public class AuthorMapFragment extends Fragment implements BDLocationListener, N
                     public void onClick(View view) {
                         Intent intent = new Intent(getActivity(), UserActivity.class);
                         intent.putExtra("userid", finalItemDis.getUser_id());
+                        intent.putExtra("UserRole", finalItemDis.getUser_role());
                         startActivity(intent);
                     }
                 });

@@ -83,10 +83,11 @@ public class SearchView extends LinearLayout implements View.OnClickListener {
         LayoutInflater.from(context).inflate(R.layout.search_layout, this);
         initViews();
     }
-public void setEtInput(String input)
-{
-    etInput.setText(input);
-}
+
+    public void setEtInput(String input) {
+        etInput.setText(input);
+    }
+
     private void initViews() {
         etInput = (EditText) findViewById(R.id.search_et_input);
         ivDelete = (ImageView) findViewById(R.id.search_iv_delete);
@@ -125,9 +126,10 @@ public void setEtInput(String input)
 
     /**
      * 通知监听者 进行搜索操作
+     *
      * @param text
      */
-    private void notifyStartSearching(String text){
+    private void notifyStartSearching(String text) {
         if (mListener != null) {
             mListener.onSearch(etInput.getText().toString());
         }
@@ -194,6 +196,8 @@ public void setEtInput(String input)
                 break;
             case R.id.search_iv_delete:
                 etInput.setText("");
+                String text = "";
+                notifyStartSearching(text);
                 ivDelete.setVisibility(GONE);
                 break;
             case R.id.search_btn_back:

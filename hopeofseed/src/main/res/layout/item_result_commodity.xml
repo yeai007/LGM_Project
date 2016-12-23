@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
         android:background="@drawable/imageview_shape"
+        android:src="@drawable/no_have_img"
         android:scaleType="centerCrop" />
 
     <TextView

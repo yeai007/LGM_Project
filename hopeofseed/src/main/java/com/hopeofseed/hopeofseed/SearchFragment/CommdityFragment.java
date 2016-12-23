@@ -30,6 +30,7 @@ import com.lgm.utils.ObjectUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.baidu.location.h.j.S;
 import static com.hopeofseed.hopeofseed.R.id.recy_news;
 
 /**
@@ -47,6 +48,12 @@ public class CommdityFragment extends Fragment implements View.OnClickListener, 
     Button btn_show_all;
     int PageNo = 0;
     private SwipeRefreshLayout mRefreshLayout;
+    String UserId = "";
+
+    public CommdityFragment(String userId) {
+        super();
+        UserId = userId;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +90,12 @@ public class CommdityFragment extends Fragment implements View.OnClickListener, 
 
     private void getData() {
         HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        if (UserId.equals(String.valueOf(Const.currentUser.user_id))) {
+            opt_map.put("IsMe", "0");
+        } else {
+            opt_map.put("IsMe", "1");
+        }
+        opt_map.put("UserId", UserId);
         opt_map.put("Str_search", Str_search);
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetMyCommodity.php", opt_map, CommodityDataTmp.class, netCallBack);
@@ -133,6 +145,7 @@ public class CommdityFragment extends Fragment implements View.OnClickListener, 
         switch (view.getId()) {
             case R.id.btn_show_all:
                 Intent intent = new Intent(getActivity(), AllCommodityActivity.class);
+                intent.putExtra("UserId",UserId);
                 startActivity(intent);
                 break;
         }

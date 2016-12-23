@@ -152,6 +152,7 @@ public class SeedfriendFragment extends Fragment {
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Intent intent = new Intent(getActivity(), UserActivity.class);
             intent.putExtra("userid", String.valueOf(arr_UserDataNoRealm.get(i - 1).getUser_id()));
+            intent.putExtra("UserRole", String.valueOf(arr_UserDataNoRealm.get(i - 1).getUser_role()));
             startActivity(intent);
         }
     };

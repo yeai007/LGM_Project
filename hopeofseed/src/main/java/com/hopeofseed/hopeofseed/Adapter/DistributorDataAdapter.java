@@ -29,6 +29,7 @@ import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
+import static com.hopeofseed.hopeofseed.R.id.rel_title;
 
 /**
  * 项目名称：LGM_Project
@@ -39,7 +40,7 @@ import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
  * 修改时间：2016/10/17 15:09
  * 修改备注：
  */
-public class DistributorDataAdapter extends BaseAdapter {
+public class DistributorDataAdapter extends RecyclerView.Adapter<DistributorDataAdapter.ViewHolder> {
     Context mContext;
     List<DistributorCommodityArray> mlist;
 
@@ -50,13 +51,42 @@ public class DistributorDataAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
-        return mlist.size();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
+        View view = _LayoutInflater.inflate(R.layout.distributor_items, null);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
     }
 
     @Override
-    public Object getItem(int i) {
-        return mlist.get(i);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final DistributorCommodityArray mData = mlist.get(position);
+        CommodityImageAdapter gridAdapter = new CommodityImageAdapter(mContext, mData.getCommodityData());
+        holder.resultRecyclerView.setAdapter(gridAdapter);
+        holder.tv_name.setText(mData.getDistributorName());
+        holder.tv_address.setText(mData.getDistributorProvince() + "  " + mData.getDistributorCity() + " " + mData.getDistributorZone());
+        String strDistance = "0";
+        int iDistance = Integer.parseInt(mData.getDistance());
+        if (iDistance > 1000) {
+            double c = ObjectUtil.roundDouble((double) iDistance / (double) 1000, 2);
+
+            strDistance = String.valueOf(c);
+            holder.tv_distance.setText(strDistance + "Km");
+        } else {
+            holder.tv_distance.setText(mData.getDistance() + "M");
+        }
+
+        holder.tv_distributor_address_detail.setText(mData.getDistributorAddressDetail());
+        holder.item_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, UserActivity.class);
+                intent.putExtra("userid", mData.getUser_id());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+            }
+        });
+        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), holder);
     }
 
     @Override
@@ -65,54 +95,27 @@ public class DistributorDataAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
-        DistributorCommodityArray mData;
-        mData = mlist.get(i);
-        ViewHolder viewHolder;
-        if (view == null) {
-            viewHolder = new ViewHolder();
-            view = _LayoutInflater.inflate(R.layout.distributor_items, null);
-            viewHolder.tv_name = (TextView) view.findViewById(R.id.tv_distributor_name);
-            viewHolder.tv_address = (TextView) view.findViewById(R.id.tv_distributor_address);
-            viewHolder.rel_title=(RelativeLayout)view.findViewById(R.id.rel_title);
-            viewHolder.rel_title.setTag(R.id.key_commodity_title_id, mData.getUser_id());
-            viewHolder.rel_title.setOnClickListener(pullToListViewItemOnClickListener);
-            viewHolder.img_user_avatar = (ImageView) view.findViewById(R.id.img_user_avatar);
-            viewHolder.tv_distance = (TextView) view.findViewById(R.id.tv_distance);
-            viewHolder.tv_distributor_address_detail = (TextView) view.findViewById(R.id.tv_distributor_address_detail);
-            viewHolder.resultRecyclerView = (RecyclerView) view.findViewById(R.id.result_recycler);
-            viewHolder.resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
-            view.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) view.getTag();
-        }
-        CommodityImageAdapter gridAdapter = new CommodityImageAdapter(mContext, mData.getCommodityData());
-        viewHolder.resultRecyclerView.setAdapter(gridAdapter);
-        viewHolder.tv_name.setText(mData.getDistributorName());
-        viewHolder.tv_address.setText(mData.getDistributorProvince() + "  " + mData.getDistributorCity() + " " + mData.getDistributorZone());
-        String strDistance = "0";
-        int iDistance = Integer.parseInt(mData.getDistance());
-        if (iDistance > 1000) {
-            double c = ObjectUtil.roundDouble((double) iDistance / (double) 1000, 2);
-
-            strDistance = String.valueOf(c);
-            viewHolder.tv_distance.setText(strDistance + "Km");
-        } else {
-            viewHolder.tv_distance.setText(mData.getDistance() + "M");
-        }
-
-        viewHolder.tv_distributor_address_detail.setText(mData.getDistributorAddressDetail());
-        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), viewHolder);
-        return view;
+    public int getItemCount() {
+        return mlist.size();
     }
 
-    class ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img_user_avatar;
         TextView tv_name, tv_address, tv_distance, tv_distributor_address_detail;
         RecyclerView resultRecyclerView;
-        RelativeLayout rel_title;
+        RelativeLayout item_view;
 
+        public ViewHolder(View itemView) {
+            super(itemView);
+            tv_name = (TextView) itemView.findViewById(R.id.tv_distributor_name);
+            tv_address = (TextView) itemView.findViewById(R.id.tv_distributor_address);
+            item_view = (RelativeLayout) itemView.findViewById(R.id.item_view);
+            img_user_avatar = (ImageView) itemView.findViewById(R.id.img_user_avatar);
+            tv_distance = (TextView) itemView.findViewById(R.id.tv_distance);
+            tv_distributor_address_detail = (TextView) itemView.findViewById(R.id.tv_distributor_address_detail);
+            resultRecyclerView = (RecyclerView) itemView.findViewById(R.id.result_recycler);
+            resultRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+        }
     }
 
     private void getUserJpushInfo(String user_name, final ViewHolder holder) {
@@ -136,18 +139,4 @@ public class DistributorDataAdapter extends BaseAdapter {
             }
         });
     }
-
-    View.OnClickListener pullToListViewItemOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            Intent intent;
-            switch (view.getId()) {
-                case R.id.rel_title:
-                    intent = new Intent(mContext.getApplicationContext(), UserActivity.class);
-                    intent.putExtra("userid", String.valueOf(view.getTag(R.id.key_commodity_title_id)));
-                    mContext.startActivity(intent);
-                    break;
-            }
-        }
-    };
 }

@@ -1,121 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:id="@+id/item_view"
-    android:background="@color/white">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/rel_title"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp">
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:background="@color/white">
 
         <RelativeLayout
-            android:id="@+id/rel_img_user_avatar"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:focusable="false"
-            android:layout_centerVertical="true">
-
-            <com.hopeofseed.hopeofseed.ui.CircleImageView
-                android:id="@+id/img_user_avatar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:src="@drawable/header_distributor_default" />
-
-            <ImageView
-                android:id="@+id/img_corner"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/corner_distributor" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/tv_distributor_name"
+            android:id="@+id/rel_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:focusable="false"
-            android:layout_toRightOf="@+id/rel_img_user_avatar"
-            android:gravity="left|center_vertical"
-            android:text="用户"
-            android:textSize="14sp"
-            android:textColor="#333333" />
-
-        <TextView
-            android:id="@+id/tv_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"
-            android:focusable="false"
-            android:gravity="left|center_vertical"
-            android:text="1.1km"
-            android:textSize="12sp"
-            android:textColor="@color/text_content_color" />
-
-        <TextView
-            android:id="@+id/tv_distributor_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_distributor_name"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/rel_img_user_avatar"
-            android:gravity="left|center_vertical"
-            android:text="地址"
-            android:focusable="false"
-            android:textSize="12sp"
-            android:textColor="@color/text_content_color" />
-
-        <TextView
-            android:id="@+id/tv_distributor_address_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_distributor_address"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/rel_img_user_avatar"
-            android:gravity="left|center_vertical"
-            android:text="详细地址"
-            android:focusable="false"
-            android:textSize="12sp"
-            android:textColor="@color/text_content_color" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rel_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rel_title"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp">
-
-        <RelativeLayout
-            android:id="@+id/rel_assimg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/result_recycler"
+            <RelativeLayout
+                android:id="@+id/rel_img_user_avatar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_centerVertical="true"
+                android:focusable="false">
+
+                <com.hopeofseed.hopeofseed.ui.CircleImageView
+                    android:id="@+id/img_user_avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/header_distributor_default" />
+
+                <ImageView
+                    android:id="@+id/img_corner"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/corner_distributor" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_distributor_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:columnWidth="70dp"
-                android:horizontalSpacing="10dp"
-                android:numColumns="auto_fit"
-                android:verticalSpacing="10dp" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/rel_img_user_avatar"
+                android:focusable="false"
+                android:gravity="left|center_vertical"
+                android:text="用户"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:focusable="false"
+                android:gravity="left|center_vertical"
+                android:text="1.1km"
+                android:textColor="@color/text_content_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_distributor_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_distributor_name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/rel_img_user_avatar"
+                android:focusable="false"
+                android:gravity="left|center_vertical"
+                android:text="地址"
+                android:textColor="@color/text_content_color"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_distributor_address_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_distributor_address"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/rel_img_user_avatar"
+                android:focusable="false"
+                android:gravity="left|center_vertical"
+                android:text="详细地址"
+                android:textColor="@color/text_content_color"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rel_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rel_title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp">
+
+            <RelativeLayout
+                android:id="@+id/rel_assimg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/result_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:columnWidth="70dp"
+                    android:horizontalSpacing="10dp"
+                    android:numColumns="auto_fit"
+                    android:verticalSpacing="10dp" />
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

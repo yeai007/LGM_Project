@@ -95,6 +95,7 @@ public class SettingDistributorActivity extends AppCompatActivity implements Vie
         btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("确定");
         btn_topright.setOnClickListener(this);
+        btn_topright.setVisibility(View.VISIBLE);
         lv_list = (PullToRefreshListView) findViewById(R.id.lv_list);
         mSelectDistributorAdapter = new SelectDistributorAdapter(SettingDistributorActivity.this, arr_DistributorData);
         lv_list.setAdapter(mSelectDistributorAdapter);
@@ -114,7 +115,7 @@ public class SettingDistributorActivity extends AppCompatActivity implements Vie
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "GetSearchDistributor.php", opt_map, DistributorDataTmp.class, netCallBack);
+        hu.httpPost(Const.BASE_URL + "GetDistributorByAddRelation.php", opt_map, DistributorDataTmp.class, netCallBack);
     }
 
     NetCallBack netCallBack = new NetCallBack() {

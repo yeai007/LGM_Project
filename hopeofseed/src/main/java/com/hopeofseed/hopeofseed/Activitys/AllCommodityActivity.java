@@ -1,5 +1,6 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -61,6 +62,7 @@ public class AllCommodityActivity extends AppCompatActivity implements View.OnCl
     RecyclerView recy_catas;
     StringGridListAdapter mStringGridListAdapter;
     StringVariety first = new StringVariety();
+    String UserId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +70,8 @@ public class AllCommodityActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.all_commodity_activity);
         first.setVariety("全部");
         first.setCount("0");
+        Intent intent = getIntent();
+        UserId = intent.getStringExtra("UserId");
         initView();
         getHotSortData();
         getData();
@@ -118,14 +122,14 @@ public class AllCommodityActivity extends AppCompatActivity implements View.OnCl
     private void getHotSortData() {
         Log.e(TAG, "getData: 获取热门分类数据");
         HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        opt_map.put("UserId",UserId);
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetCommodityVforDisEp.php", opt_map, StringVarietyTmp.class, this);
     }
 
     private void getData() {
         HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        opt_map.put("UserId", UserId);
         if (Str_search.equals("全部")) {
             opt_map.put("Str_search", "");
         } else {
@@ -153,7 +157,7 @@ public class AllCommodityActivity extends AppCompatActivity implements View.OnCl
             if (catalogs.size() > 0) {
                 tabs.setData(catalogs);
             }
-          //  Str_search = catalogs.get(0);
+            //  Str_search = catalogs.get(0);
             arrStringVariety.clear();
             arrStringVariety.add(first);
             arrStringVariety.addAll(arrStringVarietyTmp);
@@ -165,7 +169,7 @@ public class AllCommodityActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_topleft:
-                Str_search="";
+                Str_search = "";
                 finish();
                 break;
             case R.id.img_all:
@@ -232,7 +236,7 @@ public class AllCommodityActivity extends AppCompatActivity implements View.OnCl
 
     }
 
-    public void getDataForOut(String search,int position) {
+    public void getDataForOut(String search, int position) {
         Str_search = search;
         getData();
     }

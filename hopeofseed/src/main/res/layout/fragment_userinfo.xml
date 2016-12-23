@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/maincolor"
     android:orientation="vertical">
 
     <include
@@ -143,7 +142,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/rel_user_menu"
-        android:background="@color/mainbgcolor">
+        android:background="#E0E0E0">
 
         <RelativeLayout
             android:id="@+id/rel_body"
@@ -239,7 +238,8 @@
                 android:layout_height="50dp"
                 android:layout_below="@+id/rel_add_commodity"
                 android:layout_marginTop="5dp"
-                android:background="#ffffff">
+                android:background="#ffffff"
+                android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/img_account_expert"
@@ -262,10 +262,38 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/rel_signout"
+                android:id="@+id/rel_push"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@+id/rel_expert"
+                android:layout_marginTop="5dp"
+                android:background="#ffffff">
+
+                <ImageView
+                    android:id="@+id/img_push"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/img_apply_commodity" />
+
+                <TextView
+                    android:id="@+id/tv_push"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/img_push"
+                    android:gravity="center_vertical"
+                    android:text="推送"
+                    android:textColor="@color/text_menu_color"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rel_signout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rel_push"
                 android:layout_marginTop="10dp"
                 android:background="#ffffff">
 
