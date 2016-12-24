@@ -1,10 +1,13 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -334,26 +337,30 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     Runnable updateFollowedStatus = new Runnable() {
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void run() {
             Log.e(TAG, "run: swich" + isFriend);
             switch (isFriend) {
                 case 0://双方未关注
-                    btn_submit_followed.setText("未关注");
+                    btn_submit_followed.setText("+关注");
+                    btn_submit_followed.setTextColor(getResources().getColor(R.color.red,null));
                     isAddOrDel = 1;
                     break;
                 case 1://当前关注用户，用户未关注当前页帐号
-                    btn_submit_followed.setText("未关注");
+                    btn_submit_followed.setText("+关注");
+                    btn_submit_followed.setTextColor(getResources().getColor(R.color.text_title_color,null));
                     isAddOrDel = 1;
                     break;
                 case 2://用户关注当前页帐号
                     btn_submit_followed.setText("已关注");
+                    btn_submit_followed.setTextColor(getResources().getColor(R.color.text_title_color,null));
                     isAddOrDel = 0;
-                    //  Toast.makeText(getApplicationContext(), "已经关注", Toast.LENGTH_SHORT).show();
                     break;
 
                 case 3://双向关注
                     btn_submit_followed.setText("互相关注(好友)");
+                    btn_submit_followed.setTextColor(getResources().getColor(R.color.text_title_color,null));
                     isAddOrDel = 0;
                     break;
             }

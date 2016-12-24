@@ -25,6 +25,8 @@ import java.io.File;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;
 
+import static com.hopeofseed.hopeofseed.Activitys.UserInfoFragment.UPDATE_USER_INFO;
+
 
 /**
  * Created by ${chenyn} on 16/4/8.
@@ -82,6 +84,9 @@ public class UpdateUserAvatar extends Activity implements View.OnClickListener {
                                     Intent intent = new Intent();
                                     //设置返回数据
                                     setResult(RESULT_OK, intent);
+                                    Intent intent_update_userinfo = new Intent();  //Itent就是我们要发送的内容
+                                    intent_update_userinfo.setAction(UPDATE_USER_INFO);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+                                    sendBroadcast(intent_update_userinfo);   //发送广播
                                     //关闭Activity
                                     finish();
                                 } else {

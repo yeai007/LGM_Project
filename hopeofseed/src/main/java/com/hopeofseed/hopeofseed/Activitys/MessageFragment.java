@@ -121,6 +121,7 @@ public class MessageFragment extends Fragment implements NetCallBack, View.OnCli
     Runnable updateCommend = new Runnable() {
         @Override
         public void run() {
+            mRefreshLayout.setRefreshing(false);
             mAdapter.setPinglun(unReadCount);
             mAdapter.notifyItemChanged(0);
         }

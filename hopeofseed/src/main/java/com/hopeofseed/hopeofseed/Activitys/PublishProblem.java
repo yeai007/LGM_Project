@@ -48,6 +48,7 @@ import com.hopeofseed.hopeofseed.util.GetImagePath;
 import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.view.ImageSelectorActivity;
+import com.lgm.view.MessageUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -146,6 +147,7 @@ public class PublishProblem extends AppCompatActivity implements View.OnClickLis
     private ArrayList<String> images = new ArrayList<>();
     GridAdapter gridAdapter;
     pushFileResultTmp mCommResultTmp;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,11 +189,12 @@ public class PublishProblem extends AppCompatActivity implements View.OnClickLis
             case R.id.btn_topright:
                 if (isChecked()) {
                     sendData();
-                  //  SubmitProblem();
+                    //  SubmitProblem();
                 }
                 break;
         }
     }
+
     private void sendData() {
         new Thread(new Runnable() {
             @Override
@@ -231,27 +234,32 @@ public class PublishProblem extends AppCompatActivity implements View.OnClickLis
             }
         }).start();
     }
+
     private boolean isChecked() {
         boolean ischeck = true;
         if (et_title.getText().toString().equals("")) {
-            Toast.makeText(getApplicationContext(), "标题不能是空！", Toast.LENGTH_SHORT).show();
+
+            MessageUtil.AltertMessage(getApplicationContext(), "标题不能为空");
             ischeck = false;
         }
         if (et_content.getText().toString().equals("")) {
-            Toast.makeText(getApplicationContext(), "问题描述不能为空！", Toast.LENGTH_SHORT).show();
+
+            MessageUtil.AltertMessage(getApplicationContext(), "问题描述不能为空");
             ischeck = false;
         }
         if (ClassName.trim().equals("")) {
-            Toast.makeText(getApplicationContext(), "分类不能为空！", Toast.LENGTH_SHORT).show();
+
+            MessageUtil.AltertMessage(getApplicationContext(), "分类不能为空");
             ischeck = false;
         }
         return ischeck;
     }
+
     private void SubmitProblem(List<File> fileList) {
         Log.e(TAG, "getData: 获取经销商数据");
         HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("ProblemTitle", et_title.getText().toString().replace("\n","\\n"));
-        opt_map.put("ProblemContent", et_content.getText().toString().replace("\n","\\n"));
+        opt_map.put("ProblemTitle", et_title.getText().toString().replace("\n", "\\n"));
+        opt_map.put("ProblemContent", et_content.getText().toString().replace("\n", "\\n"));
         opt_map.put("CreateUser", String.valueOf(Const.currentUser.user_id));
         opt_map.put("ClassName", ClassName);
         opt_map.put("ClassId", ClassId);
@@ -261,7 +269,7 @@ public class PublishProblem extends AppCompatActivity implements View.OnClickLis
         opt_map.put("City", Const.City);
         opt_map.put("Zone", Const.Zone);
         HttpUtils hu = new HttpUtils();
-       // hu.httpPost(Const.BASE_URL + "AddNewProblemData.php", opt_map, CommHttpResultTmp.class, this);
+        // hu.httpPost(Const.BASE_URL + "AddNewProblemData.php", opt_map, CommHttpResultTmp.class, this);
 
         hu.httpPostFiles(Const.BASE_URL + "AddNewProblemDataImg.php", opt_map, fileList, pushFileResultTmp.class, this);
     }
@@ -357,7 +365,9 @@ public class PublishProblem extends AppCompatActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TO_SELECT_PHOTO && resultCode == RESULT_OK && null != data) {
             final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-                        if (isKitKat) {                 AppUtil.verifyStoragePermissions(this);             }
+            if (isKitKat) {
+                AppUtil.verifyStoragePermissions(this);
+            }
             Uri selectedImage = data.getData();
             mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
             if (images.size() < 10) {

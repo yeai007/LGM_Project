@@ -48,6 +48,24 @@ public class NotifyData extends RealmObject {
      */
 
     private String NotifyData;
+    private String NotifyFromUser;
+    private String NotifyToUser;
+
+    public String getNotifyFromUser() {
+        return NotifyFromUser;
+    }
+
+    public void setNotifyFromUser(String NotifyFromUser) {
+        this.NotifyFromUser = NotifyFromUser;
+    }
+
+    public String getNotifyToUser() {
+        return NotifyToUser;
+    }
+
+    public void setNotifyToUser(String NotifyToUser) {
+        this.NotifyToUser = NotifyToUser;
+    }
 
     public String getNotifyImage() {
         return NotifyImage;

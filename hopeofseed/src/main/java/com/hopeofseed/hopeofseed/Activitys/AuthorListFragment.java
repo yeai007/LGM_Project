@@ -103,7 +103,7 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             Intent intent = new Intent(getActivity(), UserActivity.class);
             intent.putExtra("userid", String.valueOf(arrAuthorData.get(i - 1).getUser_id()));
-            intent.putExtra("UserRole", String.valueOf(arrAuthorData.get(i - 1).getUser_role()));
+            intent.putExtra("UserRole", Integer.parseInt(arrAuthorData.get(i - 1).getUser_role()));
             startActivity(intent);
         }
     };

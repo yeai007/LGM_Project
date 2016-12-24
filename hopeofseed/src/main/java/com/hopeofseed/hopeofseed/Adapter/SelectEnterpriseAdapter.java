@@ -65,6 +65,7 @@ public class SelectEnterpriseAdapter extends RecyclerView.Adapter<SelectEnterpri
             public void onClick(View v) {
                 Intent intent = new Intent(mContext.getApplicationContext(), UserActivity.class);
                 intent.putExtra("userid", String.valueOf(mData.getUser_id()));
+                intent.putExtra("UserRole",2);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             }

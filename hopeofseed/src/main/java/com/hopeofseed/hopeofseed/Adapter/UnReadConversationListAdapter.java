@@ -135,7 +135,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                 case 1:
                     holder.tv_time.setVisibility(View.GONE);
                     RealmResults<NotifyData> results1 =
-                            myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "1").findAll();
+                            myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyToUser",String.valueOf(Const.currentUser.user_id)).equalTo("NotifyType", "1").findAll();
                     Glide.with(mContext)
                             .load(R.drawable.img_system)
                             .centerCrop()
@@ -174,7 +174,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                     holder.tv_time.setVisibility(View.GONE);
                     //行业通知
                     RealmResults<NotifyData> results2 =
-                            myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "2").findAll();
+                            myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyToUser",String.valueOf(Const.currentUser.user_id)).equalTo("NotifyType", "2").findAll();
                     Glide.with(mContext)
                             .load(R.drawable.img_hangye)
                             .centerCrop()
@@ -215,7 +215,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                     holder.tv_time.setVisibility(View.GONE);
                     //群通知
                     RealmResults<NotifyData> results3 =
-                            myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", "3").findAll();
+                            myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyToUser",String.valueOf(Const.currentUser.user_id)).equalTo("NotifyType", "3").findAll();
 
                     Glide.with(mContext)
                             .load(R.drawable.img_group_default)

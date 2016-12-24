@@ -214,7 +214,7 @@ public class SeedfriendDataAdapter extends BaseAdapter {
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
                         }
-                    case 5:
+                    case 6:
                         holder.tv_user_role.setText("【媒体】");
                         holder.img_corner.setVisibility(View.GONE);
                         Glide.with(mContext)
@@ -234,7 +234,8 @@ public class SeedfriendDataAdapter extends BaseAdapter {
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
                         }
-                    case 6:
+                        break;
+                    case 5:
                         holder.tv_user_role.setText("【管理员】");
                         holder.img_corner.setVisibility(View.GONE);
                         Glide.with(mContext)

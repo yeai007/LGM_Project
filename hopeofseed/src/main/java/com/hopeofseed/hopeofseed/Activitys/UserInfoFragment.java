@@ -1,6 +1,9 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
@@ -31,11 +35,13 @@ import com.lgm.utils.ObjectUtil;
 
 import java.util.HashMap;
 
+import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 import io.realm.Realm;
 
+import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 import static com.hopeofseed.hopeofseed.R.drawable.corner_enterprise;
 import static com.hopeofseed.hopeofseed.R.drawable.corner_expert;
 import static com.hopeofseed.hopeofseed.R.id.img_user_avatar;
@@ -51,6 +57,7 @@ import static com.hopeofseed.hopeofseed.R.id.img_user_avatar;
  * 修改备注：
  */
 public class UserInfoFragment extends Fragment implements NetCallBack {
+    public static String UPDATE_USER_INFO = "UPDATE_USER_INFO";
     ImageView tv__avatar, img_corner;
     private static final String TAG = "UserInfoFragment";
     private static int UPDATE_USER_AVATAR = 120;
@@ -58,17 +65,25 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
     RelativeLayout rel_follow, rel_fans;
     UserDataNoRealm mUserDataNoRealm = new UserDataNoRealm();
     TextView app_title;
-
+    private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_userinfo, null);
         initView(v);
+        initReceiver();
         getData();
         AppUtil.verifyStoragePermissions(getActivity());
+
         return v;
     }
-
+    private void initReceiver() {
+        // 注册广播接收
+        updateBroadcastReceiver = new UpdateBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(UPDATE_USER_INFO);    //只有持有相同的action的接受者才能接收此广播
+        getActivity().registerReceiver(updateBroadcastReceiver, filter);
+    }
     private void initView(View v) {
         app_title = (TextView) v.findViewById(R.id.apptitle);
         app_title.setText("我的");
@@ -109,7 +124,6 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
                 if (userInfo.getAvatarFile() != null) {
-                    //  Log.e(TAG, "gotResult: " + Const.JPUSH_PREFIX+String.valueOf(Const.currentUser.user_id));
                     Glide.with(getActivity())
                             .load(userInfo.getAvatarFile())
                             .centerCrop()
@@ -182,7 +196,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
                     startActivity(intent);
                     break;
                 case R.id.rel_accountsetting:
-                    //账号设置
+                    //修改资料
 
                     intent = new Intent(getActivity(), AccountSetting.class);
                     intent.putExtra("User", mUserDataNoRealm);
@@ -216,6 +230,8 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
                     updateRealm.commitTransaction();
                     intent = new Intent(getActivity(), LoginAcitivity.class);
                     startActivity(intent);
+                    JMessageClient.logout();
+                    JPushInterface.stopPush(Application.getContext());
                     break;
                 case img_user_avatar:
                     intent = new Intent(getActivity(), UpdateUserAvatar.class);
@@ -235,7 +251,6 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
                  * 申请成为专家
                  * */
                 case R.id.rel_expert:
-
                     intent = new Intent(getActivity(), ApplyExpertActivity.class);
                     startActivity(intent);
                     break;
@@ -296,4 +311,11 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
 
         }
     };
+    class UpdateBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            getData();
+        }
+    }
+
 }

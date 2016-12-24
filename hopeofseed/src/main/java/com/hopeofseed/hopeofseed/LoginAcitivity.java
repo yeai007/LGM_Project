@@ -34,6 +34,7 @@ import com.lgm.utils.ObjectUtil;
 import java.util.HashMap;
 import java.util.List;
 
+import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.api.BasicCallback;
@@ -58,6 +59,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
     Realm myRealm = Realm.getDefaultInstance();
     Handler mHandle = new Handler();
     private String mError;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,7 +144,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onError(String error) {
-        mError=error;
+        mError = error;
         mHandle.post(rspResult);
 
     }
@@ -153,12 +155,13 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    Runnable rspResult=new Runnable() {
+    Runnable rspResult = new Runnable() {
         @Override
-    public void run() {
-        Toast.makeText(getApplicationContext(), mError, Toast.LENGTH_SHORT).show();
-    }
-};
+        public void run() {
+            Toast.makeText(getApplicationContext(), mError, Toast.LENGTH_SHORT).show();
+        }
+    };
+
     private void updateView(RspBaseBean rspBaseBean) {
         Message msg = showMsgHandle.obtainMessage();
         msg.arg1 = 1;
@@ -205,6 +208,10 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         Const.currentUser.user_field = newdata.getUser_field();
         Const.currentUser.iscurrent = newdata.getIsCurrent();
         Log.e(TAG, "updateRealmData: " + Const.currentUser.toString());
+        if (JPushInterface.isPushStopped(Application.getContext())) {
+            JPushInterface.resumePush(Application.getContext());
+        }
+        Application.initJpushLogin();
         Intent intent = new Intent(LoginAcitivity.this, HomePageActivity.class);
         startActivity(intent);
     }

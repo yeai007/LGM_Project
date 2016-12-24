@@ -65,7 +65,7 @@ public class ExpertDataAdapter extends RecyclerView.Adapter<ExpertDataAdapter.Vi
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, UserActivity.class);
                 intent.putExtra("userid", mData.getUser_id());
-                intent.putExtra("UserRole", mData.getUser_role());
+                intent.putExtra("UserRole",Integer.parseInt( mData.getUser_role()));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             }

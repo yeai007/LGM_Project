@@ -113,7 +113,7 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
                 updateRead(finalItemData.getCommentRecrodId());
                 Intent intent = new Intent(mContext, UserActivity.class);
                 intent.putExtra("userid", finalItemData.getUser_id());
-                intent.putExtra("UserRole", finalItemData.getUser_role());
+                intent.putExtra("UserRole",Integer.parseInt( finalItemData.getUser_role()));
                 intent.setFlags(FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
 

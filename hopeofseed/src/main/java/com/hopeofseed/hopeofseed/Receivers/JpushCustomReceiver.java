@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
 
@@ -66,7 +67,7 @@ public class JpushCustomReceiver extends IMReceiver {
             openNotification(context, bundle);
         } else if (intent.getAction().equals("cn.jpush.im.android.action.IM_RESPONSE")) {
             Log.e(TAG, "cn.jpush.im.android.action.IM_RESPONSE");
-            mHandler.postDelayed(rSendUpdateMessage,1000);
+            mHandler.postDelayed(rSendUpdateMessage, 1000);
         } else if (intent.getAction().equals("cn.jpush.im.android.action.NOTIFICATION_CLICK_PROXY")) {
             Log.e(TAG, "onReceive:用户打开了通知");
         } else {
@@ -89,6 +90,7 @@ public class JpushCustomReceiver extends IMReceiver {
                     .create();
             NotifyData insertNotifyData = new NotifyData();
             insertNotifyData = gson.fromJson(extras, NotifyData.class);
+            insertNotifyData.setNotifyToUser(String.valueOf(Const.currentUser.user_id));
             insertRealm(insertNotifyData);
         } catch (Exception e) {
             Log.w(TAG, "Unexpected: extras is not a valid json", e);
@@ -106,8 +108,10 @@ public class JpushCustomReceiver extends IMReceiver {
                     .create();
             NotifyData insertNotifyData = new NotifyData();
             insertNotifyData = gson.fromJson(extras, NotifyData.class);
-            //insertNotifyData.setNotifyIsRead("1");
-            insertRealm(insertNotifyData);
+            insertNotifyData.setNotifyToUser(String.valueOf(Const.currentUser.user_id));
+            Log.e(TAG, "openNotification: " + Const.currentUser.user_id);
+         //   insertRealm(insertNotifyData);
+
         } catch (Exception e) {
             Log.w(TAG, "Unexpected: extras is not a valid json", e);
             return;
@@ -128,6 +132,7 @@ public class JpushCustomReceiver extends IMReceiver {
         insertRealm.beginTransaction();
         NotifyData inNotifyData = insertRealm.copyToRealmOrUpdate(insertNotifyData);
         insertRealm.commitTransaction();
+       // Log.e(TAG, "openNotification: " + inNotifyData.getNotifyIsRead() + inNotifyData.getNotifyToUser());
     }
 
 }

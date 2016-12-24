@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Adapter.NotifyListAdapter;
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
 import com.hopeofseed.hopeofseed.R;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import cn.jpush.im.android.api.model.Conversation;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * 项目名称：LGM_Project
@@ -51,7 +53,7 @@ public class SystemNofityActivity extends AppCompatActivity implements View.OnCl
 
     private void getData() {
         RealmResults<NotifyData> results1 =
-                myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", type).findAll();
+                myRealm.where(NotifyData.class).equalTo("NotifyType", type).equalTo("NotifyToUser", String.valueOf(Const.currentUser.user_id)).findAllSorted("NotifyId", Sort.DESCENDING);
         for (NotifyData item : results1) {
             NotifyDataNorealm mNotifyDataNorealm = new NotifyDataNorealm();
             mNotifyDataNorealm.setNotifyId(item.getNotifyId());

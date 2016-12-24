@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -83,6 +84,8 @@ public class ApplyExpertActivity extends AppCompatActivity implements View.OnCli
 
 
     private void initView() {
+        TextView apptitle = (TextView) findViewById(R.id.apptitle);
+        apptitle.setText("申请成为专家");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("申请");

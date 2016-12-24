@@ -52,6 +52,7 @@ import com.hopeofseed.hopeofseed.util.GetImagePath;
 import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.view.ImageSelectorActivity;
+import com.lgm.view.MessageUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -255,12 +256,14 @@ public class ShareYield extends AppCompatActivity implements View.OnClickListene
         boolean ischeck = true;
         if (TextUtils.isEmpty(et_variety.getText().toString())) {
             ischeck = false;
-            Toast.makeText(getApplicationContext(), "品种不能为空", Toast.LENGTH_SHORT).show();
+
+            MessageUtil.AltertMessage(getApplicationContext(), "品种不能为空");
         }
 
         if (TextUtils.isEmpty(et_essay.getText().toString())) {
             ischeck = false;
-            Toast.makeText(getApplicationContext(), "描述不能为空", Toast.LENGTH_SHORT).show();
+
+            MessageUtil.AltertMessage(getApplicationContext(), "描述不能为空");
         }
         return ischeck;
     }

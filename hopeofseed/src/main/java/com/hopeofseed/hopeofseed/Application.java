@@ -99,8 +99,7 @@ public class Application extends android.app.Application {
         Log.i("Application", "init");
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-        JpushUtil jpushUtil = new JpushUtil(getApplicationContext());
-        jpushUtil.initJpushUser();
+        initJpushLogin();
         /***
          * 初始化定位sdk，建议在Application中创建
          */
@@ -112,6 +111,10 @@ public class Application extends android.app.Application {
         new NotificationClickEventReceiver(getApplicationContext());
     }
 
+    public static void initJpushLogin() {
+        JpushUtil jpushUtil = new JpushUtil(getContext());
+        jpushUtil.initJpushUser();
+    }
 
     public static Context getContext() {
         return context;

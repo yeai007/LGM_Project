@@ -115,7 +115,7 @@ public class DistributorMapFragment extends Fragment implements BDLocationListen
                         if (view.getId() == R.id.btn_show_info) {
                             Intent intent = new Intent(getActivity(), UserActivity.class);
                             intent.putExtra("userid", finalItemDis.getUser_id());
-                            intent.putExtra("UserRole", finalItemDis.getUser_role());
+                            intent.putExtra("UserRole", Integer.parseInt(finalItemDis.getUser_role()));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }

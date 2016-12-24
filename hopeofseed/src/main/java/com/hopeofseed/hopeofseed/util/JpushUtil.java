@@ -23,6 +23,8 @@ import cn.jpush.im.api.BasicCallback;
 
 import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
 import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
+import static com.hopeofseed.hopeofseed.Activitys.UserInfoFragment.UPDATE_USER_INFO;
+import static com.hopeofseed.hopeofseed.Data.Const.isJpushLogin;
 import static com.hopeofseed.hopeofseed.Data.Const.mUserInfo;
 import static com.hopeofseed.hopeofseed.R.id.img_corner;
 import static com.hopeofseed.hopeofseed.R.id.img_user;
@@ -49,7 +51,7 @@ public class JpushUtil {
 
     public void initJpushUser() {
         initCount = initCount + 1;
-        // Log.e(TAG, "initJpushUser: " + initCount + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
+        Log.e(TAG, "initJpushUser: " + initCount + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
         final String userName = Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim();
         final String password = Const.currentUser.password;
         if (userName.equals(Const.JPUSH_PREFIX + "0")) {
@@ -69,6 +71,7 @@ public class JpushUtil {
                 @Override
                 public void gotResult(int responseCode, String LoginDesc) {
                     if (responseCode == 0) {
+                        isJpushLogin = true;
                         Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT).show();
                         JPushInterface.setAlias(mContext, Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim(), new TagAliasCallback() {
                             @Override
@@ -84,6 +87,12 @@ public class JpushUtil {
                         Intent intent_update = new Intent();  //Itent就是我们要发送的内容
                         intent_update.setAction(MESSAGE_RECEIVE);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
                         mContext.sendBroadcast(intent_update);   //发送广播
+                        Intent intent_update_userinfo = new Intent();  //Itent就是我们要发送的内容
+                        intent_update_userinfo.setAction(UPDATE_USER_INFO);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+                        mContext.sendBroadcast(intent_update_userinfo);   //发送广播
+                        Intent intent_update_new_list = new Intent();  //Itent就是我们要发送的内容
+                        intent_update_new_list.setAction(NEWS_UPDATE_LIST);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
+                        mContext.sendBroadcast(intent_update_new_list);   //发送广播
                         updateJpushNickName();
                     } else if (responseCode == 871308) {
                         Log.e(TAG, "gotResult: 尚未初始化/初始化失败->重新初始化");

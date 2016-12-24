@@ -55,7 +55,7 @@ public class NearGroupFragment extends Fragment implements NetCallBack, SwipeRef
         final View v = inflater.inflate(R.layout.fragment_near_group, null);
         initView(v);
         AppUtil.verifyStoragePermissions(getActivity());
-        mHandler.postDelayed(getdatapost,3000);
+        mHandler.postDelayed(getdatapost, 3000);
         getData();
         return v;
     }
@@ -63,11 +63,10 @@ public class NearGroupFragment extends Fragment implements NetCallBack, SwipeRef
     Runnable updatelist = new Runnable() {
         @Override
         public void run() {
-            if (mListTmp.size() > 0) {
-                mList.clear();
-                mList.addAll(mListTmp);
-                mAdapter.notifyDataSetChanged();
-            }
+            mList.clear();
+            mList.addAll(mListTmp);
+            mAdapter.notifyDataSetChanged();
+
             mRefreshLayout.setRefreshing(false);
             isLoading = false;
         }

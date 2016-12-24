@@ -19,7 +19,7 @@ public class CurrentUser {
     public  String createtime;
     public  String user_permation;
     public  String user_role;
-   public String user_role_id;
+    public String user_role_id;
     public String user_field;
     public int iscurrent;
 }

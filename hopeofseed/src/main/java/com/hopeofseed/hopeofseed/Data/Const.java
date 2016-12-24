@@ -39,7 +39,7 @@ public class Const {
     public static String Province = "";
     public static String City = "";
     public static String Zone = "";
-
+public static  boolean isJpushLogin=false;
     public static void SetShareData(Context context) {
 //实例化SharedPreferences对象（第一步）
         SharedPreferences mySharedPreferences = context.getSharedPreferences("userotherinfo",

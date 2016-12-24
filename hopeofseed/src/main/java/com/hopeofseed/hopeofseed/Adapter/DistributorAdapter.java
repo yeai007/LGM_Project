@@ -81,7 +81,7 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, UserActivity.class);
                 intent.putExtra("userid", itemData.getUser_id());
-                intent.putExtra("UserRole", itemData.getUser_role());
+                intent.putExtra("UserRole",Integer.parseInt(itemData.getUser_role()));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             }

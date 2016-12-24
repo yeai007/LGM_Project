@@ -52,6 +52,7 @@ import com.hopeofseed.hopeofseed.util.GetImagePath;
 import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.view.ImageSelectorActivity;
+import com.lgm.view.MessageUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -254,11 +255,13 @@ public class ShareExperience extends AppCompatActivity implements View.OnClickLi
         boolean ischeck = true;
         if (TextUtils.isEmpty(et_title.getText().toString())) {
             ischeck = false;
-            Toast.makeText(getApplicationContext(), "标题不能为空", Toast.LENGTH_SHORT).show();
+            MessageUtil.AltertMessage(getApplicationContext(), "标题不能为空");
+
         }
         if (TextUtils.isEmpty(et_content.getText().toString())) {
             ischeck = false;
-            Toast.makeText(getApplicationContext(), "内容不能为空", Toast.LENGTH_SHORT).show();
+
+            MessageUtil.AltertMessage(getApplicationContext(), "内容不能为空");
         }
         return ischeck;
     }

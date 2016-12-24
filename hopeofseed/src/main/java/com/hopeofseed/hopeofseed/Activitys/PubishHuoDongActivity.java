@@ -42,6 +42,7 @@ import com.hopeofseed.hopeofseed.ui.ShowImage;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.view.ImageSelectorActivity;
+import com.lgm.view.MessageUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -203,21 +204,21 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
             }
         }).start();
     }
-private boolean isChecked()
-{
-    boolean ischeck=true;
-    if(TextUtils.isEmpty(et_title.getText().toString()))
-    {
-        ischeck=false;
-        Toast.makeText(getApplicationContext(),"标题不能为空",Toast.LENGTH_SHORT).show();
+
+    private boolean isChecked() {
+        boolean ischeck = true;
+        if (TextUtils.isEmpty(et_title.getText().toString())) {
+            ischeck = false;
+            MessageUtil.AltertMessage(getApplicationContext(), "标题不能为空");
+
+        }
+        if (TextUtils.isEmpty(et_content.getText().toString())) {
+            ischeck = false;
+            MessageUtil.AltertMessage(getApplicationContext(), "内容不能为空");
+        }
+        return ischeck;
     }
-    if(TextUtils.isEmpty(et_content.getText().toString()))
-    {
-        ischeck=false;
-        Toast.makeText(getApplicationContext(),"内容不能为空",Toast.LENGTH_SHORT).show();
-    }
-    return ischeck;
-}
+
     private void SubmitHuoDong(List<File> fileList) {
         if (isChecked()) {
             Log.e(TAG, "getData: 获取经销商数据");

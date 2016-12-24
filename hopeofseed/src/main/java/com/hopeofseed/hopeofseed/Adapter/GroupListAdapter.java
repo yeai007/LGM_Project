@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.hopeofseed.hopeofseed.Activitys.ChatDetailActivity;
 import com.hopeofseed.hopeofseed.Activitys.JoinTheGroup;
 import com.hopeofseed.hopeofseed.Application;
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.GroupData;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
@@ -64,12 +65,14 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
         this.mList = list;
         inflater = LayoutInflater.from(mContext);
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.group_list_item, null, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
+
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final GroupData itemData = mList.get(position);
@@ -86,12 +89,14 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
                     holder.rel_item.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(mContext.getApplicationContext(), ChatActivity.class);
-                            intent.putExtra(Application.GROUP_ID, Long.parseLong(itemData.getAppJpushGroupId()));
-                            intent.putExtra("fromGroup", false);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                                    | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            mContext.startActivity(intent);
+                            if (Const.isJpushLogin) {
+                                Intent intent = new Intent(mContext.getApplicationContext(), ChatActivity.class);
+                                intent.putExtra(Application.GROUP_ID, Long.parseLong(itemData.getAppJpushGroupId()));
+                                intent.putExtra("fromGroup", false);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                                        | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                mContext.startActivity(intent);
+                            }
                         }
                     });
                 } else {
@@ -100,9 +105,11 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
                     holder.img_btn_join.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(mContext, JoinTheGroup.class);
-                            intent.putExtra("GroupId", String.valueOf(itemData.getAppJpushGroupId()));
-                            mContext.startActivity(intent);
+                            if (Const.isJpushLogin) {
+                                Intent intent = new Intent(mContext, JoinTheGroup.class);
+                                intent.putExtra("GroupId", String.valueOf(itemData.getAppJpushGroupId()));
+                                mContext.startActivity(intent);
+                            }
                         }
                     });
                 }
@@ -141,6 +148,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
         TextView item_content, item_members_count, item_address;
         RelativeLayout rel_item;
         ImageButton img_btn_join;
+
         public ViewHolder(View itemView) {
             super(itemView);
             img_item = (ImageView) itemView.findViewById(R.id.img_item);
