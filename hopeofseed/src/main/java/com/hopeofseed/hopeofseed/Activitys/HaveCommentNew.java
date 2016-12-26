@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -48,6 +49,8 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 
+import static com.hopeofseed.hopeofseed.R.id.rb_forwar;
+
 /**
  * 项目名称：LGM_Project
  * 类描述：
@@ -76,6 +79,7 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
     CommendListFragment mCommendListFragment;
     EditText lin_input;
     String RecordId, CommendUserId;
+    RadioButton rb_forwar, rb_comment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -134,6 +138,9 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
         tv_comment = (TextView) findViewById(R.id.tv_comment);
         rg_menu = (RadioGroup) findViewById(R.id.rg_menu);
         rg_menu.setOnCheckedChangeListener(mChangeRadio);
+        rb_forwar = (RadioButton) findViewById(R.id.rb_forwar);
+        rb_comment = (RadioButton) findViewById(R.id.rb_comment);
+
     }
 
     //底部菜单方法
@@ -178,8 +185,7 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
                     intent = new Intent(this, CommodityActivity.class);
                     intent.putExtra("CommodityId", newsData.getInfoid());
                     startActivity(intent);
-                }
-                else if (Integer.parseInt(newsData.getNewclass()) == 5) {
+                } else if (Integer.parseInt(newsData.getNewclass()) == 5) {
                     intent = new Intent(this, ProblemActivity.class);
                     intent.putExtra("ProblemId", newsData.getInfoid());
                     startActivity(intent);
@@ -198,8 +204,10 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
             switch (position) {
                 case 0://列表显示
                     vp_main.setCurrentItem(0);
+                    rb_forwar.setChecked(true);
                     break;
                 case 1://地图显示
+                    rb_comment.setChecked(true);
                     break;
             }
         }

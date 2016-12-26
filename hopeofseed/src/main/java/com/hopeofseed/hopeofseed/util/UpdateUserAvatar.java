@@ -18,7 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.R;
+import com.lgm.utils.AppPermissions;
 import com.lgm.utils.AppUtil;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import java.io.File;
 
@@ -26,6 +30,8 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;
 
 import static com.hopeofseed.hopeofseed.Activitys.UserInfoFragment.UPDATE_USER_INFO;
+import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
+import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_LOCATION;
 
 
 /**
@@ -47,28 +53,80 @@ public class UpdateUserAvatar extends Activity implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
-        initData();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         getPermation();
     }
 
     private void getPermation() {
-        AppUtil.verifyStoragePermissions(UpdateUserAvatar.this);
+        MPermissions.requestPermissions(UpdateUserAvatar.this, REQUEST_CODE_FILES, AppPermissions.getFilePermissions());
     }
 
-    private void initData() {
-        mBt_localImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    @PermissionGrant(REQUEST_CODE_FILES)
+    public void requestFilesSuccess() {
+      //  Toast.makeText(this, "文件权限已经被开启!", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @PermissionDenied(REQUEST_CODE_FILES)
+    public void requestFilesFailed() {
+         Toast.makeText(this, "文件权限已经被禁止!", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+
+    private void initView() {
+        setContentView(R.layout.activity_update_user_avatar);
+        mBt_localImage = (Button) findViewById(R.id.bt_local_image);
+        mBt_update = (Button) findViewById(R.id.bt_update);
+        TextView AppTitle = (TextView) findViewById(R.id.apptitle);
+        AppTitle.setText("修改头像");
+        btn_topleft = (Button) findViewById(R.id.btn_topleft);
+        btn_topleft.setOnClickListener(this);
+        mBt_localImage.setOnClickListener(this);
+        mBt_update.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
+            ImageView imageView = (ImageView) findViewById(R.id.iv_show_image);
+            mBitmap = BitmapFactory.decodeFile(mPicturePath);
+            imageView.setImageBitmap(mBitmap);
+        }
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_topleft:
+                finish();
+                break;
+            case R.id.bt_local_image:
+
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 intent.putExtra("return-data", true);
                 startActivityForResult(intent, RESULT_LOAD_IMAGE);
-            }
-        });
 
-        mBt_update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+
+                break;
+            case R.id.bt_update:
                 mProgressDialog = ProgressDialog.show(UpdateUserAvatar.this, "提示：", "正在加载中。。。");
                 mProgressDialog.setCanceledOnTouchOutside(true);
                 if (mPicturePath != null) {
@@ -103,47 +161,6 @@ public class UpdateUserAvatar extends Activity implements View.OnClickListener {
                     mProgressDialog.dismiss();
                     Toast.makeText(UpdateUserAvatar.this, "请选择图片", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-    }
-
-    private void initView() {
-        setContentView(R.layout.activity_update_user_avatar);
-        mBt_localImage = (Button) findViewById(R.id.bt_local_image);
-        mBt_update = (Button) findViewById(R.id.bt_update);
-        TextView AppTitle = (TextView) findViewById(R.id.apptitle);
-        AppTitle.setText("修改头像");
-        btn_topleft = (Button) findViewById(R.id.btn_topleft);
-        btn_topleft.setOnClickListener(this);
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
-            Uri selectedImage = data.getData();
-/*            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            mPicturePath = cursor.getString(columnIndex);
-            cursor.close();*/
-
-            mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
-            ImageView imageView = (ImageView) findViewById(R.id.iv_show_image);
-            mBitmap = BitmapFactory.decodeFile(mPicturePath);
-            imageView.setImageBitmap(mBitmap);
-        }
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_topleft:
-                finish();
                 break;
         }
     }

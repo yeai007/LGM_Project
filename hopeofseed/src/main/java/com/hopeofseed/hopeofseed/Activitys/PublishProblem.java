@@ -45,10 +45,14 @@ import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.ShowImage;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
+import com.lgm.utils.AppPermissions;
 import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.view.ImageSelectorActivity;
 import com.lgm.view.MessageUtil;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -61,6 +65,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
+import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
+import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_LOCATION;
 import static com.hopeofseed.hopeofseed.R.color.text_content_color;
 import static com.hopeofseed.hopeofseed.R.id.gv_photo;
 import static com.hopeofseed.hopeofseed.R.id.sp_class;
@@ -365,9 +371,6 @@ public class PublishProblem extends AppCompatActivity implements View.OnClickLis
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == TO_SELECT_PHOTO && resultCode == RESULT_OK && null != data) {
             final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
-            if (isKitKat) {
-                AppUtil.verifyStoragePermissions(this);
-            }
             Uri selectedImage = data.getData();
             mPicturePath = GetImagePath.getImageAbsolutePath(this, selectedImage);
             if (images.size() < 10) {
@@ -431,5 +434,33 @@ public class PublishProblem extends AppCompatActivity implements View.OnClickLis
             }
 
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getPermation();
+    }
+
+    private void getPermation() {
+        MPermissions.requestPermissions(PublishProblem.this, REQUEST_CODE_FILES, AppPermissions.getFilePermissions());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    @PermissionGrant(REQUEST_CODE_FILES)
+    public void requestFilesSuccess() {
+        //Toast.makeText(this, "GRANT ACCESS LOCATION!", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @PermissionDenied(REQUEST_CODE_FILES)
+    public void requestFilesFailed() {
+        // Toast.makeText(this, "定位服务已经被禁止!", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

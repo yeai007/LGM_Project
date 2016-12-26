@@ -6,7 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.LoginAcitivity;
 import com.hopeofseed.hopeofseed.R;
@@ -33,7 +35,6 @@ public class SecuritySetting extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.security_setting);
         Intent intent = getIntent();
         mUserDataNoRealm = intent.getParcelableExtra("User");
-
         initView();
     }
 
@@ -41,11 +42,17 @@ public class SecuritySetting extends AppCompatActivity implements View.OnClickLi
         ((TextView) findViewById(R.id.apptitle)).setText("安全设置");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         alert_phone = (Button) findViewById(R.id.alert_phone);
+
+
         et_phone = (TextView) findViewById(R.id.et_phone);
         et_phone.setText(mUserDataNoRealm.getUser_name());
         alert_phone.setOnClickListener(this);
         alert_password = (Button) findViewById(R.id.alert_password);
         alert_password.setOnClickListener(this);
+        RelativeLayout rel_phone = (RelativeLayout) findViewById(R.id.rel_phone);
+        if (Integer.parseInt(mUserDataNoRealm.getUser_role()) == 2) {
+            rel_phone.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -58,7 +65,6 @@ public class SecuritySetting extends AppCompatActivity implements View.OnClickLi
                 goAlertPhone();
                 break;
             case R.id.alert_password:
-
                 Intent intent = new Intent(SecuritySetting.this, AlertPassword.class);
                 intent.putExtra("User", mUserDataNoRealm);
                 startActivity(intent);

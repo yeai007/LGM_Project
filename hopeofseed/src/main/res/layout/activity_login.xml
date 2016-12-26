@@ -3,7 +3,7 @@
     android:id="@+id/login_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="30dp"
+    android:layout_marginTop="20dp"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -26,7 +26,7 @@
     <LinearLayout
         android:id="@+id/lay_login"
         android:layout_width="fill_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/lay_smamoo_logo"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
@@ -36,14 +36,15 @@
         <LinearLayout
             android:id="@+id/lay_user"
             android:layout_width="fill_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:background="@drawable/lay_padding_login_phone"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/et_username"
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dip"
                 android:background="@null"
                 android:gravity="center"
@@ -64,7 +65,8 @@
         <LinearLayout
             android:id="@+id/lin_pass"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
+            android:minHeight="40dp"
             android:background="@drawable/lay_padding_login_phone"
             android:orientation="horizontal">
 
@@ -72,7 +74,7 @@
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dip"
                 android:background="@null"
                 android:gravity="center"
@@ -104,12 +106,10 @@
     <LinearLayout
         android:id="@+id/lin_reg"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/btn_login"
         android:layout_alignRight="@+id/btn_login"
         android:layout_below="@+id/btn_login"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 

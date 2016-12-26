@@ -54,7 +54,6 @@ public class NearGroupFragment extends Fragment implements NetCallBack, SwipeRef
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_near_group, null);
         initView(v);
-        AppUtil.verifyStoragePermissions(getActivity());
         mHandler.postDelayed(getdatapost, 3000);
         getData();
         return v;

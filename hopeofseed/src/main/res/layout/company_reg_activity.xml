@@ -25,14 +25,16 @@
             <TextView
                 android:id="@+id/tv_userclass"
                 android:layout_width="100dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:gravity="center"
                 android:text="类别：" />
 
             <Spinner
                 android:id="@+id/sp_userclass"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@+id/tv_userclass"
                 android:gravity="center"
@@ -54,21 +56,23 @@
             <TextView
                 android:id="@+id/tv_companyname"
                 android:layout_width="100dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:gravity="center"
                 android:text="企业名称：" />
 
             <EditText
                 android:id="@+id/et_companyname"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@+id/tv_companyname"
                 android:background="@drawable/bg_edittext"
                 android:gravity="center"
                 android:hint="与经营许可证一致"
                 android:singleLine="true"
-                android:text="企业名称"
+                android:text=""
                 android:textColor="@color/text_content_color"
                 android:textSize="18sp" />
 
@@ -86,20 +90,22 @@
             <TextView
                 android:id="@+id/tv_truename"
                 android:layout_width="100dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:gravity="center"
                 android:text="真实姓名：" />
 
             <EditText
                 android:id="@+id/et_truename"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@+id/tv_truename"
                 android:background="@drawable/bg_edittext"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="真实姓名"
+                android:text=""
                 android:textColor="@color/text_content_color"
                 android:textSize="18sp" />
 
@@ -117,20 +123,22 @@
             <TextView
                 android:id="@+id/tv_phone"
                 android:layout_width="100dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:gravity="center"
                 android:text="联系人手机号：" />
 
             <EditText
                 android:id="@+id/et_phone"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@+id/tv_phone"
                 android:background="@drawable/bg_edittext"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="15628801370"
+                android:text=""
                 android:textColor="@color/text_content_color"
                 android:textSize="18sp" />
         </RelativeLayout>
@@ -147,14 +155,16 @@
             <TextView
                 android:id="@+id/tv_phone_code"
                 android:layout_width="100dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:gravity="center"
                 android:text="验证码：" />
 
             <EditText
                 android:id="@+id/et_phone_code"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@+id/tv_phone_code"
                 android:background="@drawable/bg_edittext"
@@ -185,7 +195,8 @@
             <TextView
                 android:id="@+id/tv_companyaddress"
                 android:layout_width="100dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:gravity="center"
                 android:text="地址：" />
 
@@ -193,7 +204,8 @@
             <Button
                 android:id="@+id/go"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:layout_toRightOf="@+id/tv_companyaddress"
 
                 android:text="选择省市区" />
@@ -212,14 +224,16 @@
             <TextView
                 android:id="@+id/tv_address_detail"
                 android:layout_width="100dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:gravity="center"
                 android:text="详细地址：" />
 
             <EditText
                 android:id="@+id/et_address_detail"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@+id/tv_address_detail"
                 android:background="@drawable/bg_edittext"
@@ -243,7 +257,8 @@
             <Button
                 android:id="@+id/btn__BusinessLicense"
                 android:layout_width="180dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:gravity="center"
                 android:text="点击上传经营许可证" />
 
@@ -269,14 +284,16 @@
             <TextView
                 android:id="@+id/tv_password"
                 android:layout_width="100dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:gravity="center"
                 android:text="密码：" />
 
             <EditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@+id/tv_password"
                 android:background="@drawable/bg_edittext"
@@ -301,14 +318,16 @@
             <TextView
                 android:id="@+id/tv_password_refirm"
                 android:layout_width="100dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:gravity="center"
                 android:text="密码：" />
 
             <EditText
                 android:id="@+id/et_password_refirm"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
                 android:layout_centerInParent="true"
                 android:layout_toRightOf="@+id/tv_password_refirm"
                 android:background="@drawable/bg_edittext"

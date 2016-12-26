@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/rel_title"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp">
@@ -36,7 +36,7 @@
         <TextView
             android:id="@+id/user_name"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/rel_img_user_avatar"
             android:gravity="left|center_vertical"
@@ -47,7 +47,7 @@
         <TextView
             android:id="@+id/send_time"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/user_name"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/rel_img_user_avatar"
@@ -85,6 +85,7 @@
         android:id="@+id/lin_func"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="30dp"
         android:layout_below="@+id/rel_share_new"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
@@ -92,7 +93,7 @@
         <RelativeLayout
             android:id="@+id/rel_forward"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/rel_shape_item"
             android:gravity="center">
@@ -119,7 +120,7 @@
         <RelativeLayout
             android:id="@+id/rel_comment"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/rel_shape_item"
             android:gravity="center">
@@ -147,7 +148,7 @@
         <RelativeLayout
             android:id="@+id/rel_zambia"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/rel_shape_item"
             android:gravity="center">
@@ -182,19 +183,11 @@
     <RelativeLayout
         android:id="@+id/rel_share_new"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:background="#efefef"
         android:layout_below="@+id/rel_word"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-
-        <ImageView
-            android:id="@+id/img_share_new"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
-            android:background="#efefef" />
 
         <TextView
             android:id="@+id/tv_share_new_content"
@@ -203,6 +196,7 @@
             android:layout_below="@+id/tv_share_new_title"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
+            android:maxLines="3"
             android:layout_toRightOf="@+id/img_share_new"
             android:background="#efefef" />
 
@@ -213,8 +207,20 @@
             android:background="#efefef"
             android:layout_marginTop="10dp"
             android:layout_alignParentTop="true"
+            android:maxLines="1"
             android:layout_toRightOf="@+id/img_share_new"
             android:layout_toEndOf="@+id/img_share_new" />
+
+        <ImageView
+            android:id="@+id/img_share_new"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginLeft="18dp"
+            android:background="#efefef"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="18dp" />
 
     </RelativeLayout>
 </RelativeLayout>

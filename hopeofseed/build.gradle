@@ -51,6 +51,7 @@ buildscript {
         classpath "io.realm:realm-gradle-plugin:1.1.0"
     }
 }
+apply plugin: 'com.neenbedankt.android-apt'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile fileTree(include: ['**.*'], dir: 'libs')
@@ -66,4 +67,6 @@ dependencies {
     compile files('libs/Bughd_android_sdk_v1.3.7.jar')
     compile files('libs/picasso-2.4.0.jar')
     compile files('libs/pinyin4j-2.5.0.jar')
+    apt 'com.zhy:mpermission-compiler:1.0.0'
+    compile 'com.zhy:mpermission-api:1.0.0'
 }

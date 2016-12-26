@@ -1,6 +1,5 @@
 package com.hopeofseed.hopeofseed;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,39 +8,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.hopeofseed.hopeofseed.Activitys.CompanyRegActivity;
 import com.hopeofseed.hopeofseed.Activitys.HomePageActivity;
 import com.hopeofseed.hopeofseed.Activitys.RegisterAcitivity;
-import com.hopeofseed.hopeofseed.DataForHttp.LoginUser;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataTmp;
-import com.hopeofseed.hopeofseed.R;
-import com.hopeofseed.hopeofseed.util.JpushUtil;
 import com.lgm.utils.ObjectUtil;
-
 import java.util.HashMap;
-import java.util.List;
-
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.model.UserInfo;
-import cn.jpush.im.api.BasicCallback;
 import io.realm.Realm;
-import io.realm.RealmResults;
-
-import static com.hopeofseed.hopeofseed.R.id.lv_news;
 
 /**
  * 项目名称：liguangming
@@ -191,8 +173,9 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         /*******************************
          * */
         UserData o = mUserDataTmp.getDetail();
-        o.setIsCurrent(1);
+
         updateRealm.beginTransaction();
+        o.setIsCurrent(1);
         UserData newdata = updateRealm.copyToRealmOrUpdate(o);
         updateRealm.commitTransaction();
         Const.currentUser.user_id = newdata.getUser_id();
@@ -210,8 +193,9 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         Log.e(TAG, "updateRealmData: " + Const.currentUser.toString());
         if (JPushInterface.isPushStopped(Application.getContext())) {
             JPushInterface.resumePush(Application.getContext());
+            Application.initJpushLogin();
         }
-        Application.initJpushLogin();
+
         Intent intent = new Intent(LoginAcitivity.this, HomePageActivity.class);
         startActivity(intent);
     }

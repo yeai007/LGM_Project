@@ -21,13 +21,13 @@
         <RelativeLayout
             android:id="@+id/rel_user_new"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <TextView
                 android:id="@+id/tv_word_sum"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:textColor="@color/text_content_color" />
@@ -35,7 +35,7 @@
             <TextView
                 android:id="@+id/tv_word"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_word_sum"
                 android:gravity="center"
                 android:text="文章"
@@ -45,13 +45,13 @@
         <RelativeLayout
             android:id="@+id/rel_follow"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <TextView
                 android:id="@+id/tv_follow_sum"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text=""
@@ -60,7 +60,7 @@
             <TextView
                 android:id="@+id/tv_follow"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_follow_sum"
                 android:gravity="center"
                 android:text="关注"
@@ -70,13 +70,13 @@
         <RelativeLayout
             android:id="@+id/rel_fans"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1">
 
             <TextView
                 android:id="@+id/tv_fans_sum"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text=""
@@ -85,7 +85,7 @@
             <TextView
                 android:id="@+id/tv_fans"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_fans_sum"
                 android:gravity="center"
                 android:text="人气"
@@ -96,7 +96,7 @@
     <RelativeLayout
         android:id="@+id/rel_user_avatar"
         android:layout_width="wrap_content"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/top"
         android:background="@color/maincolor">
 
@@ -136,9 +136,9 @@
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="15dp"
+            android:layout_below="@+id/tv_username"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/rel_img_user_avatar"
             android:gravity="center_vertical"
             android:textColor="@color/text_content_color" />
@@ -147,10 +147,11 @@
     <Button
         android:id="@+id/btn_more_info"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/rel_user_menu"
         android:layout_marginTop="2dp"
         android:background="@color/maincolor"
+        android:minHeight="30dp"
         android:text="更多基本资料"
         android:textColor="@color/text_title_color"
         android:visibility="gone" />
@@ -172,12 +173,6 @@
             android:paddingRight="6.0dip" />
     </LinearLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/lin_menu_botton"
-        android:layout_below="@+id/rel_variety_content" />
 
     <LinearLayout
         android:id="@+id/lin_menu_botton"
@@ -218,4 +213,11 @@
             android:text="功能"
             android:textColor="@color/text_title_color" />
     </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/lin_menu_botton"
+        android:layout_below="@+id/rel_variety_content" />
 </RelativeLayout>

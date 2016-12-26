@@ -48,7 +48,6 @@ public class HuoDongFragment extends Fragment implements NetCallBack {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_near_huodong, null);
         initView(v);
-        AppUtil.verifyStoragePermissions(getActivity());
         getData();
         return v;
     }

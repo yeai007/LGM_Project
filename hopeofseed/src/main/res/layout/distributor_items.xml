@@ -13,7 +13,7 @@
         <RelativeLayout
             android:id="@+id/rel_title"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp">
@@ -40,20 +40,6 @@
                     android:layout_alignParentRight="true"
                     android:src="@drawable/corner_distributor" />
             </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tv_distributor_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/rel_img_user_avatar"
-                android:focusable="false"
-                android:gravity="left|center_vertical"
-                android:text="用户"
-                android:textColor="#333333"
-                android:textSize="14sp" />
-
             <TextView
                 android:id="@+id/tv_distance"
                 android:layout_width="wrap_content"
@@ -66,6 +52,21 @@
                 android:text="1.1km"
                 android:textColor="@color/text_content_color"
                 android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_distributor_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/rel_img_user_avatar"
+                android:focusable="false"
+                android:layout_toLeftOf="@+id/tv_distance"
+                android:gravity="left|center_vertical"
+                android:text="用户"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+
+
 
             <TextView
                 android:id="@+id/tv_distributor_address"

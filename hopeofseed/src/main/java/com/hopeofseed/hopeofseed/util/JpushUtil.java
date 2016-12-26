@@ -43,26 +43,24 @@ public class JpushUtil {
     Context mContext;
     private int initCount = 0;
     public static String MESSAGE_RECEIVE = "MESSAGE_RECEIVE";
+    Handler mHandler;
+    private int user_id = 0;
 
     public JpushUtil(Context context) {
         super();
         this.mContext = context;
+        this.mHandler = new Handler(mContext.getMainLooper());
     }
 
     public void initJpushUser() {
         initCount = initCount + 1;
+        Log.e(TAG, "initJpushUser: " + Const.currentUser.user_id + Const.currentUser.password);
         Log.e(TAG, "initJpushUser: " + initCount + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
         final String userName = Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim();
         final String password = Const.currentUser.password;
         if (userName.equals(Const.JPUSH_PREFIX + "0")) {
             // Log.e(TAG, "initJpushUser: refresh initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
-            Handler mHandler = new Handler();
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    initJpushUser();
-                }
-            }, 1000);
+            mHandler.postDelayed(init, 1000);
 
         } else {
             //  Log.e(TAG, "initJpushUser: to initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
@@ -71,6 +69,7 @@ public class JpushUtil {
                 @Override
                 public void gotResult(int responseCode, String LoginDesc) {
                     if (responseCode == 0) {
+                        mHandler.removeCallbacks(init);
                         isJpushLogin = true;
                         Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT).show();
                         JPushInterface.setAlias(mContext, Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim(), new TagAliasCallback() {
@@ -97,13 +96,7 @@ public class JpushUtil {
                     } else if (responseCode == 871308) {
                         Log.e(TAG, "gotResult: 尚未初始化/初始化失败->重新初始化");
                         JMessageClient.init(mContext);
-                        Handler mHandler = new Handler();
-                        mHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                initJpushUser();
-                            }
-                        }, 1000);
+                        mHandler.postDelayed(init, 1000);
                     } else {
                         if (responseCode == 801003) {
                             addJpushUserData();
@@ -116,6 +109,13 @@ public class JpushUtil {
             });
         }
     }
+
+    Runnable init = new Runnable() {
+        @Override
+        public void run() {
+            initJpushUser();
+        }
+    };
 
     private void addJpushUserData() {
         final String userName = Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim();

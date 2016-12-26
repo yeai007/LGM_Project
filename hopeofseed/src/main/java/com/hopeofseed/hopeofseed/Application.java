@@ -46,7 +46,6 @@ import java.util.logging.Level;
  * 修改备注：
  */
 public class Application extends android.app.Application {
-    private static Application instance;//单例模式
     private static Context context;
     public LocationService locationService;
     public Vibrator mVibrator;
@@ -83,6 +82,11 @@ public class Application extends android.app.Application {
     public static final String DELETE_MODE = "deleteMode";
     public static final String MEMBERS_COUNT = "membersCount";
     public static String PICTURE_DIR = "sdcard/JChatDemo/pictures/";
+/**
+ * 权限获取回调
+ * */
+public static final int REQUEST_CODE_LOCATION = 801;
+    public static final int REQUEST_CODE_FILES = 802;
 
     /*************************************/
     @Override

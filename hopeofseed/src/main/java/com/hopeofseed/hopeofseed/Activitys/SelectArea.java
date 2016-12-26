@@ -1,6 +1,7 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -35,11 +37,16 @@ import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.SideBar;
 
 import com.hopeofseed.hopeofseed.Services.LocationService;
+import com.lgm.utils.AppPermissions;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_LOCATION;
 import static com.hopeofseed.hopeofseed.Data.Const.City;
 import static com.hopeofseed.hopeofseed.Data.Const.Province;
 
@@ -70,9 +77,30 @@ public class SelectArea extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selectarea);
-        // initLocation();
         initView();
         getCityData();
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    @PermissionGrant(REQUEST_CODE_LOCATION)
+    public void requestLocationSuccess() {
+        //Toast.makeText(this, "GRANT ACCESS LOCATION!", Toast.LENGTH_SHORT).show();
+        operatingAnim.setInterpolator(lin);
+        img_loading.startAnimation(operatingAnim);
+        initLocation();
+    }
+
+    @PermissionDenied(REQUEST_CODE_LOCATION)
+    public void requestLocationFailed() {
+        Toast.makeText(this, "定位服务已经被禁止!", Toast.LENGTH_SHORT).show();
     }
 
     private void initView() {
@@ -128,9 +156,8 @@ public class SelectArea extends AppCompatActivity implements View.OnClickListene
                 finish();//此处一定要调用finish()方法
                 break;
             case R.id.btn_reget_location:
-                operatingAnim.setInterpolator(lin);
-                img_loading.startAnimation(operatingAnim);
-                initLocation();
+                MPermissions.requestPermissions(SelectArea.this, REQUEST_CODE_LOCATION, AppPermissions.getLocationPermissions());
+
                 break;
         }
     }

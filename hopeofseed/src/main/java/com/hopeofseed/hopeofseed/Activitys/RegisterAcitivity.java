@@ -53,7 +53,7 @@ public class RegisterAcitivity extends AppCompatActivity implements View.OnClick
     Button btn_register, get_code;
     String phone_code = "";
     Handler mHandler = new Handler();
-String RegisterError="注册失败";
+    String RegisterError="注册失败";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

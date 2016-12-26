@@ -58,7 +58,8 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  * 修改时间：2016/9/26 16:30
  * 修改备注：
  */
-public class UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
+public class
+UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
     ImageView img_user_avatar, img_corner;
     TextView tv_username, tv_follow_sum, tv_fans_sum, tv_address, appTitle;
     String UserId;
@@ -69,8 +70,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
     UsersPagerAdapter mUsersPagerAdapter;
     ArrayList<FragmentListDatas> fragmentList = new ArrayList<>();
     Button btn_submit_followed, btn_createchat, btn_func_menu;
-    ArrayList<FollowedFriend> arr_FollowedFriendTmp = new ArrayList<>();
-    ArrayList<String> arrFans = new ArrayList<>();
     int isFriend = 0;
     Handler mHandler = new Handler();
     int isAddOrDel = 0;
@@ -206,6 +205,17 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                         intent.putExtra("AuthorId", mUserDataNoRealm.getUser_role_id());
                         startActivity(intent);
                         break;
+                    case 5:
+                        intent = new Intent(UserActivity.this, SystemUserActivity.class);
+                        intent.putExtra("SystemId", mUserDataNoRealm.getUser_role_id());
+                        startActivity(intent);
+                        break;
+                    case 6:
+                        intent = new Intent(UserActivity.this, MediaActivity.class);
+
+                        intent.putExtra("MediaId", mUserDataNoRealm.getUser_role_id());
+                        startActivity(intent);
+                        break;
                 }
 
                 break;
@@ -223,12 +233,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
                 AddOrDelFollowed();
                 break;
             case R.id.btn_createchat:
-/*                intent = new Intent(UserActivity.this, ChatActivity.class);
-                intent.putExtra("fromGroup", false);
-                intent.putExtra(Application.GROUP_ID, Long.parseLong(arrUserMessageData.get(i - 1).getMessageFrom()));
-                intent.putExtra(Application.GROUP_NAME, arrUserMessageData.get(i - 1).getMessageTitle());
-                Log.e(TAG, "onItemClick: 发送参数" + arrUserMessageData.get(i - 1).getMessageFrom() + arrUserMessageData.get(i - 1).getMessageTitle());
-                startActivity(intent);*/
                 if (mUserInfo == null) {
                     Toast.makeText(getApplicationContext(), "该用户暂不支持留言", Toast.LENGTH_SHORT).show();
                 } else {
@@ -344,23 +348,23 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             switch (isFriend) {
                 case 0://双方未关注
                     btn_submit_followed.setText("+关注");
-                    btn_submit_followed.setTextColor(getResources().getColor(R.color.red,null));
+                    btn_submit_followed.setTextColor(Color.parseColor("#FF0000"));
                     isAddOrDel = 1;
                     break;
                 case 1://当前关注用户，用户未关注当前页帐号
                     btn_submit_followed.setText("+关注");
-                    btn_submit_followed.setTextColor(getResources().getColor(R.color.text_title_color,null));
+                    btn_submit_followed.setTextColor(Color.parseColor("#272636"));
                     isAddOrDel = 1;
                     break;
                 case 2://用户关注当前页帐号
                     btn_submit_followed.setText("已关注");
-                    btn_submit_followed.setTextColor(getResources().getColor(R.color.text_title_color,null));
+                    btn_submit_followed.setTextColor(Color.parseColor("#272636"));
                     isAddOrDel = 0;
                     break;
 
                 case 3://双向关注
                     btn_submit_followed.setText("互相关注(好友)");
-                    btn_submit_followed.setTextColor(getResources().getColor(R.color.text_title_color,null));
+                    btn_submit_followed.setTextColor(Color.parseColor("#272636"));
                     isAddOrDel = 0;
                     break;
             }

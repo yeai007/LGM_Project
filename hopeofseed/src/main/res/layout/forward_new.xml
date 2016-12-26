@@ -50,7 +50,7 @@
         <RelativeLayout
             android:id="@+id/rel_share_new"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:background="#efefef"
             android:layout_below="@+id/et_share_mood"
             android:layout_alignParentLeft="true"
@@ -67,7 +67,7 @@
             <TextView
                 android:id="@+id/tv_share_new_title"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:layout_toRightOf="@+id/img_share_new"
                 android:background="#efefef" />
@@ -75,9 +75,10 @@
             <TextView
                 android:id="@+id/tv_share_new_content"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/tv_share_new_title"
                 android:layout_marginRight="20dp"
+                android:maxLines="3"
                 android:layout_toRightOf="@+id/img_share_new"
                 android:background="#efefef" />
         </RelativeLayout>

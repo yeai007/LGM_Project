@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/rel_title"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp">
@@ -16,8 +16,8 @@
             android:id="@+id/rel_img_user_avatar"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:focusable="false"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:focusable="false">
 
             <com.hopeofseed.hopeofseed.ui.CircleImageView
                 android:id="@+id/img_user_avatar"
@@ -36,19 +36,6 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
-            android:focusable="false"
-            android:layout_toRightOf="@+id/rel_img_user_avatar"
-            android:gravity="left|center_vertical"
-            android:text="用户"
-            android:textSize="14sp"
-            android:textColor="#333333" />
-
-        <TextView
             android:id="@+id/tv_distance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,8 +45,23 @@
             android:focusable="false"
             android:gravity="left|center_vertical"
             android:text="1.1km"
-            android:textSize="12sp"
-            android:textColor="@color/text_content_color" />
+            android:textColor="@color/text_content_color"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/tv_distance"
+            android:layout_toRightOf="@+id/rel_img_user_avatar"
+            android:focusable="false"
+            android:gravity="left|center_vertical"
+            android:text="用户"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
 
         <TextView
             android:id="@+id/tv_address"
@@ -69,11 +71,11 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/rel_img_user_avatar"
+            android:focusable="false"
             android:gravity="left|center_vertical"
             android:text="地址"
-            android:focusable="false"
-            android:textSize="12sp"
-            android:textColor="@color/text_content_color" />
+            android:textColor="@color/text_content_color"
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/tv_address_detail"
@@ -82,10 +84,10 @@
             android:layout_below="@+id/tv_address"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/rel_img_user_avatar"
+            android:focusable="false"
             android:gravity="left|center_vertical"
             android:text="详细地址"
-            android:focusable="false"
-            android:textSize="12sp"
-            android:textColor="@color/text_content_color" />
+            android:textColor="@color/text_content_color"
+            android:textSize="12sp" />
     </RelativeLayout>
 </RelativeLayout>

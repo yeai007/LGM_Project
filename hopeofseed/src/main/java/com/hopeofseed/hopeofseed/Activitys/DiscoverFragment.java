@@ -13,13 +13,22 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Adapter.DiscoversGridViewAdapter;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.R;
+import com.lgm.utils.AppPermissions;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_LOCATION;
 
 /**
  * 项目名称：liguangming
@@ -66,7 +75,36 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
         initViewPager(v);
         initData();
         initView(v);
+        getPermission();
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+    }
+
+    private void getPermission() {
+        MPermissions.requestPermissions(DiscoverFragment.this, REQUEST_CODE_LOCATION, AppPermissions.getLocationPermissions());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    @PermissionGrant(REQUEST_CODE_LOCATION)
+    public void requestLocationSuccess() {
+        //Toast.makeText(this, "GRANT ACCESS LOCATION!", Toast.LENGTH_SHORT).show();
+    }
+
+    @PermissionDenied(REQUEST_CODE_LOCATION)
+    public void requestLocationFailed() {
+        Toast.makeText(getActivity(), "定位服务已经被禁止!", Toast.LENGTH_SHORT).show();
     }
 
     private void initViewPager(View view) {
@@ -97,8 +135,8 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
     }
 
     private void initView(View v) {
-        radio_group=(RadioButton)v.findViewById(R.id.radio_group);
-        radio_huodong=(RadioButton)v.findViewById(R.id.radio_huodong);
+        radio_group = (RadioButton) v.findViewById(R.id.radio_group);
+        radio_huodong = (RadioButton) v.findViewById(R.id.radio_huodong);
         rel_search = (RelativeLayout) v.findViewById(R.id.rel_search);
         rel_search.setOnClickListener(listener);
         gv_discover = (RecyclerView) v.findViewById(R.id.gv_discover);
@@ -118,6 +156,7 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
             }
         }
     };
+
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
 

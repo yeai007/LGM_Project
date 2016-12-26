@@ -10,6 +10,7 @@ import android.os.Message;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Application;
@@ -30,8 +32,12 @@ import com.hopeofseed.hopeofseed.util.UpdateUserAvatar;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.LoginAcitivity;
 import com.hopeofseed.hopeofseed.R;
+import com.lgm.utils.AppPermissions;
 import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import java.util.HashMap;
 
@@ -41,9 +47,6 @@ import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 import io.realm.Realm;
 
-import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
-import static com.hopeofseed.hopeofseed.R.drawable.corner_enterprise;
-import static com.hopeofseed.hopeofseed.R.drawable.corner_expert;
 import static com.hopeofseed.hopeofseed.R.id.img_user_avatar;
 
 
@@ -56,7 +59,7 @@ import static com.hopeofseed.hopeofseed.R.id.img_user_avatar;
  * 修改时间：2016/7/27 14:40
  * 修改备注：
  */
-public class UserInfoFragment extends Fragment implements NetCallBack {
+public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefreshLayout.OnRefreshListener {
     public static String UPDATE_USER_INFO = "UPDATE_USER_INFO";
     ImageView tv__avatar, img_corner;
     private static final String TAG = "UserInfoFragment";
@@ -66,6 +69,8 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
     UserDataNoRealm mUserDataNoRealm = new UserDataNoRealm();
     TextView app_title;
     private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
+    private SwipeRefreshLayout mRefreshLayout;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,10 +78,9 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
         initView(v);
         initReceiver();
         getData();
-        AppUtil.verifyStoragePermissions(getActivity());
-
         return v;
     }
+
     private void initReceiver() {
         // 注册广播接收
         updateBroadcastReceiver = new UpdateBroadcastReceiver();
@@ -84,6 +88,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
         filter.addAction(UPDATE_USER_INFO);    //只有持有相同的action的接受者才能接收此广播
         getActivity().registerReceiver(updateBroadcastReceiver, filter);
     }
+
     private void initView(View v) {
         app_title = (TextView) v.findViewById(R.id.apptitle);
         app_title.setText("我的");
@@ -116,6 +121,14 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
         tv__avatar.setOnClickListener(listener);
         img_corner = (ImageView) v.findViewById(R.id.img_corner);
         getUserJpushInfo(Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id));
+        mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.layout_swipe_refresh);
+        //这个是下拉刷新出现的那个圈圈要显示的颜色
+        mRefreshLayout.setColorSchemeResources(
+                R.color.colorRed,
+                R.color.colorYellow,
+                R.color.colorGreen
+        );
+        mRefreshLayout.setOnRefreshListener(this);
 
     }
 
@@ -135,12 +148,15 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
 
     private void updateCorner() {
         Log.e(TAG, "updateCorner:userclass " + mUserDataNoRealm.getUser_role());
-
+        img_corner.setVisibility(View.VISIBLE);
         if (mUserDataNoRealm.getUser_role() != null) {
             switch (Integer.parseInt(mUserDataNoRealm.getUser_role())) {
 
                 case 0:
-
+                    Glide.with(getActivity())
+                            .load(R.drawable.corner_user_default)
+                            .centerCrop()
+                            .into(img_corner);
                     break;
                 case 1:
                     //  img_corner.setImageResource(R.drawable.corner_distributor);
@@ -262,6 +278,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
         }
     };
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -279,6 +296,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
+
         Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
         mUserDataNoRealm = ((UserDataNoRealmTmp) ObjectUtil.cast(rspBaseBean)).getDetail().get(0);
         updateView();
@@ -295,6 +313,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
     }
 
     private void updateView() {
+
         Message msg = updateViewHandle.obtainMessage();
         msg.sendToTarget();
     }
@@ -302,6 +321,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
     private Handler updateViewHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
+            mRefreshLayout.setRefreshing(false);
             tv_username.setText(mUserDataNoRealm.getNickname());
             tv_follow_sum.setText(mUserDataNoRealm.getFllowed_count());
             tv_fans_sum.setText(mUserDataNoRealm.getBeen_fllowed_count());
@@ -311,6 +331,12 @@ public class UserInfoFragment extends Fragment implements NetCallBack {
 
         }
     };
+
+    @Override
+    public void onRefresh() {
+        getData();
+    }
+
     class UpdateBroadcastReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
