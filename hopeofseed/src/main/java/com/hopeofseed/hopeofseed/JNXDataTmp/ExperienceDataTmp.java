@@ -1,7 +1,6 @@
 package com.hopeofseed.hopeofseed.JNXDataTmp;
 
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.EnterpriseData;
 import com.hopeofseed.hopeofseed.JNXData.ExperienceData;
 
 import java.util.ArrayList;

@@ -10,15 +10,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.text.format.Formatter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,16 +37,12 @@ import com.hopeofseed.hopeofseed.Http.HttpUtils;
 
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.ui.ShowImage;
 import com.hopeofseed.hopeofseed.Adapter.PublishImgsAdapter;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
-import com.hopeofseed.hopeofseed.util.UpdateUserAvatar;
 import com.lgm.utils.AppPermissions;
-import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.view.ImageSelectorActivity;
 import com.zhy.m.permission.MPermissions;
@@ -69,8 +62,6 @@ import rx.functions.Action1;
 
 import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
-import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_LOCATION;
-import static com.hopeofseed.hopeofseed.R.color.text_content_color;
 
 
 /**

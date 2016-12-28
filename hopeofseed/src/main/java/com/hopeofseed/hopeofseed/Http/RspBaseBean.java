@@ -2,12 +2,6 @@ package com.hopeofseed.hopeofseed.Http;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.json.JSONObject;
-
-import io.realm.RealmObject;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
-
 /**
  * 项目名称：LGM_Project
  * 类描述：

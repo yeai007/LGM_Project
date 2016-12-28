@@ -10,10 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
-import com.hopeofseed.hopeofseed.Activitys.NewsInfoActivity;
 import com.hopeofseed.hopeofseed.Activitys.NewsInfoNewActivity;
-import com.hopeofseed.hopeofseed.Activitys.SearchInfoActivity;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.JNXData.ExpertEnterperiseData;
 import com.hopeofseed.hopeofseed.R;

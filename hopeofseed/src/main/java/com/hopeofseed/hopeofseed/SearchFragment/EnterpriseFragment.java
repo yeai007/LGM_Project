@@ -17,7 +17,6 @@ import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.CommodityDataNoUser;
 import com.hopeofseed.hopeofseed.JNXData.EnterpriseCommodity;
 import com.hopeofseed.hopeofseed.JNXData.EnterpriseCommodityArray;
-import com.hopeofseed.hopeofseed.JNXData.EnterpriseData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.EnterpriseCommodityTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;

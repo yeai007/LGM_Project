@@ -1,31 +1,21 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.hopeofseed.hopeofseed.Adapter.CommendListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.CommendListAdapterNew;
-import com.hopeofseed.hopeofseed.Adapter.ForwarListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.CommendData;
 import com.hopeofseed.hopeofseed.JNXData.CommentDataNew;
-import com.hopeofseed.hopeofseed.JNXData.CommentOrForward;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CommendDataTmp;
 
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommentDataNewTmp;
 import com.hopeofseed.hopeofseed.R;

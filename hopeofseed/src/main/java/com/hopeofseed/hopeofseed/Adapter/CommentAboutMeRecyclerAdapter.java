@@ -3,11 +3,9 @@ package com.hopeofseed.hopeofseed.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -15,14 +13,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.CommentAboutMe;
-import com.hopeofseed.hopeofseed.Activitys.HomePageActivity;
-import com.hopeofseed.hopeofseed.Activitys.MessageFragment;
 import com.hopeofseed.hopeofseed.Activitys.NewsInfoNewActivity;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.JNXData.CommentAboutMeData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CommentAboutMeDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.DateTools;
 

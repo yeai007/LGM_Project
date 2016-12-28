@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.JNXData.CommodityVarietyData;
-import com.hopeofseed.hopeofseed.JNXData.VarietyData;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.List;

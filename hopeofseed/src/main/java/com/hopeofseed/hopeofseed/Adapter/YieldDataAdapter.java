@@ -3,25 +3,19 @@ package com.hopeofseed.hopeofseed.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Activitys.NewsInfoNewActivity;
-import com.hopeofseed.hopeofseed.JNXData.CropData;
 import com.hopeofseed.hopeofseed.JNXData.YieldData;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-import static com.hopeofseed.hopeofseed.R.id.tv_crop_class;
 
 /**
  * 项目名称：LGM_Project

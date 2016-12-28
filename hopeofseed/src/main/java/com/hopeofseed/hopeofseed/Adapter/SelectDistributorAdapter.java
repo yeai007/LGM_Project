@@ -18,8 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-import static com.hopeofseed.hopeofseed.Adapter.MyFriendsListAdapter.getIsSelected;
-import static com.hopeofseed.hopeofseed.R.id.check_item;
 import static com.hopeofseed.hopeofseed.R.id.tv_name;
 
 /**

@@ -12,7 +12,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import static cn.jpush.im.android.eventbus.EventBus.TAG;
 

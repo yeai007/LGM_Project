@@ -2,44 +2,21 @@ package com.hopeofseed.hopeofseed.Activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.hopeofseed.hopeofseed.Adapter.CommodityListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
-import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.Http.HttpUtils;
-import com.hopeofseed.hopeofseed.Http.NetCallBack;
-import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.CommodityData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CommodityDataTmp;
 import com.hopeofseed.hopeofseed.R;
-import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-import static com.hopeofseed.hopeofseed.R.id.lv_groups;
-import static com.hopeofseed.hopeofseed.R.id.radio_group;
-import static com.hopeofseed.hopeofseed.R.id.radio_huodong;
 
 
 /**

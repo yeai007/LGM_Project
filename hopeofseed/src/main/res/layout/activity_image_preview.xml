@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black"
-    tools:context="com.jnx.jnx.com.jnx.hopeofseed.ui.ImagePreviewActivity">
+    tools:context="com.hopeofseed.hopeofseed.ui.ImagePreviewActivity">
     <ImageView
         android:id="@+id/image"
         android:layout_centerInParent="true"

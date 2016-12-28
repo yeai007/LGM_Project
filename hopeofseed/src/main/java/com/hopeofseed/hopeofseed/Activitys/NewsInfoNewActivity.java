@@ -270,12 +270,7 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
 
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
@@ -362,9 +357,9 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
                 tv_title.setVisibility(View.GONE);
             }
             tv_content.setText(newsData.getContent());
-            tv_content.setSingleLine(false);
+          /*  tv_content.setSingleLine(false);
             tv_content.setMaxLines(3);
-            tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+            tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));*/
 
             user_name.setText(newsData.getNickname());
             String[] arrImage = newsData.getAssimgurl().split(";");

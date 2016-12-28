@@ -1,31 +1,19 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.AllCommodityActivity;
-import com.hopeofseed.hopeofseed.Activitys.CommodityActivity;
 import com.hopeofseed.hopeofseed.Activitys.MyCommodity;
-import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.JNXData.CommodityData;
 import com.hopeofseed.hopeofseed.JNXData.StringVariety;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.List;
-
-import static com.hopeofseed.hopeofseed.R.id.commodity_img;
-import static com.hopeofseed.hopeofseed.R.id.commodity_name;
-import static com.hopeofseed.hopeofseed.R.id.commodity_price;
-import static com.hopeofseed.hopeofseed.R.id.item_view;
 
 /**
  * 项目名称：liguangming

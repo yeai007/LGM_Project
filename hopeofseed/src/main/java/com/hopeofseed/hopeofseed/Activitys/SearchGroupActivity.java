@@ -7,33 +7,23 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hopeofseed.hopeofseed.Adapter.ConversationListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.GroupListAdapter;
-import com.hopeofseed.hopeofseed.Adapter.UnReadConversationListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.GroupData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.GroupDataTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.UserMessageDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
-
-import cn.jpush.im.android.api.model.Conversation;
-
-import static cn.jpush.im.android.api.JMessageClient.getConversationList;
-import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
 
 /**
  * 项目名称：LGM_Project

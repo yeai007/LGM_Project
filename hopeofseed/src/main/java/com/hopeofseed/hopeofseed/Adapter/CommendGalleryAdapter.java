@@ -3,11 +3,9 @@ package com.hopeofseed.hopeofseed.Adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.JNXData.Commend2Data;
-import com.hopeofseed.hopeofseed.JNXData.CommentOrForward;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.ArrayList;

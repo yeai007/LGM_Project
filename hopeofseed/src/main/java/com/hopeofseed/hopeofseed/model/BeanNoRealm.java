@@ -1,6 +1,5 @@
 package com.hopeofseed.hopeofseed.model;
 
-import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**

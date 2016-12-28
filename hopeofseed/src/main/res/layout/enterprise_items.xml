@@ -44,7 +44,6 @@
             android:layout_marginTop="10dp"
             android:focusable="false"
             android:gravity="left|center_vertical"
-            android:text="1.1km"
             android:textColor="@color/text_content_color"
             android:textSize="12sp" />
 

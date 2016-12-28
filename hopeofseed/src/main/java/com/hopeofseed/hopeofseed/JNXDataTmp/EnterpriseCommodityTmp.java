@@ -1,6 +1,5 @@
 package com.hopeofseed.hopeofseed.JNXDataTmp;
 
-import com.hopeofseed.hopeofseed.Activitys.EnterpriseCommodityActivity;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.EnterpriseCommodity;
 

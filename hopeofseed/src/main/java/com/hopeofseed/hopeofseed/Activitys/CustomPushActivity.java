@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Adapter.CustomPushListAdapter;
-import com.hopeofseed.hopeofseed.Adapter.HuodongListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;

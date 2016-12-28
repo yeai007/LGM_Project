@@ -64,7 +64,7 @@ public class SearchCommendListFragment extends Fragment implements NetCallBack {
     private void getData() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("InfoId", InfoId);
-        opt_map.put("NewClass",NewClass);
+        opt_map.put("NewClass", NewClass);
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetCommentByInfoId.php", opt_map, CommentDataNewTmp.class, this);
     }

@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,8 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.hopeofseed.hopeofseed.Adapter.NewsListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.RecyclerViewAdapter;
 import com.hopeofseed.hopeofseed.Adapter.Sp_TitleAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;

@@ -3,13 +3,12 @@ apply plugin: 'realm-android'
 android {
     compileSdkVersion 24
     buildToolsVersion '23.0.3'
-
     defaultConfig {
         applicationId "com.hopeofseed.hopeofseed"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 5
+        versionName "1.0.4"
         multiDexEnabled true
     }
     buildTypes {

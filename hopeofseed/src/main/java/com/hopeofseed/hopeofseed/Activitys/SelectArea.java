@@ -1,7 +1,6 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;

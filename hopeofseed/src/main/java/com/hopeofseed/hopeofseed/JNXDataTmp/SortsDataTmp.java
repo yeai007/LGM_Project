@@ -1,7 +1,6 @@
 package com.hopeofseed.hopeofseed.JNXDataTmp;
 
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.CropData;
 import com.hopeofseed.hopeofseed.JNXData.SortsData;
 
 import java.util.ArrayList;

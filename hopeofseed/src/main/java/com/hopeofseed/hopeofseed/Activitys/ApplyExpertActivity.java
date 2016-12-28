@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Adapter.Sp_TitleAdapter;
-import com.hopeofseed.hopeofseed.Adapter.UserClassAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
@@ -39,11 +38,6 @@ import citypickerview.widget.CityPicker;
 import me.shaohui.advancedluban.Luban;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-
-import static com.hopeofseed.hopeofseed.R.id.btn__BusinessLicense;
-import static com.hopeofseed.hopeofseed.R.id.go;
-import static com.hopeofseed.hopeofseed.R.id.img__BusinessLicense;
-import static com.hopeofseed.hopeofseed.R.id.sp_userclass;
 
 /**
  * 项目名称：LGM_Project

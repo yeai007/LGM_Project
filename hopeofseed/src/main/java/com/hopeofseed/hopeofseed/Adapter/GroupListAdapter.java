@@ -2,10 +2,7 @@ package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,27 +18,12 @@ import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.GroupData;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
-import com.lgm.utils.DateTools;
 
-import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
-
-import java.io.Serializable;
-import java.text.ParseException;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.callback.GetGroupInfoCallback;
 import cn.jpush.im.android.api.callback.GetGroupMembersCallback;
-import cn.jpush.im.android.api.model.Conversation;
-import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
-
-import static android.R.attr.targetId;
-import static com.hopeofseed.hopeofseed.Application.TARGET_APP_KEY;
-import static com.hopeofseed.hopeofseed.Application.TARGET_ID;
-import static com.hopeofseed.hopeofseed.R.id.item_content;
-import static com.hopeofseed.hopeofseed.R.id.tv_time;
-import static com.hopeofseed.hopeofseed.R.id.tv_unread_count;
 
 
 /**

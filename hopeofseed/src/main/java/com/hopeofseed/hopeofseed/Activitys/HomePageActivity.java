@@ -31,7 +31,6 @@ import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.Conversation;
 
 import static cn.jpush.im.android.api.model.Conversation.createGroupConversation;
-import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
 
 
 /**

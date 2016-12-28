@@ -6,7 +6,6 @@ import com.hopeofseed.hopeofseed.model.BeanNoRealm;
 import com.hopeofseed.hopeofseed.ui.CommonAdapter;
 import com.hopeofseed.hopeofseed.ui.ViewHolder;
 import com.hopeofseed.hopeofseed.R;
-import com.hopeofseed.hopeofseed.model.Bean;
 
 import java.util.List;
 

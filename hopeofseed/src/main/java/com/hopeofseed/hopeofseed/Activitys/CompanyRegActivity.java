@@ -12,8 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,16 +24,13 @@ import com.hopeofseed.hopeofseed.DataForHttp.GetPhoneCode;
 import com.hopeofseed.hopeofseed.DataForHttp.GetUserClass;
 import com.hopeofseed.hopeofseed.Adapter.UserClassAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.DataForHttp.CompanyRegister;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.CommodityVarietyData;
 import com.hopeofseed.hopeofseed.JNXData.UserClass;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
-import com.hopeofseed.hopeofseed.LoginAcitivity;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
 import com.lgm.utils.ObjectUtil;
@@ -53,16 +48,6 @@ import io.realm.Realm;
 import me.shaohui.advancedluban.Luban;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-
-import static com.hopeofseed.hopeofseed.Data.Const.City;
-import static com.hopeofseed.hopeofseed.Data.Const.Province;
-import static com.hopeofseed.hopeofseed.R.id.et_address_detail;
-import static com.hopeofseed.hopeofseed.R.id.et_discribe;
-import static com.hopeofseed.hopeofseed.R.id.et_name;
-import static com.hopeofseed.hopeofseed.R.id.et_price;
-import static com.hopeofseed.hopeofseed.R.id.et_title;
-import static com.hopeofseed.hopeofseed.R.id.et_username;
-import static com.hopeofseed.hopeofseed.R.id.et_variety;
 
 /**
  * 项目名称：liguangming

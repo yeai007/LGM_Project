@@ -7,14 +7,11 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Activitys.AllCommodityActivity;
 import com.hopeofseed.hopeofseed.Adapter.CommodityRecycleListAdapter;
@@ -29,9 +26,6 @@ import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.baidu.location.h.j.S;
-import static com.hopeofseed.hopeofseed.R.id.recy_news;
 
 /**
  * 品种

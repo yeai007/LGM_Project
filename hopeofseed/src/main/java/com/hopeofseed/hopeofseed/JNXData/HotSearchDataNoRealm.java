@@ -1,7 +1,5 @@
 package com.hopeofseed.hopeofseed.JNXData;
 
-import io.realm.RealmObject;
-
 /**
  * 项目名称：LGM_Project
  * 类描述：

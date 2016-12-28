@@ -2,7 +2,6 @@ package com.hopeofseed.hopeofseed.ui.chatting.utils;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;

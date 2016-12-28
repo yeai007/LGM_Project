@@ -9,10 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
@@ -22,17 +20,7 @@ import com.hopeofseed.hopeofseed.JNXDataTmp.DistributorDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.callback.GetUserInfoCallback;
-import cn.jpush.im.android.api.model.UserInfo;
-
-import static com.hopeofseed.hopeofseed.R.id.img_user_avatar;
-import static com.hopeofseed.hopeofseed.R.id.tv_fans_sum;
-import static com.hopeofseed.hopeofseed.R.id.tv_follow_sum;
-import static com.hopeofseed.hopeofseed.R.id.tv_username;
 
 
 /**

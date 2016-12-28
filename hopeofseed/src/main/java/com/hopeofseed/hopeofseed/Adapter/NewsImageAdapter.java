@@ -3,7 +3,6 @@ package com.hopeofseed.hopeofseed.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.ShowBigImage;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.R;
-import com.hopeofseed.hopeofseed.ui.ShowImage;
 
 import java.util.ArrayList;
 import java.util.List;

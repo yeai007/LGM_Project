@@ -93,7 +93,7 @@ public class ChatDetailView extends LinearLayout {
         AppTitle.setText("群主页");
         btn_topright = (Button) findViewById(R.id.btn_topright);
         rel_desc = (RelativeLayout) findViewById(R.id.rel_desc);
-        btn_topright.setText("加入群");
+        btn_topright.setText("加入");
         btn_topright.setVisibility(View.GONE);
         btn_topleft = (Button) findViewById(R.id.btn_topleft);
         no_disturb_rl = (RelativeLayout) findViewById(R.id.no_disturb_rl);

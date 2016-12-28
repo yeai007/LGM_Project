@@ -8,16 +8,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.R;
-
-import static com.hopeofseed.hopeofseed.Data.Const.InputCathe;
-import static com.hopeofseed.hopeofseed.R.id.btn_submit;
 
 
 /**

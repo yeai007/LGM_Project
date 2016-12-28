@@ -1,35 +1,26 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.hopeofseed.hopeofseed.Adapter.DistributorAdapter;
 import com.hopeofseed.hopeofseed.Adapter.ForwarListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.CommentOrForward;
-import com.hopeofseed.hopeofseed.JNXData.DistributorData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommentOrForwardTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.DistributorDataTmp;
 import com.hopeofseed.hopeofseed.R;
-import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.hopeofseed.hopeofseed.R.id.lv_distributor;
 
 
 /**

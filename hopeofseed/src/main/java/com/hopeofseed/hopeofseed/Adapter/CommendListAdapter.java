@@ -1,37 +1,26 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.hopeofseed.hopeofseed.Activitys.CommendListFragment;
 import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
 import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.Http.HttpUtils;
-import com.hopeofseed.hopeofseed.Http.NetCallBack;
-import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.Commend2Data;
 import com.hopeofseed.hopeofseed.JNXData.CommendData;
-import com.hopeofseed.hopeofseed.JNXData.CommentOrForward;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CommendDataTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CommentOrForwardTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.DateTools;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
@@ -39,7 +28,6 @@ import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-import static com.hopeofseed.hopeofseed.R.id.lv_list;
 
 /**
  * 项目名称：LGM_Project

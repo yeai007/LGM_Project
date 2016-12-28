@@ -27,10 +27,6 @@ import com.hopeofseed.hopeofseed.R;
 import java.util.HashMap;
 import java.util.List;
 
-import io.realm.Realm;
-
-import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
-
 /**
  * 项目名称：liguangming
  * 类描述：

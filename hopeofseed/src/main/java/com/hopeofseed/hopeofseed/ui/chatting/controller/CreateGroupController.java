@@ -13,7 +13,6 @@ import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.GroupData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.DialogCreator;
@@ -27,12 +26,6 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.CreateGroupCallback;
 import cn.jpush.im.android.api.callback.GetGroupInfoCallback;
 import cn.jpush.im.android.api.model.GroupInfo;
-
-import static android.R.id.edit;
-import static com.hopeofseed.hopeofseed.Data.Const.City;
-import static com.hopeofseed.hopeofseed.Data.Const.Province;
-import static com.hopeofseed.hopeofseed.Data.Const.Zone;
-import static com.hopeofseed.hopeofseed.R.id.apptitle;
 
 public class CreateGroupController implements OnClickListener, NetCallBack {
     private static final String TAG = "CreateGroupController";

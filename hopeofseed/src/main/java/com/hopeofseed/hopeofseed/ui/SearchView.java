@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.R;
 
-
 /**
  * Created by yetwish on 2015-05-11
  */

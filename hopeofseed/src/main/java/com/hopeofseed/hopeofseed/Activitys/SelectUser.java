@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.hopeofseed.hopeofseed.Adapter.NotifyListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.UserListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
@@ -30,7 +29,6 @@ import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;

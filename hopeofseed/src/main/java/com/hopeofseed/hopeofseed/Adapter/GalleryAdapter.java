@@ -1,8 +1,6 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;

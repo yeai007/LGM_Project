@@ -1,7 +1,6 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.JNXData.CityData;
-import com.hopeofseed.hopeofseed.JNXData.YieldData;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * 项目名称：LGM_Project

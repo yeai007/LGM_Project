@@ -13,9 +13,7 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Activitys.DistributorListForFromWeb;
-import com.hopeofseed.hopeofseed.Activitys.MyCommodity;
 import com.hopeofseed.hopeofseed.Activitys.SettingCommodityActivity;
-import com.hopeofseed.hopeofseed.JNXData.CropData;
 import com.hopeofseed.hopeofseed.JNXData.DistributorData;
 import com.hopeofseed.hopeofseed.R;
 

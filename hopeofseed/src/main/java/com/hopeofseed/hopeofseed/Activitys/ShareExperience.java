@@ -33,24 +33,18 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Adapter.PublishImgsAdapter;
-import com.hopeofseed.hopeofseed.Adapter.Sp_TitleAdapter;
 import com.hopeofseed.hopeofseed.Adapter.SpinnerSortsAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.DataForHttp.AddNesExperienceData;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.CommHttpResult;
 import com.hopeofseed.hopeofseed.JNXData.SortsData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CommHttpResultTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CropDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.SortsDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.ShowImage;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
 import com.lgm.utils.AppPermissions;
-import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.view.ImageSelectorActivity;
 import com.lgm.view.MessageUtil;
@@ -70,8 +64,6 @@ import rx.functions.Action1;
 
 import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
-import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_LOCATION;
-import static com.hopeofseed.hopeofseed.R.color.text_content_color;
 
 /**
  * 项目名称：liguangming

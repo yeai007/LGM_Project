@@ -15,17 +15,14 @@ import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.SelectCommodityAdapter;
-import com.hopeofseed.hopeofseed.Adapter.SelectDistributorAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.AddRelationResult;
 import com.hopeofseed.hopeofseed.JNXData.CommodityData;
-import com.hopeofseed.hopeofseed.JNXData.DistributorData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.AddRelationResultTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommodityDataTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.DistributorDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 

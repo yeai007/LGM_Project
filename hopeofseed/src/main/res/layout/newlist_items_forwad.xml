@@ -184,7 +184,7 @@
         android:id="@+id/rel_share_new"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#efefef"
+        android:background="@color/background_gray2"
         android:layout_below="@+id/rel_word"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
@@ -194,17 +194,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_share_new_title"
-            android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:maxLines="3"
-            android:layout_toRightOf="@+id/img_share_new"
-            android:background="#efefef" />
+            android:layout_toRightOf="@+id/img_share_new" />
 
         <TextView
             android:id="@+id/tv_share_new_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#efefef"
             android:layout_marginTop="10dp"
             android:layout_alignParentTop="true"
             android:maxLines="1"
@@ -216,6 +213,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginLeft="18dp"
+            android:layout_marginTop="10dp"
             android:background="#efefef"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"

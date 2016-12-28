@@ -17,7 +17,6 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -114,6 +113,8 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
                     }
                 } else {
                     tv_log.setText("已是最新版本");
+                    initFirst();
+                    initLocation();
                 }
                 editor.putString("currentVersionCode", AppUtil.getPackageInfo(getApplicationContext()).versionCode + "");
                 editor.putString("currentVersionName", AppUtil.getPackageInfo(getApplicationContext()).versionName);

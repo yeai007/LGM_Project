@@ -2,7 +2,6 @@ package com.hopeofseed.hopeofseed.JNXDataTmp;
 
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.CustomPushData;
-import com.hopeofseed.hopeofseed.JNXData.DistributorCommodity;
 
 import java.util.ArrayList;
 

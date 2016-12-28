@@ -3,25 +3,16 @@ package com.hopeofseed.hopeofseed;
 import android.app.Service;
 import android.content.Context;
 import android.os.Vibrator;
-import android.text.TextUtils;
 import android.util.Log;
 
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.content.EventNotificationContent;
-import cn.jpush.im.android.api.enums.ContentType;
-import cn.jpush.im.android.api.event.MessageEvent;
-import cn.jpush.im.android.api.model.GroupInfo;
-import cn.jpush.im.android.api.model.Message;
 import im.fir.sdk.FIR;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.Receivers.NotificationClickEventReceiver;
 import com.hopeofseed.hopeofseed.Services.LocationService;
-import com.hopeofseed.hopeofseed.ui.chatting.utils.IdHelper;
 import com.hopeofseed.hopeofseed.util.JpushUtil;
 import com.lgm.utils.ImageLoaderUtil;
 import com.lzy.okgo.OkGo;
@@ -31,9 +22,6 @@ import com.lzy.okgo.cookie.store.PersistentCookieStore;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
 
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
 /**

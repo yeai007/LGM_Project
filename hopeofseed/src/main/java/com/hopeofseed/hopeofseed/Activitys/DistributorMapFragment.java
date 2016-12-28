@@ -67,7 +67,6 @@ public class DistributorMapFragment extends Fragment implements BDLocationListen
     ArrayList<DistributorData> arr_DistributorDataTmp = new ArrayList<>();
     //自定义的弹出框类
     MapDataInfoPopupWindow menuWindow;
-
     List<OverlayOptions> overlayOptionses = new ArrayList<>();
 
     @Nullable

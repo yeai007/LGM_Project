@@ -17,7 +17,6 @@ import com.hopeofseed.hopeofseed.R;
 import java.util.ArrayList;
 
 import static com.hopeofseed.hopeofseed.R.id.tv_name;
-import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 项目名称：liguangming

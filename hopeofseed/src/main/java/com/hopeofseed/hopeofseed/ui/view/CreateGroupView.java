@@ -12,9 +12,6 @@ import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.R;
 
-import static com.hopeofseed.hopeofseed.R.id.btn_topleft;
-import static com.hopeofseed.hopeofseed.R.id.btn_topright;
-
 
 public class CreateGroupView extends LinearLayout {
 

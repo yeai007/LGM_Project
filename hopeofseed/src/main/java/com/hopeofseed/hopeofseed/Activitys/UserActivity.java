@@ -25,7 +25,6 @@ import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.FollowedFriend;
 import com.hopeofseed.hopeofseed.JNXData.FragmentListDatas;
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
@@ -47,7 +46,6 @@ import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.android.eventbus.EventBus;
 
 import static com.hopeofseed.hopeofseed.R.drawable.corner_enterprise;
-import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 项目名称：liguangming
@@ -60,6 +58,7 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  */
 public class
 UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
+    private static final String TAG = "UserActivity";
     ImageView img_user_avatar, img_corner;
     TextView tv_username, tv_follow_sum, tv_fans_sum, tv_address, appTitle;
     String UserId;
@@ -140,10 +139,11 @@ UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallB
 
     private void initView() {
         appTitle = (TextView) findViewById(R.id.apptitle);
+        appTitle.setText("用户详情");
         //appTitle.setVisibility(View.GONE);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
-        btn_topright.setText("更多资料");
+        btn_topright.setText("更多");
         btn_topright.setVisibility(View.VISIBLE);
         btn_topright.setOnClickListener(this);
         tv_username = (TextView) findViewById(R.id.tv_username);
@@ -220,14 +220,14 @@ UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallB
 
                 break;
             case R.id.rel_follow://关注
-                intent = new Intent(UserActivity.this, MyFollowed.class);
+             /*   intent = new Intent(UserActivity.this, MyFollowed.class);
                 intent.putExtra("UserId", UserId);
-                startActivity(intent);
+                startActivity(intent);*/
                 break;
             case R.id.rel_fans:
-                intent = new Intent(UserActivity.this, MyFans.class);
+             /*   intent = new Intent(UserActivity.this, MyFans.class);
                 intent.putExtra("UserId", UserId);
-                startActivity(intent);
+                startActivity(intent);*/
                 break;
             case R.id.btn_submit_followed://添加关注或取消关注
                 AddOrDelFollowed();
@@ -375,7 +375,7 @@ UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallB
         public void handleMessage(Message msg) {
             //setFrament(Integer.parseInt(mUserDataNoRealm.getUser_role()));
             Log.e(TAG, "handleMessage: updateview");
-            appTitle.setText(mUserDataNoRealm.getNickname());
+            //appTitle.setText(mUserDataNoRealm.getNickname());
             tv_username.setText(mUserDataNoRealm.getNickname());
             tv_follow_sum.setText(mUserDataNoRealm.getFllowed_count());
             tv_fans_sum.setText(mUserDataNoRealm.getBeen_fllowed_count());

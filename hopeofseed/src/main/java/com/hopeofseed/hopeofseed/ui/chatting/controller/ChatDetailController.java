@@ -1,7 +1,6 @@
 package com.hopeofseed.hopeofseed.ui.chatting.controller;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
@@ -33,7 +32,6 @@ import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.DialogCreator;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.HandleResponseCode;
 import com.hopeofseed.hopeofseed.ui.entity.Event;
-import com.hopeofseed.hopeofseed.ui.iosDialog;
 import com.hopeofseed.hopeofseed.ui.view.ChatDetailView;
 import com.hopeofseed.hopeofseed.ui.view.SlipButton;
 import com.hopeofseed.hopeofseed.util.UpdateGroupAvatar;

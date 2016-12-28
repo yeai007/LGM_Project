@@ -15,8 +15,6 @@ import com.hopeofseed.hopeofseed.R;
 
 import java.util.List;
 
-import static com.hopeofseed.hopeofseed.R.id.item_view;
-
 
 /**
  * 项目名称：LGM_Project

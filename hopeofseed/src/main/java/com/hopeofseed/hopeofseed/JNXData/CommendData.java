@@ -1,8 +1,5 @@
 package com.hopeofseed.hopeofseed.JNXData;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * 项目名称：LGM_Project
  * 类描述：

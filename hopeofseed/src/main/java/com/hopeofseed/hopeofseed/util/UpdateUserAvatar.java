@@ -3,13 +3,10 @@ package com.hopeofseed.hopeofseed.util;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +16,6 @@ import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.AppPermissions;
-import com.lgm.utils.AppUtil;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
@@ -31,7 +27,6 @@ import cn.jpush.im.api.BasicCallback;
 
 import static com.hopeofseed.hopeofseed.Activitys.UserInfoFragment.UPDATE_USER_INFO;
 import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
-import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_LOCATION;
 
 
 /**

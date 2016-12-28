@@ -23,9 +23,6 @@ import com.hopeofseed.hopeofseed.Services.LocationService;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by whisper on 2016/10/7.
- */
 public class SelectDistributor extends AppCompatActivity implements View.OnClickListener, BDLocationListener {
     private static final String TAG = "SelectDistributor";
     int page = 0;
@@ -120,7 +117,6 @@ public class SelectDistributor extends AppCompatActivity implements View.OnClick
                 break;
         }
     }
-
 
 
     private void initUserLocation() {

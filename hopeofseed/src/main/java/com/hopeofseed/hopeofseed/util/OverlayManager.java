@@ -1,7 +1,5 @@
 package com.hopeofseed.hopeofseed.util;
 
-import android.util.Log;
-
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMap.OnPolylineClickListener;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -14,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.baidu.mapapi.map.BaiduMap.OnMarkerClickListener;
-import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 该类提供一个能够显示和管理多个Overlay的基类

@@ -3,14 +3,12 @@ package com.hopeofseed.hopeofseed.Activitys;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -18,16 +16,11 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.hopeofseed.hopeofseed.Adapter.CommodityRecycleListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.MyCommodityRecycleListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.StringGridListAdapter;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
-import com.hopeofseed.hopeofseed.Adapter.CommodityListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
@@ -41,9 +34,6 @@ import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.hopeofseed.hopeofseed.R.id.lv_groups;
-import static com.hopeofseed.hopeofseed.R.id.recy_news;
 
 /**
  * 项目名称：liguangming

@@ -49,8 +49,6 @@ import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 
-import static com.hopeofseed.hopeofseed.R.id.rb_forwar;
-
 /**
  * 项目名称：LGM_Project
  * 类描述：
@@ -226,9 +224,9 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
 
             }
             tv_content.setText(newsData.getContent());
-            tv_content.setSingleLine(false);
+          /*  tv_content.setSingleLine(false);
             tv_content.setMaxLines(3);
-            tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+            tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));*/
 
             user_name.setText(newsData.getNickname());
             String[] arrImage = newsData.getAssimgurl().split(";");

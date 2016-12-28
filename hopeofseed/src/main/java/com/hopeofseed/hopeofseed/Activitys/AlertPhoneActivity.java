@@ -21,17 +21,12 @@ import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.CommHttpResult;
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommHttpResultTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.SortsDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.utils.TimeCountUtil;
 
-import org.w3c.dom.Text;
-
 import java.util.HashMap;
 import java.util.Random;
-
-import static com.hopeofseed.hopeofseed.R.id.et_username;
 
 /**
  * 项目名称：LGM_Project

@@ -1,7 +1,6 @@
 package com.hopeofseed.hopeofseed.JNXDataTmp;
 
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.SpinnerAreaData;
 import com.hopeofseed.hopeofseed.JNXData.StringVariety;
 
 import java.util.ArrayList;

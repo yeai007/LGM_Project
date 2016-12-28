@@ -20,7 +20,6 @@ import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.CommentNew;
 import com.hopeofseed.hopeofseed.Activitys.CommodityActivity;
 import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
-import com.hopeofseed.hopeofseed.Activitys.NewsInfoActivity;
 import com.hopeofseed.hopeofseed.Activitys.NewsInfoNewActivity;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.DataForHttp.UpdateZambia;
@@ -42,7 +41,6 @@ import static com.hopeofseed.hopeofseed.R.id.img_share_new;
 import static com.hopeofseed.hopeofseed.R.id.tv_content;
 import static com.hopeofseed.hopeofseed.R.id.tv_share_new_content;
 import static com.hopeofseed.hopeofseed.R.id.tv_share_new_title;
-import static com.hopeofseed.hopeofseed.R.id.tv_title;
 
 
 /**

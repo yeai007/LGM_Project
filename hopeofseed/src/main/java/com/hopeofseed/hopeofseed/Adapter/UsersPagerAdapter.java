@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
 import com.hopeofseed.hopeofseed.JNXData.FragmentListDatas;
-import com.hopeofseed.hopeofseed.SearchFragment.NowFragment;
 
 import com.hopeofseed.hopeofseed.SearchFragment.SeedfriendFragment;
 

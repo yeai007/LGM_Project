@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,26 +17,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.FollowAndFanCount;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
+import com.hopeofseed.hopeofseed.JNXDataTmp.FollowAndFanCountTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataNoRealmTmp;
 import com.hopeofseed.hopeofseed.util.UpdateUserAvatar;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.LoginAcitivity;
 import com.hopeofseed.hopeofseed.R;
-import com.lgm.utils.AppPermissions;
-import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
-import com.zhy.m.permission.MPermissions;
-import com.zhy.m.permission.PermissionDenied;
-import com.zhy.m.permission.PermissionGrant;
 
 import java.util.HashMap;
 
@@ -64,12 +59,14 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
     ImageView tv__avatar, img_corner;
     private static final String TAG = "UserInfoFragment";
     private static int UPDATE_USER_AVATAR = 120;
-    TextView tv_username, tv_follow_sum, tv_fans_sum;
-    RelativeLayout rel_follow, rel_fans;
+    TextView tv_username, tv_follow_sum, tv_fans_sum, tv_word_sum;
+    RelativeLayout rel_follow, rel_fans, rel_friend_setting,rel_and;
     UserDataNoRealm mUserDataNoRealm = new UserDataNoRealm();
     TextView app_title;
     private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
     private SwipeRefreshLayout mRefreshLayout;
+    FollowAndFanCount followAndFanCount = new FollowAndFanCount();
+    Handler mHandler = new Handler();
 
     @Nullable
     @Override
@@ -78,6 +75,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
         initView(v);
         initReceiver();
         getData();
+        getCountData();
         return v;
     }
 
@@ -95,6 +93,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
         tv_username = (TextView) v.findViewById(R.id.tv_username);
         tv_follow_sum = (TextView) v.findViewById(R.id.tv_follow_sum);
         tv_fans_sum = (TextView) v.findViewById(R.id.tv_fans_sum);
+        tv_word_sum = (TextView) v.findViewById(R.id.tv_word_sum);
         (v.findViewById(R.id.btn_topleft)).setVisibility(View.GONE);
         (v.findViewById(R.id.btn_topleft)).setOnClickListener(listener);
         (v.findViewById(R.id.btn_topright)).setOnClickListener(listener);
@@ -113,10 +112,14 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
         if (Integer.parseInt(Const.currentUser.user_role) == 0) {
             rel_expert.setVisibility(View.VISIBLE);
         }
+        rel_friend_setting = (RelativeLayout) v.findViewById(R.id.rel_friend_setting);
+        rel_friend_setting.setOnClickListener(listener);
         rel_fans = (RelativeLayout) v.findViewById(R.id.rel_fans);
         rel_fans.setOnClickListener(listener);
         rel_follow = (RelativeLayout) v.findViewById(R.id.rel_follow);
         rel_follow.setOnClickListener(listener);
+        rel_and=(RelativeLayout)v.findViewById(R.id.rel_and);
+        rel_and.setOnClickListener(listener);
         tv__avatar = (ImageView) v.findViewById(img_user_avatar);
         tv__avatar.setOnClickListener(listener);
         img_corner = (ImageView) v.findViewById(R.id.img_corner);
@@ -254,13 +257,21 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
                     startActivityForResult(intent, UPDATE_USER_AVATAR);
                     break;
                 case R.id.rel_follow://关注
-                    intent = new Intent(getActivity(), MyFollowed.class);
+/*                    intent = new Intent(getActivity(), MyFollowed.class);
                     intent.putExtra("UserId", mUserDataNoRealm.getUser_id());
+                    startActivity(intent);*/
+                    intent = new Intent(getActivity(), MyFriendSetting.class);
+                    intent.putExtra("page", 1);
                     startActivity(intent);
                     break;
                 case R.id.rel_fans:
-                    intent = new Intent(getActivity(), MyFans.class);
-                    intent.putExtra("UserId", mUserDataNoRealm.getUser_id());
+                    intent = new Intent(getActivity(), MyFriendSetting.class);
+                    intent.putExtra("page", 2);
+                    startActivity(intent);
+                    break;
+                case R.id.rel_and:
+                    intent = new Intent(getActivity(), MyFriendSetting.class);
+                    intent.putExtra("page", 0);
                     startActivity(intent);
                     break;
                 /**
@@ -272,6 +283,10 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
                     break;
                 case R.id.rel_push:
                     intent = new Intent(getActivity(), CustomPushActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.rel_friend_setting:
+                    intent = new Intent(getActivity(), MyFriendSetting.class);
                     startActivity(intent);
                     break;
             }
@@ -294,12 +309,24 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
         hu.httpPost(Const.BASE_URL + "GetUserInfoById.php", opt_map, UserDataNoRealmTmp.class, this);
     }
 
+    private void getCountData() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "GetFollowAndFanCount.php", opt_map, FollowAndFanCountTmp.class, this);
+    }
+
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
+        if (rspBaseBean.RequestSign.equals("GetFollowAndFanCount")) {
+            followAndFanCount = ((FollowAndFanCountTmp) rspBaseBean).getDetail();
+            mHandler.post(updateCount);
+        } else {
+            Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
+            mUserDataNoRealm = ((UserDataNoRealmTmp) ObjectUtil.cast(rspBaseBean)).getDetail().get(0);
 
-        Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
-        mUserDataNoRealm = ((UserDataNoRealmTmp) ObjectUtil.cast(rspBaseBean)).getDetail().get(0);
-        updateView();
+            mHandler.post(updateView);
+        }
     }
 
     @Override
@@ -312,25 +339,26 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
 
     }
 
-    private void updateView() {
-
-        Message msg = updateViewHandle.obtainMessage();
-        msg.sendToTarget();
-    }
-
-    private Handler updateViewHandle = new Handler() {
+    Runnable updateCount = new Runnable() {
         @Override
-        public void handleMessage(Message msg) {
+        public void run() {
+            tv_word_sum.setText(followAndFanCount.getFollowFanCount());
+            tv_follow_sum.setText(followAndFanCount.getFollowCount());
+            tv_fans_sum.setText(followAndFanCount.getFanCount());
+        }
+    };
+
+    Runnable updateView = new Runnable() {
+        @Override
+        public void run() {
             mRefreshLayout.setRefreshing(false);
             tv_username.setText(mUserDataNoRealm.getNickname());
-            tv_follow_sum.setText(mUserDataNoRealm.getFllowed_count());
-            tv_fans_sum.setText(mUserDataNoRealm.getBeen_fllowed_count());
             app_title.setText(mUserDataNoRealm.getNickname());
             updateCorner();
             getUserJpushInfo(Const.JPUSH_PREFIX + mUserDataNoRealm.getUser_id());
-
         }
     };
+
 
     @Override
     public void onRefresh() {

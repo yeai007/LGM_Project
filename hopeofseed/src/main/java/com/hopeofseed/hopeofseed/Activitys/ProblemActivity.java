@@ -15,15 +15,12 @@ import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.ProblemData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.ExpertDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.ProblemDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.HashMap;
 
-import static com.hopeofseed.hopeofseed.R.id.tv_fans_sum;
-import static com.hopeofseed.hopeofseed.R.id.tv_follow_sum;
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**

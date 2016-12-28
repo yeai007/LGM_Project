@@ -43,7 +43,6 @@ import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
 import com.lgm.utils.AppPermissions;
-import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -59,10 +58,7 @@ import me.shaohui.advancedluban.Luban;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
-import static com.hopeofseed.hopeofseed.Activitys.PubishMainActivity.verifyStoragePermissions;
 import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
-import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_LOCATION;
-import static com.hopeofseed.hopeofseed.R.color.text_content_color;
 
 /**
  * 项目名称：liguangming

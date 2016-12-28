@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.hopeofseed.hopeofseed.Activitys.CommodityActivity;
 import com.hopeofseed.hopeofseed.Activitys.CommoditySettingActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.CommodityData;

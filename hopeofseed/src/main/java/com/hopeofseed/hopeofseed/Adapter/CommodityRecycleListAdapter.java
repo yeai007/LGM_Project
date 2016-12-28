@@ -70,6 +70,13 @@ public class CommodityRecycleListAdapter extends RecyclerView.Adapter<CommodityR
                 mContext.startActivity(intent);
             }
         });
+        if (!TextUtils.isEmpty(itemData.getOwnerClass())) {
+            if (Integer.parseInt(itemData.getOwnerClass()) == 2) {
+                holder.img_guaranteed.setVisibility(View.VISIBLE);
+            } else {
+                holder.img_guaranteed.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -83,7 +90,7 @@ public class CommodityRecycleListAdapter extends RecyclerView.Adapter<CommodityR
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView commodity_img;
+        ImageView commodity_img, img_guaranteed;
         TextView commodity_name, commodity_price;
         RelativeLayout item_view;
 
@@ -93,6 +100,7 @@ public class CommodityRecycleListAdapter extends RecyclerView.Adapter<CommodityR
             commodity_name = (TextView) itemView.findViewById(R.id.commodity_name);
             commodity_price = (TextView) itemView.findViewById(R.id.commodity_price);
             item_view = (RelativeLayout) itemView.findViewById(R.id.item_view);
+            img_guaranteed = (ImageView) itemView.findViewById(R.id.img_guaranteed);
         }
     }
 }

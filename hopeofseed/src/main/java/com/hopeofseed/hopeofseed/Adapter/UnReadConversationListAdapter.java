@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.CommentAboutMe;
@@ -27,11 +26,9 @@ import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
 import com.hopeofseed.hopeofseed.ui.iosDialog;
-import com.hopeofseed.hopeofseed.util.FileUtil;
 import com.lgm.utils.DateTools;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
@@ -47,8 +44,6 @@ import cn.jpush.im.android.api.model.UserInfo;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-import static cn.jpush.im.android.api.JMessageClient.deleteSingleConversation;
-import static cn.jpush.im.android.api.enums.ConversationType.single;
 import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
 
 

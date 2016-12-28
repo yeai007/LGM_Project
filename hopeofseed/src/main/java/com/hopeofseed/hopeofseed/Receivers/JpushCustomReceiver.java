@@ -16,7 +16,6 @@ import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
 import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.helpers.IMReceiver;
 import io.realm.Realm;
 

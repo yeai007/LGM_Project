@@ -14,15 +14,12 @@ import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.CropData;
 import com.hopeofseed.hopeofseed.JNXData.ExperienceData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CropDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.ExperienceDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.AutoSplitTextView;
 import com.lgm.utils.ObjectUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;

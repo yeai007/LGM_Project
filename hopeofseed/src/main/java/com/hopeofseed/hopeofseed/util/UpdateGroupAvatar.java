@@ -3,13 +3,11 @@ package com.hopeofseed.hopeofseed.util;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hopeofseed.hopeofseed.Activitys.PubishMainActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
@@ -25,7 +22,6 @@ import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.AppPermissions;
-import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
@@ -36,17 +32,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.api.BasicCallback;
 import me.shaohui.advancedluban.Luban;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 import static android.content.ContentValues.TAG;
-import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
-import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_LOCATION;
-import static com.hopeofseed.hopeofseed.R.id.img_user_avatar;
 
 
 /**

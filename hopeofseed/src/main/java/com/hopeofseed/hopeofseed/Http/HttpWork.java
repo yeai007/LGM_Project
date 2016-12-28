@@ -3,7 +3,6 @@ package com.hopeofseed.hopeofseed.Http;
 import android.util.Log;
 
 import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
 
 import java.io.BufferedReader;
@@ -21,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.jar.Attributes;
 
-import okhttp3.Call;
 import okhttp3.Response;
 
 /**

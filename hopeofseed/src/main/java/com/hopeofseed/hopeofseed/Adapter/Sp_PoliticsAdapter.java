@@ -11,7 +11,6 @@ import com.hopeofseed.hopeofseed.JNXData.PoliticData;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 项目名称：liguangming

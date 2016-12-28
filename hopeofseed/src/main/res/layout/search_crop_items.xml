@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/rel_title"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true">
 
@@ -24,8 +24,6 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:src="@drawable/seed_qita" />
-
-
         </RelativeLayout>
 
         <TextView
@@ -49,13 +47,12 @@
             android:text="用户"
             android:textColor="#333333" />
 
-
         <TextView
             android:id="@+id/tv_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/tv_name"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/rel_img_user_avatar"
             android:gravity="left|center_vertical"

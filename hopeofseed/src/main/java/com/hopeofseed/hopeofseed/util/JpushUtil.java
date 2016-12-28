@@ -3,14 +3,10 @@ package com.hopeofseed.hopeofseed.util;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.hopeofseed.hopeofseed.Adapter.NewsListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.R;
 
 import java.util.Set;
 
@@ -25,9 +21,6 @@ import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE
 import static com.hopeofseed.hopeofseed.Activitys.NewsFragment.NEWS_UPDATE_LIST;
 import static com.hopeofseed.hopeofseed.Activitys.UserInfoFragment.UPDATE_USER_INFO;
 import static com.hopeofseed.hopeofseed.Data.Const.isJpushLogin;
-import static com.hopeofseed.hopeofseed.Data.Const.mUserInfo;
-import static com.hopeofseed.hopeofseed.R.id.img_corner;
-import static com.hopeofseed.hopeofseed.R.id.img_user;
 
 /**
  * 项目名称：LGM_Project

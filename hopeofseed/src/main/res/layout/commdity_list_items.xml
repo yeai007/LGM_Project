@@ -9,20 +9,58 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true">
 
-        <com.hopeofseed.hopeofseed.curView.SquareImageView
-            android:id="@+id/commodity_img"
+        <RelativeLayout
+            android:id="@+id/rel_commodity_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="10dp"
-            android:background="#ffffff"
-            android:src="@drawable/no_have_img" />
+            android:layout_centerHorizontal="true">
+
+            <com.hopeofseed.hopeofseed.curView.SquareImageView
+                android:id="@+id/commodity_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dp"
+                android:background="#ffffff"
+                android:src="@drawable/no_have_img" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:id="@+id/view" />
+
+                <com.hopeofseed.hopeofseed.curView.SquareImageView
+                    android:id="@+id/img_guaranteed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:maxHeight="20dp"
+                    android:maxWidth="20dp"
+                    android:src="@drawable/img_guaranteed" />
+            </LinearLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/commodity_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/commodity_img"
+            android:layout_below="@+id/rel_commodity_img"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:text="1111"

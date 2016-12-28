@@ -1,28 +1,16 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.hopeofseed.hopeofseed.Activitys.CommentNew;
-import com.hopeofseed.hopeofseed.Activitys.ForwardNew;
-import com.hopeofseed.hopeofseed.Activitys.UserActivity;
-import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.DataForHttp.UpdateZambia;
 import com.hopeofseed.hopeofseed.JNXData.FollowedFriend;
-import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.List;

@@ -1,41 +1,23 @@
 package com.hopeofseed.hopeofseed.SearchFragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
-import android.widget.TextView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.hopeofseed.hopeofseed.Activitys.ExpertActivity;
-import com.hopeofseed.hopeofseed.Activitys.NewsInfoActivity;
-import com.hopeofseed.hopeofseed.Activitys.NewsInfoNewActivity;
-import com.hopeofseed.hopeofseed.Activitys.SearchInfoActivity;
-import com.hopeofseed.hopeofseed.Activitys.YieldActivity;
-import com.hopeofseed.hopeofseed.Adapter.CropDataAdapter;
-import com.hopeofseed.hopeofseed.Adapter.ExperienceDataAdapter;
 import com.hopeofseed.hopeofseed.Adapter.YieldDataAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.CropData;
 import com.hopeofseed.hopeofseed.JNXData.YieldData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CropDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.YieldDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
@@ -43,10 +25,6 @@ import com.lgm.utils.ObjectUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.hopeofseed.hopeofseed.R.id.lv_list;
-import static com.hopeofseed.hopeofseed.SearchFragment.ExperienceFragment.arr_ExperienceData;
-import static com.hopeofseed.hopeofseed.SearchFragment.ExperienceFragment.arr_ExperienceDataTmp;
-import static com.hopeofseed.hopeofseed.SearchFragment.ExperienceFragment.mExperienceDataAdapter;
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**

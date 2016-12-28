@@ -3,8 +3,6 @@ package com.hopeofseed.hopeofseed.JNXDataTmp;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
 
-import java.util.ArrayList;
-
 /**
  * 项目名称：LGM_Project
  * 类描述：

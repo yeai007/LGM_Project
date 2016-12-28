@@ -6,11 +6,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,6 +52,7 @@ public class CommodityActivity extends AppCompatActivity implements View.OnClick
      */
     private int position = 0;
     String[] images;
+    ImageView img_guaranteed;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class CommodityActivity extends AppCompatActivity implements View.OnClick
         btn_topright.setOnClickListener(this);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         images = getResources().getStringArray(R.array.url2);
+        img_guaranteed = (ImageView) findViewById(R.id.img_guaranteed);
         banner = (Banner) findViewById(R.id.banner);
         banner.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
         //简单使用
@@ -114,13 +117,23 @@ public class CommodityActivity extends AppCompatActivity implements View.OnClick
         @Override
         public void handleMessage(Message msg) {
             String[] arrImage = mCommodityData.getCommodityImgs().split(";");
-            for (int i = 0; i < arrImage.length; i++) {
-                Log.e(TAG, "handleMessage: " + arrImage[i]);
-                arrImage[i] = Const.IMG_URL + arrImage[i];
-                Log.e(TAG, "handleMessage: " + arrImage[i]);
+            if (TextUtils.isEmpty(mCommodityData.getCommodityImgs())) {
+                banner.setImages(Arrays.asList(R.drawable.no_have_img)).setImageLoader(new GlideImageLoader()).start();
+            } else {
+                for (int i = 0; i < arrImage.length; i++) {
+                    if (!TextUtils.isEmpty(arrImage[i])) {
+                        Log.e(TAG, "handleMessage: " + arrImage[i]);
+                        arrImage[i] = Const.IMG_URL + arrImage[i];
+                        Log.e(TAG, "handleMessage: " + arrImage[i]);
+                    }
+                }
+                banner.setImages(Arrays.asList(arrImage)).setImageLoader(new GlideImageLoader()).start();
             }
-
-            banner.setImages(Arrays.asList(arrImage)).setImageLoader(new GlideImageLoader()).start();
+            if (Integer.parseInt(mCommodityData.getOwnerClass()) == 2) {
+                img_guaranteed.setVisibility(View.VISIBLE);
+            } else {
+                img_guaranteed.setVisibility(View.GONE);
+            }
             apptitle.setText(mCommodityData.getCommodityTitle());
             tv_title.setText(mCommodityData.getCommodityTitle());
             tv_name.setText(mCommodityData.getCommodityName());

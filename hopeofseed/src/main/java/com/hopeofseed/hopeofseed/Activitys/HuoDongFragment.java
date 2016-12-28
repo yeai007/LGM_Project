@@ -10,18 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hopeofseed.hopeofseed.Adapter.GroupListAdapter;
 import com.hopeofseed.hopeofseed.Adapter.HuodongListAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.GroupData;
 import com.hopeofseed.hopeofseed.JNXData.HuodongData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.GroupDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.HuodongDataTmp;
 import com.hopeofseed.hopeofseed.R;
-import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;

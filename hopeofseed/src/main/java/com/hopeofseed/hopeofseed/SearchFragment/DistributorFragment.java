@@ -156,6 +156,7 @@ public class DistributorFragment extends Fragment implements SwipeRefreshLayout.
                     itemCommodityData.setCommodityFlagTime(itemDistributorCommodity.getCommodityFlagTime());
                     itemCommodityData.setCommodityDescribe(itemDistributorCommodity.getCommodityDescribe());
                     itemCommodityData.setOwner(itemDistributorCommodity.getOwner());
+                    itemCommodityData.setOwnerClass(itemDistributorCommodity.getOwnerClass());
                     itemCommodityData.setNewId(itemDistributorCommodity.getNewId());
                     itemCommodityData.setCommodityImgs(itemDistributorCommodity.getCommodityImgs());
                     itemCommodityData.setCommodityVariety(itemDistributorCommodity.getCommodityVariety());
@@ -178,6 +179,7 @@ public class DistributorFragment extends Fragment implements SwipeRefreshLayout.
                         itemCommodityData.setCommodityFlagTime(itemDistributorCommodity.getCommodityFlagTime());
                         itemCommodityData.setCommodityDescribe(itemDistributorCommodity.getCommodityDescribe());
                         itemCommodityData.setOwner(itemDistributorCommodity.getOwner());
+                        itemCommodityData.setOwnerClass(itemDistributorCommodity.getOwnerClass());
                         itemCommodityData.setNewId(itemDistributorCommodity.getNewId());
                         itemCommodityData.setCommodityImgs(itemDistributorCommodity.getCommodityImgs());
                         itemCommodityData.setCommodityVariety(itemDistributorCommodity.getCommodityVariety());
@@ -211,6 +213,7 @@ public class DistributorFragment extends Fragment implements SwipeRefreshLayout.
                         itemCommodityData.setCommodityFlagTime(itemDistributorCommodity.getCommodityFlagTime());
                         itemCommodityData.setCommodityDescribe(itemDistributorCommodity.getCommodityDescribe());
                         itemCommodityData.setOwner(itemDistributorCommodity.getOwner());
+                        itemCommodityData.setOwnerClass(itemDistributorCommodity.getOwnerClass());
                         itemCommodityData.setNewId(itemDistributorCommodity.getNewId());
                         itemCommodityData.setCommodityImgs(itemDistributorCommodity.getCommodityImgs());
                         itemCommodityData.setCommodityVariety(itemDistributorCommodity.getCommodityVariety());

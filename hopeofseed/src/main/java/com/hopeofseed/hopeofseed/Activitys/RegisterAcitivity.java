@@ -15,16 +15,11 @@ import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.DataForHttp.GetPhoneCode;
 import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.DataForHttp.UserRegister;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataNoRealmTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataTmp;
-import com.hopeofseed.hopeofseed.LoginAcitivity;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.utils.TimeCountUtil;
@@ -33,10 +28,6 @@ import java.util.HashMap;
 import java.util.Random;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
-
-import static com.hopeofseed.hopeofseed.Activitys.SelectVarieties.Str_search;
-import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 项目名称：liguangming
@@ -53,7 +44,8 @@ public class RegisterAcitivity extends AppCompatActivity implements View.OnClick
     Button btn_register, get_code;
     String phone_code = "";
     Handler mHandler = new Handler();
-    String RegisterError="注册失败";
+    String RegisterError = "注册失败";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -175,8 +167,8 @@ public class RegisterAcitivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onError(final String error) {
-        Log.e(TAG, "onError: "+error);
-        RegisterError=error;
+        Log.e(TAG, "onError: " + error);
+        RegisterError = error;
         mHandler.post(showError);
 
     }
@@ -185,12 +177,14 @@ public class RegisterAcitivity extends AppCompatActivity implements View.OnClick
     public void onFail() {
 
     }
+
     Runnable showError = new Runnable() {
         @Override
         public void run() {
             Toast.makeText(getApplicationContext(), RegisterError, Toast.LENGTH_SHORT).show();
         }
     };
+
     private void updateRealmData(RspBaseBean rspBaseBean) {
         Realm updateRealm = Realm.getDefaultInstance();
         updateRealm.beginTransaction();//开启事务
@@ -203,7 +197,7 @@ public class RegisterAcitivity extends AppCompatActivity implements View.OnClick
         updateRealm.commitTransaction();
         Log.e(TAG, "updateRealmData: 1");
         UserDataTmp mUserDataTmp = new UserDataTmp();
-        mUserDataTmp=ObjectUtil.cast(rspBaseBean);
+        mUserDataTmp = ObjectUtil.cast(rspBaseBean);
         mUserDataTmp.getDetail().setIsCurrent(1);
         UserData mUserDataTmp1 = new UserData();
         mUserDataTmp1 = mUserDataTmp.getDetail();

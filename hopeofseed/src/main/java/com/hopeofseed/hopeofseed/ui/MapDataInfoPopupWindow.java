@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ScreenUtils;
 
-import static android.R.attr.name;
-
 /**
  * 项目名称：LGM_Project
  * 类描述：
@@ -45,7 +43,7 @@ public class MapDataInfoPopupWindow extends PopupWindow {
         //设置SelectPicPopupWindow弹出窗体的宽
         this.setWidth(ViewGroup.LayoutParams.FILL_PARENT);
         //设置SelectPicPopupWindow弹出窗体的高
-        this.setHeight(ScreenUtils.dip2px(context,100f));
+        this.setHeight(ScreenUtils.dip2px(context, 100f));
         //设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
         //设置SelectPicPopupWindow弹出窗体动画效果
@@ -70,6 +68,7 @@ public class MapDataInfoPopupWindow extends PopupWindow {
     public void SetTitle(String title) {
         this.map_info_name.setText(title);
     }
+
     public void SetAddress(String address) {
         this.map_info_address.setText(address);
     }

@@ -11,8 +11,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.R;
 
-import java.io.File;
-
 /**
  * 项目名称：LGM_Project
  * 类描述：

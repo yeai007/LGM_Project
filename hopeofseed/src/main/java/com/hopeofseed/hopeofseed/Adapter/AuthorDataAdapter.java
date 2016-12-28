@@ -1,24 +1,16 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.AuthorData;
-import com.hopeofseed.hopeofseed.JNXData.EnterpriseCommodityArray;
-import com.hopeofseed.hopeofseed.JNXData.ProblemData;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.ArrayList;
@@ -27,8 +19,6 @@ import java.util.List;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
-
-import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
  * 项目名称：LGM_Project

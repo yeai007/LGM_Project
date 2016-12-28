@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 
 import com.hopeofseed.hopeofseed.Activitys.MembersInChatActivity;
-import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.CircleImageView;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.DialogCreator;

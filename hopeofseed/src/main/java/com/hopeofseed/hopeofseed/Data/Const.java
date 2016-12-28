@@ -4,16 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.baidu.mapapi.model.LatLng;
-import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.JNXData.CurrentUser;
-import com.lgm.utils.AppUtil;
 
 import cn.jpush.im.android.api.model.UserInfo;
-
-import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 项目名称：liguangming

@@ -13,15 +13,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.CommodityActivity;
-import com.hopeofseed.hopeofseed.Activitys.ShowBigImage;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.CommodityDataNoUser;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
  * 项目名称：liguangming
@@ -88,6 +84,12 @@ public class CommodityImageAdapter extends RecyclerView.Adapter<CommodityImageAd
 
             }
         });
+        if(!TextUtils.isEmpty(itemdata.getOwnerClass())){
+        if (Integer.parseInt(itemdata.getOwnerClass()) == 2) {
+            holder.img_guaranteed.setVisibility(View.VISIBLE);
+        } else {
+            holder.img_guaranteed.setVisibility(View.GONE);
+        }}
     }
 
     @Override
@@ -96,13 +98,14 @@ public class CommodityImageAdapter extends RecyclerView.Adapter<CommodityImageAd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        ImageView imageView,img_guaranteed;
         TextView tv_commodity_name;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.image);
             tv_commodity_name = (TextView) itemView.findViewById(R.id.tv_commodity_name);
+            img_guaranteed=(ImageView)itemView.findViewById(R.id.img_guaranteed);
         }
     }
 }

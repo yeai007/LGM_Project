@@ -13,29 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
-import com.hopeofseed.hopeofseed.Adapter.CropDataAdapter;
-import com.hopeofseed.hopeofseed.Adapter.DistributorAdapter;
-import com.hopeofseed.hopeofseed.Adapter.ExperienceAdapter;
 import com.hopeofseed.hopeofseed.Adapter.ExpertDataAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.CropData;
-import com.hopeofseed.hopeofseed.JNXData.ExperienceData;
 import com.hopeofseed.hopeofseed.JNXData.ExpertData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.CropDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.ExpertDataTmp;
 import com.hopeofseed.hopeofseed.R;
-import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Handler;
 
-import static com.hopeofseed.hopeofseed.R.id.lv_list;
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**

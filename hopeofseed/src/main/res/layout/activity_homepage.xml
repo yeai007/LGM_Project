@@ -84,6 +84,5 @@
         android:id="@+id/vp_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/frame_menu"
-        android:layout_below="@+id/top" />
+        android:layout_above="@+id/frame_menu" />
 </RelativeLayout>

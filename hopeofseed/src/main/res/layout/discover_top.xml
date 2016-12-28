@@ -1,22 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="40dp"
+    android:layout_height="wrap_content"
     android:background="@color/maincolor"
     android:orientation="horizontal">
+
     <RelativeLayout
         android:id="@+id/rel_search"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#f2f2f3">
+        android:layout_height="wrap_content"
+        android:background="@color/background_gray2"
+        android:gravity="center"
+        android:minHeight="50dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/search_shape">
+            android:layout_marginTop="5dp"
+            android:background="@drawable/search_shape"
+            android:gravity="center|left"
+            android:minHeight="30dp">
 
             <ImageView
                 android:id="@+id/img_search"
@@ -29,11 +35,12 @@
 
             <TextView
                 android:id="@+id/tv_search"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@+id/img_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/img_search"
                 android:gravity="left|center_vertical"
+                android:minHeight="30dp"
                 android:text="大家都在搜：种子" />
         </RelativeLayout>
     </RelativeLayout>

@@ -2,7 +2,6 @@ package com.hopeofseed.hopeofseed.JNXDataTmp;
 
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.AddRelationResult;
-import com.hopeofseed.hopeofseed.JNXData.AuthorData;
 
 import java.util.ArrayList;
 

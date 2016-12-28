@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.CommodityData;
-import com.hopeofseed.hopeofseed.JNXData.DistributorData;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
-import static com.hopeofseed.hopeofseed.R.id.tv_name;
 
 /**
  * 项目名称：LGM_Project

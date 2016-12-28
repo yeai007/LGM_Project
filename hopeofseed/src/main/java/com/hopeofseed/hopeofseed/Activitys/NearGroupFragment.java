@@ -20,13 +20,10 @@ import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.GroupData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.GroupDataTmp;
 import com.hopeofseed.hopeofseed.R;
-import com.lgm.utils.AppUtil;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.hopeofseed.hopeofseed.R.id.recy_news;
 
 
 /**

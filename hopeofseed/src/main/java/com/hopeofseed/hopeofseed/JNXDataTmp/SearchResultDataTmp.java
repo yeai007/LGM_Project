@@ -2,7 +2,6 @@ package com.hopeofseed.hopeofseed.JNXDataTmp;
 
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.SearchResultData;
-import com.hopeofseed.hopeofseed.model.Bean;
 
 import java.util.ArrayList;
 

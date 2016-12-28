@@ -4,22 +4,58 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.hopeofseed.hopeofseed.curView.SquareImageView
-        android:id="@+id/image"
+    <RelativeLayout
+        android:id="@+id/rel_commodity_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="2dp"
-        android:background="@drawable/imageview_shape"
-        android:src="@drawable/no_have_img"
-        android:scaleType="centerCrop" />
+        android:layout_centerHorizontal="true">
+
+        <com.hopeofseed.hopeofseed.curView.SquareImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="10dp"
+            android:background="#ffffff"
+            android:src="@drawable/no_have_img" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <com.hopeofseed.hopeofseed.curView.SquareImageView
+                android:id="@+id/img_guaranteed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:maxHeight="20dp"
+                android:maxWidth="20dp"
+                android:src="@drawable/img_guaranteed" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/tv_commodity_name"
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_alignParentBottom="true"
+        android:background="#e0000000"
         android:gravity="center"
         android:text="名称"
-        android:background="#e0000000"
         android:textColor="@color/white" />
 </com.lgm.widget.SquareRelativeLayout>

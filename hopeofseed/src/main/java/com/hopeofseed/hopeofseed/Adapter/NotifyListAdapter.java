@@ -13,9 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hopeofseed.hopeofseed.Activitys.SystemNofityActivity;
 import com.hopeofseed.hopeofseed.Activitys.SystemNofityDetailActivity;
-import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
 import com.hopeofseed.hopeofseed.R;
@@ -25,13 +23,9 @@ import com.lgm.utils.DateTools;
 import java.text.ParseException;
 import java.util.List;
 
-import cn.jpush.im.android.api.JMessageClient;
 import io.realm.Realm;
-import io.realm.RealmResults;
 
-import static android.R.attr.type;
 import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
-import static com.hopeofseed.hopeofseed.R.id.dialog;
 
 
 /**

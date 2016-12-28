@@ -10,13 +10,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.hopeofseed.hopeofseed.Activitys.ExperienceActivity;
 import com.hopeofseed.hopeofseed.Activitys.NewsInfoNewActivity;
-import com.hopeofseed.hopeofseed.Activitys.UserActivity;
-import com.hopeofseed.hopeofseed.JNXData.ExperienceData;
 import com.hopeofseed.hopeofseed.JNXData.ExpertEnterperiseData;
-import com.hopeofseed.hopeofseed.JNXData.NewsData;
-import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 
