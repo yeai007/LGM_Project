@@ -25,6 +25,8 @@ import com.hopeofseed.hopeofseed.Activitys.HomePageActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
 import com.hopeofseed.hopeofseed.Services.LocationService;
+import com.hopeofseed.hopeofseed.curView.WeiboDialogUtils;
+import com.hopeofseed.hopeofseed.util.JpushUtil;
 import com.lgm.net.NetWorkUtils;
 import com.lgm.update.OnUpdateListener;
 import com.lgm.update.UpdateHelper;
@@ -62,10 +64,11 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
     private File cache;
     private TextView tv_log;
     private SharedPreferences preferences_update;
-     UpdateHelper updateHelper = new UpdateHelper.Builder(this)
+    UpdateHelper updateHelper = new UpdateHelper.Builder(this)
             .checkUrl(Const.BASE_URL + "GetLastVersion.php")
             .isAutoInstall(true) //设置为false需在下载完手动点击安装;默认值为true，下载后自动安装。
             .build();
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -73,7 +76,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         tv_log = (TextView) findViewById(R.id.tv_log);
-        preferences_update = getSharedPreferences("Updater",Context.MODE_PRIVATE);
+        preferences_update = getSharedPreferences("Updater", Context.MODE_PRIVATE);
         checkUpdate();
       /*  initFirst();
         initLocation();*/
@@ -108,18 +111,19 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
                     } else {
                         tv_log.setText("已是最新版本");
                         editor.putBoolean("hasNewVersion", false);
+                        WeiboDialogUtils.createLoadingDialog(splashActivity.this, "正在加载数据\n请稍候...");
                         initFirst();
                         initLocation();
                     }
                 } else {
                     tv_log.setText("已是最新版本");
+                    WeiboDialogUtils.createLoadingDialog(getApplicationContext(), "正在加载数据\n请稍候...");
                     initFirst();
                     initLocation();
                 }
                 editor.putString("currentVersionCode", AppUtil.getPackageInfo(getApplicationContext()).versionCode + "");
                 editor.putString("currentVersionName", AppUtil.getPackageInfo(getApplicationContext()).versionName);
                 editor.commit();
-
             }
 
             @Override
@@ -129,7 +133,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
 
             @Override
             public void onDownloading(int progress) {
-               // tv_log.setText("下载进度："+progress+"%");
+                // tv_log.setText("下载进度："+progress+"%");
             }
 
             @Override
@@ -138,6 +142,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             }
         });
     }
+
     /**
      * 弹出提示更新窗口
      *
@@ -178,6 +183,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         updateDialog.setCanceledOnTouchOutside(false);
         updateDialog.show();
     }
+
     /**
      * 2014-10-27新增流量提示框，当网络为数据流量方式时，下载就会弹出此对话框提示
      *
@@ -212,6 +218,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         netDialog.setCanceledOnTouchOutside(false);
         netDialog.show();
     }
+
     private void initFirst() {
         if (!JPushInterface.getConnectionState(getApplicationContext())) {
             Log.e(TAG, "initFirst: 长连接已经断开");
@@ -281,9 +288,11 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             Const.currentUser.user_permation = results1.get(0).getUser_permation();
             Const.currentUser.user_role = results1.get(0).getUser_role();
             Log.e(TAG, "initUserData: " + Const.currentUser.user_id + Const.currentUser.user_name);
-            Intent intent = new Intent(splashActivity.this, HomePageActivity.class);
-            startActivity(intent);
-            finish();
+            JpushUtil jpushUtil = new JpushUtil(splashActivity.this);
+            jpushUtil.initJpushUser();
+         /*   Intent intent = new Intent(splashActivity.this, HomePageActivity.class);
+            startActivity(intent);*/
+            // finish();
         }
     }
 

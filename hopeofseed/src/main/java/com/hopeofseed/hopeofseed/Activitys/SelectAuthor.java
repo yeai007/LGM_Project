@@ -62,6 +62,7 @@ public class SelectAuthor extends AppCompatActivity implements View.OnClickListe
         spData.add("业务审批");
         spData.add("维权投诉");
         spData.add("农技推广");
+        spData.add("科研机构");
     }
 
     private void initView() {

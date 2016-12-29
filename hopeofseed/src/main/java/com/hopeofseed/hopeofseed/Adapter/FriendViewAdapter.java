@@ -1,9 +1,11 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.app.NotificationCompatSideChannelService;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.FriendData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.ui.iosDialog;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
@@ -84,11 +87,14 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
             }
         });
         final int isFriend = Integer.parseInt(itemData.getIsFriend());
+        String alert = "";
         if (isFriend == 3) {
             holder.modify_friend.setText("互相关注");
+            alert = "确认取消关注？";
         }
         if (isFriend == 2) {
             holder.modify_friend.setText("已关注");
+            alert = "确认取消关注？";
         }
         if (isFriend == 1) {
             holder.modify_friend.setText("+关注");
@@ -101,13 +107,37 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
         } else {
             holder.img_is_read.setVisibility(View.GONE);
         }
+        final String dialog_alert = alert;
         holder.modify_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                modity_position = position;
-                IsFriend = isFriend;
-                AddOrDelFollowed(String.valueOf(Const.currentUser.user_id), itemData.getUser_id(), isFriend);
+                if (isFriend == 2 || isFriend == 3) {
+                    iosDialog mIosDialog = new iosDialog.Builder(mContext)
+                            .setTitle("种愿")
+                            .setMessage(dialog_alert)
+                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    modity_position = position;
+                                    IsFriend = isFriend;
+                                    AddOrDelFollowed(String.valueOf(Const.currentUser.user_id), itemData.getUser_id(), isFriend);
 
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setTitle("种愿").create();
+                    mIosDialog.show();
+                } else {
+                    modity_position = position;
+                    IsFriend = isFriend;
+                    AddOrDelFollowed(String.valueOf(Const.currentUser.user_id), itemData.getUser_id(), isFriend);
+                }
             }
         });
     }

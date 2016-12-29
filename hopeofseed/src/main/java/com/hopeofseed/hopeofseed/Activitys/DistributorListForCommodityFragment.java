@@ -7,11 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
 
 import com.hopeofseed.hopeofseed.Adapter.AutoTextDistributoAdapter;
 import com.hopeofseed.hopeofseed.Adapter.DistributorForCommodityAdapter;
@@ -37,7 +40,7 @@ import java.util.HashMap;
  * 修改时间：2016/10/7 20:30
  * 修改备注：
  */
-public class DistributorListForCommodityFragment extends Fragment implements NetCallBack {
+public class DistributorListForCommodityFragment extends Fragment implements NetCallBack, View.OnClickListener {
     private static final String TAG = "DistributorListFragment";
     RecyclerView lv_distributor;
     DistributorForCommodityAdapter mDistributorForCommodityAdapter;
@@ -48,6 +51,8 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
     ArrayList<DistributorData> arrAutoDistributorData = new ArrayList<>();
     AutoTextDistributoAdapter mAutoTextDistributoAdapter;
     Handler mHandler = new Handler();
+    Button btn_search;
+    String StrSearch = "";
 
     @Nullable
     @Override
@@ -56,14 +61,13 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
         initView(v);
         initData();
         getData();
-
         return v;
     }
 
     private void getData() {
-        Log.e(TAG, "getData: 获取经销商数据");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        opt_map.put("StrSearch", StrSearch);
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetDistributorByAddRelation.php", opt_map, DistributorDataTmp.class, this);
     }
@@ -73,7 +77,8 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         lv_distributor.setLayoutManager(linearLayoutManager);
-
+        btn_search = (Button) v.findViewById(R.id.btn_search);
+        btn_search.setOnClickListener(this);
         mDistributorForCommodityAdapter = new DistributorForCommodityAdapter(getContext(), arr_DistributorData);
         lv_distributor.setAdapter(mDistributorForCommodityAdapter);
         tv_search = (AutoCompleteTextView) v.findViewById(R.id.tv_search);
@@ -140,4 +145,17 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
         }
     };
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_search:
+                if (TextUtils.isEmpty(tv_search.getText().toString().trim())) {
+                    StrSearch = "";
+                } else {
+                    StrSearch = tv_search.getText().toString().trim();
+                }
+                getData();
+                break;
+        }
+    }
 }

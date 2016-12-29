@@ -1,5 +1,6 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -33,6 +34,7 @@ import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.CategoryTabStrip;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
 import com.hopeofseed.hopeofseed.ui.entity.Event;
+import com.hopeofseed.hopeofseed.ui.iosDialog;
 import com.hopeofseed.hopeofseed.util.ListFragmentConfig;
 import com.lgm.utils.ObjectUtil;
 
@@ -230,7 +232,30 @@ UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallB
                 startActivity(intent);*/
                 break;
             case R.id.btn_submit_followed://添加关注或取消关注
-                AddOrDelFollowed();
+                if (isAddOrDel == 1) {
+                    AddOrDelFollowed();
+                }
+                if (isAddOrDel == 0) {
+
+                    iosDialog mIosDialog = new iosDialog.Builder(UserActivity.this)
+                            .setTitle("种愿")
+                            .setMessage("确认取消关注？")
+                            .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    AddOrDelFollowed();
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setTitle("种愿").create();
+                    mIosDialog.show();
+                }
                 break;
             case R.id.btn_createchat:
                 if (mUserInfo == null) {

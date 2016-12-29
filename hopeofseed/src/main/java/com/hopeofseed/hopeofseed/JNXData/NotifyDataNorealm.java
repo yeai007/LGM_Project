@@ -48,7 +48,24 @@ public class NotifyDataNorealm implements Parcelable {
      */
 
     private String NotifyData;
+    private String NotifyFromUser;
+    private String NotifyToUser;
 
+    public String getNotifyFromUser() {
+        return NotifyFromUser;
+    }
+
+    public void setNotifyFromUser(String NotifyFromUser) {
+        this.NotifyFromUser = NotifyFromUser;
+    }
+
+    public String getNotifyToUser() {
+        return NotifyToUser;
+    }
+
+    public void setNotifyToUser(String NotifyToUser) {
+        this.NotifyToUser = NotifyToUser;
+    }
     public String getNotifyImage() {
         return NotifyImage;
     }
@@ -137,6 +154,17 @@ public class NotifyDataNorealm implements Parcelable {
         this.NotifyCreateTime = NotifyCreateTime;
     }
 
+    public NotifyDataNorealm() {
+    }
+
+    public String getNotifyData() {
+        return NotifyData;
+    }
+
+    public void setNotifyData(String NotifyData) {
+        this.NotifyData = NotifyData;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -155,9 +183,9 @@ public class NotifyDataNorealm implements Parcelable {
         dest.writeString(this.NotifyShowTitle);
         dest.writeString(this.NotifyIsRead);
         dest.writeString(this.NotifyCreateTime);
-    }
-
-    public NotifyDataNorealm() {
+        dest.writeString(this.NotifyData);
+        dest.writeString(this.NotifyFromUser);
+        dest.writeString(this.NotifyToUser);
     }
 
     protected NotifyDataNorealm(Parcel in) {
@@ -172,6 +200,9 @@ public class NotifyDataNorealm implements Parcelable {
         this.NotifyShowTitle = in.readString();
         this.NotifyIsRead = in.readString();
         this.NotifyCreateTime = in.readString();
+        this.NotifyData = in.readString();
+        this.NotifyFromUser = in.readString();
+        this.NotifyToUser = in.readString();
     }
 
     public static final Creator<NotifyDataNorealm> CREATOR = new Creator<NotifyDataNorealm>() {
@@ -185,12 +216,4 @@ public class NotifyDataNorealm implements Parcelable {
             return new NotifyDataNorealm[size];
         }
     };
-
-    public String getNotifyData() {
-        return NotifyData;
-    }
-
-    public void setNotifyData(String NotifyData) {
-        this.NotifyData = NotifyData;
-    }
 }

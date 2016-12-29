@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_search"
-                android:gravity="left|center_vertical"
+                android:gravity="left|center_vertical"     android:maxLines="1"
                 android:text="大家都在搜：种子"
                 android:textColor="#b5b5b6" />
         </RelativeLayout>

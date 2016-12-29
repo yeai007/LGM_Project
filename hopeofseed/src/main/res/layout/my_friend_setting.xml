@@ -35,7 +35,7 @@
                 android:checked="true"
                 android:gravity="center"
                 android:minHeight="30dp"
-                android:text="互相关注（好友）" />
+                android:text="互相关注" />
 
             <RadioButton
                 android:id="@+id/radio_myfollow"

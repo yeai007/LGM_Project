@@ -2,11 +2,14 @@ package com.hopeofseed.hopeofseed.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.camera2.params.Face;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.hopeofseed.hopeofseed.Activitys.HomePageActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
+import com.hopeofseed.hopeofseed.LoginAcitivity;
 
 import java.util.Set;
 
@@ -38,6 +41,7 @@ public class JpushUtil {
     public static String MESSAGE_RECEIVE = "MESSAGE_RECEIVE";
     Handler mHandler;
     private int user_id = 0;
+    private boolean isRunning = false;
 
     public JpushUtil(Context context) {
         super();
@@ -46,6 +50,7 @@ public class JpushUtil {
     }
 
     public void initJpushUser() {
+        isRunning = true;
         initCount = initCount + 1;
         Log.e(TAG, "initJpushUser: " + Const.currentUser.user_id + Const.currentUser.password);
         Log.e(TAG, "initJpushUser: " + initCount + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
@@ -53,7 +58,7 @@ public class JpushUtil {
         final String password = Const.currentUser.password;
         if (userName.equals(Const.JPUSH_PREFIX + "0")) {
             // Log.e(TAG, "initJpushUser: refresh initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
-            mHandler.postDelayed(init, 1000);
+            mHandler.postDelayed(init, 100);
 
         } else {
             //  Log.e(TAG, "initJpushUser: to initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
@@ -62,9 +67,14 @@ public class JpushUtil {
                 @Override
                 public void gotResult(int responseCode, String LoginDesc) {
                     if (responseCode == 0) {
+                        isRunning = false;
                         mHandler.removeCallbacks(init);
                         isJpushLogin = true;
+
                         Toast.makeText(mContext, "登录成功", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, HomePageActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(intent);
                         JPushInterface.setAlias(mContext, Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim(), new TagAliasCallback() {
                             @Override
                             public void gotResult(int i, String s, Set<String> set) {
@@ -89,7 +99,11 @@ public class JpushUtil {
                     } else if (responseCode == 871308) {
                         Log.e(TAG, "gotResult: 尚未初始化/初始化失败->重新初始化");
                         JMessageClient.init(mContext);
-                        mHandler.postDelayed(init, 1000);
+                        mHandler.postDelayed(init, 100);
+                    } else if (responseCode == 871201) {
+                        Log.e(TAG, "gotResult: 登录超时");
+                        JMessageClient.init(mContext);
+                        mHandler.postDelayed(init, 100);
                     } else {
                         if (responseCode == 801003) {
                             addJpushUserData();

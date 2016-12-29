@@ -47,7 +47,8 @@ public class AuthorFragment extends Fragment {
     static String Str_search = "";
     int PageNo = 0;
 
-    public AuthorFragment(String strSearch) {Str_search=strSearch;
+    public AuthorFragment(String strSearch) {
+        Str_search = strSearch;
     }
 
 /*
@@ -64,7 +65,8 @@ public class AuthorFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt(ARG_POSITION);        Str_search = getArguments().getString(STR_SEARCH);
+        position = getArguments().getInt(ARG_POSITION);
+        Str_search = getArguments().getString(STR_SEARCH);
 
     }
 
@@ -147,6 +149,7 @@ public class AuthorFragment extends Fragment {
         Str_search = text;
         getData(Str_search);
     }
+
     private void initDatas(View v) {
         lv_list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override

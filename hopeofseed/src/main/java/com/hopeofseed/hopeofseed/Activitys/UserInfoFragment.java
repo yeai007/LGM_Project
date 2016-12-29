@@ -206,17 +206,8 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
             Bundle bundle;
             Intent intent;
             switch (v.getId()) {
-                case R.id.btn_topright:
-                    break;
-
-                case R.id.btn_topleft:
-                    //添加好友
-                    intent = new Intent(getActivity(), AddNewFriend.class);
-                    startActivity(intent);
-                    break;
                 case R.id.rel_accountsetting:
                     //修改资料
-
                     intent = new Intent(getActivity(), AccountSetting.class);
                     intent.putExtra("User", mUserDataNoRealm);
                     startActivity(intent);

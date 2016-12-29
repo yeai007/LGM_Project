@@ -12,12 +12,10 @@
     <LinearLayout
         android:id="@+id/lin_search"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/top"
         android:background="#cccccc"
         android:orientation="horizontal">
-
-
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

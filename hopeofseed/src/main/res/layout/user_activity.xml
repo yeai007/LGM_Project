@@ -191,7 +191,7 @@
             android:background="@drawable/rel_shape_item"
             android:gravity="center"
             android:text="已关注"
-            android:textColor="@color/text_title_color" />
+            android:textColor="@color/red" />
 
         <Button
             android:id="@+id/btn_createchat"

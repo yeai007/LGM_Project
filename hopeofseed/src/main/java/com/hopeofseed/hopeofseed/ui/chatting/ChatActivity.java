@@ -27,12 +27,15 @@ import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.Activitys.ChatDetailActivity;
 import com.hopeofseed.hopeofseed.Activitys.PickPictureTotalActivity;
+import com.hopeofseed.hopeofseed.Activitys.ShareYield;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.BitmapLoader;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.DialogCreator;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.FileHelper;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.IdHelper;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.SharePreferenceManager;
 import com.hopeofseed.hopeofseed.ui.entity.Event;
+import com.lgm.utils.AppPermissions;
+import com.zhy.m.permission.MPermissions;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -51,6 +54,8 @@ import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.Message;
 import cn.jpush.im.android.api.model.UserInfo;
 import cn.jpush.im.android.eventbus.EventBus;
+
+import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
 
 /*
  * 对话界面,合并了ChatController,整个chatting文件夹下的文件都使用反射机制获取相关资源文件,
@@ -81,6 +86,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private static final int REFRESH_CHAT_TITLE = 0x1024;
     private static final int REFRESH_GROUP_NAME = 0x1025;
     private static final int REFRESH_GROUP_NUM = 0x1026;
+    private static final int REQUEST_CODE_RECORD_PERMISSIONS = 601;
     private final UIHandler mUIHandler = new UIHandler(this);
     private boolean mIsSingle = true;
     private boolean isInputByKeyBoard = true;
@@ -279,6 +285,8 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 showSoftInputAndDismissMenu();
             } else {
                 //否则切换到语音输入
+                MPermissions.requestPermissions(ChatActivity.this, REQUEST_CODE_RECORD_PERMISSIONS, AppPermissions.getRecordPermissions());
+
                 mChatView.notKeyBoard(mConv, mChatAdapter, mChatView);
                 if (mShowSoftInput) {
                     if (mImm != null) {

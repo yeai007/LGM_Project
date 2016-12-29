@@ -12,6 +12,9 @@ import android.Manifest;
  * 修改备注：
  */
 public class AppPermissions {
+    /**
+     * 文件SD卡读写拍照权限
+     */
     public static String[] getFilePermissions() {
         String[] Permissions = {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -22,12 +25,22 @@ public class AppPermissions {
     }
 
     /**
-     * 需要进行检测的权限数组
+     * 定位权限
      */
     public static String[] getLocationPermissions() {
         String[] needPermissions = {
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_FINE_LOCATION
+        };
+        return needPermissions;
+    }
+
+    /**
+     * 录音及麦克风权限
+     */
+    public static String[] getRecordPermissions() {
+        String[] needPermissions = {
+                Manifest.permission.RECORD_AUDIO
         };
         return needPermissions;
     }

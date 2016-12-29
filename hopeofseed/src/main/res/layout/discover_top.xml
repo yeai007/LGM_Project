@@ -40,6 +40,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/img_search"
                 android:gravity="left|center_vertical"
+                android:maxLines="1"
                 android:minHeight="30dp"
                 android:text="大家都在搜：种子" />
         </RelativeLayout>

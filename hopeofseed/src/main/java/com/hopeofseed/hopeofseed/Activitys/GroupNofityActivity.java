@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hopeofseed.hopeofseed.Adapter.GroupNotifyListAdapter;
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.GroupNotifyDataNorealm;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
@@ -35,6 +37,7 @@ import io.realm.RealmResults;
  * 修改备注：
  */
 public class GroupNofityActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "GroupNofityActivity";
     RecyclerView recycler_list;
     GroupNotifyListAdapter mAdapter;
     ArrayList<GroupNotifyDataNorealm> mList = new ArrayList<>();
@@ -55,30 +58,34 @@ public class GroupNofityActivity extends AppCompatActivity implements View.OnCli
     private void getData() {
         mList.clear();
         RealmResults<NotifyData> results1 =
-                myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyType", type).findAll();
-        for (NotifyData item : results1) {
-            NotifyDataNorealm mNotifyDataNorealm = new NotifyDataNorealm();
-            mNotifyDataNorealm.setNotifyId(item.getNotifyId());
-            mNotifyDataNorealm.setNotifyType(item.getNotifyType());
-            mNotifyDataNorealm.setNotifyTitle(item.getNotifyTitle());
-            mNotifyDataNorealm.setNotifyContent(item.getNotifyContent());
-            mNotifyDataNorealm.setNotifyURL(item.getNotifyURL());
-            mNotifyDataNorealm.setNotifyImage(item.getNotifyImage());
-            mNotifyDataNorealm.setNotifyToClass(item.getNotifyToClass());
-            mNotifyDataNorealm.setNotifyIsRead(item.getNotifyIsRead());
-            mNotifyDataNorealm.setNotifyShowTitle(item.getNotifyShowTitle());
-            mNotifyDataNorealm.setNotifyShowContent(item.getNotifyShowContent());
-            mNotifyDataNorealm.setNotifyCreateTime(item.getNotifyCreateTime());
-            mNotifyDataNorealm.setNotifyData(item.getNotifyData());
-
-            Gson gson = new GsonBuilder()
-                    .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-                    .create();
-            GroupNotifyDataNorealm insertNotifyData = new GroupNotifyDataNorealm();
-            insertNotifyData = gson.fromJson(item.getNotifyData(), GroupNotifyDataNorealm.class);
-            insertNotifyData.setNotifyId(item.getNotifyId());
-            mList.add(insertNotifyData);
+                myRealm.where(NotifyData.class).equalTo("NotifyToUser", String.valueOf(Const.currentUser.user_id)).equalTo("NotifyType", type).findAll();
+        if (results1.size() > 0) {
+            for (NotifyData item : results1) {
+                Log.e(TAG, "getData: " + item.getNotifyData().toString());
+                NotifyDataNorealm mNotifyDataNorealm = new NotifyDataNorealm();
+                mNotifyDataNorealm.setNotifyId(item.getNotifyId());
+                mNotifyDataNorealm.setNotifyType(item.getNotifyType());
+                mNotifyDataNorealm.setNotifyTitle(item.getNotifyTitle());
+                mNotifyDataNorealm.setNotifyContent(item.getNotifyContent());
+                mNotifyDataNorealm.setNotifyURL(item.getNotifyURL());
+                mNotifyDataNorealm.setNotifyImage(item.getNotifyImage());
+                mNotifyDataNorealm.setNotifyToClass(item.getNotifyToClass());
+                mNotifyDataNorealm.setNotifyIsRead(item.getNotifyIsRead());
+                mNotifyDataNorealm.setNotifyShowTitle(item.getNotifyShowTitle());
+                mNotifyDataNorealm.setNotifyShowContent(item.getNotifyShowContent());
+                mNotifyDataNorealm.setNotifyCreateTime(item.getNotifyCreateTime());
+                mNotifyDataNorealm.setNotifyFromUser(item.getNotifyFromUser());
+                mNotifyDataNorealm.setNotifyToUser(item.getNotifyToUser());
+                mNotifyDataNorealm.setNotifyData(item.getNotifyData());
+                Gson gson = new GsonBuilder()
+                        .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
+                        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                        .create();
+                GroupNotifyDataNorealm insertNotifyData = new GroupNotifyDataNorealm();
+                insertNotifyData = gson.fromJson(item.getNotifyData(), GroupNotifyDataNorealm.class);
+                insertNotifyData.setNotifyId(item.getNotifyId());
+                mList.add(insertNotifyData);
+            }
         }
         mAdapter.notifyDataSetChanged();
     }

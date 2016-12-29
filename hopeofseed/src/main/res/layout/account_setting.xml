@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_gray2"
     android:orientation="vertical">
 
     <include
@@ -14,8 +15,8 @@
         android:layout_height="50dp"
         android:layout_below="@+id/top"
         android:layout_marginTop="20dp"
-        android:visibility="gone"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_nickname"
@@ -76,8 +77,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:minHeight="50dp"
             android:gravity="left|center"
+            android:minHeight="50dp"
             android:text="简介" />
     </RelativeLayout>
 </LinearLayout>

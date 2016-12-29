@@ -14,11 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.GroupNotifyDataNorealm;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.iosDialog;
+import com.hopeofseed.hopeofseed.util.NullStringToEmptyAdapterFactory;
 import com.lgm.utils.DateTools;
 
 import java.text.ParseException;
@@ -128,8 +131,14 @@ public class GroupNotifyListAdapter extends RecyclerView.Adapter<GroupNotifyList
                             NotifyData results1 =
                                     myRealm.where(NotifyData.class).equalTo("NotifyId", itemData.getNotifyId()).findFirst();
                             itemData.setAppGroupApplyStatus("1");
+                            Gson gson = new GsonBuilder()
+                                    .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
+                                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+                                    .create();
+                            String data = gson.toJson(itemData);
+                            Log.e(TAG, "gotResult: "+data);
                             myRealm.beginTransaction();
-                            results1.setNotifyData(itemData.toString());
+                            results1.setNotifyData(data);
                             results1.setNotifyIsRead("1");
                             NotifyData inNotifyData = myRealm.copyToRealmOrUpdate(results1);
                             myRealm.commitTransaction();

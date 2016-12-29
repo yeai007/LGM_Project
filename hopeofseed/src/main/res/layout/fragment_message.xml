@@ -51,7 +51,7 @@
                         <TextView
                             android:id="@+id/tv_search"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="match_parent"            android:maxLines="1"
                             android:layout_marginLeft="10dp"
                             android:layout_toRightOf="@+id/img_search"
                             android:gravity="left|center_vertical"

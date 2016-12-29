@@ -75,7 +75,6 @@ public class Application extends android.app.Application {
  * */
 public static final int REQUEST_CODE_LOCATION = 801;
     public static final int REQUEST_CODE_FILES = 802;
-
     /*************************************/
     @Override
     public void onCreate() {
@@ -91,7 +90,7 @@ public static final int REQUEST_CODE_LOCATION = 801;
         Log.i("Application", "init");
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-        initJpushLogin();
+       // initJpushLogin();
         /***
          * 初始化定位sdk，建议在Application中创建
          */
@@ -103,10 +102,6 @@ public static final int REQUEST_CODE_LOCATION = 801;
         new NotificationClickEventReceiver(getApplicationContext());
     }
 
-    public static void initJpushLogin() {
-        JpushUtil jpushUtil = new JpushUtil(getContext());
-        jpushUtil.initJpushUser();
-    }
 
     public static Context getContext() {
         return context;

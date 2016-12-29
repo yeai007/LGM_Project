@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.hopeofseed.hopeofseed.Activitys.CompanyRegActivity;
 import com.hopeofseed.hopeofseed.Activitys.HomePageActivity;
 import com.hopeofseed.hopeofseed.Activitys.RegisterAcitivity;
@@ -20,8 +21,12 @@ import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataTmp;
+import com.hopeofseed.hopeofseed.curView.WeiboDialogUtils;
+import com.hopeofseed.hopeofseed.util.JpushUtil;
 import com.lgm.utils.ObjectUtil;
+
 import java.util.HashMap;
+
 import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
 
@@ -63,11 +68,11 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         Intent intent;
         switch (view.getId()) {
             case R.id.btn_login:
-/*                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);*/
+
                 user_name = ((EditText) findViewById(R.id.et_username)).getText().toString();
                 pass_word = ((EditText) findViewById(R.id.et_password)).getText().toString();
                 if (isChecked(user_name, pass_word)) {
+                    WeiboDialogUtils.createLoadingDialog(LoginAcitivity.this, "正在登录...");
                     UserLogin(user_name, pass_word, "0");
                 }
 
@@ -193,10 +198,11 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         Log.e(TAG, "updateRealmData: " + Const.currentUser.toString());
         if (JPushInterface.isPushStopped(Application.getContext())) {
             JPushInterface.resumePush(Application.getContext());
-            Application.initJpushLogin();
+            JpushUtil jpushUtil = new JpushUtil(LoginAcitivity.this);
+            jpushUtil.initJpushUser();
+        } else {
+            JpushUtil jpushUtil = new JpushUtil(LoginAcitivity.this);
+            jpushUtil.initJpushUser();
         }
-
-        Intent intent = new Intent(LoginAcitivity.this, HomePageActivity.class);
-        startActivity(intent);
     }
 }
