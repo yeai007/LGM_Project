@@ -86,7 +86,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
     private static final int REFRESH_CHAT_TITLE = 0x1024;
     private static final int REFRESH_GROUP_NAME = 0x1025;
     private static final int REFRESH_GROUP_NUM = 0x1026;
-    private static final int REQUEST_CODE_RECORD_PERMISSIONS = 601;
+    private static final int REQUEST_CODE_RECORD_PERMISSIONS = 605;
     private final UIHandler mUIHandler = new UIHandler(this);
     private boolean mIsSingle = true;
     private boolean isInputByKeyBoard = true;
@@ -285,8 +285,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 showSoftInputAndDismissMenu();
             } else {
                 //否则切换到语音输入
-                MPermissions.requestPermissions(ChatActivity.this, REQUEST_CODE_RECORD_PERMISSIONS, AppPermissions.getRecordPermissions());
-
+               // MPermissions.requestPermissions(ChatActivity.this, REQUEST_CODE_RECORD_PERMISSIONS, AppPermissions.getRecordPermissions());
                 mChatView.notKeyBoard(mConv, mChatAdapter, mChatView);
                 if (mShowSoftInput) {
                     if (mImm != null) {

@@ -120,7 +120,7 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
                                 public void onClick(DialogInterface dialog, int which) {
                                     modity_position = position;
                                     IsFriend = isFriend;
-                                    AddOrDelFollowed(String.valueOf(Const.currentUser.user_id), itemData.getUser_id(), isFriend);
+                                    AddOrDelFollowed(String.valueOf(Const.currentUser.user_id), itemData.getUser_id_1(), isFriend);
 
                                     dialog.dismiss();
                                 }
@@ -136,7 +136,7 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
                 } else {
                     modity_position = position;
                     IsFriend = isFriend;
-                    AddOrDelFollowed(String.valueOf(Const.currentUser.user_id), itemData.getUser_id(), isFriend);
+                    AddOrDelFollowed(String.valueOf(Const.currentUser.user_id), itemData.getUser_id_1(), isFriend);
                 }
             }
         });

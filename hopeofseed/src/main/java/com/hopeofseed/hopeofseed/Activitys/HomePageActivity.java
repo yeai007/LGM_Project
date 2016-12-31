@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,8 +19,10 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
 import com.hopeofseed.hopeofseed.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -285,6 +288,29 @@ public class HomePageActivity extends FragmentActivity {
                 case group_member_exit:
                     break;
             }
+        }
+    }
+
+    /**
+     * 监听Back键按下事件,方法2:
+     * 注意:
+     * 返回值表示:是否能完全处理该事件
+     * 在此处返回false,所以会继续传播该事件.
+     * 在具体项目中此处的返回值视情况而定.
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            Intent i = new Intent(Intent.ACTION_MAIN);
+
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            i.addCategory(Intent.CATEGORY_HOME);
+
+            startActivity(i);
+            return true;
+        } else {
+            return super.onKeyDown(keyCode, event);
         }
     }
 }

@@ -591,6 +591,16 @@
             android:name=".Activitys.MyFriendSetting"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.DistributorCountReportActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".curView.SelectRadioActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

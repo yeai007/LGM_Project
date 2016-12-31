@@ -58,7 +58,7 @@ public class JpushUtil {
         final String password = Const.currentUser.password;
         if (userName.equals(Const.JPUSH_PREFIX + "0")) {
             // Log.e(TAG, "initJpushUser: refresh initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
-            mHandler.postDelayed(init, 100);
+            mHandler.postDelayed(init, 500);
 
         } else {
             //  Log.e(TAG, "initJpushUser: to initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
@@ -99,11 +99,16 @@ public class JpushUtil {
                     } else if (responseCode == 871308) {
                         Log.e(TAG, "gotResult: 尚未初始化/初始化失败->重新初始化");
                         JMessageClient.init(mContext);
-                        mHandler.postDelayed(init, 100);
+                        mHandler.postDelayed(init, 500);
                     } else if (responseCode == 871201) {
                         Log.e(TAG, "gotResult: 登录超时");
                         JMessageClient.init(mContext);
-                        mHandler.postDelayed(init, 100);
+                        mHandler.postDelayed(init, 500);
+                        if (initCount > 10) {
+                            Toast.makeText(mContext, "登录超时,请稍后再试！", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(mContext, LoginAcitivity.class);
+                            mContext.startActivity(intent);
+                        }
                     } else {
                         if (responseCode == 801003) {
                             addJpushUserData();

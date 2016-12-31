@@ -109,6 +109,8 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
         rel_expert.setOnClickListener(listener);
         RelativeLayout rel_push = (RelativeLayout) v.findViewById(R.id.rel_push);
         rel_push.setOnClickListener(listener);
+        RelativeLayout rel_report=(RelativeLayout)v.findViewById(R.id.rel_report);
+        rel_report.setOnClickListener(listener);
         if (Integer.parseInt(Const.currentUser.user_role) == 0) {
             rel_expert.setVisibility(View.VISIBLE);
         }
@@ -278,6 +280,10 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
                     break;
                 case R.id.rel_friend_setting:
                     intent = new Intent(getActivity(), MyFriendSetting.class);
+                    startActivity(intent);
+                    break;
+                case R.id.rel_report:
+                    intent = new Intent(getActivity(), DistributorCountReportActivity.class);
                     startActivity(intent);
                     break;
             }

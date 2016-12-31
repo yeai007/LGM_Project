@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -27,6 +28,7 @@ import com.hopeofseed.hopeofseed.JNXData.UserData;
 import com.hopeofseed.hopeofseed.Services.LocationService;
 import com.hopeofseed.hopeofseed.curView.WeiboDialogUtils;
 import com.hopeofseed.hopeofseed.util.JpushUtil;
+import com.lgm.net.ConnectionDetector;
 import com.lgm.net.NetWorkUtils;
 import com.lgm.update.OnUpdateListener;
 import com.lgm.update.UpdateHelper;
@@ -77,7 +79,14 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         setContentView(R.layout.activity_splash);
         tv_log = (TextView) findViewById(R.id.tv_log);
         preferences_update = getSharedPreferences("Updater", Context.MODE_PRIVATE);
-        checkUpdate();
+        ConnectionDetector nDetector = new ConnectionDetector(this);
+        if (!nDetector.isConnectingToInternet()) {
+            Toast.makeText(splashActivity.this, "您未联网，请联网后使用!",
+                    Toast.LENGTH_LONG).show();
+        } else {
+            checkUpdate();
+        }
+
       /*  initFirst();
         initLocation();*/
         //创建缓存目录，系统一运行就得创建缓存目录的，
