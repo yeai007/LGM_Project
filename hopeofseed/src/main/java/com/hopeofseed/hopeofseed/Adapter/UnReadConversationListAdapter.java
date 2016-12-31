@@ -105,18 +105,18 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                         holder.item_title.setVisibility(View.VISIBLE);
                         holder.tv_unread_count.setText(String.valueOf(PinglunCount));
                         holder.tv_unread_count.setVisibility(View.VISIBLE);
-                        holder.img_unread_count.setVisibility(View.VISIBLE);
-
+                        holder.img_unread_count.setImageResource(R.drawable.img_message_count);
                         isShow = true;
                         updateStatus();
                     } else {
+                        holder.img_unread_count.setVisibility(View.VISIBLE);
+                        holder.img_unread_count.setImageResource(R.drawable.right_arrow_unread);
                         Log.e(TAG, "onBindViewHolder: updateview2");
                         holder.item_title.setText("评论");
                         holder.item_content.setVisibility(View.GONE);
                         holder.tv_unread_count.setVisibility(View.GONE);
-                        holder.img_unread_count.setVisibility(View.GONE);
+
                     }
-/*            holder.item_title.setText("新加的");*/
                     holder.item_title.setVisibility(View.VISIBLE);
                     holder.rel_item.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -143,7 +143,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                         holder.item_title.setVisibility(View.VISIBLE);
                         holder.tv_unread_count.setText(String.valueOf(results1.size()));
                         holder.tv_unread_count.setVisibility(View.VISIBLE);
-                        holder.img_unread_count.setVisibility(View.VISIBLE);
+                        holder.img_unread_count.setImageResource(R.drawable.img_message_count);
                         isShow = true;
                         updateStatus();
                     } else {
@@ -151,7 +151,8 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                         holder.item_title.setText("系统通知");
                         holder.item_content.setVisibility(View.GONE);
                         holder.tv_unread_count.setVisibility(View.GONE);
-                        holder.img_unread_count.setVisibility(View.GONE);
+                        holder.img_unread_count.setVisibility(View.VISIBLE);
+                        holder.img_unread_count.setImageResource(R.drawable.right_arrow_unread);
                     }
 
                     holder.item_title.setVisibility(View.VISIBLE);
@@ -184,7 +185,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                         holder.item_title.setVisibility(View.VISIBLE);
                         holder.tv_unread_count.setText(String.valueOf(results2.size()));
                         holder.tv_unread_count.setVisibility(View.VISIBLE);
-                        holder.img_unread_count.setVisibility(View.VISIBLE);
+                        holder.img_unread_count.setImageResource(R.drawable.img_message_count);
                         isShow = true;
                         updateStatus();
                     } else {
@@ -192,7 +193,8 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                         holder.item_title.setText("行业通知");
                         holder.item_content.setVisibility(View.GONE);
                         holder.tv_unread_count.setVisibility(View.GONE);
-                        holder.img_unread_count.setVisibility(View.GONE);
+                        holder.img_unread_count.setVisibility(View.VISIBLE);
+                        holder.img_unread_count.setImageResource(R.drawable.right_arrow_unread);
                     }
 
                     holder.item_title.setVisibility(View.VISIBLE);
@@ -224,7 +226,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                         holder.item_title.setVisibility(View.VISIBLE);
                         holder.tv_unread_count.setText(String.valueOf(results3.size()));
                         holder.tv_unread_count.setVisibility(View.VISIBLE);
-                        holder.img_unread_count.setVisibility(View.VISIBLE);
+                        holder.img_unread_count.setImageResource(R.drawable.img_message_count);
                         isShow = true;
                         updateStatus();
                     } else {
@@ -232,7 +234,8 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                         holder.item_title.setText("群通知");
                         holder.item_content.setVisibility(View.GONE);
                         holder.tv_unread_count.setVisibility(View.GONE);
-                        holder.img_unread_count.setVisibility(View.GONE);
+                        holder.img_unread_count.setVisibility(View.VISIBLE);
+                        holder.img_unread_count.setImageResource(R.drawable.right_arrow_unread);
                     }
                     holder.item_title.setVisibility(View.VISIBLE);
                     holder.rel_item.setOnClickListener(new View.OnClickListener() {

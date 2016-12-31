@@ -1,5 +1,6 @@
 package com.hopeofseed.hopeofseed;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,7 +47,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
     Realm myRealm = Realm.getDefaultInstance();
     Handler mHandle = new Handler();
     private String mError;
-
+    Dialog dialogUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +73,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
                 user_name = ((EditText) findViewById(R.id.et_username)).getText().toString();
                 pass_word = ((EditText) findViewById(R.id.et_password)).getText().toString();
                 if (isChecked(user_name, pass_word)) {
-                    WeiboDialogUtils.createLoadingDialog(LoginAcitivity.this, "正在登录...");
+                    dialogUtils=  WeiboDialogUtils.createLoadingDialog(LoginAcitivity.this, "正在登录...");
                     UserLogin(user_name, pass_word, "0");
                 }
 
@@ -133,7 +134,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
     public void onError(String error) {
         mError = error;
         mHandle.post(rspResult);
-
+        WeiboDialogUtils.closeDialog(dialogUtils);
     }
 
     @Override

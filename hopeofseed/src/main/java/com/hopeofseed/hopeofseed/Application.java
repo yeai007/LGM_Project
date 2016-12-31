@@ -80,6 +80,7 @@ public static final int REQUEST_CODE_LOCATION = 801;
     public void onCreate() {
         super.onCreate();
         FIR.init(this);
+
         context = getApplicationContext();
         initHttpOkGo();
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).name("myrealm.realm")

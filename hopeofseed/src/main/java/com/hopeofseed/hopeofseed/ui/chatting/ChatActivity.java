@@ -126,6 +126,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
         mMyInfo = JMessageClient.getMyInfo();
         if (!TextUtils.isEmpty(mTargetId)) {
             mIsSingle = true;
+            mChatView.dismissRightBtn();
             mConv = JMessageClient.getSingleConversation(mTargetId, mTargetAppKey);
             if (mConv != null) {
                 UserInfo userInfo = (UserInfo) mConv.getTargetInfo();
@@ -178,7 +179,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                     } else {
                         mChatView.setChatTitle(IdHelper.getString(mContext, "group"));
                     }
-                    mChatView.dismissRightBtn();
+                    mChatView.showRightBtn();
                 }
             } else {
                 mConv = Conversation.createGroupConversation(mGroupId);
@@ -219,7 +220,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             mChatView.setInputText(draft);
         }
         mChatView.setChatListAdapter(mChatAdapter);
-        mChatView.showRightBtn();
+        //
 
         mChatAdapter.initMediaPlayer();
         //监听下拉刷新

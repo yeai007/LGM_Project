@@ -48,7 +48,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="left|center"
-                android:text="地址" />
+                android:text="地区" />
 
             <EditText
                 android:id="@+id/et_address"

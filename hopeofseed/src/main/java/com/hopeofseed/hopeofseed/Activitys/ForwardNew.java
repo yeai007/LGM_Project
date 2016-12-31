@@ -105,6 +105,11 @@ public class ForwardNew extends AppCompatActivity implements View.OnClickListene
         } else {
             opt_map.put("ForwardFromNewId", newsData.getFromid());
         }
+        opt_map.put("LocLat", String.valueOf(Const.LocLat));
+        opt_map.put("LocLng", String.valueOf(Const.LocLng));
+        opt_map.put("Province", Const.Province);
+        opt_map.put("City", Const.City);
+        opt_map.put("Zone", Const.Zone);
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "forwardNew.php", opt_map, CommResultTmp.class, this);
     }

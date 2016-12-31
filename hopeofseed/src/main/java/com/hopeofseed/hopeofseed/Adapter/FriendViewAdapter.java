@@ -75,7 +75,7 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
         holder.tv_name.setText(itemData.getNickname());
         holder.tv_address.setText(itemData.getUserProvince() + "  " + itemData.getUserCity() + "  " + itemData.getUserZone());
 
-        getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), holder, Integer.parseInt(itemData.getUser_role()));
+        getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id_1(), holder, Integer.parseInt(itemData.getUser_role()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,7 +252,7 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
         JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
-                holder.img_corner.setVisibility(View.GONE);
+                holder.img_corner.setVisibility(View.VISIBLE);
                 switch (user_role) {
                     case 0:
                         holder.tv_user_role.setText("【农友】");

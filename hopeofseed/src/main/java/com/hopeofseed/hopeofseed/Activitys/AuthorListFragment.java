@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.hopeofseed.hopeofseed.Adapter.AuthorDataAdapter;
@@ -23,6 +24,7 @@ import com.hopeofseed.hopeofseed.JNXData.AuthorData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.AuthorDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -44,6 +46,7 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
     ArrayList<AuthorData> arrAuthorDataTmp = new ArrayList<>();
     Handler mHandle = new Handler();
     int ClassId = 0;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
         lv_distributor.setOnItemClickListener(myListener);
         initList();
     }
+
     private void initList() {
         lv_distributor.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
@@ -86,6 +90,7 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
             }
         });
     }
+
     private void getData() {
         Log.e(TAG, "getData: 获取经销商数据");
         HashMap<String, String> opt_map = new HashMap<>();
@@ -93,7 +98,7 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
         opt_map.put("LocLat", String.valueOf(Const.LocLat));
         opt_map.put("LocLng", String.valueOf(Const.LocLng));
         opt_map.put("Range", "50000");
-        opt_map.put("ClassId",String.valueOf(ClassId));
+        opt_map.put("ClassId", String.valueOf(ClassId));
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetAuthorDataByClass.php", opt_map, AuthorDataTmp.class, this);
     }
@@ -130,14 +135,16 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
             arrAuthorData.clear();
             arrAuthorData.addAll(arrAuthorDataTmp);
             mDistributorAdapter.notifyDataSetChanged();
+            lv_distributor.onRefreshComplete();
         }
     };
+
     public void setUserLoc() {
         getData();
     }
 
     public void setClass(int classId) {
-        ClassId=classId;
+        ClassId = classId;
     }
 
     public void refreshData() {

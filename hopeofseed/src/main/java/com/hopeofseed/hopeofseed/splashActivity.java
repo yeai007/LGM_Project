@@ -24,7 +24,14 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.mapapi.model.LatLng;
 import com.hopeofseed.hopeofseed.Activitys.HomePageActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
+import com.hopeofseed.hopeofseed.Http.HttpUtils;
+import com.hopeofseed.hopeofseed.Http.NetCallBack;
+import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.ConfigData;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
+import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.ConfigDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.EnterpriseDataTmp;
 import com.hopeofseed.hopeofseed.Services.LocationService;
 import com.hopeofseed.hopeofseed.curView.WeiboDialogUtils;
 import com.hopeofseed.hopeofseed.util.JpushUtil;
@@ -34,8 +41,11 @@ import com.lgm.update.OnUpdateListener;
 import com.lgm.update.UpdateHelper;
 import com.lgm.update.UpdateInfo;
 import com.lgm.utils.AppUtil;
+import com.lgm.utils.ObjectUtil;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 import cn.jpush.android.api.JPushInterface;
@@ -44,6 +54,7 @@ import io.realm.RealmResults;
 
 import static com.hopeofseed.hopeofseed.Data.Const.City;
 import static com.hopeofseed.hopeofseed.Data.Const.Province;
+import static com.hopeofseed.hopeofseed.R.id.actv_busscropt;
 
 /**
  * @FileName:smamoo.mgkj.smamootwo
@@ -65,40 +76,118 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
     private LocationService locationService;
     private File cache;
     private TextView tv_log;
-    private SharedPreferences preferences_update;
     UpdateHelper updateHelper = new UpdateHelper.Builder(this)
             .checkUrl(Const.BASE_URL + "GetLastVersion.php")
             .isAutoInstall(true) //设置为false需在下载完手动点击安装;默认值为true，下载后自动安装。
             .build();
+    int PageNo = 0;
+    ArrayList<ConfigData> arrConfigData = new ArrayList<>();
+    Handler mHandler = new Handler();
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_splash);
-        tv_log = (TextView) findViewById(R.id.tv_log);
-        preferences_update = getSharedPreferences("Updater", Context.MODE_PRIVATE);
+        initView();
+        /**
+         * 检查是否联网
+         * */
         ConnectionDetector nDetector = new ConnectionDetector(this);
         if (!nDetector.isConnectingToInternet()) {
             Toast.makeText(splashActivity.this, "您未联网，请联网后使用!",
                     Toast.LENGTH_LONG).show();
         } else {
-            checkUpdate();
+            /**
+             * 检查配置文件更新
+             * */
+            checkDatabaseUpdate();
+            // checkUpdate();
         }
-
-      /*  initFirst();
-        initLocation();*/
         //创建缓存目录，系统一运行就得创建缓存目录的，
-        cache = new File(Environment.getExternalStorageDirectory(), "hopeofseed/images");
-
+        cache = new File(Environment.getExternalStorageDirectory(), "hopeofseed/cache");
         if (!cache.exists()) {
             cache.mkdirs();
         }
     }
 
-    private void checkUpdate() {
+    private void initView() {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_splash);
+        tv_log = (TextView) findViewById(R.id.tv_log);
+    }
 
+    /**
+     * 获取最新的配置信息
+     */
+    private void checkDatabaseUpdate() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("PageNo", String.valueOf(PageNo));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "GetAppConfigDatas.php", opt_map, ConfigDataTmp.class, netCallBack);
+    }
+
+    /**
+     * 获取最新的地址库数据
+     */
+    private void getLastAreaData() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("PageNo", String.valueOf(PageNo));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "AppInitAreaData.php", opt_map, ConfigDataTmp.class, netCallBack);
+    }
+
+    /**
+     * 获取会员信息
+     */
+    private void getIsVIP() {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "getIsVIP.php", opt_map, CommResultTmp.class, netCallBack);
+    }
+
+    NetCallBack netCallBack = new NetCallBack() {
+        @Override
+        public void onSuccess(RspBaseBean rspBaseBean) {
+            if (rspBaseBean.RequestSign.equals("GetAppConfigDatas")) {
+                arrConfigData = ((ConfigDataTmp) rspBaseBean).getDetail();
+                mHandler.post(checkConfig);
+            } else if (rspBaseBean.RequestSign.equals("AppInitAreaData")) {
+             /*   arrConfigData = ((ConfigDataTmp) rspBaseBean).getDetail();
+                mHandler.post(checkConfig);*/
+            } else if (rspBaseBean.RequestSign.equals("getIsVIP")) {
+                CommResultTmp commResultTmp = ObjectUtil.cast(rspBaseBean);
+                if (Integer.parseInt(commResultTmp.getDetail()) == 1) {
+                    Const.isVip = true;
+                }
+            }
+        }
+
+        @Override
+        public void onError(String error) {
+
+        }
+
+        @Override
+        public void onFail() {
+
+        }
+    };
+    Runnable checkConfig = new Runnable() {
+        @Override
+        public void run() {
+            for (int i = 0; i < arrConfigData.size(); i++) {
+                ConfigData itemData = arrConfigData.get(i);
+                if (itemData.getConfigName().equals("AppArea")) {
+                    //  getLastAreaData();
+                    checkUpdate();
+                }
+            }
+        }
+    };
+
+
+    private void checkUpdate() {
         updateHelper.check(new OnUpdateListener() {
             @Override
             public void onStartCheck() {
@@ -108,18 +197,14 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             @Override
             public void onFinishCheck(UpdateInfo info) {
                 tv_log.setText("");
-                SharedPreferences.Editor editor = preferences_update.edit();
+
                 if (info != null) {
                     if (Integer.parseInt(info.getVersionCode()) > AppUtil.getPackageInfo(getApplicationContext()).versionCode) {
-                        editor.putBoolean("hasNewVersion", true);
-                        editor.putString("lastestVersionCode",
-                                info.getVersionCode());
-                        editor.putString("lastestVersionName",
-                                info.getVersionName());
+
                         showUpdateUI(info);
                     } else {
                         tv_log.setText("已是最新版本");
-                        editor.putBoolean("hasNewVersion", false);
+
                         WeiboDialogUtils.createLoadingDialog(splashActivity.this, "正在加载数据\n请稍候...");
                         initFirst();
                         initLocation();
@@ -130,9 +215,6 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
                     initFirst();
                     initLocation();
                 }
-                editor.putString("currentVersionCode", AppUtil.getPackageInfo(getApplicationContext()).versionCode + "");
-                editor.putString("currentVersionName", AppUtil.getPackageInfo(getApplicationContext()).versionName);
-                editor.commit();
             }
 
             @Override
@@ -302,6 +384,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
          /*   Intent intent = new Intent(splashActivity.this, HomePageActivity.class);
             startActivity(intent);*/
             // finish();
+            getIsVIP();
         }
     }
 
@@ -340,8 +423,6 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
      */
     private void initLocation() {
         Const.GetShareData(getApplicationContext());
-
-
         // -----------location config ------------
         locationService = ((Application) getApplication()).locationService;
         //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的

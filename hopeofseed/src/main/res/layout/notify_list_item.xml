@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <RelativeLayout
         android:id="@+id/rel_item"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:background="@color/white"
+        android:minHeight="40dp"
         android:orientation="horizontal">
 
         <com.hopeofseed.hopeofseed.ui.CircleImageView
@@ -17,23 +18,36 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/img_pinglun" />
+            android:layout_marginTop="5dp"
+            android:scaleType="fitCenter" />
+
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="2dp" />
+            android:layout_marginTop="2dp"
+            android:minWidth="50dp" />
+
+        <ImageView
+            android:id="@+id/img_unread_count"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/tv_time"
+            android:src="@drawable/img_message_count" />
+
         <TextView
             android:id="@+id/item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/img_item"
-            android:text="评论"
+            android:text="通知"
             android:textColor="@color/text_title_color" />
 
         <TextView
@@ -42,8 +56,10 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/item_title"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/img_item"
-            android:text="评论"
+            android:maxLines="1"
+            android:text="通知内容"
             android:textColor="@color/text_title_color" />
     </RelativeLayout>
 </RelativeLayout>

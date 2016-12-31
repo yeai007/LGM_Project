@@ -3,6 +3,7 @@ package com.hopeofseed.hopeofseed.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.ChatDetailActivity;
 import com.hopeofseed.hopeofseed.Activitys.JoinTheGroup;
+import com.hopeofseed.hopeofseed.Activitys.PubishHuoDongActivity;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.GroupData;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
 
+import java.io.File;
 import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
@@ -59,6 +63,12 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final GroupData itemData = mList.get(position);
         holder.item_content.setText(itemData.getAppGroupName());
+        if (!TextUtils.isEmpty(itemData.getAppGroupAvatar())) {
+            Glide.with(mContext)
+                    .load(Const.IMG_URL + itemData.getAppGroupAvatar())
+                    .centerCrop()
+                    .into(holder.img_item);
+        }
         holder.item_address.setText(itemData.getAppGroupProvince() + "  " + itemData.getAppGroupCity() + "   " + itemData.getAppGroupZone());
         final boolean[] isMember = {false};
         JMessageClient.getGroupMembers(Long.parseLong(itemData.getAppJpushGroupId()), new GetGroupMembersCallback() {

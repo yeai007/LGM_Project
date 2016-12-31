@@ -67,6 +67,8 @@ public class SystemNofityActivity extends AppCompatActivity implements View.OnCl
             mNotifyDataNorealm.setNotifyShowTitle(item.getNotifyShowTitle());
             mNotifyDataNorealm.setNotifyShowContent(item.getNotifyShowContent());
             mNotifyDataNorealm.setNotifyCreateTime(item.getNotifyCreateTime());
+            mNotifyDataNorealm.setNotifyFromUser(item.getNotifyFromUser());
+            mNotifyDataNorealm.setNotifyFromUserName(item.getNotifyFromUserName());
             mList.add(mNotifyDataNorealm);
         }
 

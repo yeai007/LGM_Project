@@ -38,6 +38,7 @@ import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UpdateZiabamResultTmp;
 import com.hopeofseed.hopeofseed.curView.pulishDYNPopupWindow;
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.curView.pulishPopupRecyle;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
      */
     public static final int SCROLL_STATE_SETTLING = 2;
     String TAG = "NewsFragment";
-    pulishDYNPopupWindow menuWindow;
+    pulishPopupRecyle menuWindow;
     Button btn_title;
     TextView btn_topleft;
     ArrayList<String> arr_TopClass = new ArrayList<>();
@@ -363,7 +364,7 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.add_new:
-                    menuWindow = new pulishDYNPopupWindow(getActivity(), itemsOnClick);
+                    menuWindow = new pulishPopupRecyle(getActivity(), itemsOnClick);
                     //显示窗口
                     menuWindow.showAtLocation(v, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
                     break;

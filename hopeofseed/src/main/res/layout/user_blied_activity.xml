@@ -52,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="left|center"
-                android:text="地址" />
+                android:text="地区" />
 
             <EditText
                 android:id="@+id/et_address"
@@ -69,7 +69,8 @@
             android:layout_below="@+id/top"
             android:layout_marginTop="1dp"
             android:background="#ffffff"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="80dp"

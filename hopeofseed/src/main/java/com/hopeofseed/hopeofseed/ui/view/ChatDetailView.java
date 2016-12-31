@@ -198,13 +198,13 @@ public class ChatDetailView extends LinearLayout {
         Log.e(TAG, "setBtnTopRight:btn_topright ");
         if(isMember)
         {
-            btn_topright.setVisibility(View.VISIBLE);
+            btn_topright.setVisibility(View.GONE);
             no_disturb_rl.setVisibility(View.VISIBLE);
             mGroupChatDelLL.setVisibility(View.VISIBLE);
             mDelGroupBtn.setVisibility(View.VISIBLE);
         }
         else
-        { btn_topright.setVisibility(View.GONE);
+        { btn_topright.setVisibility(View.VISIBLE);
             no_disturb_rl.setVisibility(View.GONE);
             mGroupChatDelLL.setVisibility(View.GONE);
             mDelGroupBtn.setVisibility(View.GONE);

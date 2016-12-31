@@ -51,6 +51,7 @@ public class CustomPushActivity extends AppCompatActivity implements NetCallBack
 
     private void getData() {
         HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetCustomPushList.php", opt_map, CustomPushDataTmp.class, this);
     }

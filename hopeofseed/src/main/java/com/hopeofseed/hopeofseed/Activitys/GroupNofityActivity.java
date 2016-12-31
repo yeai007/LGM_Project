@@ -76,6 +76,7 @@ public class GroupNofityActivity extends AppCompatActivity implements View.OnCli
                 mNotifyDataNorealm.setNotifyCreateTime(item.getNotifyCreateTime());
                 mNotifyDataNorealm.setNotifyFromUser(item.getNotifyFromUser());
                 mNotifyDataNorealm.setNotifyToUser(item.getNotifyToUser());
+                mNotifyDataNorealm.setNotifyFromUserName(item.getNotifyFromUserName());
                 mNotifyDataNorealm.setNotifyData(item.getNotifyData());
                 Gson gson = new GsonBuilder()
                         .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())

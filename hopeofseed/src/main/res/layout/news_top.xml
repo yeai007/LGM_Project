@@ -9,24 +9,24 @@
         android:id="@+id/rel_left"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:layout_marginLeft="5dp"
-        android:layout_gravity="center_vertical">
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp">
 
         <TextView
             android:id="@+id/btn_topleft"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:background="@null"
-            android:textColor="#00d873"
+            android:gravity="center|right"
             android:text="济南"
-            android:textSize="18sp"
-            android:gravity="center|right" />
+            android:textColor="#00d873"
+            android:textSize="18sp" />
+
         <ImageView
             android:layout_width="22dp"
             android:layout_height="50dp"
             android:layout_toRightOf="@+id/btn_topleft"
-            android:src="@drawable/bottom_arrow_green_2"
-            />
+            android:src="@drawable/bottom_arrow_green_2" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -39,11 +39,12 @@
 
         <Button
             android:id="@+id/btn_topright"
-            android:layout_width="40dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/top_right_add"
-            android:textColor="#FFFFFF" />
+            android:background="@null"
+            android:text="好友"
+            android:textColor="@color/text_content_color" />
     </RelativeLayout>
 
     <RelativeLayout

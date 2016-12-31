@@ -39,7 +39,7 @@ public class CropActivity extends AppCompatActivity implements NetCallBack, View
     String CropId;
     ArrayList<CropData> arr_CropData = new ArrayList<>();
     ArrayList<CropData> arr_CropDataTmp = new ArrayList<>();
-    AutoSplitTextView tv_category2_content, tv_varietyname_content, tv_authorizenumber_content, tv_isgen_content, tv_features_content, tv_production_content, tv_breedregion_content, tv_breedkill_content;
+    AutoSplitTextView tv_category2_content, tv_varietyname_content, tv_authorizenumber_content, tv_isgen_content, tv_features_content, tv_production_content, tv_breedregion_content, tv_breedkill_content, tv_breedorganization;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class CropActivity extends AppCompatActivity implements NetCallBack, View
         tv_production_content = (AutoSplitTextView) findViewById(R.id.tv_production_content);
         tv_breedregion_content = (AutoSplitTextView) findViewById(R.id.tv_breedregion_content);
         tv_breedkill_content = (AutoSplitTextView) findViewById(R.id.tv_breedkill_content);
+        tv_breedorganization = (AutoSplitTextView) findViewById(R.id.tv_breedorganization);
     }
 
     private void getData() {
@@ -108,7 +109,7 @@ public class CropActivity extends AppCompatActivity implements NetCallBack, View
             tv_production_content.setText(mCropData.getProduction());
             tv_breedregion_content.setText(mCropData.getBreedRegion());
             tv_breedkill_content.setText(mCropData.getBreedSkill());
-
+            tv_breedorganization.setText(mCropData.getBreedOrganization());
 
         }
     };

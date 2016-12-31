@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.SystemNofityDetailActivity;
 import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.JNXData.NotifyDataNorealm;
@@ -26,6 +27,7 @@ import java.util.List;
 import io.realm.Realm;
 
 import static com.hopeofseed.hopeofseed.Activitys.MessageFragment.MESSAGE_UPDATE_LIST;
+import static com.hopeofseed.hopeofseed.R.id.img_item;
 
 
 /**
@@ -62,9 +64,24 @@ public class NotifyListAdapter extends RecyclerView.Adapter<NotifyListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final NotifyDataNorealm itemData = mList.get(position);
+        switch (Integer.parseInt(itemData.getNotifyType())) {
+            case 1:
+                Glide.with(mContext).load(R.drawable.img_system).centerCrop().into(holder.img_item);
+                break;
+            case 2:
+                Glide.with(mContext).load(R.drawable.img_hangye).centerCrop().into(holder.img_item);
+                break;
+            case 3:
+                Glide.with(mContext).load(R.drawable.img_groupnotify).centerCrop().into(holder.img_item);
+                break;
+        }
         updateTime(holder, itemData.getNotifyCreateTime());
-        String isRead = itemData.getNotifyIsRead().equals("0") ? "未读" : "已读";
-        holder.item_title.setText(itemData.getNotifyShowTitle() + "(" + isRead + ")");
+        if (itemData.getNotifyIsRead().equals("0")) {
+            holder.img_unread_count.setVisibility(View.VISIBLE);
+        } else {
+            holder.img_unread_count.setVisibility(View.GONE);
+        }
+        holder.item_title.setText(itemData.getNotifyTitle() + "(" + itemData.getNotifyFromUserName() + ")");
         holder.item_content.setText(itemData.getNotifyShowTitle());
         holder.rel_item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,13 +146,14 @@ public class NotifyListAdapter extends RecyclerView.Adapter<NotifyListAdapter.Vi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView img_item;
+        ImageView img_item, img_unread_count;
         TextView item_content, item_title, tv_time;
         RelativeLayout rel_item;
 
         public ViewHolder(View itemView) {
             super(itemView);
             img_item = (ImageView) itemView.findViewById(R.id.img_item);
+            img_unread_count = (ImageView) itemView.findViewById(R.id.img_unread_count);
             item_content = (TextView) itemView.findViewById(R.id.item_content);
             rel_item = (RelativeLayout) itemView.findViewById(R.id.rel_item);
             tv_time = (TextView) itemView.findViewById(R.id.tv_time);

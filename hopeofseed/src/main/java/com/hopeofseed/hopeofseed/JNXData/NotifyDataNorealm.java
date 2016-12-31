@@ -50,6 +50,11 @@ public class NotifyDataNorealm implements Parcelable {
     private String NotifyData;
     private String NotifyFromUser;
     private String NotifyToUser;
+    /**
+     * NotifyFromUserName : 种愿种讯
+     */
+
+    private String NotifyFromUserName;
 
     public String getNotifyFromUser() {
         return NotifyFromUser;
@@ -216,4 +221,12 @@ public class NotifyDataNorealm implements Parcelable {
             return new NotifyDataNorealm[size];
         }
     };
+
+    public String getNotifyFromUserName() {
+        return NotifyFromUserName;
+    }
+
+    public void setNotifyFromUserName(String NotifyFromUserName) {
+        this.NotifyFromUserName = NotifyFromUserName;
+    }
 }

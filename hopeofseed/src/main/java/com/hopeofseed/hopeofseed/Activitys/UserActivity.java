@@ -145,7 +145,7 @@ UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallB
         //appTitle.setVisibility(View.GONE);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
-        btn_topright.setText("更多");
+        btn_topright.setText("详细资料");
         btn_topright.setVisibility(View.VISIBLE);
         btn_topright.setOnClickListener(this);
         tv_username = (TextView) findViewById(R.id.tv_username);

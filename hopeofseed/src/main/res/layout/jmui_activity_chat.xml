@@ -54,7 +54,7 @@
                 android:layout_height="30dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="5dp"
                 android:background="@drawable/shape_corner"
                 android:scaleType="centerInside"
                 android:text="群详情"
@@ -168,14 +168,13 @@
 
                     <Button
                         android:id="@+id/jmui_send_msg_btn"
-                        android:layout_width="45dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:background="@drawable/jmui_register_btn_bg"
                         android:gravity="center_horizontal|center_vertical"
                         android:padding="5dp"
                         android:text="@string/jmui_send"
                         android:textColor="@android:color/white"
-                        android:textSize="14sp"
                         android:visibility="gone" />
 
                     <ImageButton

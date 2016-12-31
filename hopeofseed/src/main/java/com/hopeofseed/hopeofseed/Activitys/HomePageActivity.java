@@ -313,4 +313,5 @@ public class HomePageActivity extends FragmentActivity {
             return super.onKeyDown(keyCode, event);
         }
     }
+
 }

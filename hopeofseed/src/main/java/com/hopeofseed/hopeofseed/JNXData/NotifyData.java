@@ -50,6 +50,11 @@ public class NotifyData extends RealmObject {
     private String NotifyData;
     private String NotifyFromUser;
     private String NotifyToUser;
+    /**
+     * NotifyFromUserName : 种愿种讯
+     */
+
+    private String NotifyFromUserName;
 
     public String getNotifyFromUser() {
         return NotifyFromUser;
@@ -161,5 +166,13 @@ public class NotifyData extends RealmObject {
 
     public void setNotifyData(String NotifyData) {
         this.NotifyData = NotifyData;
+    }
+
+    public String getNotifyFromUserName() {
+        return NotifyFromUserName;
+    }
+
+    public void setNotifyFromUserName(String NotifyFromUserName) {
+        this.NotifyFromUserName = NotifyFromUserName;
     }
 }
