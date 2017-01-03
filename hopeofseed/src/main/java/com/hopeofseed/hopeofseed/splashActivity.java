@@ -14,8 +14,11 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,11 +30,15 @@ import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.AppAreaData;
 import com.hopeofseed.hopeofseed.JNXData.ConfigData;
+import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
+import com.hopeofseed.hopeofseed.JNXDataTmp.AppAreaDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.ConfigDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.EnterpriseDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
 import com.hopeofseed.hopeofseed.Services.LocationService;
 import com.hopeofseed.hopeofseed.curView.WeiboDialogUtils;
 import com.hopeofseed.hopeofseed.util.JpushUtil;
@@ -47,6 +54,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
@@ -83,6 +92,13 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
     int PageNo = 0;
     ArrayList<ConfigData> arrConfigData = new ArrayList<>();
     Handler mHandler = new Handler();
+    ArrayList<AppAreaData> arrAppAreaData = new ArrayList<>();
+    ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+
+    int arrSize = 0, process = 0;
+    ProgressBar progressBar1;
+    TextView tv_process;
+    RelativeLayout rel_process;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +114,8 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             /**
              * 检查配置文件更新
              * */
-            checkDatabaseUpdate();
-            // checkUpdate();
+          //  checkDatabaseUpdate();
+             checkUpdate();
         }
         //创建缓存目录，系统一运行就得创建缓存目录的，
         cache = new File(Environment.getExternalStorageDirectory(), "hopeofseed/cache");
@@ -114,6 +130,9 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         tv_log = (TextView) findViewById(R.id.tv_log);
+        progressBar1 = (ProgressBar) findViewById(R.id.processBar);
+        tv_process = (TextView) findViewById(R.id.tv_process);
+        rel_process = (RelativeLayout) findViewById(R.id.rel_process);
     }
 
     /**
@@ -133,7 +152,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("PageNo", String.valueOf(PageNo));
         HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "AppInitAreaData.php", opt_map, ConfigDataTmp.class, netCallBack);
+        hu.httpPost(Const.BASE_URL + "AppInitAreaData.php", opt_map, AppAreaDataTmp.class, netCallBack);
     }
 
     /**
@@ -152,14 +171,16 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             if (rspBaseBean.RequestSign.equals("GetAppConfigDatas")) {
                 arrConfigData = ((ConfigDataTmp) rspBaseBean).getDetail();
                 mHandler.post(checkConfig);
-            } else if (rspBaseBean.RequestSign.equals("AppInitAreaData")) {
-             /*   arrConfigData = ((ConfigDataTmp) rspBaseBean).getDetail();
-                mHandler.post(checkConfig);*/
             } else if (rspBaseBean.RequestSign.equals("getIsVIP")) {
                 CommResultTmp commResultTmp = ObjectUtil.cast(rspBaseBean);
                 if (Integer.parseInt(commResultTmp.getDetail()) == 1) {
                     Const.isVip = true;
                 }
+            } else if (rspBaseBean.RequestSign.equals("AppInitAreaData")) {
+                AppAreaDataTmp appAreaDataTmp = ObjectUtil.cast(rspBaseBean);
+                arrAppAreaData = appAreaDataTmp.getDetail();
+                arrSize = arrAppAreaData.size();
+                cachedThreadPool.execute(updateLastAreaData);
             }
         }
 
@@ -179,13 +200,45 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             for (int i = 0; i < arrConfigData.size(); i++) {
                 ConfigData itemData = arrConfigData.get(i);
                 if (itemData.getConfigName().equals("AppArea")) {
-                    //  getLastAreaData();
-                    checkUpdate();
+                    getLastAreaData();
                 }
             }
         }
     };
-
+    Runnable updateLastAreaData = new Runnable() {
+        @Override
+        public void run() {
+            Log.e(TAG, "run: " + arrAppAreaData.size());
+            Realm insertRealm = Realm.getDefaultInstance();
+            RealmResults<AppAreaData> results_insert = insertRealm.where(AppAreaData.class).findAll();
+            insertRealm.beginTransaction();
+            results_insert.deleteAllFromRealm();
+            insertRealm.commitTransaction();
+            for (AppAreaData o : arrAppAreaData) {
+                insertRealm.beginTransaction();
+                AppAreaData newdata = insertRealm.copyToRealmOrUpdate(o);
+                insertRealm.commitTransaction();
+                process++;
+                mHandler.post(updateProgress);
+            }
+            RealmResults<AppAreaData> results_select = insertRealm.where(AppAreaData.class).findAll();
+            //  Log.e(TAG, "run:select " + results_select.size());
+        }
+    };
+    Runnable updateProgress = new Runnable() {
+        @Override
+        public void run() {
+            if (process == arrSize) {
+                checkUpdate();
+            } else {
+                rel_process.setVisibility(View.VISIBLE);
+                tv_process.setText(arrSize + "--" + process);
+                progressBar1.setMax(arrSize);
+                progressBar1.setProgress(process);
+                //Toast.makeText(getApplicationContext(), arrSize + "--" + process, Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
     private void checkUpdate() {
         updateHelper.check(new OnUpdateListener() {

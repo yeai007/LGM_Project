@@ -130,7 +130,7 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
         mHiddenAction.setDuration(200);
         add_new = (ImageView) v.findViewById(R.id.add_new);
         add_new.setOnClickListener(listener);
-        //  (v.findViewById(R.id.btn_topright)).setOnClickListener(listener);
+          (v.findViewById(R.id.btn_topright)).setOnClickListener(listener);
         btn_topleft = (TextView) v.findViewById(R.id.btn_topleft);
         btn_topleft.setText(Const.UserLocation.replace("市", ""));
         btn_topleft.setOnClickListener(listener);
@@ -369,7 +369,8 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
                     menuWindow.showAtLocation(v, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0); //设置layout在PopupWindow中显示的位置
                     break;
                 case R.id.btn_topright:
-
+                    Intent intent1 = new Intent(getActivity(), MyFriendSetting.class);
+                    startActivity(intent1);
                     break;
                 case R.id.btn_topleft:
                     selectArea();

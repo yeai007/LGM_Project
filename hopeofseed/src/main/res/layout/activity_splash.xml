@@ -17,4 +17,39 @@
         android:layout_alignParentBottom="true"
         android:gravity="center"
         android:text="" />
+
+    <RelativeLayout
+        android:id="@+id/rel_process"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/white"
+        android:gravity="center"
+        android:minHeight="60dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_alert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="正在更新必要数据,请稍后" />
+
+        <ProgressBar
+            android:id="@+id/processBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_alert"
+            android:max="100"
+            android:progress="0" />
+
+        <TextView
+            android:id="@+id/tv_process"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_alert" />
+    </RelativeLayout>
 </RelativeLayout>

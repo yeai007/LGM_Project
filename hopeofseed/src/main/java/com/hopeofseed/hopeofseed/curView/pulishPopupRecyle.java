@@ -163,7 +163,7 @@ public class pulishPopupRecyle extends PopupWindow implements PagingScrollHelper
              * 管理员
              * */
             case 5:
-                fregments = new int[]{1, 2, 3, 4, 5, 8, 6, 7};
+                fregments = new int[]{0,1, 2, 3, 4,8, 5,  6, 7};
                 break;
             /**
              * 媒体

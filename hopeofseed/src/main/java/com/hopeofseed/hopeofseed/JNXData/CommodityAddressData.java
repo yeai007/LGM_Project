@@ -11,26 +11,43 @@ package com.hopeofseed.hopeofseed.JNXData;
  */
 public class CommodityAddressData {
 
-
     /**
-     * count : 1
-     * DistributorProvince : 山东
-     * DistributorCity : 济南
-     * DistributorZone : 长清区
      * id : 0
+     * count : 1
+     * DistributorProvince : 山东省
+     * DistributorProvinceId : 15
+     * ProvinceCount : 17
+     * DistributorCity : 济南市
+     * DistributorCityId : 159
+     * CityCount : 1
+     * DistributorZone : 长清区
+     * DistributorZoneId : 1665
      */
 
-    private String count;
+    private int id;
+    private int count;
     private String DistributorProvince;
+    private int DistributorProvinceId;
+    private int ProvinceCount;
     private String DistributorCity;
+    private int DistributorCityId;
+    private int CityCount;
     private String DistributorZone;
-    private String id;
+    private int DistributorZoneId;
 
-    public String getCount() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCount() {
         return count;
     }
 
-    public void setCount(String count) {
+    public void setCount(int count) {
         this.count = count;
     }
 
@@ -42,12 +59,44 @@ public class CommodityAddressData {
         this.DistributorProvince = DistributorProvince;
     }
 
+    public int getDistributorProvinceId() {
+        return DistributorProvinceId;
+    }
+
+    public void setDistributorProvinceId(int DistributorProvinceId) {
+        this.DistributorProvinceId = DistributorProvinceId;
+    }
+
+    public int getProvinceCount() {
+        return ProvinceCount;
+    }
+
+    public void setProvinceCount(int ProvinceCount) {
+        this.ProvinceCount = ProvinceCount;
+    }
+
     public String getDistributorCity() {
         return DistributorCity;
     }
 
     public void setDistributorCity(String DistributorCity) {
         this.DistributorCity = DistributorCity;
+    }
+
+    public int getDistributorCityId() {
+        return DistributorCityId;
+    }
+
+    public void setDistributorCityId(int DistributorCityId) {
+        this.DistributorCityId = DistributorCityId;
+    }
+
+    public int getCityCount() {
+        return CityCount;
+    }
+
+    public void setCityCount(int CityCount) {
+        this.CityCount = CityCount;
     }
 
     public String getDistributorZone() {
@@ -58,11 +107,11 @@ public class CommodityAddressData {
         this.DistributorZone = DistributorZone;
     }
 
-    public String getId() {
-        return id;
+    public int getDistributorZoneId() {
+        return DistributorZoneId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDistributorZoneId(int DistributorZoneId) {
+        this.DistributorZoneId = DistributorZoneId;
     }
 }

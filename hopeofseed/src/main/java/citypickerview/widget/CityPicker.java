@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.util.AppAreaDatasUtil;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -636,7 +637,7 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
         List<ProvinceModel> provinceList = null;
         AssetManager asset = context.getAssets();
         try {
-            InputStream input = asset.open("province_data.xml");
+           /* InputStream input = asset.open("province_data.xml");
             // 创建一个解析xml的工厂对象
             SAXParserFactory spf = SAXParserFactory.newInstance();
             // 解析xml
@@ -645,7 +646,8 @@ public class CityPicker implements CanShow, OnWheelChangedListener {
             parser.parse(input, handler);
             input.close();
             // 获取解析出来的数据
-            provinceList = handler.getDataList();
+            provinceList = handler.getDataList();*/
+            provinceList=  AppAreaDatasUtil.getProvinceList();
             //*/ 初始化默认选中的省、市、区
             if (provinceList != null && !provinceList.isEmpty()) {
                 mCurrentProviceName = provinceList.get(0).getName();
