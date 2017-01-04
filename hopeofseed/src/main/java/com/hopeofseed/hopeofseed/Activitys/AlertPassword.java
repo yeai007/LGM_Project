@@ -1,5 +1,6 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,16 +12,23 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.CommHttpResult;
+import com.hopeofseed.hopeofseed.JNXData.UserData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommHttpResultTmp;
+import com.hopeofseed.hopeofseed.LoginAcitivity;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.HashMap;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.im.android.api.JMessageClient;
+import io.realm.Realm;
 
 /**
  * 项目名称：LGM_Project
@@ -52,6 +60,7 @@ public class AlertPassword extends AppCompatActivity implements View.OnClickList
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("发送");
         btn_topright.setOnClickListener(this);
+        btn_topright.setVisibility(View.VISIBLE);
         et_oldpass = (EditText) findViewById(R.id.et_oldpass);
         et_newpass = (EditText) findViewById(R.id.et_newpass);
         et_newpass_comfirm = (EditText) findViewById(R.id.et_newpass_comfirm);
@@ -76,8 +85,8 @@ public class AlertPassword extends AppCompatActivity implements View.OnClickList
     private void updatePassWord() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
-        opt_map.put("OldPass", oldpass);
-        opt_map.put("NewPass", newpass);
+        opt_map.put("OldPass", ObjectUtil.md5(oldpass));
+        opt_map.put("NewPass", ObjectUtil.md5(newpass));
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "UpdatePassWord.php", opt_map, CommHttpResultTmp.class, this);
     }
@@ -131,6 +140,20 @@ public class AlertPassword extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(getApplicationContext(), "旧密码错误", Toast.LENGTH_SHORT).show();
             } else if (commHttpResult.getResult().equals("1")) {
                 Toast.makeText(getApplicationContext(), "密码修改成功", Toast.LENGTH_SHORT).show();
+                //退出当前账号
+                Realm updateRealm = Realm.getDefaultInstance();
+                updateRealm.beginTransaction();//开启事务
+                UserData updateUserData = updateRealm.where(UserData.class)
+                        .equalTo("iscurrent", 1)//查询出name为name1的User对象
+                        .findFirst();//修改查询出的第一个对象的名字
+                if (updateUserData != null) {
+                    updateUserData.setIsCurrent(0);
+                }
+                updateRealm.commitTransaction();
+                Intent intent = new Intent(AlertPassword.this, LoginAcitivity.class);
+                startActivity(intent);
+                JMessageClient.logout();
+                JPushInterface.stopPush(Application.getContext());
                 finish();
             } else {
                 Toast.makeText(getApplicationContext(), "密码修改失败", Toast.LENGTH_SHORT).show();

@@ -19,6 +19,7 @@ import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
+import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
@@ -28,6 +29,8 @@ import java.util.HashMap;
 import java.util.Random;
 
 import io.realm.Realm;
+
+import static com.hopeofseed.hopeofseed.R.id.et_phone;
 
 /**
  * 项目名称：liguangming
@@ -45,7 +48,8 @@ public class RegisterAcitivity extends AppCompatActivity implements View.OnClick
     String phone_code = "";
     Handler mHandler = new Handler();
     String RegisterError = "注册失败";
-
+    Handler handler = new Handler();
+    CommResultTmp commResultTmp = new CommResultTmp();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,39 +117,14 @@ public class RegisterAcitivity extends AppCompatActivity implements View.OnClick
 
     private void getPhoneCode() {
         // TODO Auto-generated method stub
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                GetPhoneCode getPhoneCode = new GetPhoneCode();
-                getPhoneCode.mobile = et_username.getText().toString().trim();
-                phone_code = getRandomCode();
-                getPhoneCode.content = "您的验证码是：" + phone_code + "。请不要把验证码泄露给其他人。如非本人操作，可不用理会！";
-                Boolean bRet = getPhoneCode.RunData();
-                Message msg = getPhoneCodeUserHandle.obtainMessage();
-                if (bRet) {
-                    msg.arg1 = 1;
-                } else {
-                    msg.arg1 = 0;
-                }
-                msg.obj = getPhoneCode.dataMessage.obj;
-                msg.sendToTarget();
-            }
-        }).start();
+        Log.e(TAG, "getData: 获取验证码");
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("mobile", et_username.getText().toString().trim());
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "getPhoneCode.php", opt_map, CommResultTmp.class, this);
     }
 
-    private Handler getPhoneCodeUserHandle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.arg1) {
-                case 0:
-                    Toast.makeText(getApplicationContext(), (String) msg.obj, Toast.LENGTH_SHORT).show();
-                    break;
-                case 1:
-                    Toast.makeText(getApplicationContext(), (String) msg.obj, Toast.LENGTH_SHORT).show();
-                    break;
-            }
-        }
-    };
+
 
     protected void UserRegister(final String username, final String password, final String phonecode) {
         Log.e(TAG, "getData: 获取经销商数据");
@@ -162,6 +141,9 @@ public class RegisterAcitivity extends AppCompatActivity implements View.OnClick
         if (rspBaseBean.RequestSign.equals("AppRegister")) {
             Log.e(TAG, "onRegister: 成功");
             updateRealmData(rspBaseBean);
+        }else  if (rspBaseBean.RequestSign.equals("getPhoneCode")) {
+            commResultTmp = ObjectUtil.cast(rspBaseBean);
+            handler.post(updateGetCodeResult);
         }
     }
 
@@ -228,6 +210,14 @@ public class RegisterAcitivity extends AppCompatActivity implements View.OnClick
         public void run() {
             Intent intent = new Intent(RegisterAcitivity.this, HomePageActivity.class);
             startActivity(intent);
+        }
+    };
+    Runnable updateGetCodeResult = new Runnable() {
+        @Override
+        public void run() {
+
+            Toast.makeText(getApplicationContext(), commResultTmp.getDetail(), Toast.LENGTH_SHORT).show();
+
         }
     };
 }

@@ -7,24 +7,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Adapter.SelectRadioAdapter;
-import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.JNXData.CommSelectData;
 import com.hopeofseed.hopeofseed.JNXData.CommodityClassData;
-import com.hopeofseed.hopeofseed.JNXData.NotifyData;
 import com.hopeofseed.hopeofseed.R;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * 项目名称：LGM_Project
@@ -60,28 +56,28 @@ public class SelectRadioActivity extends AppCompatActivity implements View.OnCli
         RealmResults<CommodityClassData> results1 = null;
         switch (Type) {
             case 0:
-                results1 = myRealm.where(CommodityClassData.class).findAll();
+                results1 = myRealm.where(CommodityClassData.class).findAll().sort("VC2COUNT", Sort.ASCENDING);
                 break;
             case 1:
                 if (!TextUtils.isEmpty(condition)) {
                     if (!condition.equals("全部")) {
-                        results1 = myRealm.where(CommodityClassData.class).equalTo("CommodityVariety_2", condition.trim()).findAll();
+                        results1 = myRealm.where(CommodityClassData.class).equalTo("CommodityVariety_2", condition.trim()).findAll().sort("VC1COUNT", Sort.ASCENDING);
                     } else {
-                        results1 = myRealm.where(CommodityClassData.class).findAll();
+                        results1 = myRealm.where(CommodityClassData.class).findAll().sort("VC1COUNT", Sort.ASCENDING);
                     }
                 } else {
-                    results1 = myRealm.where(CommodityClassData.class).findAll();
+                    results1 = myRealm.where(CommodityClassData.class).findAll().sort("VC1COUNT", Sort.ASCENDING);
                 }
                 break;
             case 2:
                 if (!TextUtils.isEmpty(condition)) {
                     if (!condition.equals("全部")) {
-                        results1 = myRealm.where(CommodityClassData.class).equalTo("CommodityVariety", condition.trim()).findAll();
+                        results1 = myRealm.where(CommodityClassData.class).equalTo("CommodityVariety", condition.trim()).findAll().sort("VC1COUNT", Sort.ASCENDING);
                     } else {
-                        results1 = myRealm.where(CommodityClassData.class).findAll();
+                        results1 = myRealm.where(CommodityClassData.class).findAll().sort("VC1COUNT", Sort.ASCENDING);
                     }
                 } else {
-                    results1 = myRealm.where(CommodityClassData.class).findAll();
+                    results1 = myRealm.where(CommodityClassData.class).findAll().sort("VC1COUNT", Sort.ASCENDING);
                 }
                 break;
         }

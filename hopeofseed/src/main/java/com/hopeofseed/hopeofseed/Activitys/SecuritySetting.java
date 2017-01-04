@@ -13,6 +13,8 @@ import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.LoginAcitivity;
 import com.hopeofseed.hopeofseed.R;
 
+import static com.hopeofseed.hopeofseed.R.id.et_phone;
+
 
 /**
  * 项目名称：liguangming
@@ -24,7 +26,6 @@ import com.hopeofseed.hopeofseed.R;
  * 修改备注：
  */
 public class SecuritySetting extends AppCompatActivity implements View.OnClickListener {
-    TextView et_phone;
     Button alert_phone;
     UserDataNoRealm mUserDataNoRealm = new UserDataNoRealm();
     Button alert_password;
@@ -42,10 +43,6 @@ public class SecuritySetting extends AppCompatActivity implements View.OnClickLi
         ((TextView) findViewById(R.id.apptitle)).setText("安全设置");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         alert_phone = (Button) findViewById(R.id.alert_phone);
-
-
-        et_phone = (TextView) findViewById(R.id.et_phone);
-        et_phone.setText(mUserDataNoRealm.getUser_name());
         alert_phone.setOnClickListener(this);
         alert_password = (Button) findViewById(R.id.alert_password);
         alert_password.setOnClickListener(this);
@@ -85,8 +82,8 @@ public class SecuritySetting extends AppCompatActivity implements View.OnClickLi
         //requestCode标示请求的标示   resultCode表示有数据
         if (requestCode == 148 && resultCode == RESULT_OK) {
             Intent intent = new Intent(SecuritySetting.this, LoginAcitivity.class);
-
             startActivity(intent);
+            finish();
         }
 
     }

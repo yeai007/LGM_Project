@@ -17,32 +17,14 @@
         android:layout_marginTop="10dp"
         android:background="#ffffff">
 
-        <TextView
-            android:id="@+id/tv_phone"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:gravity="center_vertical|left"
-            android:text="手机号："
-            android:textSize="12sp" />
-
         <Button
             android:id="@+id/alert_phone"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@null"
-            android:text="修改手机" />
-
-        <TextView
-            android:id="@+id/et_phone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/alert_phone"
-            android:layout_toRightOf="@+id/tv_phone"
-            android:background="@drawable/bg_edittext"
-            android:gravity="center_vertical" />
-
+            android:layout_marginLeft="20dp"
+            android:background="@null"
+            android:gravity="center_vertical|left"
+            android:text="修改手机" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -57,7 +39,6 @@
             android:id="@+id/alert_password"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
             android:layout_marginLeft="20dp"
             android:background="@null"
             android:gravity="center_vertical|left"

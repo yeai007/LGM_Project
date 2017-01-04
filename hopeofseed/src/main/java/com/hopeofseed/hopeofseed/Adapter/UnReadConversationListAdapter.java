@@ -87,6 +87,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+        isShow = false;
         Log.e(TAG, "onBindViewHolder: position" + position);
         if (position < 4) {
             switch (position) {

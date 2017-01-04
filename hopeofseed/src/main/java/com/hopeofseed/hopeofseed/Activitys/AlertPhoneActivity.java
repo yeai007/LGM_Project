@@ -21,6 +21,7 @@ import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.CommHttpResult;
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommHttpResultTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.utils.TimeCountUtil;
@@ -44,7 +45,10 @@ public class AlertPhoneActivity extends AppCompatActivity implements View.OnClic
     Button btn_topright;
     String StrPhoneCode;
     CommHttpResult commHttpResult = new CommHttpResult();
-UserDataNoRealm mUserDataNoRealm=new UserDataNoRealm();
+    UserDataNoRealm mUserDataNoRealm = new UserDataNoRealm();
+    Handler handler = new Handler();
+    CommResultTmp commResultTmp = new CommResultTmp();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +63,7 @@ UserDataNoRealm mUserDataNoRealm=new UserDataNoRealm();
         apptitle.setText("修改手机");
         btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("更新");
+        btn_topright.setVisibility(View.VISIBLE);
         btn_topright.setOnClickListener(this);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         get_code = (Button) findViewById(R.id.get_code);
@@ -84,7 +89,7 @@ UserDataNoRealm mUserDataNoRealm=new UserDataNoRealm();
     }
 
     private void updatePhone() {
-        Log.e(TAG, "getData: 获取经销商数据");
+        Log.e(TAG, "getData: 更新手机号");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         opt_map.put("UserName", String.valueOf(Const.currentUser.user_name));
@@ -94,23 +99,29 @@ UserDataNoRealm mUserDataNoRealm=new UserDataNoRealm();
         hu.httpPost(Const.BASE_URL + "UpdatePhone.php", opt_map, CommHttpResultTmp.class, this);
     }
 
-    private void varificateCode() {
-        Log.e(TAG, "varificateCode: " + et_phonecode.getText().toString().trim() + ":" + StrPhoneCode);
-        if (et_phonecode.getText().toString().trim().equals(StrPhoneCode)) {
-            Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-        }
+    private void getPhoneCode() {
+        Log.e(TAG, "getData: 获取验证码");
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("mobile", et_phone.getText().toString().trim());
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "getPhoneCode.php", opt_map, CommResultTmp.class, this);
     }
 
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-        CommHttpResultTmp mCommHttpResultTmp = ObjectUtil.cast(rspBaseBean);
-        commHttpResult = mCommHttpResultTmp.getDetail().get(0);
-        updateView();
+        if (rspBaseBean.RequestSign.equals("getPhoneCode")) {
+            commResultTmp = ObjectUtil.cast(rspBaseBean);
+            handler.post(updateResult);
+        } else {
+            CommHttpResultTmp mCommHttpResultTmp = ObjectUtil.cast(rspBaseBean);
+            commHttpResult = mCommHttpResultTmp.getDetail().get(0);
+            updateView();
+        }
     }
 
     @Override
-    public void onError(String error)  {
+    public void onError(String error) {
 
     }
 
@@ -118,6 +129,15 @@ UserDataNoRealm mUserDataNoRealm=new UserDataNoRealm();
     public void onFail() {
 
     }
+
+    Runnable updateResult = new Runnable() {
+        @Override
+        public void run() {
+
+            Toast.makeText(getApplicationContext(), commResultTmp.getDetail(), Toast.LENGTH_SHORT).show();
+
+        }
+    };
 
     private void updateView() {
         Message msg = updateViewHandle.obtainMessage();
@@ -127,14 +147,13 @@ UserDataNoRealm mUserDataNoRealm=new UserDataNoRealm();
     private Handler updateViewHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (commHttpResult.equals("验证码错误")) {
-                Toast.makeText(getApplicationContext(), "验证码错误", Toast.LENGTH_SHORT).show();
-            } else if (commHttpResult.equals("1")) {
-                Intent intent=new Intent();
+            if (commHttpResult.equals("1")) {
+                Intent intent = new Intent();
                 setResult(RESULT_OK, intent);
                 finish();
             } else {
-                finish();
+                Toast.makeText(getApplicationContext(), commHttpResult.getResult(), Toast.LENGTH_SHORT).show();
+                //finish();
             }
         }
     };
@@ -143,7 +162,6 @@ UserDataNoRealm mUserDataNoRealm=new UserDataNoRealm();
      * 获取验证码逻辑
      */
     private void getNewPhoneCode() {
-        Toast.makeText(getApplicationContext(), "获取验证码", Toast.LENGTH_SHORT).show();
         if (et_phone.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "请输入手机号",
                     Toast.LENGTH_SHORT).show();
@@ -165,26 +183,6 @@ UserDataNoRealm mUserDataNoRealm=new UserDataNoRealm();
         return result;
     }
 
-    private void getPhoneCode() {
-        // TODO Auto-generated method stub
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                GetPhoneCode getPhoneCode = new GetPhoneCode();
-                getPhoneCode.mobile = et_phone.getText().toString().trim();
-                getPhoneCode.content = "您的验证码是：" + StrPhoneCode + "。请不要把验证码泄露给其他人。如非本人操作，可不用理会！";
-                Boolean bRet = getPhoneCode.RunData();
-                Message msg = getPhoneCodeUserHandle.obtainMessage();
-                if (bRet) {
-                    msg.arg1 = 1;
-                } else {
-                    msg.arg1 = 0;
-                }
-                msg.obj = getPhoneCode.dataMessage.obj;
-                msg.sendToTarget();
-            }
-        }).start();
-    }
 
     private Handler getPhoneCodeUserHandle = new Handler() {
         @Override

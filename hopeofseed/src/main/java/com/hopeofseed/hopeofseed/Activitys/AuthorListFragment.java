@@ -41,7 +41,7 @@ import java.util.HashMap;
 public class AuthorListFragment extends Fragment implements NetCallBack {
     private static final String TAG = "AuthorListFragment";
     PullToRefreshListView lv_distributor;
-    AuthorDataAdapter mDistributorAdapter;
+    AuthorDataAdapter mAuthorDataAdapter;
     ArrayList<AuthorData> arrAuthorData = new ArrayList<>();
     ArrayList<AuthorData> arrAuthorDataTmp = new ArrayList<>();
     Handler mHandle = new Handler();
@@ -59,8 +59,8 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
 
     private void initView(View v) {
         lv_distributor = (PullToRefreshListView) v.findViewById(R.id.lv_list);
-        mDistributorAdapter = new AuthorDataAdapter(getActivity(), arrAuthorData);
-        lv_distributor.setAdapter(mDistributorAdapter);
+        mAuthorDataAdapter = new AuthorDataAdapter(getActivity(), arrAuthorData);
+        lv_distributor.setAdapter(mAuthorDataAdapter);
         lv_distributor.setOnItemClickListener(myListener);
         initList();
     }
@@ -134,7 +134,7 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
         public void run() {
             arrAuthorData.clear();
             arrAuthorData.addAll(arrAuthorDataTmp);
-            mDistributorAdapter.notifyDataSetChanged();
+            mAuthorDataAdapter.notifyDataSetChanged();
             lv_distributor.onRefreshComplete();
         }
     };

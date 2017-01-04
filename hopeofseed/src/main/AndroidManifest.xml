@@ -260,12 +260,6 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.hopeofseed.hopeofseed.Activitys.AddNewFriend"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-
-        <activity
             android:name="com.hopeofseed.hopeofseed.Activitys.AddNewGroupMember"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -599,6 +593,11 @@
 
         <activity
             android:name=".curView.SelectRadioActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.DistributorListForReport"
             android:exported="false"
             android:screenOrientation="portrait" />
     </application>

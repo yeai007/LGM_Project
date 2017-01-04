@@ -44,6 +44,7 @@ public class GetPhoneCode extends JsonBase {
         boolean bRet = false;
         super.dataMessage = new Message();
         if (outJsonObject != null) {
+            Log.e(TAG, "ParsReturnData: "+outJsonObject.toString());
             String aa = outJsonObject.getString("result");
             JSONObject js = new JSONObject(ObjectUtil.xml2JSON(aa));
             JSONObject js_result = js.getJSONObject("SubmitResult");

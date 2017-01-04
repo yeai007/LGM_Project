@@ -1,5 +1,7 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hopeofseed.hopeofseed.Activitys.DistributorCountReportActivity;
+import com.hopeofseed.hopeofseed.Activitys.DistributorListForReport;
+import com.hopeofseed.hopeofseed.Activitys.MyCommodity;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.curView.TreeNode;
 
@@ -38,12 +43,14 @@ public class TreeViewAdapter extends BaseAdapter {
      * item的行首缩进基数
      */
     private int indentionBase;
+    Context cContext;
 
-    public TreeViewAdapter(ArrayList<TreeNode> topNodes, ArrayList<TreeNode> allNodes, LayoutInflater inflater) {
+    public TreeViewAdapter(Context context, ArrayList<TreeNode> topNodes, ArrayList<TreeNode> allNodes, LayoutInflater inflater) {
         this.topNodes = topNodes;
         this.allNodes = allNodes;
         this.inflater = inflater;
         indentionBase = 20;
+        cContext = context;
     }
 
     public ArrayList<TreeNode> getTopNodes() {
@@ -104,6 +111,17 @@ public class TreeViewAdapter extends BaseAdapter {
             holder.homeImg.setImageResource(R.drawable.img_zhankai);
             holder.homeImg.setVisibility(View.INVISIBLE);
         }
+        holder.treeText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(cContext, DistributorListForReport.class);
+                intent.putExtra("Class", 1);
+                intent.putExtra("AreaId", ((TreeNode) getItem(position)).getId());
+                intent.putExtra("Condition", ((DistributorCountReportActivity) cContext).GetCondition());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                cContext.startActivity(intent);
+            }
+        });
         holder.homeImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +131,6 @@ public class TreeViewAdapter extends BaseAdapter {
                 ArrayList<TreeNode> topNodes = getTopNodes();
                 //元素的数据源
                 ArrayList<TreeNode> allNodes = getAllNodes();
-
                 //点击没有子项的item直接返回
                 if (!treeNode.isHasChildren()) {
                     return;

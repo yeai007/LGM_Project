@@ -60,6 +60,8 @@ public class DistributorCountReportActivity extends AppCompatActivity implements
     TreeViewAdapter treeViewAdapter;
     String StrSp1 = "", StrSp2 = "", StrSp3 = "";
     Button btn_search;
+    String StrSp1Tmp = "", StrSp2Tmp = "", StrSp3Tmp = "";
+    TextView tv_other_sum, tv_zone_sum, tv_city_sum, tv_province_sum;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class DistributorCountReportActivity extends AppCompatActivity implements
     private void initTree() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ListView treeview = (ListView) findViewById(R.id.tree_list);
-        treeViewAdapter = new TreeViewAdapter(topNodes, allNodes, inflater);
+        treeViewAdapter = new TreeViewAdapter(DistributorCountReportActivity.this, topNodes, allNodes, inflater);
         treeview.setAdapter(treeViewAdapter);
     }
 
@@ -85,11 +87,25 @@ public class DistributorCountReportActivity extends AppCompatActivity implements
         spinner_2 = (Button) findViewById(R.id.spinner_2);
         spinner_3 = (Button) findViewById(R.id.spinner_3);
         btn_search = (Button) findViewById(R.id.btn_search);
+        tv_other_sum = (TextView) findViewById(R.id.tv_other_sum);
+        tv_zone_sum = (TextView) findViewById(R.id.tv_zone_sum);
+        tv_city_sum = (TextView) findViewById(R.id.tv_city_sum);
+        tv_province_sum = (TextView) findViewById(R.id.tv_province_sum);
+        tv_other_sum.setText("其他：0");
+        tv_zone_sum.setText("镇级：0");
+        tv_city_sum.setText("区县级：0");
+        tv_province_sum.setText("市级：0");
         spinner_1.setOnClickListener(this);
         spinner_2.setOnClickListener(this);
         spinner_3.setOnClickListener(this);
         btn_search.setOnClickListener(this);
+        tv_other_sum.setOnClickListener(this);
+        tv_zone_sum.setOnClickListener(this);
+        tv_city_sum.setOnClickListener(this);
+        tv_province_sum.setOnClickListener(this);
         (findViewById(R.id.btn_topright)).setOnClickListener(this);
+
+
     }
 
     private void getCommodityClassData() {
@@ -102,6 +118,9 @@ public class DistributorCountReportActivity extends AppCompatActivity implements
     private void getCommodityAddressData() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        StrSp1Tmp = StrSp1;
+        StrSp2Tmp = StrSp2;
+        StrSp3Tmp = StrSp3;
         opt_map.put("StrSp1", StrSp1);
         opt_map.put("StrSp2", StrSp2);
         opt_map.put("StrSp3", StrSp3);
@@ -168,6 +187,30 @@ public class DistributorCountReportActivity extends AppCompatActivity implements
                 StrSp1 = StrSp2 = StrSp3 = "";
                 getCommodityAddressData();
                 getClassCount();
+                break;
+            case R.id.tv_other_sum:
+                intent = new Intent(DistributorCountReportActivity.this, DistributorListForReport.class);
+                intent.putExtra("Class", 0);
+                intent.putExtra("ClassId", 0);
+                startActivity(intent);
+                break;
+            case R.id.tv_zone_sum:
+                intent = new Intent(DistributorCountReportActivity.this, DistributorListForReport.class);
+                intent.putExtra("Class", 0);
+                intent.putExtra("ClassId", 1);
+                startActivity(intent);
+                break;
+            case R.id.tv_city_sum:
+                intent = new Intent(DistributorCountReportActivity.this, DistributorListForReport.class);
+                intent.putExtra("Class", 0);
+                intent.putExtra("ClassId", 2);
+                startActivity(intent);
+                break;
+            case R.id.tv_province_sum:
+                intent = new Intent(DistributorCountReportActivity.this, DistributorListForReport.class);
+                intent.putExtra("Class", 0);
+                intent.putExtra("ClassId", 3);
+                startActivity(intent);
                 break;
         }
     }
@@ -278,34 +321,30 @@ public class DistributorCountReportActivity extends AppCompatActivity implements
         public void run() {
             int all_sum = 0;
             if (arrDistributorCountByClass.size() == 0) {
-                TextView tv_other_sum = (TextView) findViewById(R.id.tv_other_sum);
+
                 tv_other_sum.setText("其他：0");
-                TextView tv_zone_sum = (TextView) findViewById(R.id.tv_zone_sum);
+
                 tv_zone_sum.setText("镇级：0");
-                TextView tv_city_sum = (TextView) findViewById(R.id.tv_city_sum);
+
                 tv_city_sum.setText("区县级：0");
-                TextView tv_province_sum = (TextView) findViewById(R.id.tv_province_sum);
+
                 tv_province_sum.setText("市级：0");
             }
             for (int i = 0; i < arrDistributorCountByClass.size(); i++) {
-                switch (i) {
+                switch (Integer.parseInt(arrDistributorCountByClass.get(i).getDistributorLevel())) {
                     case 0:
-                        TextView tv_other_sum = (TextView) findViewById(R.id.tv_other_sum);
                         tv_other_sum.setText("其他：" + arrDistributorCountByClass.get(i).getCount());
                         all_sum = all_sum + Integer.parseInt(arrDistributorCountByClass.get(i).getCount());
                         break;
                     case 1:
-                        TextView tv_zone_sum = (TextView) findViewById(R.id.tv_zone_sum);
                         tv_zone_sum.setText("镇级：" + arrDistributorCountByClass.get(i).getCount());
                         all_sum = all_sum + Integer.parseInt(arrDistributorCountByClass.get(i).getCount());
                         break;
                     case 2:
-                        TextView tv_city_sum = (TextView) findViewById(R.id.tv_city_sum);
                         tv_city_sum.setText("区县级：" + arrDistributorCountByClass.get(i).getCount());
                         all_sum = all_sum + Integer.parseInt(arrDistributorCountByClass.get(i).getCount());
                         break;
                     case 3:
-                        TextView tv_province_sum = (TextView) findViewById(R.id.tv_province_sum);
                         tv_province_sum.setText("市级：" + arrDistributorCountByClass.get(i).getCount());
                         all_sum = all_sum + Integer.parseInt(arrDistributorCountByClass.get(i).getCount());
                         break;
@@ -330,5 +369,23 @@ public class DistributorCountReportActivity extends AppCompatActivity implements
             insertRealm.commitTransaction();
         }
         handler.post(updateClass);
+    }
+
+    public String[] GetCondition() {
+        String userid = String.valueOf(Const.currentUser.user_id);
+        if (TextUtils.isEmpty(String.valueOf(Const.currentUser.user_id))) {
+            userid = "";
+        }
+        if (TextUtils.isEmpty(StrSp1Tmp)) {
+            StrSp1Tmp = "";
+        }
+        if (TextUtils.isEmpty(StrSp2Tmp)) {
+            StrSp2Tmp = "";
+        }
+        if (TextUtils.isEmpty(StrSp3Tmp)) {
+            StrSp3Tmp = "";
+        }
+        String[] data = {userid, StrSp1Tmp, StrSp2Tmp, StrSp3Tmp};
+        return data;
     }
 }

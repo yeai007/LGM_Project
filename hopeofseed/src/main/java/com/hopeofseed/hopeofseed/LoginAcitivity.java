@@ -48,6 +48,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
     Handler mHandle = new Handler();
     private String mError;
     Dialog dialogUtils;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +74,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
                 user_name = ((EditText) findViewById(R.id.et_username)).getText().toString();
                 pass_word = ((EditText) findViewById(R.id.et_password)).getText().toString();
                 if (isChecked(user_name, pass_word)) {
-                    dialogUtils=  WeiboDialogUtils.createLoadingDialog(LoginAcitivity.this, "正在登录...");
+                    dialogUtils = WeiboDialogUtils.createLoadingDialog(LoginAcitivity.this, "正在登录...");
                     UserLogin(user_name, pass_word, "0");
                 }
 
@@ -105,7 +106,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
     protected void UserLogin(final String username, final String password, final String login_register_type) {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserName", username);
-        opt_map.put("PassWord", password);
+        opt_map.put("PassWord", ObjectUtil.md5(password));
         opt_map.put("Type", login_register_type);
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "app_login.php", opt_map, UserDataTmp.class, this);
@@ -170,8 +171,8 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         Realm updateRealm = Realm.getDefaultInstance();
         updateRealm.beginTransaction();//开启事务
         UserData updateUserData = updateRealm.where(UserData.class)
-                .equalTo("iscurrent", 1)//查询出name为name1的User对象
-                .findFirst();//修改查询出的第一个对象的名字
+                .equalTo("iscurrent", 1)
+                .findFirst();
         if (updateUserData != null) {
             updateUserData.setIsCurrent(0);
         }
@@ -179,7 +180,6 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         /*******************************
          * */
         UserData o = mUserDataTmp.getDetail();
-
         updateRealm.beginTransaction();
         o.setIsCurrent(1);
         UserData newdata = updateRealm.copyToRealmOrUpdate(o);
