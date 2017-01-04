@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.Data.Const;
-import com.hopeofseed.hopeofseed.DataForHttp.GetPhoneCode;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
@@ -22,6 +21,7 @@ import com.hopeofseed.hopeofseed.JNXData.CommHttpResult;
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommHttpResultTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
+import com.hopeofseed.hopeofseed.LoginAcitivity;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.utils.TimeCountUtil;
@@ -29,17 +29,20 @@ import com.lgm.utils.TimeCountUtil;
 import java.util.HashMap;
 import java.util.Random;
 
+import cn.jpush.im.android.api.JMessageClient;
+
+
 /**
  * 项目名称：LGM_Project
  * 类描述：
  * 创建人：whisper
- * 创建时间：2016/10/26 10:35
+ * 创建时间：2017/1/4 16:29
  * 修改人：whisper
- * 修改时间：2016/10/26 10:35
+ * 修改时间：2017/1/4 16:29
  * 修改备注：
  */
-public class AlertPhoneActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
-    private static final String TAG = "AlertPhoneActivity";
+public class ForgetPassWordActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
+    private static final String TAG = "ForgetPassWordActivity";
     Button get_code;
     EditText et_phonecode, et_phone;
     Button btn_topright;
@@ -48,13 +51,14 @@ public class AlertPhoneActivity extends AppCompatActivity implements View.OnClic
     UserDataNoRealm mUserDataNoRealm = new UserDataNoRealm();
     Handler handler = new Handler();
     CommResultTmp commResultTmp = new CommResultTmp();
+    CommResultTmp updateResultTmp = new CommResultTmp();
+    boolean isCanAlert = false;
+    EditText et_new_password, et_format;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.alert_phone_activity);
-        Intent intent = getIntent();
-        mUserDataNoRealm = intent.getParcelableExtra("User");
+        setContentView(R.layout.forget_password_activity);
         initView();
     }
 
@@ -63,7 +67,7 @@ public class AlertPhoneActivity extends AppCompatActivity implements View.OnClic
         apptitle.setText("修改手机");
         btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("修改");
-        btn_topright.setVisibility(View.VISIBLE);
+
         btn_topright.setOnClickListener(this);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         get_code = (Button) findViewById(R.id.get_code);
@@ -71,6 +75,8 @@ public class AlertPhoneActivity extends AppCompatActivity implements View.OnClic
         et_phone = (EditText) findViewById(R.id.et_phone);
         et_phonecode = (EditText) findViewById(R.id.et_phonecode);
         StrPhoneCode = getRandomCode();
+        et_new_password = (EditText) findViewById(R.id.et_new_password);
+        et_format = (EditText) findViewById(R.id.et_format);
     }
 
     @Override
@@ -89,14 +95,12 @@ public class AlertPhoneActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void updatePhone() {
-        Log.e(TAG, "getData: 更新手机号");
         HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
-        opt_map.put("UserName", String.valueOf(Const.currentUser.user_name));
-        opt_map.put("NewPhone", et_phone.getText().toString().trim());
+        opt_map.put("phone", et_phone.getText().toString().trim());
         opt_map.put("PhoneCode", et_phonecode.getText().toString().trim());
+        opt_map.put("PassWord", ObjectUtil.md5(et_new_password.getText().toString().trim()));
         HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "UpdatePhone.php", opt_map, CommHttpResultTmp.class, this);
+        hu.httpPost(Const.BASE_URL + "ForgetPasswordToUpdate.php", opt_map, CommResultTmp.class, this);
     }
 
     private void getPhoneCode() {
@@ -104,19 +108,18 @@ public class AlertPhoneActivity extends AppCompatActivity implements View.OnClic
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("mobile", et_phone.getText().toString().trim());
         HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "getPhoneCode.php", opt_map, CommResultTmp.class, this);
+        hu.httpPost(Const.BASE_URL + "getForgetPhoneCode.php", opt_map, CommResultTmp.class, this);
     }
 
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-        if (rspBaseBean.RequestSign.equals("getPhoneCode")) {
+        if (rspBaseBean.RequestSign.equals("getForgetPhoneCode")) {
             commResultTmp = ObjectUtil.cast(rspBaseBean);
             handler.post(updateResult);
-        } else {
-            CommHttpResultTmp mCommHttpResultTmp = ObjectUtil.cast(rspBaseBean);
-            commHttpResult = mCommHttpResultTmp.getDetail().get(0);
-            updateView();
+        } else if (rspBaseBean.RequestSign.equals("ForgetPasswordToUpdate")) {
+            updateResultTmp = ObjectUtil.cast(rspBaseBean);
+            handler.post(updatePasswordResult);
         }
     }
 
@@ -133,27 +136,26 @@ public class AlertPhoneActivity extends AppCompatActivity implements View.OnClic
     Runnable updateResult = new Runnable() {
         @Override
         public void run() {
-
-            Toast.makeText(getApplicationContext(), commResultTmp.getDetail(), Toast.LENGTH_SHORT).show();
-
+            if (commResultTmp.getDetail().equals("提交成功") || commResultTmp.getDetail().equals("同一手机号验证码短信发送超出5条")) {
+                isCanAlert = true;
+                btn_topright.setVisibility(View.VISIBLE);
+            } else {
+                isCanAlert = false;
+                Toast.makeText(getApplicationContext(), commResultTmp.getDetail(), Toast.LENGTH_SHORT).show();
+            }
         }
     };
-
-    private void updateView() {
-        Message msg = updateViewHandle.obtainMessage();
-        msg.sendToTarget();
-    }
-
-    private Handler updateViewHandle = new Handler() {
+    Runnable updatePasswordResult = new Runnable() {
         @Override
-        public void handleMessage(Message msg) {
-            if (commHttpResult.equals("1")) {
-                Intent intent = new Intent();
-                setResult(RESULT_OK, intent);
-                finish();
-            } else {
-                Toast.makeText(getApplicationContext(), commHttpResult.getResult(), Toast.LENGTH_SHORT).show();
-                //finish();
+        public void run() {
+            if (updateResultTmp.getDetail().equals("验证码错误")) {
+                Toast.makeText(getApplicationContext(), updateResultTmp.getDetail(), Toast.LENGTH_SHORT).show();
+            } else if (updateResultTmp.getDetail().equals("1")) {
+                Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), LoginAcitivity.class);
+                startActivity(intent);
+            } else if (updateResultTmp.getDetail().equals("2")) {
+                Toast.makeText(getApplicationContext(), "修改失败，请重新尝试修改", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -168,7 +170,7 @@ public class AlertPhoneActivity extends AppCompatActivity implements View.OnClic
 
         } else {
             TimeCountUtil timeCountUtil = new TimeCountUtil(
-                    AlertPhoneActivity.this, 60000, 1000, get_code);
+                    ForgetPassWordActivity.this, 60000, 1000, get_code);
             timeCountUtil.start();
             getPhoneCode();
         }
@@ -182,20 +184,4 @@ public class AlertPhoneActivity extends AppCompatActivity implements View.OnClic
         }
         return result;
     }
-
-
-    private Handler getPhoneCodeUserHandle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.arg1) {
-                case 0:
-                    Toast.makeText(getApplicationContext(), (String) msg.obj, Toast.LENGTH_SHORT).show();
-                    break;
-                case 1:
-                    Toast.makeText(getApplicationContext(), (String) msg.obj, Toast.LENGTH_SHORT).show();
-                    break;
-
-            }
-        }
-    };
 }

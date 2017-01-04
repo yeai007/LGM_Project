@@ -87,7 +87,6 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        isShow = false;
         Log.e(TAG, "onBindViewHolder: position" + position);
         if (position < 4) {
             switch (position) {
@@ -108,7 +107,6 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                         holder.tv_unread_count.setVisibility(View.VISIBLE);
                         holder.img_unread_count.setImageResource(R.drawable.img_message_count);
                         isShow = true;
-                        updateStatus();
                     } else {
                         holder.img_unread_count.setVisibility(View.VISIBLE);
                         holder.img_unread_count.setImageResource(R.drawable.right_arrow_unread);
@@ -146,7 +144,6 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                         holder.tv_unread_count.setVisibility(View.VISIBLE);
                         holder.img_unread_count.setImageResource(R.drawable.img_message_count);
                         isShow = true;
-                        updateStatus();
                     } else {
                         Log.e(TAG, "onBindViewHolder: updateview2");
                         holder.item_title.setText("系统通知");
@@ -188,7 +185,6 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                         holder.tv_unread_count.setVisibility(View.VISIBLE);
                         holder.img_unread_count.setImageResource(R.drawable.img_message_count);
                         isShow = true;
-                        updateStatus();
                     } else {
                         Log.e(TAG, "onBindViewHolder: updateview2");
                         holder.item_title.setText("行业通知");
@@ -229,7 +225,6 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                         holder.tv_unread_count.setVisibility(View.VISIBLE);
                         holder.img_unread_count.setImageResource(R.drawable.img_message_count);
                         isShow = true;
-                        updateStatus();
                     } else {
                         Log.e(TAG, "onBindViewHolder: updateview2");
                         holder.item_title.setText("群通知");
@@ -567,11 +562,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
 
 
     public void updateStatus() {
-        if (isShow) {
-            ((HomePageActivity) mContext).isHavaMessage(true);
-        } else {
-            ((HomePageActivity) mContext).isHavaMessage(false);
-        }
+            ((HomePageActivity) mContext).isHavaMessage(isShow);
     }
 
     public void setStatus() {

@@ -61,6 +61,7 @@ import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import static com.hopeofseed.hopeofseed.Data.Const.AreaConfig;
 import static com.hopeofseed.hopeofseed.Data.Const.City;
 import static com.hopeofseed.hopeofseed.Data.Const.Province;
 import static com.hopeofseed.hopeofseed.R.id.actv_busscropt;
@@ -99,6 +100,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
     ProgressBar progressBar1;
     TextView tv_process;
     RelativeLayout rel_process;
+    int AreaVersion = 0;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,8 +116,8 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             /**
              * 检查配置文件更新
              * */
-          //  checkDatabaseUpdate();
-             checkUpdate();
+            checkDatabaseUpdate();
+            //checkUpdate();
         }
         //创建缓存目录，系统一运行就得创建缓存目录的，
         cache = new File(Environment.getExternalStorageDirectory(), "hopeofseed/cache");
@@ -200,7 +202,13 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             for (int i = 0; i < arrConfigData.size(); i++) {
                 ConfigData itemData = arrConfigData.get(i);
                 if (itemData.getConfigName().equals("AppArea")) {
-                    getLastAreaData();
+                    Const.GetShareData(splashActivity.this);
+                    if (!(Const.AreaConfig == Integer.parseInt(itemData.getConfigVersion()))) {
+                        AreaVersion = Integer.parseInt(itemData.getConfigVersion());
+                        getLastAreaData();
+                    } else {
+                        checkUpdate();
+                    }
                 }
             }
         }
@@ -230,6 +238,8 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         public void run() {
             if (process == arrSize) {
                 checkUpdate();
+                Const.AreaConfig = AreaVersion;
+                Const.SetShareData(splashActivity.this);
             } else {
                 rel_process.setVisibility(View.VISIBLE);
                 tv_process.setText(arrSize + "--" + process);

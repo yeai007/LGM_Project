@@ -247,6 +247,50 @@ public class HomePageActivity extends FragmentActivity {
             two.setBackgroundResource(R.drawable.btn_main_radio_xiaoxi);
         }
     }
+
+    /**
+     * 接收群成员变化事件
+     *
+     * @param event 消息事件
+     */
+    public void onEvent(MessageEvent event) {
+        Log.e(TAG, "onEvent: onEvent");
+        final cn.jpush.im.android.api.model.Message msg = event.getMessage();
+        if (msg.getContentType() == ContentType.eventNotification) {
+            EventNotificationContent.EventNotificationType msgType = ((EventNotificationContent) msg
+                    .getContent()).getEventNotificationType();
+            EventNotificationContent eventNotificationContent = (EventNotificationContent) msg.getContent();
+            switch (msgType) {
+                //添加群成员事件特殊处理
+                case group_member_added:
+                    String targetId = msg.getTargetID();
+                    String appKey = msg.getFromAppKey();
+                    ConversationType type = msg.getTargetType();
+                    if (type == ConversationType.single) {
+                        Log.e(TAG, "onEvent: createSingleConversation");
+                        Conversation con = JMessageClient.getGroupConversation(Long.parseLong(targetId));
+                        if (con == null) {
+                            con = createGroupConversation(Long.parseLong(targetId));
+                        }
+                        con.setUnReadMessageCnt(1);
+                    } else {
+
+                        Conversation con = JMessageClient.getGroupConversation(Long.parseLong(targetId));
+                        if (con == null) {
+                            Log.e(TAG, "onEvent: createGroupConversation");
+                            con = Conversation.createGroupConversation(Long.parseLong(targetId));
+                        }
+                        con.setUnReadMessageCnt(1);
+                    }
+                    break;
+                case group_member_removed:
+                    break;
+                case group_member_exit:
+                    break;
+            }
+        }
+    }
+
     /**
      * 监听Back键按下事件,方法2:
      * 注意:

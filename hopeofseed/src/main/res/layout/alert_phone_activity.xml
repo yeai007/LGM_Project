@@ -30,6 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/alert_phone"
+            android:inputType="phone"
             android:layout_toRightOf="@+id/tv_phone"
             android:background="@drawable/bg_edittext"
             android:gravity="center_vertical" />
@@ -70,6 +71,7 @@
             android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/alert_phone"
             android:layout_toRightOf="@+id/tv_phonecode"
+            android:inputType="number"
             android:background="@drawable/bg_edittext"
             android:gravity="center_vertical" />
 

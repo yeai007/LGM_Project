@@ -101,7 +101,6 @@ public class NearGroupFragment extends Fragment implements NetCallBack, SwipeRef
         recycler_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
                 super.onScrolled(recyclerView, dx, dy);
                 int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
                 int totalItemCount = layoutManager.getItemCount();
@@ -114,10 +113,6 @@ public class NearGroupFragment extends Fragment implements NetCallBack, SwipeRef
                         PageNo = PageNo + 1;
                         getData();
                     } else if (mListTmp.size() < 20) {
-                        //当没有更多的数据的时候去掉加载更多的布局
-/*                        RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
-                        adapter.setIsNeedMore(false);
-                        adapter.notifyDataSetChanged();*/
                     }
                 }
             }

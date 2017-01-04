@@ -31,28 +31,31 @@
             android:gravity="left|center"
             android:text="评论"
             android:textColor="@color/text_title_color" />
+
         <TextView
             android:id="@+id/item_members_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/item_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="1dp"
-            android:layout_below="@+id/item_content"
             android:layout_toRightOf="@+id/img_item"
             android:gravity="left|center"
             android:text="评论"
             android:textColor="@color/text_title_color" />
+
         <TextView
             android:id="@+id/item_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/item_members_count"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="1dp"
-            android:layout_below="@+id/item_members_count"
             android:layout_toRightOf="@+id/img_item"
             android:gravity="left|center"
             android:text="评论"
             android:textColor="@color/text_title_color" />
+
         <ImageButton
             android:id="@+id/img_btn_join"
             android:layout_width="wrap_content"
@@ -60,8 +63,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
-            android:scaleType="fitEnd"
             android:background="@null"
-            android:src="@drawable/is_join" />
+            android:scaleType="fitEnd"
+            android:src="@drawable/is_join_null" />
     </RelativeLayout>
 </RelativeLayout>

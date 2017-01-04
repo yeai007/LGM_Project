@@ -130,7 +130,7 @@ public class RegisterAcitivity extends AppCompatActivity implements View.OnClick
         Log.e(TAG, "getData: 获取经销商数据");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserName", username);
-        opt_map.put("PassWord", password);
+        opt_map.put("PassWord", ObjectUtil.md5(password));
         opt_map.put("PhoneCode", phonecode);
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "app_register.php", opt_map, UserDataTmp.class, this);

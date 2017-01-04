@@ -52,10 +52,8 @@ public class JpushUtil {
     public void initJpushUser() {
         isRunning = true;
         initCount = initCount + 1;
-        Log.e(TAG, "initJpushUser: " + Const.currentUser.user_id + Const.currentUser.password);
-        Log.e(TAG, "initJpushUser: " + initCount + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
         final String userName = Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim();
-        final String password = Const.currentUser.password;
+        final String password = "jpush_123456";
         if (userName.equals(Const.JPUSH_PREFIX + "0")) {
             // Log.e(TAG, "initJpushUser: refresh initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
             mHandler.postDelayed(init, 500);
@@ -66,6 +64,7 @@ public class JpushUtil {
             JMessageClient.login(userName, password, new BasicCallback() {
                 @Override
                 public void gotResult(int responseCode, String LoginDesc) {
+                    Log.e(TAG, "gotResult: " + responseCode);
                     if (responseCode == 0) {
                         isRunning = false;
                         mHandler.removeCallbacks(init);
@@ -109,14 +108,28 @@ public class JpushUtil {
                             Intent intent = new Intent(mContext, LoginAcitivity.class);
                             mContext.startActivity(intent);
                         }
+                    } else if (responseCode == 801003) {
+                        addJpushUserData();
+                    } else if (responseCode == 801004) {
+                        JMessageClient.updateUserPassword(userName, password, new BasicCallback() {
+                            @Override
+                            public void gotResult(int i, String s) {
+                                if(i==0)
+                                {
+                                    mHandler.postDelayed(init, 500);
+                                }
+                                else
+                                {
+                                    Toast.makeText(mContext, "登录失败，请联系管理员！", Toast.LENGTH_SHORT).show();
+                                    Log.e(TAG, "gotResult: "+s+i);
+                                }
+                            }
+                        });
                     } else {
-                        if (responseCode == 801003) {
-                            addJpushUserData();
-                        } else {
-                            Log.i(TAG, "JMessageClient.login" + ", responseCode = " + responseCode + " ; LoginDesc = " + LoginDesc);
-                        }
-
+                        Log.i(TAG, "JMessageClient.login" + ", responseCode = " + responseCode + " ; LoginDesc = " + LoginDesc);
                     }
+
+
                 }
             });
         }
@@ -131,7 +144,7 @@ public class JpushUtil {
 
     private void addJpushUserData() {
         final String userName = Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim();
-        final String password = Const.currentUser.password;
+        final String password ="jpush_123456";
 /**=================     调用SDK注册接口    =================*/
         JMessageClient.register(userName, password, new BasicCallback() {
             @Override

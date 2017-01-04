@@ -51,10 +51,6 @@ public class DiscoverFragment extends Fragment implements NetCallBack, View.OnCl
     public static final int SELECT_AUTHOR = 4;//找机构
     public static final int SELECT_SEED_FRIEND = 5;//找种友
     RelativeLayout rel_search;
-
-    /**
-     *
-     * */
     private ViewPager vp_main;
     private MainViewPagerAdapter mainViewPagerAdapter;
     /**

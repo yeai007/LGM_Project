@@ -28,6 +28,7 @@ import java.util.HashMap;
 
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.im.android.api.JMessageClient;
+import cn.jpush.im.api.BasicCallback;
 import io.realm.Realm;
 
 /**
@@ -58,7 +59,7 @@ public class AlertPassword extends AppCompatActivity implements View.OnClickList
         appTitle.setText("修改密码");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
-        btn_topright.setText("发送");
+        btn_topright.setText("修改");
         btn_topright.setOnClickListener(this);
         btn_topright.setVisibility(View.VISIBLE);
         et_oldpass = (EditText) findViewById(R.id.et_oldpass);
@@ -72,7 +73,7 @@ public class AlertPassword extends AppCompatActivity implements View.OnClickList
 
             case R.id.btn_topright:
                 if (checkInput()) {
-                    updatePassWord();
+                    updatePassWordHttp();
                 }
                 break;
             case R.id.btn_topleft:
@@ -82,7 +83,21 @@ public class AlertPassword extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void updatePassWord() {
+/*    private void updatePassWord() {
+        JMessageClient.updateUserPassword(Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id), ObjectUtil.md5(newpass), new BasicCallback() {
+            @Override
+            public void gotResult(int i, String s) {
+                if (i == 0) {*/
+                 /*   updatePassWordHttp();*/
+/*                } else {
+                    Toast.makeText(getApplicationContext(), s, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });*/
+
+/*    }*/
+
+    private void updatePassWordHttp() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         opt_map.put("OldPass", ObjectUtil.md5(oldpass));

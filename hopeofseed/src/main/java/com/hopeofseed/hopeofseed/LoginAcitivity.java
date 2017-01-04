@@ -9,11 +9,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.Activitys.CompanyRegActivity;
+import com.hopeofseed.hopeofseed.Activitys.ForgetPassWordActivity;
 import com.hopeofseed.hopeofseed.Activitys.HomePageActivity;
 import com.hopeofseed.hopeofseed.Activitys.RegisterAcitivity;
 import com.hopeofseed.hopeofseed.Data.Const;
@@ -48,6 +50,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
     Handler mHandle = new Handler();
     private String mError;
     Dialog dialogUtils;
+    TextView btn_forget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,8 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         btn_register.setOnClickListener(this);
         btn_register_company = (TextView) findViewById(R.id.btn_register_company);
         btn_register_company.setOnClickListener(this);
+        btn_forget = (TextView) findViewById(R.id.btn_forget);
+        btn_forget.setOnClickListener(this);
     }
 
     @Override
@@ -85,6 +90,10 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.btn_register_company:
                 intent = new Intent(getApplicationContext(), CompanyRegActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_forget:
+                intent = new Intent(getApplicationContext(), ForgetPassWordActivity.class);
                 startActivity(intent);
                 break;
         }
