@@ -1,19 +1,27 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hopeofseed.hopeofseed.Activitys.PushSMSToCustom;
 import com.hopeofseed.hopeofseed.Activitys.PushToCustom;
 import com.hopeofseed.hopeofseed.JNXData.CustomPushData;
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.ui.iosDialog;
 
 import java.util.List;
+
+import cn.jpush.im.android.api.JMessageClient;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -52,10 +60,31 @@ public class CustomPushListAdapter extends RecyclerView.Adapter<CustomPushListAd
         holder.item_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, PushToCustom.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra("PushId", itemData.getCustomPushId());
-                mContext.startActivity(intent);
+                iosDialog mIosDialog = new iosDialog.Builder(mContext)
+                        .setMessage("通知类型选择！")
+                        .setPositiveButton("短信通知", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Intent intent = new Intent(mContext, PushSMSToCustom.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("PushId", itemData.getCustomPushId());
+                                mContext.startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("行业通知", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Intent intent = new Intent(mContext, PushToCustom.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra("PushId", itemData.getCustomPushId());
+                                mContext.startActivity(intent);
+                            }
+                        })
+                        .setTitle("种愿").create();
+                mIosDialog.show();
+
             }
         });
     }

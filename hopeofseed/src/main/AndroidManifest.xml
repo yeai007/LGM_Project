@@ -605,6 +605,12 @@
             android:name=".Activitys.ForgetPassWordActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name=".Activitys.PushSMSToCustom"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

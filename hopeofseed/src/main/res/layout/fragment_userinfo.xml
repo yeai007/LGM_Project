@@ -310,7 +310,6 @@
                         android:layout_height="50dp"
                         android:layout_below="@+id/rel_expert"
                         android:layout_marginTop="5dp"
-                        android:visibility="gone"
                         android:background="#ffffff">
 
                         <ImageView
