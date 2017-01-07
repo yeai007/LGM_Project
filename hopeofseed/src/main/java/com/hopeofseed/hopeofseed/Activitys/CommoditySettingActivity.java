@@ -104,6 +104,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
     pushFileResultTmp mCommResultTmp;
     String DelImage = "";
     pushFileResultTmp mCommResultTmp2 = new pushFileResultTmp();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -198,7 +199,24 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
                 }
                 break;
             case R.id.del_this:
-                deleteThis();
+                iosDialog mIosDialog = new iosDialog.Builder(CommoditySettingActivity.this)
+                        .setMessage("确认删除该商品吗！\n删除商品会将该商品所有代理关系同步删除。")
+                        .setPositiveButton("我要删除", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                deleteThis();
+                            }
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setTitle("种愿").create();
+                mIosDialog.setCancelable(true);
+                mIosDialog.show();
                 break;
         }
     }
@@ -570,6 +588,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
 
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();

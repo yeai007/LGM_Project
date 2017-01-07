@@ -251,8 +251,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_below="@+id/rel_securitysetting"
-                        android:layout_marginTop="5dp"
                         android:visibility="gone"
+                        android:layout_marginTop="5dp"
                         android:background="#ffffff">
 
                         <ImageView
@@ -310,6 +310,7 @@
                         android:layout_height="50dp"
                         android:layout_below="@+id/rel_expert"
                         android:layout_marginTop="5dp"
+                        android:visibility="gone"
                         android:background="#ffffff">
 
                         <ImageView
@@ -338,7 +339,7 @@
                         android:layout_height="50dp"
                         android:layout_below="@+id/rel_push"
                         android:layout_marginTop="5dp"
-
+                        android:visibility="gone"
                         android:background="#ffffff">
 
                         <ImageView

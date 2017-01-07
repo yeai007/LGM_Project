@@ -122,7 +122,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
         rel_follow.setOnClickListener(listener);
         rel_and=(RelativeLayout)v.findViewById(R.id.rel_and);
         rel_and.setOnClickListener(listener);
-        tv__avatar = (ImageView) v.findViewById(img_user_avatar);
+        tv__avatar = (ImageView) v.findViewById(R.id.img_user_avatar);
         tv__avatar.setOnClickListener(listener);
         img_corner = (ImageView) v.findViewById(R.id.img_corner);
         getUserJpushInfo(Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id));

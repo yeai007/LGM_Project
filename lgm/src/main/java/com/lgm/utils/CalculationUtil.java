@@ -2,6 +2,8 @@ package com.lgm.utils;
 
 import java.text.DecimalFormat;
 
+import static java.lang.Double.parseDouble;
+
 /**
  * 项目名称：LGM_Project
  * 类描述：
@@ -31,8 +33,12 @@ public class CalculationUtil {
 
     public static String StringToPercent(String str) {
         String percent = "";
-        double fPercent = Double.parseDouble(str);
-        percent = String.valueOf(fPercent * 100)+"%";
+        DecimalFormat    df   = new DecimalFormat("######0.00");
+        double fPercent=Double.parseDouble(str);
+        String aa=df.format(fPercent * 100);
+
+
+        percent = aa+"%";
         return percent;
     }
 }

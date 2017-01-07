@@ -88,7 +88,7 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("维护");
         if (Const.currentUser.user_role.equals("2")) {
-            btn_topright.setVisibility(View.VISIBLE);
+          //btn_topright.setVisibility(View.VISIBLE);
         }
         btn_topright.setOnClickListener(this);
         

@@ -611,6 +611,11 @@
             android:name=".Activitys.PushSMSToCustom"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.ThisCommodityDistributorActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

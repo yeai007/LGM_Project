@@ -83,6 +83,7 @@ public class CustomPushListAdapter extends RecyclerView.Adapter<CustomPushListAd
                             }
                         })
                         .setTitle("种愿").create();
+                mIosDialog.setCancelable(true);
                 mIosDialog.show();
 
             }

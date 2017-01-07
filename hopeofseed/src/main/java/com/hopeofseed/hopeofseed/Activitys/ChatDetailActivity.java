@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.hopeofseed.hopeofseed.Application;
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.BaseActivity;
 import com.hopeofseed.hopeofseed.ui.chatting.ChatActivity;
@@ -83,9 +84,9 @@ public class ChatDetailActivity extends BaseActivity {
                             .onlyShowProvinceAndCity(false)
                             .confirTextColor("#000000")
                             .cancelTextColor("#000000")
-                            .province("山东省")
-                            .city("济南市")
-                            .district("全部")
+                            .province(Const.Province)
+                            .city(Const.City)
+                            .district(Const.Zone)
                             .textColor(Color.parseColor("#000000"))
                             .provinceCyclic(false)
                             .cityCyclic(false)

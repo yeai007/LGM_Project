@@ -186,8 +186,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/tv_price"
                     android:background="@drawable/bg_edittext"
-                    android:gravity="center_vertical|right"
-                    android:hint="元/千克" />
+                    android:gravity="center_vertical|right" />
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView

@@ -79,8 +79,6 @@ public class CommodityActivity extends AppCompatActivity implements View.OnClick
         img_guaranteed = (ImageView) findViewById(R.id.img_guaranteed);
         banner = (Banner) findViewById(R.id.banner);
         banner.setLayoutParams(new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT));
-        //简单使用
-        //  banner.setImages(Arrays.asList(images)).setImageLoader(new GlideImageLoader()).start();
     }
 
     private void getData() {

@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Application;
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.chatting.controller.CreateGroupController;
 import com.hopeofseed.hopeofseed.ui.chatting.BaseActivity;
@@ -52,9 +53,9 @@ public class CreateGroupActivity extends BaseActivity {
                         .onlyShowProvinceAndCity(false)
                         .confirTextColor("#000000")
                         .cancelTextColor("#000000")
-                        .province("山东省")
-                        .city("济南市")
-                        .district("全部")
+                        .province(Const.Province)
+                        .city(Const.City)
+                        .district(Const.Zone)
                         .textColor(Color.parseColor("#000000"))
                         .provinceCyclic(false)
                         .cityCyclic(false)

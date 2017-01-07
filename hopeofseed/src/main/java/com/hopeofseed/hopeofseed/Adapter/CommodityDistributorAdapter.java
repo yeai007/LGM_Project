@@ -1,105 +1,65 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
-
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.hopeofseed.hopeofseed.Activitys.CommodityActivity;
-import com.hopeofseed.hopeofseed.Activitys.SettingDistributorActivity;
-import com.hopeofseed.hopeofseed.Activitys.ThisCommodityDistributorActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
-import com.hopeofseed.hopeofseed.JNXData.CommodityData;
+import com.hopeofseed.hopeofseed.JNXData.DistributorData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.iosDialog;
-import com.lgm.utils.DateTools;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * 项目名称：liguangming
+ * 项目名称：LGM_Project
  * 类描述：
  * 创建人：whisper
- * 创建时间：2016/7/30 8:55
+ * 创建时间：2017/1/6 14:49
  * 修改人：whisper
- * 修改时间：2016/7/30 8:55
+ * 修改时间：2017/1/6 14:49
  * 修改备注：
  */
-public class CommodityListAdapter extends RecyclerView.Adapter<CommodityListAdapter.ViewHolder> {
-    private static final String TAG = "NewsListAdapter";
+public class CommodityDistributorAdapter extends RecyclerView.Adapter<CommodityDistributorAdapter.ViewHolder> {
     Context mContext;
-    List<CommodityData> mList;
+    List<DistributorData> mList;
     Handler mHandler = new Handler();
     pushFileResultTmp mCommResultTmp2;
     int DeletePostion;
+    String CommodityId;
 
-    public CommodityListAdapter(Context context, List<CommodityData> list) {
+    public CommodityDistributorAdapter(Context context, List<DistributorData> list, String commodityId) {
         super();
-        this.mList = list;
-        this.mContext = context;
+        mContext = context;
+        mList = list;
+        CommodityId = commodityId;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
-        View view = _LayoutInflater.inflate(R.layout.commodity_list_items, null);
+        View view = _LayoutInflater.inflate(R.layout.commodity_distirbutor_list_items, null);
         ViewHolder holder = new ViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final CommodityData itemData;
-        itemData = mList.get(position);
-        String[] arrImage = itemData.getCommodityImgs().split(";");
-        if (arrImage.length > 0 && (!TextUtils.isEmpty(arrImage[0]))) {
-
-
-            Glide.with(mContext)
-                    .load(Const.IMG_URL + arrImage[0])
-                    .centerCrop()
-                    .into(holder.img);
-        }
-
-        holder.create_time.setText(DateTools.StringDateTimeToDate(itemData.getCreateTime()));
-        holder.tv_name.setText(itemData.getCommodityName());
-        holder.tv_content.setText(itemData.getCommodityTitle());
-        holder.tv_price.setText(itemData.getCommodityPrice());
-        holder.item_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, CommodityActivity.class);
-                intent.putExtra("CommodityId", itemData.getCommodityId());
-                mContext.startActivity(intent);
-            }
-        });
-        holder.btn_distributor_setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, ThisCommodityDistributorActivity.class);
-                intent.putExtra("CommodityId", itemData.getCommodityId());
-                mContext.startActivity(intent);
-            }
-        });
+        final DistributorData itemData = mList.get(position);
+        holder.tv_name.setText(itemData.getDistributorName());
         holder.item_view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -110,7 +70,7 @@ public class CommodityListAdapter extends RecyclerView.Adapter<CommodityListAdap
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
-                                deleteThis(itemData.getCommodityId());
+                                deleteThis(itemData.getDistributorId());
                             }
                         })
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -134,27 +94,22 @@ public class CommodityListAdapter extends RecyclerView.Adapter<CommodityListAdap
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView img;
-        TextView tv_name, tv_content, tv_price, btn_distributor_setting, create_time;
         RelativeLayout item_view;
+        TextView tv_name;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
-            tv_content = (TextView) itemView.findViewById(R.id.tv_content);
-            tv_price = (TextView) itemView.findViewById(R.id.tv_price);
-            img = (ImageView) itemView.findViewById(R.id.img);
-            create_time = (TextView) itemView.findViewById(R.id.create_time);
-            btn_distributor_setting = (TextView) itemView.findViewById(R.id.btn_distributor_setting);
             item_view = (RelativeLayout) itemView.findViewById(R.id.item_view);
+            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
         }
     }
 
-    private void deleteThis(String commodityId) {
+    private void deleteThis(String distributorId) {
         HashMap<String, String> opt_map = new HashMap<>();
-        opt_map.put("CommodityId", commodityId);
+        opt_map.put("DistributorId", distributorId);
+        opt_map.put("CommodityId", CommodityId);
         HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "DeleteCommodityById.php", opt_map, pushFileResultTmp.class, new NetCallBack() {
+        hu.httpPost(Const.BASE_URL + "DeleteReCommodityDistributorById.php", opt_map, pushFileResultTmp.class, new NetCallBack() {
             @Override
             public void onSuccess(RspBaseBean rspBaseBean) {
                 mCommResultTmp2 = ObjectUtil.cast(rspBaseBean);
@@ -177,8 +132,11 @@ public class CommodityListAdapter extends RecyclerView.Adapter<CommodityListAdap
         @Override
         public void run() {
             if (mCommResultTmp2.getDetail().getContent().equals("删除成功")) {
+                Toast.makeText(mContext, "删除成功", Toast.LENGTH_SHORT).show();
                 mList.remove(DeletePostion);
-                notifyDataSetChanged();
+/*                mList.remove(DeletePostion);*/
+                notifyItemRemoved(DeletePostion);
+                notifyItemRangeChanged(DeletePostion,mList.size());
             } else {
                 Toast.makeText(mContext, "删除失败", Toast.LENGTH_SHORT).show();
             }

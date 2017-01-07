@@ -61,7 +61,7 @@ public class DistributorCountReportActivity extends AppCompatActivity implements
     String StrSp1 = "", StrSp2 = "", StrSp3 = "";
     Button btn_search;
     String StrSp1Tmp = "", StrSp2Tmp = "", StrSp3Tmp = "";
-    TextView tv_other_sum, tv_zone_sum, tv_city_sum, tv_province_sum;
+    TextView tv_other_sum, tv_zone_sum, tv_city_sum, tv_province_sum,tv_sum_4;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,10 +91,12 @@ public class DistributorCountReportActivity extends AppCompatActivity implements
         tv_zone_sum = (TextView) findViewById(R.id.tv_zone_sum);
         tv_city_sum = (TextView) findViewById(R.id.tv_city_sum);
         tv_province_sum = (TextView) findViewById(R.id.tv_province_sum);
+        tv_sum_4=(TextView)findViewById(R.id.tv_sum_4);
         tv_other_sum.setText("其他：0");
         tv_zone_sum.setText("镇级：0");
         tv_city_sum.setText("区县级：0");
         tv_province_sum.setText("市级：0");
+        tv_province_sum.setText("省级：0");
         spinner_1.setOnClickListener(this);
         spinner_2.setOnClickListener(this);
         spinner_3.setOnClickListener(this);
@@ -329,6 +331,7 @@ public class DistributorCountReportActivity extends AppCompatActivity implements
                 tv_city_sum.setText("区县级：0");
 
                 tv_province_sum.setText("市级：0");
+                tv_sum_4.setText("省级：0");
             }
             for (int i = 0; i < arrDistributorCountByClass.size(); i++) {
                 switch (Integer.parseInt(arrDistributorCountByClass.get(i).getDistributorLevel())) {
@@ -346,6 +349,10 @@ public class DistributorCountReportActivity extends AppCompatActivity implements
                         break;
                     case 3:
                         tv_province_sum.setText("市级：" + arrDistributorCountByClass.get(i).getCount());
+                        all_sum = all_sum + Integer.parseInt(arrDistributorCountByClass.get(i).getCount());
+                        break;
+                    case 4:
+                        tv_sum_4.setText("省级：" + arrDistributorCountByClass.get(i).getCount());
                         all_sum = all_sum + Integer.parseInt(arrDistributorCountByClass.get(i).getCount());
                         break;
                 }
