@@ -89,18 +89,18 @@ public class EnterpriseAdapter extends BaseAdapter {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
 
-                if (userInfo.getAvatarFile() == null) {
+/*                if (userInfo.getAvatarFile() == null) {
                     Glide.with(mContext)
-                            .load(R.drawable.header_enterprise_default)
+                            .load(R.drawable.header_enterprise_default).placeholder(R.drawable.no_have_img)
                             .centerCrop()
                             .into(holder.img_user_avatar);
 
-                } else {
+                } else {*/
                     Glide.with(mContext)
-                            .load(userInfo.getAvatarFile())
+                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default)
                             .centerCrop()
                             .into(holder.img_user_avatar);
-                }
+              /*  }*/
 
             }
         });

@@ -84,13 +84,13 @@ public class ExpertDataAdapter extends RecyclerView.Adapter<ExpertDataAdapter.Vi
         JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
-                if (!(userInfo.getAvatarFile() == null)) {
+/*                if (!(userInfo.getAvatarFile() == null)) {*/
 
                     Glide.with(mContext)
-                            .load(userInfo.getAvatarFile())
+                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default)
                             .centerCrop()
                             .into(holder.img_user_avatar);
-                }
+               /* }*/
             }
         });
     }

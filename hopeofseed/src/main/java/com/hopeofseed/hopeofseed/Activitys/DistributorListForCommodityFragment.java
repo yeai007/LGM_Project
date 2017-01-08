@@ -30,6 +30,9 @@ import com.lgm.utils.ObjectUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.hopeofseed.hopeofseed.R.id.btn_search;
+import static com.hopeofseed.hopeofseed.R.id.tv_search;
+
 
 /**
  * 项目名称：LGM_Project
@@ -40,19 +43,13 @@ import java.util.HashMap;
  * 修改时间：2016/10/7 20:30
  * 修改备注：
  */
-public class DistributorListForCommodityFragment extends Fragment implements NetCallBack, View.OnClickListener {
+public class DistributorListForCommodityFragment extends Fragment implements NetCallBack {
     private static final String TAG = "DistributorListFragment";
     RecyclerView lv_distributor;
     DistributorForCommodityAdapter mDistributorForCommodityAdapter;
     ArrayList<DistributorData> arr_DistributorData = new ArrayList<>();
     ArrayList<DistributorData> arr_DistributorDataTmp = new ArrayList<>();
-    AutoCompleteTextView tv_search;
-    ArrayList<DistributorData> arrAutoDistributorDataTmp = new ArrayList<>();
-    ArrayList<DistributorData> arrAutoDistributorData = new ArrayList<>();
-    AutoTextDistributoAdapter mAutoTextDistributoAdapter;
     Handler mHandler = new Handler();
-    Button btn_search;
-    String StrSearch = "";
 
     @Nullable
     @Override
@@ -67,9 +64,8 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
     private void getData() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
-        opt_map.put("StrSearch", StrSearch);
         HttpUtils hu = new HttpUtils();
-        hu.httpPost(Const.BASE_URL + "GetDistributorByAddRelation.php", opt_map, DistributorDataTmp.class, this);
+        hu.httpPost(Const.BASE_URL + "GetDistributorListByAddRelation.php", opt_map, DistributorDataTmp.class, this);
     }
 
     private void initView(View v) {
@@ -77,13 +73,9 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         lv_distributor.setLayoutManager(linearLayoutManager);
-        btn_search = (Button) v.findViewById(R.id.btn_search);
-        btn_search.setOnClickListener(this);
         mDistributorForCommodityAdapter = new DistributorForCommodityAdapter(getContext(), arr_DistributorData);
         lv_distributor.setAdapter(mDistributorForCommodityAdapter);
-        tv_search = (AutoCompleteTextView) v.findViewById(R.id.tv_search);
-        mAutoTextDistributoAdapter = new AutoTextDistributoAdapter(getContext(), arr_DistributorData);
-        tv_search.setAdapter(mAutoTextDistributoAdapter);
+
     }
 
     private void initData() {
@@ -95,17 +87,12 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
 
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
-        if (rspBaseBean.RequestSign.equals("GetAutoDistributor")) {
-            DistributorDataTmp mDistributorDataTmp = ObjectUtil.cast(rspBaseBean);
-            arrAutoDistributorDataTmp = mDistributorDataTmp.getDetail();
-            updateAutoDistributor();
 
-        } else {
-            DistributorDataTmp distibutorDataTmp = ObjectUtil.cast(rspBaseBean);
-            Log.e(TAG, "onSuccess: " + distibutorDataTmp.toString());
-            arr_DistributorDataTmp = distibutorDataTmp.getDetail();
-            mHandler.post(updateList);
-        }
+        DistributorDataTmp distibutorDataTmp = ObjectUtil.cast(rspBaseBean);
+        Log.e(TAG, "onSuccess: " + distibutorDataTmp.toString());
+        arr_DistributorDataTmp = distibutorDataTmp.getDetail();
+        mHandler.post(updateList);
+
     }
 
     @Override
@@ -127,35 +114,5 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
         }
     };
 
-    private void updateAutoDistributor() {
-        Message msg = updateAutoDistributorHandle.obtainMessage();
-        msg.sendToTarget();
-    }
 
-
-    private Handler updateAutoDistributorHandle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            Log.e(TAG, "handleMessage: updateview");
-            arrAutoDistributorData.clear();
-            arrAutoDistributorData.addAll(arrAutoDistributorDataTmp);
-            Log.e(TAG, "handleMessage: updateview" + arrAutoDistributorData.size());
-            mAutoTextDistributoAdapter.notifyDataSetChanged();
-
-        }
-    };
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_search:
-                if (TextUtils.isEmpty(tv_search.getText().toString().trim())) {
-                    StrSearch = "";
-                } else {
-                    StrSearch = tv_search.getText().toString().trim();
-                }
-                getData();
-                break;
-        }
-    }
 }

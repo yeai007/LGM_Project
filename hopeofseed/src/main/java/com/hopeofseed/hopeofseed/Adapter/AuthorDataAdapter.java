@@ -90,7 +90,7 @@ public class AuthorDataAdapter extends BaseAdapter {
                 if (!(userInfo.getAvatarFile() == null)) {
 
                     Glide.with(mContext)
-                            .load(userInfo.getAvatarFile())
+                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.no_have_img)
                             .centerCrop()
                             .into(holder.img_user_avatar);
                 }

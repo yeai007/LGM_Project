@@ -114,6 +114,7 @@ public class SettingDistributorActivity extends AppCompatActivity implements Vie
     private void getData() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
+        opt_map.put("CommodityId",CommodityId);
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetDistributorByAddRelation.php", opt_map, DistributorDataTmp.class, netCallBack);
     }

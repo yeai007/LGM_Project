@@ -55,44 +55,44 @@ public class DiscoversGridViewAdapter extends RecyclerView.Adapter<DiscoversGrid
     public void onBindViewHolder(ViewHolder holder, final int position) {
        // holder.img_content.setImageResource(R.drawable.img_group_default);
         Glide.with(mContext)
-                .load(R.drawable.img_group_default)
+                .load(R.drawable.img_group_default).placeholder(R.drawable.img_group_default)
                 .centerCrop()
                 .into(holder.img_content);
         holder.tv_name.setText(mData.get(position));
         switch (position) {
             case SELECT_VARIETIES://找品种
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_search_crop)
+                        .load(R.drawable.faxian_search_crop) .placeholder(R.drawable.faxian_search_crop)
                         .centerCrop()
                         .into( holder.img_content);
                 break;
             case SELECT_DISTRIBUTOR://找经销商
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_near_distributor)
+                        .load(R.drawable.faxian_near_distributor).placeholder(R.drawable.faxian_near_distributor)
                         .centerCrop()
                         .into( holder.img_content);
                 break;
             case SELECT_EXPERT://找专家
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_search_expert)
+                        .load(R.drawable.faxian_search_expert).placeholder(R.drawable.faxian_search_expert)
                         .centerCrop()
                         .into( holder.img_content);
                 break;
             case SELECT_BUSINESS://找企业
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_search_busniss)
+                        .load(R.drawable.faxian_search_busniss).placeholder(R.drawable.faxian_search_busniss)
                         .centerCrop()
                         .into( holder.img_content);
                 break;
             case SELECT_AUTHOR://找机构
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_search_autor)
+                        .load(R.drawable.faxian_search_autor).placeholder(R.drawable.faxian_search_autor)
                         .centerCrop()
                         .into( holder.img_content);
                 break;
             case SELECT_SEED_FRIEND://找种友
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_near_friend)
+                        .load(R.drawable.faxian_near_friend).placeholder(R.drawable.faxian_near_friend)
                         .centerCrop()
                         .into( holder.img_content);
                 break;

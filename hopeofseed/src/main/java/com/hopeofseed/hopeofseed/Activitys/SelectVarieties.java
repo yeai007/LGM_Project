@@ -5,14 +5,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateUtils;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -33,6 +34,8 @@ import com.lgm.utils.ObjectUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.hopeofseed.hopeofseed.R.id.lv_list;
+
 
 /**
  * 项目名称：LGM_Project
@@ -43,9 +46,8 @@ import java.util.HashMap;
  * 修改时间：2016/10/6 9:38
  * 修改备注：
  */
-public class SelectVarieties extends AppCompatActivity implements View.OnClickListener, NetCallBack {
+public class SelectVarieties extends AppCompatActivity implements View.OnClickListener, NetCallBack, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "SelectVarieties";
-    PullToRefreshListView lv_list;
     CropDataAdapter mCropDataAdapter;
     ArrayList<CropData> arr_CropData = new ArrayList<>();
     ArrayList<CropData> arr_CropDataTmp = new ArrayList<>();
@@ -56,6 +58,10 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
     ArrayList<SortsData> arr_SortsDataTmp = new ArrayList<>();
     EditText search_et_input;
     private boolean isSearch = false;
+    RecyclerView recy_list;
+    private SwipeRefreshLayout mRefreshLayout;
+    Handler mHandler = new Handler();
+    boolean isLoading = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,48 +95,44 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
                 getData(catalogs.get(position).trim());
             }
         });
-        lv_list = (PullToRefreshListView) findViewById(R.id.lv_list);
-        mCropDataAdapter = new CropDataAdapter(getApplicationContext(), arr_CropData);
-        lv_list.setAdapter(mCropDataAdapter);
-        lv_list.setMode(PullToRefreshBase.Mode.BOTH);
-        lv_list.setOnItemClickListener(myListener);
     }
 
-    private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent intent = new Intent(SelectVarieties.this, SearchAcitvity.class);
-            intent.putExtra("FirstShow","Crop");
-            intent.putExtra("StrSearch", arr_CropDataTmp.get(i - 1).getVarietyName());
-            startActivity(intent);
-        }
-    };
 
     private void initList() {
-//        getNewsData();
-        lv_list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
+        //这个是下拉刷新出现的那个圈圈要显示的颜色
+        mRefreshLayout.setColorSchemeResources(
+                R.color.colorRed,
+                R.color.colorYellow,
+                R.color.colorGreen
+        );
+        mRefreshLayout.setOnRefreshListener(this);
+        recy_list = (RecyclerView) findViewById(R.id.recy_list);
+        final LinearLayoutManager manager = new LinearLayoutManager(SelectVarieties.this);
+        recy_list.setLayoutManager(manager);
+        mCropDataAdapter = new CropDataAdapter(SelectVarieties.this, arr_CropData,true);
+        recy_list.setAdapter(mCropDataAdapter);
+        //滚动监听，在滚动监听里面去实现加载更多的功能
+        recy_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                String str = DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-                // 下拉刷新 业务代码
-                if (refreshView.isShownHeader()) {
-                    lv_list.getLoadingLayoutProxy().setRefreshingLabel("正在刷新");
-                    lv_list.getLoadingLayoutProxy().setPullLabel("下拉刷新");
-                    lv_list.getLoadingLayoutProxy().setReleaseLabel("释放开始刷新");
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel("最后更新时间:" + str);
-                    PageNo = 0;
-                    getData(Str_search);
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+                int totalItemCount = manager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
+                    if (!isLoading) {//一个布尔的变量，默认是false
+                        isLoading = true;
+                        PageNo = PageNo + 1;
+                        getData(Str_search);
+                    } else {
+                        //当没有更多的数据的时候去掉加载更多的布局
+/*                        RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
+                        adapter.setIsNeedMore(false);
+                        adapter.notifyDataSetChanged();*/
+                    }
                 }
-                // 上拉加载更多 业务代码
-                if (refreshView.isShownFooter()) {
-                    lv_list.getLoadingLayoutProxy().setRefreshingLabel("正在加载");
-                    lv_list.getLoadingLayoutProxy().setPullLabel("上拉加载更多");
-                    lv_list.getLoadingLayoutProxy().setReleaseLabel("释放加载更多");
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel("最后加载时间:" + str);
-                    PageNo = PageNo + 1;
-                    getData(Str_search);
-                }
-
             }
         });
     }
@@ -183,11 +185,11 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
             for (int i = 0; i < arr_SortsDataTmp.size(); i++) {
                 catalogs.add(arr_SortsDataTmp.get(i).getVarietyname());
             }
-            updateTabs();
+            mHandler.post(updateTabs);
         } else if (rspBaseBean.RequestSign.equals("GetSearchCropResult")) {
             CropDataTmp mCropDataTmp = ObjectUtil.cast(rspBaseBean);
             arr_CropDataTmp = mCropDataTmp.getDetail();
-            updateView();
+            mHandler.post(upadteList);
         }
     }
 
@@ -202,19 +204,9 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void updateView() {
-        Message msg = updateViewHandle.obtainMessage();
-        msg.sendToTarget();
-    }
-
-    private void updateTabs() {
-        Message msg = updateTabsHandle.obtainMessage();
-        msg.sendToTarget();
-    }
-
-    private Handler updateTabsHandle = new Handler() {
+    Runnable updateTabs = new Runnable() {
         @Override
-        public void handleMessage(Message msg) {
+        public void run() {
             if (catalogs.size() > 0) {
                 tabs.setData(catalogs);
             }
@@ -222,19 +214,17 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
             getData(Str_search);
         }
     };
-    private Handler updateViewHandle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
 
+    Runnable upadteList = new Runnable() {
+        @Override
+        public void run() {
             if (PageNo == 0) {
                 arr_CropData.clear();
                 arr_CropData.addAll(arr_CropDataTmp);
                 mCropDataAdapter.notifyDataSetChanged();
-                lv_list.onRefreshComplete();
             } else {
                 arr_CropData.addAll(arr_CropDataTmp);
                 mCropDataAdapter.notifyDataSetChanged();
-                lv_list.onRefreshComplete();
             }
             if (isSearch) {
                 if (!(arr_CropDataTmp.size() == 0)) {
@@ -252,11 +242,20 @@ public class SelectVarieties extends AppCompatActivity implements View.OnClickLi
                     isSearch = false;
                 }
             }
+            mRefreshLayout.setRefreshing(false);
+            isLoading = false;
         }
     };
 
+
     public void Search(String text) {
         Str_search = text;
+        getData(Str_search);
+    }
+
+    @Override
+    public void onRefresh() {
+        PageNo = 0;
         getData(Str_search);
     }
 }

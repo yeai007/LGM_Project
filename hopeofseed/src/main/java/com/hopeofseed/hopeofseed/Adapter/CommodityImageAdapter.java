@@ -63,13 +63,13 @@ public class CommodityImageAdapter extends RecyclerView.Adapter<CommodityImageAd
             for (int i = 0; i < arrImage.length; i++) {
                 arrImage[i] = Const.IMG_URL + arrImage[i];
             }
-            if (arrImage.length > 0 ) {
+/*            if (arrImage.length > 0 ) {*/
                 Log.e(TAG, "onBindViewHolder: "+Const.IMG_URL + arrImage[0]);
                 Glide.with(mContext)
-                        .load(arrImage[0])
+                        .load(arrImage[0]).placeholder(R.drawable.no_have_img)
                         .centerCrop()
                         .into(holder.imageView);
-            }
+       /*     }*/
         }
         holder.tv_commodity_name.setText(itemdata.getCommodityName());
         holder.tv_commodity_name.getBackground().setAlpha(80);

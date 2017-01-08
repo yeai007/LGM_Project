@@ -93,7 +93,7 @@ public class CommentForwarAdapter extends BaseAdapter {
                 //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
                 Log.e(TAG, "gotResult: " + userInfo.getAvatar());
                 Glide.with(mContext)
-                        .load(userInfo.getAvatarFile())
+                        .load(userInfo.getAvatarFile()).placeholder(R.drawable.no_have_img)
                         .centerCrop()
                         .into(holder.user_img);
             }

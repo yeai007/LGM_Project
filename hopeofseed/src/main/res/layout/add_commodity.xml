@@ -64,7 +64,7 @@
                 android:layout_height="60dp"
                 android:background="#ffffff"
                 android:gravity="center"
-                android:text="品种" />
+                android:text="品种名称" />
 
             <AutoCompleteTextView
                 android:id="@+id/et_variety"
@@ -118,7 +118,7 @@
                 android:layout_height="50dp"
                 android:background="#ffffff"
                 android:gravity="center"
-                android:hint="商品名称" />
+                android:hint="品牌" />
 
             <EditText
                 android:id="@+id/et_name"
@@ -126,7 +126,7 @@
                 android:layout_height="50dp"
                 android:layout_toRightOf="@+id/tv_name"
                 android:background="@drawable/bg_edittext"
-                android:hint="商品名称" />
+                android:hint="品牌" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -182,7 +182,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/tv_price"
                 android:background="@drawable/bg_edittext"
-                android:gravity="center_vertical|right" />
+                android:gravity="center_vertical|left" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView

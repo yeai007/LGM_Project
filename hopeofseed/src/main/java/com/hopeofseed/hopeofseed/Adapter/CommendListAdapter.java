@@ -151,93 +151,93 @@ public class CommendListAdapter extends BaseAdapter {
                 switch (user_role) {
                     case 0:
                         Glide.with(mContext)
-                                .load(R.drawable.corner_user_default)
+                                .load(R.drawable.corner_user_default).placeholder(R.drawable.corner_user_default)
                                 .centerCrop()
                                 .into(holder0.img_corner);
-                        if (userInfo.getAvatarFile() == null) {
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
-                                    .load(R.drawable.header_user_default)
+                                    .load(R.drawable.header_user_default).placeholder(R.drawable.no_have_img)
                                     .centerCrop()
                                     .into(holder0.img_user);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default)
                                     .centerCrop()
                                     .into(holder0.img_user);
-                        }
+                     /*   }*/
                         break;
                     case 1:
                         Glide.with(mContext)
-                                .load(R.drawable.corner_distributor)
+                                .load(R.drawable.corner_distributor).placeholder(R.drawable.corner_distributor)
                                 .centerCrop()
                                 .into(holder0.img_corner);
-                        if (userInfo.getAvatarFile() == null) {
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
-                                    .load(R.drawable.header_distributor_default)
+                                    .load(R.drawable.header_distributor_default).placeholder(R.drawable.no_have_img)
                                     .centerCrop()
                                     .into(holder0.img_user);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default)
                                     .centerCrop()
                                     .into(holder0.img_user);
-                        }
+                    /*    }*/
                         break;
                     case 2:
                         Glide.with(mContext)
-                                .load(R.drawable.corner_enterprise)
+                                .load(R.drawable.corner_enterprise).placeholder(R.drawable.corner_enterprise)
                                 .centerCrop()
                                 .into(holder0.img_corner);
-                        if (userInfo.getAvatarFile() == null) {
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
-                                    .load(R.drawable.header_enterprise_default)
+                                    .load(R.drawable.header_enterprise_default).placeholder(R.drawable.no_have_img)
                                     .centerCrop()
                                     .into(holder0.img_user);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default)
                                     .centerCrop()
                                     .into(holder0.img_user);
-                        }
+                     /*   }*/
                         break;
                     case 3:
                         Glide.with(mContext)
-                                .load(R.drawable.corner_expert)
+                                .load(R.drawable.corner_expert).placeholder(R.drawable.corner_expert)
                                 .centerCrop()
                                 .into(holder0.img_corner);
-                        if (userInfo.getAvatarFile() == null) {
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
-                                    .load(R.drawable.header_expert_default)
+                                    .load(R.drawable.header_expert_default) .placeholder(R.drawable.no_have_img)
                                     .centerCrop()
                                     .into(holder0.img_user);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default)
                                     .centerCrop()
                                     .into(holder0.img_user);
-                        }
+                      /*  }*/
                         break;
                     case 4:
                         Glide.with(mContext)
-                                .load(R.drawable.corner_author)
+                                .load(R.drawable.corner_author).placeholder(R.drawable.corner_author)
                                 .centerCrop()
                                 .into(holder0.img_corner);
-                        if (userInfo.getAvatarFile() == null) {
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext)
-                                    .load(R.drawable.header_author_default)
+                                    .load(R.drawable.header_author_default).placeholder(R.drawable.no_have_img)
                                     .centerCrop()
                                     .into(holder0.img_user);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default)
                                     .centerCrop()
                                     .into(holder0.img_user);
-                        }
+                     /*   }*/
                         break;
                 }
 

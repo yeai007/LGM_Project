@@ -66,8 +66,8 @@ public class SelectExpert extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.select_expert);
         getPoliticsData();
         initView();
-        initAddress();
         initViewPager();
+        initAddress();
     }
 
     private void initAddress() {
@@ -76,6 +76,9 @@ public class SelectExpert extends AppCompatActivity implements View.OnClickListe
         StrZone = Const.Zone;
         go.setText("" + StrProvince + "  " + StrCity + "  "
                 + StrZone);
+        String[] citySelected = {StrProvince, StrCity, StrZone};
+        mExpertShareFragment.setRefreshData(citySelected);
+        mNearExpertFragment.setRefreshData(citySelected);
     }
 
 

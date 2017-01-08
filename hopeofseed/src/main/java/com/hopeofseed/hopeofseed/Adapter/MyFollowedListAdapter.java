@@ -89,7 +89,7 @@ public class MyFollowedListAdapter extends BaseAdapter {
             public void gotResult(int i, String s, UserInfo userInfo) {
                 Log.e(TAG, "gotResult: " + userInfo.getAvatar());
                 Glide.with(mContext)
-                        .load(userInfo.getAvatarFile())
+                        .load(userInfo.getAvatarFile()).placeholder(R.drawable.no_have_img)
                         .centerCrop()
                         .into(holder.img_show);
             }

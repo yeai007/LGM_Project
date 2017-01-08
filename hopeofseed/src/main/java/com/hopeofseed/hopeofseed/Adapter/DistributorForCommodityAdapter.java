@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.hopeofseed.hopeofseed.Activitys.CommodityActivity;
+import com.hopeofseed.hopeofseed.Activitys.CommodityForDistributorActivity;
 import com.hopeofseed.hopeofseed.Activitys.SettingCommodityActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.DistributorData;
@@ -61,7 +63,8 @@ public class DistributorForCommodityAdapter extends RecyclerView.Adapter<Distrib
         holder.btn_commodity_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, SettingCommodityActivity.class);
+               // Intent intent = new Intent(mContext, SettingCommodityActivity.class);
+                Intent intent = new Intent(mContext, CommodityForDistributorActivity.class);
                 intent.putExtra("DistributorId", mData.getDistributorId());
                 mContext.startActivity(intent);
             }
@@ -95,7 +98,7 @@ public class DistributorForCommodityAdapter extends RecyclerView.Adapter<Distrib
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
                 Glide.with(mContext)
-                        .load(userInfo.getAvatarFile())
+                        .load(userInfo.getAvatarFile())  .placeholder(R.drawable.header_distributor_default)    .dontAnimate()
                         .centerCrop()
                         .into(holder.img_user);
             }

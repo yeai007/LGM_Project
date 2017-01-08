@@ -63,12 +63,12 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.View
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final GroupData itemData = mList.get(position);
         holder.item_content.setText(itemData.getAppGroupName());
-        if (!TextUtils.isEmpty(itemData.getAppGroupAvatar())) {
+
             Glide.with(mContext)
-                    .load(Const.IMG_URL + itemData.getAppGroupAvatar())
+                    .load(Const.IMG_URL + itemData.getAppGroupAvatar()) .placeholder(R.drawable.img_group_default)   .dontAnimate()
                     .centerCrop()
                     .into(holder.img_item);
-        }
+
         holder.item_address.setText(itemData.getAppGroupProvince() + "  " + itemData.getAppGroupCity() + "   " + itemData.getAppGroupZone());
         final boolean[] isMember = {false};
         JMessageClient.getGroupMembers(Long.parseLong(itemData.getAppJpushGroupId()), new GetGroupMembersCallback() {

@@ -88,13 +88,13 @@ public class SelectCommodityAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         String[] arrImage = mData.getCommodityImgs().split(";");
-        if (arrImage.length > 0 && (!TextUtils.isEmpty(arrImage[0]))) {
+        /*if (arrImage.length > 0 && (!TextUtils.isEmpty(arrImage[0]))) {*/
             Log.e(TAG, "getView: " + Const.IMG_URL + arrImage[0]);
             Glide.with(mContext)
                     .load(Const.IMG_URL + arrImage[0])
                     .centerCrop()
                     .into(holder.img_show);
-        }
+        /*}*/
         holder.tv_name.setText(mData.getCommodityName());
         holder.tv_content.setText(mData.getCommodityTitle());
         holder.tv_price.setText(mData.getCommodityPrice());

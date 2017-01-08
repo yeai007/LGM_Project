@@ -79,7 +79,7 @@ public class ListFragmentConfig {
             case 7://实时
                 ProblemFragment mProblemFragment = new ProblemFragment("",this.UserId);
                 mData.setMFragment(mProblemFragment);
-                mData.setFragmentName("问题");
+                mData.setFragmentName("问题反馈");
                 break;
             case 8://实时
                 YieldFragment mYieldFragment = new YieldFragment("",this.UserId);
@@ -113,6 +113,11 @@ public class ListFragmentConfig {
                 mData.setFragmentName("实时");
                 return mData;
             break;*/
+            case 12:
+                ExperienceFragment mExperienceFragment1 = new ExperienceFragment("",this.UserId);
+                mData.setMFragment(mExperienceFragment1);
+                mData.setFragmentName("典型经验");
+                break;
         }
         return mData;
     }

@@ -93,13 +93,13 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
         updateTime(holder, itemData.getCommentRecordCreateTime());
         String[] arrImage = itemData.getAssimgurl().split(";");
         List<String> images = java.util.Arrays.asList(arrImage);
-        if (images.size() > 0) {
+/*        if (images.size() > 0) {*/
             Glide.with(mContext)
-                    .load(Const.IMG_URL + images.get(0))
+                    .load(Const.IMG_URL + images.get(0)) .placeholder(R.drawable.no_have_img)  .dontAnimate()
                     .centerCrop()
                     .into(holder.img_new);
-        } else {
-        }
+     /*   } else {
+        }*/
         getJpushUserHead(holder, itemData);
 
         holder.rel_comment_user.setOnClickListener(new View.OnClickListener() {
@@ -208,48 +208,38 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
                 int user_role = Integer.parseInt(itemData.getUser_role());
                 switch (user_role) {
                     case 0:
-                        Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_user_default).centerCrop().into(finalImg_user);
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
+                        Glide.with(mContext).load(R.drawable.corner_user_default).dontAnimate().centerCrop().into(finalImg_corner);
+                        Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default).dontAnimate().centerCrop().into(finalImg_user);
                         break;
                     case 1:
-                        Glide.with(mContext).load(R.drawable.corner_distributor).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_distributor_default).centerCrop().into(finalImg_user);
+                        Glide.with(mContext).load(R.drawable.corner_distributor).centerCrop().dontAnimate().into(finalImg_corner);
 
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(finalImg_user);
+
                         break;
                     case 2:
-                        Glide.with(mContext).load(R.drawable.corner_enterprise).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_enterprise_default).centerCrop().into(finalImg_user);
+                        Glide.with(mContext).load(R.drawable.corner_enterprise).dontAnimate().centerCrop().into(finalImg_corner);
 
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default).dontAnimate().centerCrop().into(finalImg_user);
+
                         break;
                     case 3:
-                        Glide.with(mContext).load(R.drawable.corner_expert).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
+                        Glide.with(mContext).load(R.drawable.corner_expert).dontAnimate().centerCrop().into(finalImg_corner);
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext).load(R.drawable.header_expert_default).centerCrop().into(finalImg_user);
 
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
+                        } else {*/
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default).dontAnimate().centerCrop().into(finalImg_user);
+                     /*   }*/
                         break;
                     case 4:
-                        Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
+                        Glide.with(mContext).load(R.drawable.corner_author).dontAnimate().centerCrop().into(finalImg_corner);
+ /*                       if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext).load(R.drawable.header_author_default).centerCrop().into(finalImg_user);
 
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
+                        } else {*/
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default).dontAnimate().centerCrop().into(finalImg_user);
+                    /*    }*/
                         break;
                 }
 

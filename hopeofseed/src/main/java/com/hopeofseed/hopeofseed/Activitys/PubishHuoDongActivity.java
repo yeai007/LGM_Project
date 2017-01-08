@@ -334,13 +334,13 @@ public class PubishHuoDongActivity extends AppCompatActivity implements View.OnC
             });
             if (images.get(position).equals("add")) {
                 Glide.with(PubishHuoDongActivity.this)
-                        .load(R.drawable.add_img)
+                        .load(R.drawable.add_img).placeholder(R.drawable.add_img)  .dontAnimate()
                         .centerCrop()
                         .into(holder.imageView);
             } else {
                 Log.e(TAG, "onBindViewHolder: " + images.get(position));
                 Glide.with(PubishHuoDongActivity.this)
-                        .load(new File(images.get(position)))
+                        .load(new File(images.get(position)))  .placeholder(R.drawable.no_have_img)  .dontAnimate()
                         .centerCrop()
                         .into(holder.imageView);
             }

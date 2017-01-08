@@ -66,7 +66,7 @@ public class MessageListAdapter extends BaseAdapter {
         holder.tv_name.setText(itemData.getMessageTitle());
         Log.e(TAG, "getView: " + Const.IMG_URL_FINAL + itemData.getMessageImageUrl());
         Glide.with(mContext)
-                .load(Const.IMG_URL_FINAL + itemData.getMessageImageUrl())
+                .load(Const.IMG_URL_FINAL + itemData.getMessageImageUrl()).placeholder(R.drawable.no_have_img)
                 .centerCrop()
                 .into(holder.message_img);
         return view;

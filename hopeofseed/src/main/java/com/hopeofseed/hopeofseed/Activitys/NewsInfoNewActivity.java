@@ -357,10 +357,6 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
                 tv_title.setVisibility(View.GONE);
             }
             tv_content.setText(newsData.getContent());
-          /*  tv_content.setSingleLine(false);
-            tv_content.setMaxLines(3);
-            tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));*/
-
             user_name.setText(newsData.getNickname());
             String[] arrImage = newsData.getAssimgurl().split(";");
             List<String> images = java.util.Arrays.asList(arrImage);
@@ -450,88 +446,88 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
                 switch (user_role) {
                     case 0:
                         Glide.with(getApplicationContext())
-                                .load(R.drawable.corner_user_default)
+                                .load(R.drawable.corner_user_default)   .dontAnimate()
                                 .centerCrop()
                                 .into(img_corner);
-                        if (userInfo.getAvatarFile() == null) {
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(getApplicationContext())
                                     .load(R.drawable.header_user_default)
                                     .centerCrop()
                                     .into(img_user);
-                        } else {
+                        } else {*/
                             Glide.with(getApplicationContext())
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile()) .dontAnimate()  .placeholder(R.drawable.header_user_default)
                                     .centerCrop()
                                     .into(img_user);
-                        }
+                    /*    }*/
                         break;
                     case 1:
                         Glide.with(getApplicationContext())
-                                .load(R.drawable.corner_distributor)
+                                .load(R.drawable.corner_distributor)  .dontAnimate()
                                 .centerCrop()
                                 .into(img_corner);
-                        if (userInfo.getAvatarFile() == null) {
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(getApplicationContext())
                                     .load(R.drawable.header_distributor_default)
                                     .centerCrop()
                                     .into(img_user);
-                        } else {
+                        } else {*/
                             Glide.with(getApplicationContext())
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile())     .placeholder(R.drawable.header_distributor_default)  .dontAnimate()
                                     .centerCrop()
                                     .into(img_user);
-                        }
+                  /*      }*/
                         break;
                     case 2:
                         Glide.with(getApplicationContext())
-                                .load(R.drawable.corner_enterprise)
+                                .load(R.drawable.corner_enterprise)    .dontAnimate()
                                 .centerCrop()
                                 .into(img_corner);
-                        if (userInfo.getAvatarFile() == null) {
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(getApplicationContext())
                                     .load(R.drawable.header_enterprise_default)
                                     .centerCrop()
                                     .into(img_user);
-                        } else {
+                        } else {*/
                             Glide.with(getApplicationContext())
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile()) .placeholder(R.drawable.header_enterprise_default)       .dontAnimate()
                                     .centerCrop()
                                     .into(img_user);
-                        }
+                      /*  }*/
                         break;
                     case 3:
                         Glide.with(getApplicationContext())
-                                .load(R.drawable.corner_expert)
+                                .load(R.drawable.corner_expert)     .dontAnimate()
                                 .centerCrop()
                                 .into(img_corner);
-                        if (userInfo.getAvatarFile() == null) {
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(getApplicationContext())
                                     .load(R.drawable.header_expert_default)
                                     .centerCrop()
                                     .into(img_user);
-                        } else {
+                        } else {*/
                             Glide.with(getApplicationContext())
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile())    .placeholder(R.drawable.header_expert_default)       .dontAnimate()
                                     .centerCrop()
                                     .into(img_user);
-                        }
+                  /*      }*/
                         break;
                     case 4:
                         Glide.with(getApplicationContext())
-                                .load(R.drawable.corner_author)
+                                .load(R.drawable.corner_author)     .dontAnimate()
                                 .centerCrop()
                                 .into(img_corner);
-                        if (userInfo.getAvatarFile() == null) {
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(getApplicationContext())
                                     .load(R.drawable.header_author_default)
                                     .centerCrop()
                                     .into(img_user);
-                        } else {
+                        } else {*/
                             Glide.with(getApplicationContext())
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile())  .placeholder(R.drawable.header_author_default)    .dontAnimate()
                                     .centerCrop()
                                     .into(img_user);
-                        }
+                        /*}*/
                         break;
                 }
             }
@@ -611,13 +607,13 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
             ImageView img_share_new = (ImageView) findViewById(R.id.img_share_new);
             TextView tv_share_new_content = (TextView) findViewById(R.id.tv_share_new_content);
             TextView tv_share_new_title = (TextView) findViewById(R.id.tv_share_new_title);
-            if (images.size() > 0) {
+/*            if (images.size() > 0) {*/
                 Glide.with(getApplicationContext())
-                        .load(Const.IMG_URL + arrImage[0])
+                        .load(Const.IMG_URL + arrImage[0])     .placeholder(R.drawable.no_have_img)  .dontAnimate()
                         .centerCrop()
                         .into(img_share_new);
-            } else {
-            }
+          /*  } else {
+            }*/
             tv_share_new_title.setText(newsData.getTitle());
             if (newsData.getTitle().equals(newsData.getContent())) {
                 tv_share_new_content.setVisibility(View.GONE);
@@ -630,9 +626,9 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
         } else {
             tv_title.setVisibility(View.GONE);
             tv_content.setText(newsData.getContent());
-            tv_content.setSingleLine(false);
+          /*  tv_content.setSingleLine(false);
             tv_content.setMaxLines(3);
-            tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
+            tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));*/
 
             resultRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
             resultRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));

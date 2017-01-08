@@ -16,6 +16,7 @@
         android:layout_below="@+id/top"
         android:background="#cccccc"
         android:orientation="horizontal">
+
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -72,13 +73,16 @@
 
     </LinearLayout>
 
-
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/lv_list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rel_variety_content"
-        android:divider="#00000000"
-        android:dividerHeight="0dip"
-        android:scrollbars="none" />
+        android:layout_below="@+id/rel_variety_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recy_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

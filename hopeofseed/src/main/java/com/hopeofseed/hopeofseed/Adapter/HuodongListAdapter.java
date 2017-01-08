@@ -1,6 +1,7 @@
 package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -9,13 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.hopeofseed.hopeofseed.Activitys.NewsInfoNewActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.HuodongData;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.DateTools;
+import com.lgm.utils.ObjectUtil;
 
 import java.text.ParseException;
 import java.util.List;
@@ -82,6 +86,16 @@ public class HuodongListAdapter extends RecyclerView.Adapter<HuodongListAdapter.
         holder.tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
         updateTime(itemData.getHuodongCreateTime(), holder);
         getUserJpushInfo(holder,position);
+        holder.rel_content.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext.getApplicationContext(), NewsInfoNewActivity.class);
+                intent.putExtra("isInfo",true);
+                intent.putExtra("NewClass",7);
+                intent.putExtra("InfoId", ObjectUtil.RemoveOpenZero( itemData.getHuodongId()));
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     private void getUserJpushInfo(ViewHolder holder, int position) {
@@ -100,48 +114,48 @@ public class HuodongListAdapter extends RecyclerView.Adapter<HuodongListAdapter.
                 int user_role = Integer.parseInt(itemData.getUser_role());
                 switch (user_role) {
                     case 0:
-                        Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
+                        Glide.with(mContext).load(R.drawable.corner_user_default).placeholder(R.drawable.corner_user_default).dontAnimate().centerCrop().into(finalImg_corner);
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext).load(R.drawable.header_user_default).centerCrop().into(finalImg_user);
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
+                        } else {*/
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default).dontAnimate().centerCrop().into(finalImg_user);
+                      /*  }*/
                         break;
                     case 1:
-                        Glide.with(mContext).load(R.drawable.corner_distributor).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
+                        Glide.with(mContext).load(R.drawable.corner_distributor).placeholder(R.drawable.corner_distributor).dontAnimate().centerCrop().into(finalImg_corner);
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext).load(R.drawable.header_distributor_default).centerCrop().into(finalImg_user);
 
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
+                        } else {*/
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(finalImg_user);
+                   /*     }*/
                         break;
                     case 2:
-                        Glide.with(mContext).load(R.drawable.corner_enterprise).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
+                        Glide.with(mContext).load(R.drawable.corner_enterprise).placeholder(R.drawable.corner_enterprise).dontAnimate().centerCrop().into(finalImg_corner);
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext).load(R.drawable.header_enterprise_default).centerCrop().into(finalImg_user);
 
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
+                        } else {*/
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default).dontAnimate().centerCrop().into(finalImg_user);
+                     /*   }*/
                         break;
                     case 3:
-                        Glide.with(mContext).load(R.drawable.corner_expert).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
+                        Glide.with(mContext).load(R.drawable.corner_expert).placeholder(R.drawable.corner_expert).dontAnimate().centerCrop().into(finalImg_corner);
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext).load(R.drawable.header_expert_default).centerCrop().into(finalImg_user);
 
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
+                        } else {*/
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default).dontAnimate().centerCrop().into(finalImg_user);
+                     /*   }*/
                         break;
                     case 4:
-                        Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
+                        Glide.with(mContext).load(R.drawable.corner_author).placeholder(R.drawable.corner_author).dontAnimate().centerCrop().into(finalImg_corner);
+/*                        if (userInfo.getAvatarFile() == null) {
                             Glide.with(mContext).load(R.drawable.header_author_default).centerCrop().into(finalImg_user);
 
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
+                        } else {*/
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default).dontAnimate().centerCrop().into(finalImg_user);
+                    /*    }*/
                         break;
                 }
 
@@ -186,7 +200,7 @@ public class HuodongListAdapter extends RecyclerView.Adapter<HuodongListAdapter.
         ImageView img_user_avatar, img_corner;
         TextView user_name, send_time, tv_title, tv_content;
         RecyclerView result_recycler;
-
+RelativeLayout rel_content;
         public ViewHolder(View itemView) {
             super(itemView);
             img_user_avatar = (ImageView) itemView.findViewById(R.id.img_user_avatar);
@@ -196,6 +210,7 @@ public class HuodongListAdapter extends RecyclerView.Adapter<HuodongListAdapter.
             tv_title = (TextView) itemView.findViewById(R.id.tv_title);
             tv_content = (TextView) itemView.findViewById(R.id.tv_content);
             result_recycler = (RecyclerView) itemView.findViewById(R.id.result_recycler);
+            rel_content=(RelativeLayout)itemView.findViewById(R.id.rel_content);
         }
     }
 }

@@ -52,13 +52,13 @@ public class CommodityRecycleListAdapter extends RecyclerView.Adapter<CommodityR
     public void onBindViewHolder(ViewHolder holder, int position) {
         final CommodityData itemData = mList.get(position);
         String[] arrImage = itemData.getCommodityImgs().split(";");
-        if (arrImage.length > 0 && (!TextUtils.isEmpty(arrImage[0]))) {
+       /* if (arrImage.length > 0 && (!TextUtils.isEmpty(arrImage[0]))) {*/
             Log.e(TAG, "getView: " + Const.IMG_URL + arrImage[0]);
             Glide.with(mContext)
-                    .load(Const.IMG_URL + arrImage[0])
+                    .load(Const.IMG_URL + arrImage[0]).placeholder(R.drawable.no_have_img)   .dontAnimate()
                     .centerCrop()
                     .into(holder.commodity_img);
-        }
+      /*  }*/
         holder.commodity_name.setText(itemData.getCommodityName());
         holder.commodity_price.setText("￥" + itemData.getCommodityPrice());
         holder.item_view.setOnClickListener(new View.OnClickListener() {

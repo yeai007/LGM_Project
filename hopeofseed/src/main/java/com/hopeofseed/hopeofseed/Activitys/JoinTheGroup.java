@@ -53,7 +53,7 @@ public class JoinTheGroup extends AppCompatActivity implements View.OnClickListe
         appTitle.setText("申请加群");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
-        btn_topright.setText("申请加入");
+        btn_topright.setText("申请");
         btn_topright.setOnClickListener(this);
         btn_topright.setVisibility(View.VISIBLE);
         et_txt = (EditText) findViewById(R.id.et_txt);

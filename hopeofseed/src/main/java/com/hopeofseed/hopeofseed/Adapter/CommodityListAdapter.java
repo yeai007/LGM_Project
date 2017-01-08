@@ -35,6 +35,8 @@ import com.lgm.utils.ObjectUtil;
 import java.util.HashMap;
 import java.util.List;
 
+import static java.lang.System.load;
+
 /**
  * 项目名称：liguangming
  * 类描述：
@@ -71,14 +73,13 @@ public class CommodityListAdapter extends RecyclerView.Adapter<CommodityListAdap
         final CommodityData itemData;
         itemData = mList.get(position);
         String[] arrImage = itemData.getCommodityImgs().split(";");
-        if (arrImage.length > 0 && (!TextUtils.isEmpty(arrImage[0]))) {
-
-
+/*        if (arrImage.length > 0 && (!TextUtils.isEmpty(arrImage[0]))) {*/
             Glide.with(mContext)
                     .load(Const.IMG_URL + arrImage[0])
+                    .placeholder(R.drawable.no_have_img)
                     .centerCrop()
                     .into(holder.img);
-        }
+/*        }*/
 
         holder.create_time.setText(DateTools.StringDateTimeToDate(itemData.getCreateTime()));
         holder.tv_name.setText(itemData.getCommodityName());

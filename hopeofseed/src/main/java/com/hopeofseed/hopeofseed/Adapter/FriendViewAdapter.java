@@ -257,10 +257,10 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
                     case 0:
                         holder.tv_user_role.setText("【农友】");
                         Glide.with(mContext)
-                                .load(R.drawable.corner_user_default)
+                                .load(R.drawable.corner_user_default)  .placeholder(R.drawable.corner_user_default)  .dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_corner);
-                        Glide.with(mContext)
+/*                        Glide.with(mContext)
                                 .load(R.drawable.header_user_default)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
@@ -270,20 +270,20 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default)         .dontAnimate()
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
-                        }
+                       /* }*/
                         break;
                     case 1:
                         holder.tv_user_role.setText("【经销商】");
                         Glide.with(mContext)
-                                .load(R.drawable.corner_distributor)
+                                .load(R.drawable.corner_distributor)  .dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_corner);
-                        Glide.with(mContext)
+/*                        Glide.with(mContext)
                                 .load(R.drawable.header_distributor_default)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
@@ -293,20 +293,20 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile()) .placeholder(R.drawable.header_distributor_default)   .dontAnimate()
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
-                        }
+                      /*  }*/
                         break;
                     case 2:
                         holder.tv_user_role.setText("【企业】");
                         Glide.with(mContext)
-                                .load(R.drawable.corner_enterprise)
+                                .load(R.drawable.corner_enterprise) .dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_corner);
-                        Glide.with(mContext)
+/*                        Glide.with(mContext)
                                 .load(R.drawable.header_enterprise_default)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
@@ -316,20 +316,20 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile())    .placeholder(R.drawable.header_enterprise_default)   .dontAnimate()
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
-                        }
+                    /*    }*/
                         break;
                     case 3:
                         holder.tv_user_role.setText("【专家】");
                         Glide.with(mContext)
-                                .load(R.drawable.corner_expert)
+                                .load(R.drawable.corner_expert)            .dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_corner);
-                        Glide.with(mContext)
+/*                        Glide.with(mContext)
                                 .load(R.drawable.header_expert_default)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
@@ -339,20 +339,20 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile())    .placeholder(R.drawable.header_expert_default)    .dontAnimate()
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
-                        }
+             /*           }*/
                         break;
                     case 4:
                         holder.tv_user_role.setText("【机构】");
                         Glide.with(mContext)
-                                .load(R.drawable.corner_author)
+                                .load(R.drawable.corner_author).dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_corner);
-                        Glide.with(mContext)
+  /*                      Glide.with(mContext)
                                 .load(R.drawable.header_author_default)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
@@ -363,16 +363,16 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile())     .placeholder(R.drawable.header_author_default)  .dontAnimate()
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
-                        }
+                       /* }*/
                     case 6:
                         holder.tv_user_role.setText("【媒体】");
                         holder.img_corner.setVisibility(View.GONE);
-                        Glide.with(mContext)
+   /*                     Glide.with(mContext)
                                 .load(R.drawable.user_media)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
@@ -383,17 +383,17 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile())    .placeholder(R.drawable.user_media)    .dontAnimate()
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
-                        }
+     /*                   }*/
                         break;
                     case 5:
                         holder.tv_user_role.setText("【管理员】");
                         holder.img_corner.setVisibility(View.GONE);
-                        Glide.with(mContext)
+         /*               Glide.with(mContext)
                                 .load(R.drawable.user_system)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
@@ -404,12 +404,12 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
 
-                        } else {
+                        } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
+                                    .load(userInfo.getAvatarFile())         .placeholder(R.drawable.user_system)      .dontAnimate()
                                     .centerCrop()
                                     .into(holder.img_user_avatar);
-                        }
+                    /*    }*/
                         break;
                 }
 

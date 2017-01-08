@@ -94,7 +94,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                     holder.tv_time.setVisibility(View.GONE);
                     Log.e(TAG, "onBindViewHolder: PinglunCount" + PinglunCount);
                     Glide.with(mContext)
-                            .load(R.drawable.img_pinglun)
+                            .load(R.drawable.img_pinglun).placeholder(R.drawable.img_pinglun)   .dontAnimate()
                             .centerCrop()
                             .into(holder.img_item);
                     if (PinglunCount > 0) {
@@ -131,7 +131,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                     RealmResults<NotifyData> results1 =
                             myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyToUser", String.valueOf(Const.currentUser.user_id)).equalTo("NotifyType", "1").findAll();
                     Glide.with(mContext)
-                            .load(R.drawable.img_system)
+                            .load(R.drawable.img_system)      .placeholder(R.drawable.img_system)   .dontAnimate()
                             .centerCrop()
                             .into(holder.img_item);
                     if (results1.size() > 0) {
@@ -170,7 +170,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                     RealmResults<NotifyData> results2 =
                             myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyToUser", String.valueOf(Const.currentUser.user_id)).equalTo("NotifyType", "2").findAll();
                     Glide.with(mContext)
-                            .load(R.drawable.img_hangye)
+                            .load(R.drawable.img_hangye) .placeholder(R.drawable.img_hangye)   .dontAnimate()
                             .centerCrop()
                             .into(holder.img_item);
 
@@ -212,7 +212,7 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                             myRealm.where(NotifyData.class).equalTo("NotifyIsRead", "0").equalTo("NotifyToUser", String.valueOf(Const.currentUser.user_id)).equalTo("NotifyType", "3").findAll();
 
                     Glide.with(mContext)
-                            .load(R.drawable.img_groupnotify)
+                            .load(R.drawable.img_groupnotify)   .placeholder(R.drawable.img_groupnotify)   .dontAnimate()
                             .centerCrop()
                             .into(holder.img_item);
                     if (results3.size() > 0) {
@@ -266,14 +266,14 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
                 holder.item_title.setVisibility(View.VISIBLE);
                 //头像
 
-                if (!TextUtils.isEmpty(itemGroup.getAppGroupAvatar())) {
+       /*         if (!TextUtils.isEmpty(itemGroup.getAppGroupAvatar())) {*/
                     Glide.with(mContext)
-                            .load(Const.IMG_URL + itemGroup.getAppGroupAvatar())
+                            .load(Const.IMG_URL + itemGroup.getAppGroupAvatar())   .placeholder(R.drawable.img_group_default)   .dontAnimate()
                             .centerCrop()
                             .into(holder.img_item);
-                } else {
+            /*    } else {
                     holder.img_item.setImageResource(R.drawable.img_group_default);
-                }
+                }*/
                 holder.rel_item.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -305,13 +305,13 @@ public class UnReadConversationListAdapter extends RecyclerView.Adapter<UnReadCo
 
                         holder.item_title.setVisibility(View.VISIBLE);
                         //头像
-                        if (mUserInfo.getAvatarFile() == null) {
+/*                        if (mUserInfo.getAvatarFile() == null) {
                             //   Glide.with(mContext).load(R.drawable.default_avater).centerCrop().into(holder.img_item);
                             holder.img_item.setImageResource(R.drawable.default_avater);
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(holder.img_item);
-                        }
-
+                        } else {*/
+                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.default_avater).dontAnimate().centerCrop().into(holder.img_item);
+               /*         }
+*/
                         holder.rel_item.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

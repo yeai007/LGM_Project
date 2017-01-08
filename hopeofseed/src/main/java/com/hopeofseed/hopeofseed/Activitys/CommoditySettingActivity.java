@@ -448,7 +448,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
         public void onBindViewHolder(GridAdapter.ViewHolder holder, final int position) {
             if (images.get(position).equals("add")) {
                 Glide.with(CommoditySettingActivity.this)
-                        .load(R.drawable.add_img)
+                        .load(R.drawable.add_img)      .dontAnimate()
                         .centerCrop()
                         .into(holder.imageView);
                 holder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -464,7 +464,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
                 Log.e(TAG, "onBindViewHolder: " + images.get(position));
 
                 Glide.with(CommoditySettingActivity.this)
-                        .load(images.get(position))
+                        .load(images.get(position)) .placeholder(R.drawable.no_have_img)   .dontAnimate()
                         .centerCrop()
                         .into(holder.imageView);
                 holder.imageView.setOnClickListener(new View.OnClickListener() {

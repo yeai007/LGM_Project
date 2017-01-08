@@ -240,7 +240,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
         Glide.with(mContext)
-                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img).placeholder(R.drawable.no_have_img)
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
@@ -296,7 +296,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
         Glide.with(mContext)
-                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img).placeholder(R.drawable.no_have_img)
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
@@ -349,7 +349,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
         Glide.with(mContext)
-                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img).placeholder(R.drawable.no_have_img)
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
@@ -403,7 +403,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
         Glide.with(mContext)
-                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img).placeholder(R.drawable.no_have_img)
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
@@ -457,7 +457,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
         Glide.with(mContext)
-                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img).placeholder(R.drawable.no_have_img)
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
@@ -511,7 +511,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
         Glide.with(mContext)
-                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img).placeholder(R.drawable.no_have_img)
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
@@ -565,7 +565,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
         Glide.with(mContext)
-                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img).placeholder(R.drawable.no_have_img)
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
@@ -619,7 +619,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         ((TextView) holder.getView(R.id.tv_comment)).setText(Integer.parseInt(mData.getCommentCount()) > 0 ? mData.getCommentCount() : "评论");
         ((TextView) holder.getView(R.id.tv_zambia)).setText(mData.getZambiaCount() > 0 ? String.valueOf(mData.getZambiaCount()) : "赞");
         Glide.with(mContext)
-                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img)
+                .load(mData.getZambiaCount() > 0 ? R.drawable.zambia_hava_img : R.drawable.zambia_img).placeholder(R.drawable.no_have_img)
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.img_zambia)));
         holder.resultRecyclerView = holder.getView(R.id.result_recycler);
@@ -663,7 +663,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         List<String> images = java.util.Arrays.asList(arrImage);
         if (images.size() > 0) {
             Glide.with(mContext)
-                    .load(Const.IMG_URL + images.get(0))
+                    .load(Const.IMG_URL + images.get(0)).placeholder(R.drawable.no_have_img)
                     .centerCrop()
                     .into(((ImageView) holder.getView(R.id.img_share_new)));
         } else {

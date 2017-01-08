@@ -2,16 +2,20 @@ package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
 
+import android.content.Intent;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
 import com.hopeofseed.hopeofseed.R;
@@ -25,6 +29,7 @@ import cn.jpush.im.android.api.model.UserInfo;
 
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 import static com.hopeofseed.hopeofseed.R.id.tv_name;
+import static com.hopeofseed.hopeofseed.R.id.view;
 
 /**
  * 项目名称：LGM_Project
@@ -35,7 +40,7 @@ import static com.hopeofseed.hopeofseed.R.id.tv_name;
  * 修改时间：2016/10/17 15:09
  * 修改备注：
  */
-public class SeedfriendDataAdapter extends BaseAdapter {
+public class SeedfriendDataAdapter extends RecyclerView.Adapter<SeedfriendDataAdapter.ViewHolder> {
     Context mContext;
     List<UserDataNoRealm> mlist;
 
@@ -46,13 +51,29 @@ public class SeedfriendDataAdapter extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
-        return mlist.size();
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
+        View view = _LayoutInflater.inflate(R.layout.select_seed_friend_list, null);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
     }
 
     @Override
-    public Object getItem(int i) {
-        return mlist.get(i);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final UserDataNoRealm mData = mlist.get(position);
+        holder.tv_name.setText(mData.getNickname());
+        holder.tv_address.setText(mData.getUserProvince() + " " + mData.getUserCity() + " " + mData.getUserZone());
+        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), holder, Integer.parseInt(mData.getUser_role()));
+        holder.rel_title.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, UserActivity.class);
+                intent.putExtra("userid", String.valueOf(mData.getUser_id()));
+                intent.putExtra("UserRole", Integer.parseInt(mData.getUser_role()));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -61,200 +82,115 @@ public class SeedfriendDataAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        LayoutInflater _LayoutInflater = LayoutInflater.from(mContext);
-        UserDataNoRealm mData;
-        mData = mlist.get(i);
-        ViewHolder viewHolder;
-        if (view == null) {
-            viewHolder = new ViewHolder();
-            view = _LayoutInflater.inflate(R.layout.select_seed_friend_list, null);
-            viewHolder.tv_name = (TextView) view.findViewById(tv_name);
-            viewHolder.img_user_avatar = (ImageView) view.findViewById(R.id.img_user_avatar);
-            viewHolder.img_corner = (ImageView) view.findViewById(R.id.img_corner);
-            viewHolder.tv_address = (TextView) view.findViewById(R.id.tv_address);
-            viewHolder.tv_user_role=(TextView)view.findViewById(R.id.tv_user_role);
-            view.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) view.getTag();
-        }
-        Log.e(TAG, "getView: " + mData.getNickname());
-        viewHolder.tv_name.setText(mData.getNickname());
-        viewHolder.tv_address.setText(mData.getUserProvince() + " " + mData.getUserCity() + " " + mData.getUserZone());
-        getUserJpushInfo(Const.JPUSH_PREFIX+mData.getUser_id(), viewHolder, Integer.parseInt(mData.getUser_role()));
-        return view;
+    public int getItemCount() {
+        return mlist.size();
     }
 
-    class ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img_user_avatar, img_corner;
-        TextView tv_name, tv_address,tv_user_role;
+        TextView tv_name, tv_address, tv_user_role;
+        RelativeLayout rel_title;
 
+        public ViewHolder(View itemView) {
+            super(itemView);
+            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+            img_user_avatar = (ImageView) itemView.findViewById(R.id.img_user_avatar);
+            img_corner = (ImageView) itemView.findViewById(R.id.img_corner);
+            tv_address = (TextView) itemView.findViewById(R.id.tv_address);
+            tv_user_role = (TextView) itemView.findViewById(R.id.tv_user_role);
+            rel_title = (RelativeLayout) itemView.findViewById(R.id.rel_title);
+        }
     }
 
     private void getUserJpushInfo(String user_name, final ViewHolder holder, final int user_role) {
         JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
             @Override
             public void gotResult(int i, String s, UserInfo userInfo) {
-                holder.img_corner.setVisibility(View.GONE);
+                holder.img_corner.setVisibility(View.VISIBLE);
                 switch (user_role) {
                     case 0:
-                        Log.e(TAG, "gotResult: 农友");
                         holder.tv_user_role.setText("【农友】");
+                        holder.img_corner.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
-                                .load(R.drawable.corner_user_default)
+                                .load(R.drawable.corner_user_default).placeholder(R.drawable.corner_user_default)
                                 .centerCrop()
                                 .into(holder.img_corner);
                         Glide.with(mContext)
-                                .load(R.drawable.header_user_default)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_user_default)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                        }
                         break;
                     case 1:
                         holder.tv_user_role.setText("【经销商】");
+                        holder.img_corner.setVisibility(View.VISIBLE);
                         Log.e(TAG, "gotResult: ");
                         Glide.with(mContext)
-                                .load(R.drawable.corner_distributor)
+                                .load(R.drawable.corner_distributor).placeholder(R.drawable.corner_distributor)
                                 .centerCrop()
                                 .into(holder.img_corner);
                         Glide.with(mContext)
-                                .load(R.drawable.header_distributor_default)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_distributor_default)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                        }
                         break;
                     case 2:
                         holder.tv_user_role.setText("【企业】");
+                        holder.img_corner.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
-                                .load(R.drawable.corner_enterprise)
+                                .load(R.drawable.corner_enterprise).placeholder(R.drawable.corner_enterprise)
                                 .centerCrop()
                                 .into(holder.img_corner);
                         Glide.with(mContext)
-                                .load(R.drawable.header_enterprise_default)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_enterprise_default)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                        }
                         break;
                     case 3:
                         holder.tv_user_role.setText("【专家】");
+                        holder.img_corner.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
-                                .load(R.drawable.corner_expert)
+                                .load(R.drawable.corner_expert).placeholder(R.drawable.corner_expert)
                                 .centerCrop()
                                 .into(holder.img_corner);
                         Glide.with(mContext)
-                                .load(R.drawable.header_expert_default)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_expert_default)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                        }
                         break;
                     case 4:
+                        holder.img_corner.setVisibility(View.VISIBLE);
                         holder.tv_user_role.setText("【机构】");
                         Glide.with(mContext)
-                                .load(R.drawable.corner_author)
+                                .load(R.drawable.corner_author).placeholder(R.drawable.corner_author)
                                 .centerCrop()
                                 .into(holder.img_corner);
                         Glide.with(mContext)
-                                .load(R.drawable.header_author_default)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
-
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_author_default)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                        }
                     case 6:
                         holder.tv_user_role.setText("【媒体】");
                         holder.img_corner.setVisibility(View.GONE);
                         Glide.with(mContext)
-                                .load(R.drawable.user_media)
+                                .load(R.drawable.user_media).placeholder(R.drawable.user_media)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
-
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.user_media)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                        }
+                        Glide.with(mContext)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.user_media)
+                                .centerCrop()
+                                .into(holder.img_user_avatar);
                         break;
                     case 5:
                         holder.tv_user_role.setText("【管理员】");
                         holder.img_corner.setVisibility(View.GONE);
                         Glide.with(mContext)
-                                .load(R.drawable.user_system)
+                                .load(R.drawable.user_system).placeholder(R.drawable.user_system)
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
-
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.user_system)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                        }
+                        Glide.with(mContext)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.user_system)
+                                .centerCrop()
+                                .into(holder.img_user_avatar);
                         break;
                 }
 

@@ -114,7 +114,7 @@ UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallB
              * 机构
              * */
             case 4:
-                fregments = new int[]{9, 6, 8, 11};
+                fregments = new int[]{9, 11};
                 break;
             /**
              * 专家

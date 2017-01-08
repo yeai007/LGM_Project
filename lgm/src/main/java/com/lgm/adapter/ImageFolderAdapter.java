@@ -42,7 +42,7 @@ public class ImageFolderAdapter extends RecyclerView.Adapter<ImageFolderAdapter.
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final LocalMediaFolder folder = folders.get(position);
         Glide.with(context)
-                .load(new File(folder.getFirstImagePath()))
+                .load(new File(folder.getFirstImagePath()))    .dontAnimate()
                 .placeholder(R.mipmap.ic_placeholder)
                 .error(R.mipmap.ic_placeholder)
                 .centerCrop()
