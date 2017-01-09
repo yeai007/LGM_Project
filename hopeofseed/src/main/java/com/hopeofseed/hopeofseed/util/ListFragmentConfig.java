@@ -1,5 +1,7 @@
 package com.hopeofseed.hopeofseed.util;
 
+import android.os.Bundle;
+
 import com.hopeofseed.hopeofseed.JNXData.FragmentListDatas;
 import com.hopeofseed.hopeofseed.SearchFragment.AuthorFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.CommdityFragment;
@@ -41,64 +43,64 @@ public class ListFragmentConfig {
         FragmentListDatas mData = new FragmentListDatas();
         switch (i) {
             case 0://用户
-                SeedfriendFragment mSeedfriendFragment = new SeedfriendFragment("");
+                SeedfriendFragment mSeedfriendFragment = SeedfriendFragment.newInstance("");
                 mData.setMFragment(mSeedfriendFragment);
                 mData.setFragmentName("用户");
                 break;
             case 1:
-                CropFragment mCropFragment = new CropFragment("");
+                CropFragment mCropFragment =  CropFragment.newInstance("");
                 mData.setMFragment(mCropFragment);
                 mData.setFragmentName("品种");
                 break;
             case 2:
-                DistributorFragment mDistributorFragment = new DistributorFragment("");
+                DistributorFragment mDistributorFragment =  DistributorFragment.newInstance("");
                 mData.setMFragment(mDistributorFragment);
                 mData.setFragmentName("经销商");
                 break;
             case 3:
-                ExpertFragment mExpertFragment = new ExpertFragment("");
+                ExpertFragment mExpertFragment =  ExpertFragment.newInstance("");
                 mData.setMFragment(mExpertFragment);
                 mData.setFragmentName("专家");
                 break;
 
             case 4:
-                EnterpriseFragment mEnterpriseFragment = new EnterpriseFragment("");
+                EnterpriseFragment mEnterpriseFragment =  EnterpriseFragment.newInstance("");
                 mData.setMFragment(mEnterpriseFragment);
                 mData.setFragmentName("企业");
                 break;
             case 5:
-                AuthorFragment mAuthorFragment = new AuthorFragment("");
+                AuthorFragment mAuthorFragment = AuthorFragment.newInstance("");
                 mData.setMFragment(mAuthorFragment);
                 mData.setFragmentName("机构");
                 break;
             case 6:
-                ExperienceFragment mExperienceFragment = new ExperienceFragment("",this.UserId);
+                ExperienceFragment mExperienceFragment = ExperienceFragment.newInstance("", this.UserId);
                 mData.setMFragment(mExperienceFragment);
                 mData.setFragmentName("农技经验");
                 break;
             case 7://实时
-                ProblemFragment mProblemFragment = new ProblemFragment("",this.UserId);
+                ProblemFragment mProblemFragment = ProblemFragment.newInstance("", this.UserId);
                 mData.setMFragment(mProblemFragment);
                 mData.setFragmentName("问题反馈");
                 break;
             case 8://实时
-                YieldFragment mYieldFragment = new YieldFragment("",this.UserId);
+                YieldFragment mYieldFragment = YieldFragment.newInstance("", this.UserId);
                 mData.setMFragment(mYieldFragment);
                 mData.setFragmentName("产量表现");
                 break;
             case 9:
-                NowFragment mNowFragment = new NowFragment("",this.UserId);
+                NowFragment mNowFragment = NowFragment.newInstance(this.UserId);
                 mData.setMFragment(mNowFragment);
                 mData.setFragmentName("实时");
                 break;
 
             case 10:
-                CommdityFragment mCommdityFragment = new CommdityFragment(this.UserId);
+                CommdityFragment mCommdityFragment = CommdityFragment.newInstance(this.UserId);
                 mData.setMFragment(mCommdityFragment);
                 mData.setFragmentName("商品");
                 break;
             case 11:
-                HuodongFragment mHuodongFragment = new HuodongFragment("",this.UserId);
+                HuodongFragment mHuodongFragment = HuodongFragment.newInstance("", this.UserId);
                 mData.setMFragment(mHuodongFragment);
                 mData.setFragmentName("活动");
                 break;
@@ -114,7 +116,7 @@ public class ListFragmentConfig {
                 return mData;
             break;*/
             case 12:
-                ExperienceFragment mExperienceFragment1 = new ExperienceFragment("",this.UserId);
+                ExperienceFragment mExperienceFragment1 =  ExperienceFragment.newInstance("", this.UserId);
                 mData.setMFragment(mExperienceFragment1);
                 mData.setFragmentName("典型经验");
                 break;

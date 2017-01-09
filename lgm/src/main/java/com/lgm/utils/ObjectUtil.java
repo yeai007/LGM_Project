@@ -16,12 +16,14 @@ import java.security.NoSuchAlgorithmException;
  * @Date:2016/3/28
  * @Copyright:2014-2016 Moogeek
  */
+
 public class ObjectUtil {
     /**
      * @param obj
      * @return T
      * @desc 解决未检查Object警告
      */
+    @SuppressWarnings("unchecked")
     public static <T> T cast(Object obj) {
         return (T) obj;
     }

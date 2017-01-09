@@ -288,6 +288,7 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
             arrCommentOrForwardTmp = ((CommentDataNewTmp) rspBaseBean).getDetail();
             mHandle.post(updatelist);
         } else if (rspBaseBean.RequestSign.equals("getNewOhterInfoByID")||rspBaseBean.RequestSign.equals("getNewOhterInfoByInfoId")) {
+
             switch (Integer.parseInt(rspBaseBean.resultNote)) {
                 case 0:
                     break;
@@ -298,21 +299,24 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
                 case 3:
                     NewsExperienceDataTmp newsOhterInfoDataTmp = ObjectUtil.cast(rspBaseBean);
                     newsExperienceData = newsOhterInfoDataTmp.getDetail().get(0);
-
+                    NEW_ID=newsExperienceData.getId();
                     break;
                 case 4:
                     NewsYieldDataTmp newsYieldDataTmp = ObjectUtil.cast(rspBaseBean);
                     nNewsYieldData = newsYieldDataTmp.getDetail().get(0);
+                    NEW_ID=nNewsYieldData.getId();
                     break;
                 case 5:
                     NewsProblemDataTmp newsProblemDataTmp = ObjectUtil.cast(rspBaseBean);
                     mNewsProblemData = newsProblemDataTmp.getDetail().get(0);
+                    NEW_ID=mNewsProblemData.getId();
                     break;
                 case 6:
                     break;
                 case 7:
                     NewsHuodongDataTmp newsHuodongDataTmp = ObjectUtil.cast(rspBaseBean);
                     mNewsHuodongData = newsHuodongDataTmp.getDetail().get(0);
+                    NEW_ID=mNewsHuodongData.getId();
                     break;
                 case 8:
                     break;
@@ -449,85 +453,50 @@ public class NewsInfoNewActivity extends AppCompatActivity implements NetCallBac
                                 .load(R.drawable.corner_user_default)   .dontAnimate()
                                 .centerCrop()
                                 .into(img_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(getApplicationContext())
-                                    .load(R.drawable.header_user_default)
-                                    .centerCrop()
-                                    .into(img_user);
-                        } else {*/
                             Glide.with(getApplicationContext())
                                     .load(userInfo.getAvatarFile()) .dontAnimate()  .placeholder(R.drawable.header_user_default)
                                     .centerCrop()
                                     .into(img_user);
-                    /*    }*/
                         break;
                     case 1:
                         Glide.with(getApplicationContext())
                                 .load(R.drawable.corner_distributor)  .dontAnimate()
                                 .centerCrop()
                                 .into(img_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(getApplicationContext())
-                                    .load(R.drawable.header_distributor_default)
-                                    .centerCrop()
-                                    .into(img_user);
-                        } else {*/
                             Glide.with(getApplicationContext())
                                     .load(userInfo.getAvatarFile())     .placeholder(R.drawable.header_distributor_default)  .dontAnimate()
                                     .centerCrop()
                                     .into(img_user);
-                  /*      }*/
                         break;
                     case 2:
                         Glide.with(getApplicationContext())
                                 .load(R.drawable.corner_enterprise)    .dontAnimate()
                                 .centerCrop()
                                 .into(img_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(getApplicationContext())
-                                    .load(R.drawable.header_enterprise_default)
-                                    .centerCrop()
-                                    .into(img_user);
-                        } else {*/
                             Glide.with(getApplicationContext())
                                     .load(userInfo.getAvatarFile()) .placeholder(R.drawable.header_enterprise_default)       .dontAnimate()
                                     .centerCrop()
                                     .into(img_user);
-                      /*  }*/
                         break;
                     case 3:
                         Glide.with(getApplicationContext())
                                 .load(R.drawable.corner_expert)     .dontAnimate()
                                 .centerCrop()
                                 .into(img_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(getApplicationContext())
-                                    .load(R.drawable.header_expert_default)
-                                    .centerCrop()
-                                    .into(img_user);
-                        } else {*/
                             Glide.with(getApplicationContext())
                                     .load(userInfo.getAvatarFile())    .placeholder(R.drawable.header_expert_default)       .dontAnimate()
                                     .centerCrop()
                                     .into(img_user);
-                  /*      }*/
                         break;
                     case 4:
                         Glide.with(getApplicationContext())
                                 .load(R.drawable.corner_author)     .dontAnimate()
                                 .centerCrop()
                                 .into(img_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(getApplicationContext())
-                                    .load(R.drawable.header_author_default)
-                                    .centerCrop()
-                                    .into(img_user);
-                        } else {*/
                             Glide.with(getApplicationContext())
                                     .load(userInfo.getAvatarFile())  .placeholder(R.drawable.header_author_default)    .dontAnimate()
                                     .centerCrop()
                                     .into(img_user);
-                        /*}*/
                         break;
                 }
             }

@@ -427,93 +427,57 @@ public class SearchAcitvity extends FragmentActivity implements SearchView.Searc
             Bundle b;
             switch (position) {
                 case 0://用户
-                    mFragment = new SeedfriendFragment(StrSearch);
+                    mFragment =  SeedfriendFragment.newInstance(StrSearch);
                     b = new Bundle();
-                    b.putInt(ARG_POSITION, position);
                     b.putString(STR_SEARCH, StrSearch);
                     mFragment.setArguments(b);
                     break;
                 case 1://品种
 //                    mFragment = CropFragment.newInstance(position, StrSearch);
-                    mFragment = new CropFragment(StrSearch);
-                    b = new Bundle();
-                    b.putInt(ARG_POSITION, position);
-                    b.putString(STR_SEARCH, StrSearch);
-                    b.putInt(STR_FAXIAN, 0);
-                    mFragment.setArguments(b);
+                    mFragment =  CropFragment.newInstance(StrSearch);
+
                     break;
                 case 2://经销商
 //                    mFragment = DistributorFragment.newInstance(position, StrSearch);
-                    mFragment = new DistributorFragment(StrSearch);
-                    b = new Bundle();
-                    b.putInt(ARG_POSITION, position);
-                    b.putString(STR_SEARCH, StrSearch);
-                    mFragment.setArguments(b);
+                    mFragment =  DistributorFragment.newInstance(StrSearch);
+
                     break;
                 case 3://企业
                     //  mFragment = EnterpriseFragment.newInstance(position, StrSearch);
-                    mFragment = new EnterpriseFragment(StrSearch);
-                    b = new Bundle();
-                    b.putInt(ARG_POSITION, position);
-                    b.putString(STR_SEARCH, StrSearch);
-                    mFragment.setArguments(b);
+                    mFragment =  EnterpriseFragment.newInstance(StrSearch);
+
                     break;
 
                 case 4://机构
-                    //  mFragment = AuthorFragment.newInstance(position, StrSearch);
-                    mFragment = new AuthorFragment(StrSearch);
-                    b = new Bundle();
-                    b.putInt(ARG_POSITION, position);
-                    b.putString(STR_SEARCH, StrSearch);
-                    mFragment.setArguments(b);
+                     mFragment = AuthorFragment.newInstance( StrSearch);
+                    //mFragment = new AuthorFragment(StrSearch);
+
                     break;
                 case 5://农技经验
                     // mFragment = ExperienceFragment.newInstance(position, StrSearch);
-                    mFragment = new ExperienceFragment(StrSearch,null);
-                    b = new Bundle();
-                    b.putInt("position", position);
-                    b.putString(STR_SEARCH, StrSearch);
-                    mFragment.setArguments(b);
+                    mFragment =  ExperienceFragment.newInstance(StrSearch,null);
+
                     break;
                 case 6://产量表现
                     // mFragment = YieldFragment.newInstance(position, StrSearch);
-                    mFragment = new YieldFragment(StrSearch,null);
-                    b = new Bundle();
-                    b.putInt(ARG_POSITION, position);
-                    b.putString(STR_SEARCH, StrSearch);
-                    mFragment.setArguments(b);
+                    mFragment =  YieldFragment.newInstance(StrSearch,null);
+
                     break;
                 case 7://活动
                     // mFragment = YieldFragment.newInstance(position, StrSearch);
-                    mFragment = new HuodongFragment(StrSearch,null);
-                    b = new Bundle();
-                    b.putInt(ARG_POSITION, position);
-                    b.putString(STR_SEARCH, StrSearch);
-                    mFragment.setArguments(b);
+                    mFragment =  HuodongFragment.newInstance(StrSearch,null);
                     break;
                 case 8://发问
                     //   mFragment = ProblemFragment.newInstance(position, StrSearch);
-                    mFragment = new ProblemFragment(StrSearch,null);
-                    b = new Bundle();
-                    b.putInt(ARG_POSITION, position);
-                    b.putString(STR_SEARCH, StrSearch);
-                    mFragment.setArguments(b);
+                    mFragment =  ProblemFragment.newInstance(StrSearch,null);
                     break;
                 case 9://专家
                     // mFragment = ExpertFragment.newInstance(position, StrSearch);
-                    mFragment = new ExpertFragment(StrSearch);
-                    b = new Bundle();
-                    b.putInt(ARG_POSITION, position);
-                    b.putString(STR_SEARCH, StrSearch);
-                    mFragment.setArguments(b);
+                    mFragment =  ExpertFragment.newInstance(StrSearch);
                     break;
                 case 10://实时
                     // mFragment = NowFragment.newInstance(position);
-                    mFragment = new NowFragment(StrSearch,String.valueOf(Const.currentUser.user_id));
-                    b = new Bundle();
-                    b.putInt("position", position);
-                    b.putString(STR_SEARCH, StrSearch);
-                    mFragment.setArguments(b);
+                    mFragment =  NowFragment.newInstance(String.valueOf(Const.currentUser.user_id));
                     break;
             }
             return mFragment;

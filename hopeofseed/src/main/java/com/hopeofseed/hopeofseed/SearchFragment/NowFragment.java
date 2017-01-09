@@ -36,9 +36,8 @@ import java.util.HashMap;
 /**
  * 实时
  */
-public class NowFragment extends Fragment  implements NetCallBack, SwipeRefreshLayout.OnRefreshListener {
+public class NowFragment extends Fragment implements NetCallBack, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "NowFragment";
-    private static final String ARG_POSITION = "position";
     ArrayList<NewsData> arr_NewsData = new ArrayList<>();
     ArrayList<NewsData> arr_NewsDataTmp = new ArrayList<>();
     Handler mHandler = new Handler();
@@ -49,18 +48,27 @@ public class NowFragment extends Fragment  implements NetCallBack, SwipeRefreshL
     private SwipeRefreshLayout mRefreshLayout;
     UpdateZiabamResult mUpdateZiabamResult = new UpdateZiabamResult();
     String updatePosition;
-    private int position;
+
 
     String UserId = "";
 
-    public NowFragment(String strSearch, String userId) {
-        UserId = userId;
+    public static NowFragment newInstance(String userId) {
+        NowFragment f = new NowFragment();
+        Bundle b = new Bundle();
+        b.putString("userId", userId);
+        f.setArguments(b);
+        return f;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            UserId = getArguments().getString("userId");
+        }
 
-        position = getArguments().getInt(ARG_POSITION);
+
     }
 
     @Override
@@ -202,6 +210,7 @@ public class NowFragment extends Fragment  implements NetCallBack, SwipeRefreshL
             }
         });
     }
+
     public void UpdateZambia(final String position) {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
@@ -209,9 +218,11 @@ public class NowFragment extends Fragment  implements NetCallBack, SwipeRefreshL
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "UpdateNewZambia.php", opt_map, UpdateZiabamResultTmp.class, this);
     }
+
     public void refreshData() {
         getNewsData();
     }
+
     public void getNewsData() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", UserId);
@@ -247,6 +258,7 @@ public class NowFragment extends Fragment  implements NetCallBack, SwipeRefreshL
     public void onFail() {
 
     }
+
     Runnable updateZiabam = new Runnable() {
         @Override
         public void run() {

@@ -111,7 +111,7 @@ public class AutoTextDataAdapter extends BaseAdapter implements Filterable {
 
             return results;
         }
-
+        @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint,
                                       FilterResults results) {

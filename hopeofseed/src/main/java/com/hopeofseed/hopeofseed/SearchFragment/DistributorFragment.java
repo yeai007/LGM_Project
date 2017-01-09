@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,16 +47,23 @@ public class DistributorFragment extends Fragment implements SwipeRefreshLayout.
     private SwipeRefreshLayout mRefreshLayout;
     int PageNo = 0;
     Handler mHandler = new Handler();
-
-    public DistributorFragment(String strSearch) {
-        Str_search = strSearch;
+    public static DistributorFragment newInstance( String strSearch) {
+        DistributorFragment f = new DistributorFragment();
+        Bundle b = new Bundle();
+        b.putString("strSearch", strSearch);
+        f.setArguments(b);
+        return f;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Str_search = getArguments().getString(STR_SEARCH);
-        position = getArguments().getInt(ARG_POSITION);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Str_search = getArguments().getString("strSearch");
+        }    if(TextUtils.isEmpty(Str_search))
+        {
+            Str_search="";
+        }
     }
 
     @Override

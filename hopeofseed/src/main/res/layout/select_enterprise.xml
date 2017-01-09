@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_gray2"
     android:orientation="vertical">
 
     <include
@@ -12,7 +13,9 @@
         android:id="@+id/lin_busscrope"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_marginTop="2dp"
         android:layout_below="@+id/top"
+        android:background="@color/white"
         android:orientation="horizontal">
 
         <TextView
@@ -34,6 +37,8 @@
         android:id="@+id/rel_area"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/white"
         android:layout_below="@+id/lin_busscrope">
 
         <TextView
@@ -52,9 +57,18 @@
 
     </RelativeLayout>
 
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-        android:id="@+id/lv_list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/layout_swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/rel_area" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rel_area">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lin_search"
+            android:scrollbars="vertical" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 </RelativeLayout>

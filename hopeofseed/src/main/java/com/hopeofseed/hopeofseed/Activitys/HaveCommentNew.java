@@ -95,8 +95,8 @@ public class HaveCommentNew extends AppCompatActivity implements View.OnClickLis
         Intent intent = getIntent();
         page = intent.getIntExtra("page", 0);
         fragmentList = new ArrayList<>();
-        mForwardListFragment = new ForwardListFragment(NEW_ID);
-        mCommendListFragment = new CommendListFragment(NEW_ID);
+        mForwardListFragment =  ForwardListFragment.newInstance(NEW_ID);
+        mCommendListFragment =  CommendListFragment.newInstance(NEW_ID);
         fragmentList.add(mCommendListFragment);
         fragmentList.add(mForwardListFragment);
 

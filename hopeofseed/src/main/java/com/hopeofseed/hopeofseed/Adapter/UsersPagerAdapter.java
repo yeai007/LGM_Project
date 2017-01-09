@@ -50,9 +50,9 @@ public class UsersPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         Fragment mFragment = null;
         mFragment = mList.get(position).getMFragment();
-        Bundle b = new Bundle();
+/*        Bundle b = new Bundle();
         b.putInt(ARG_POSITION, position);
-        mFragment.setArguments(b);
+        mFragment.setArguments(b);*/
         return mFragment;
     }
 

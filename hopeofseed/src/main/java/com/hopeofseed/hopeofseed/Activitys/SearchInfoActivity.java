@@ -116,8 +116,8 @@ public class SearchInfoActivity extends AppCompatActivity implements NetCallBack
         Intent intent = getIntent();
         page = intent.getIntExtra("page", 0);
         fragmentList = new ArrayList<>();
-        mForwardListFragment = new SearchForwardListFragment(InfoId, String.valueOf(NewClass));
-        mCommendListFragment = new SearchCommendListFragment(InfoId, String.valueOf(NewClass));
+        mForwardListFragment =  SearchForwardListFragment.newInstance(InfoId, String.valueOf(NewClass));
+        mCommendListFragment =  SearchCommendListFragment.newInstance(InfoId, String.valueOf(NewClass));
         fragmentList.add(mCommendListFragment);
         fragmentList.add(mForwardListFragment);
 

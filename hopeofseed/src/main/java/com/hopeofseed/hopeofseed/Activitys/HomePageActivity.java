@@ -19,9 +19,15 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;
+import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.R;
+import com.lgm.utils.AppPermissions;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +40,7 @@ import cn.jpush.im.android.api.event.MessageEvent;
 import cn.jpush.im.android.api.model.Conversation;
 
 import static cn.jpush.im.android.api.model.Conversation.createGroupConversation;
+import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_LOCATION;
 
 
 /**
@@ -79,15 +86,41 @@ public class HomePageActivity extends FragmentActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
+
         initView();
         initReceiver();
+        getPermission();
+    }
+    private void getPermission() {
+        MPermissions.requestPermissions(HomePageActivity.this, REQUEST_CODE_LOCATION, AppPermissions.getLocationPermissions());
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
+
+    @PermissionGrant(REQUEST_CODE_LOCATION)
+    public void requestLocationSuccess() {
+        //Toast.makeText(this, "GRANT ACCESS LOCATION!", Toast.LENGTH_SHORT).show();
+    }
+    @PermissionDenied(REQUEST_CODE_LOCATION)
+    public void requestLocationFailed() {
+        Toast.makeText(HomePageActivity.this, "定位服务已经被禁止!", Toast.LENGTH_SHORT).show();
+    }
     @Override
     protected void onDestroy() {
         JMessageClient.unRegisterEventReceiver(this);
         unregisterReceiver(updateBroadcastReceiver);
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Const.GetShareData(this);
+
     }
 
     private void initReceiver() {

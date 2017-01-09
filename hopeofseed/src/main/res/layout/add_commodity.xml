@@ -118,7 +118,7 @@
                 android:layout_height="50dp"
                 android:background="#ffffff"
                 android:gravity="center"
-                android:hint="品牌" />
+                android:hint="品牌名称" />
 
             <EditText
                 android:id="@+id/et_name"
@@ -126,7 +126,7 @@
                 android:layout_height="50dp"
                 android:layout_toRightOf="@+id/tv_name"
                 android:background="@drawable/bg_edittext"
-                android:hint="品牌" />
+                android:hint="品牌名称" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -144,17 +144,16 @@
                 android:layout_marginTop="5dp"
                 android:background="#ffffff"
                 android:gravity="center"
-                android:hint="标题:" />
+                android:hint="规格:" />
 
             <EditText
                 android:id="@+id/et_title"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/tv_title"
                 android:background="@drawable/bg_edittext"
-                android:hint="商品标题" />
+                android:hint="规格" />
         </RelativeLayout>
 
 

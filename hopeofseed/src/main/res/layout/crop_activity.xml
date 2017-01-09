@@ -114,15 +114,10 @@
                     android:text="育种单位"
                     android:textColor="#ff6600"
                     android:textSize="15sp" />
-
-                <com.hopeofseed.hopeofseed.ui.AutoSplitTextView
+                <android.support.v7.widget.RecyclerView
                     android:id="@+id/tv_breedorganization"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:gravity="left|center_vertical"
-                    android:text=""
-                    android:textColor="#000000" />
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
             <LinearLayout

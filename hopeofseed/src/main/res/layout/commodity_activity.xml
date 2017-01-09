@@ -64,24 +64,13 @@
             android:background="#ffffff"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/bg_edittext"
-                android:gravity="left|center"
-                android:hint=""
-                android:textColor="@color/red"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+
 
             <RelativeLayout
                 android:id="@+id/rel_name"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/tv_title"
+
                 android:background="@drawable/bg_edittext">
 
                 <TextView
@@ -106,12 +95,23 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
             </RelativeLayout>
-
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_below="@+id/rel_name"
+                android:background="@drawable/bg_edittext"
+                android:gravity="left|center"
+                android:textColor="@color/red"
+                android:textSize="16sp"
+                android:textStyle="bold" />
             <TextView
                 android:id="@+id/tv_price"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_below="@+id/rel_name"
+                android:layout_below="@+id/tv_title"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
                 android:hint="￥" />

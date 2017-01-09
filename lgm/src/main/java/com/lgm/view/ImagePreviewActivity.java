@@ -71,7 +71,7 @@ public class ImagePreviewActivity extends AppCompatActivity {
         initView();
         registerListener();
     }
-
+    @SuppressWarnings("unchecked")
     public void initView() {
         images = (List<LocalMedia>) getIntent().getSerializableExtra(EXTRA_PREVIEW_LIST);
         selectImages = (List<LocalMedia>) getIntent().getSerializableExtra(EXTRA_PREVIEW_SELECT_LIST);

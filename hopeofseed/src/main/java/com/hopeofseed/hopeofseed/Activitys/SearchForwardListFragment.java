@@ -41,10 +41,22 @@ public class SearchForwardListFragment extends Fragment implements NetCallBack {
     Handler mHandle = new Handler();
     String InfoId, NewClass;
 
-    public SearchForwardListFragment(String infoId, String newClass) {
-        super();
-        InfoId = infoId;
-        NewClass = newClass;
+    public static SearchForwardListFragment newInstance(String infoId, String newClass) {
+        SearchForwardListFragment f = new SearchForwardListFragment();
+        Bundle b = new Bundle();
+        b.putString("infoId", infoId);
+        b.putString("newClass", newClass);
+        f.setArguments(b);
+        return f;
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            InfoId = getArguments().getString("infoId");
+            NewClass = getArguments().getString("newClass");
+        }
     }
 
     @Nullable

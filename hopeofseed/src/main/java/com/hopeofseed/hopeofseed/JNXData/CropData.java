@@ -57,6 +57,11 @@ public class CropData {
     private String CataImgId;
     private String CataImgName;
     private String CataImgUrl;
+    /**
+     * BreedId : 0000000000
+     */
+
+    private String BreedId;
 
     public String getCropId() {
         return CropId;
@@ -216,5 +221,13 @@ public class CropData {
 
     public void setCataImgUrl(String CataImgUrl) {
         this.CataImgUrl = CataImgUrl;
+    }
+
+    public String getBreedId() {
+        return BreedId;
+    }
+
+    public void setBreedId(String BreedId) {
+        this.BreedId = BreedId;
     }
 }

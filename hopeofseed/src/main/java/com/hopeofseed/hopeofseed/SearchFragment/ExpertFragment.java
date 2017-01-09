@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,36 +36,33 @@ import java.util.HashMap;
  */
 public class ExpertFragment extends Fragment {
     private static final String TAG = "ExpertFragment";
-    private static final String ARG_POSITION = "position";
-    private static final String STR_SEARCH = "STR_SEARCH";
     int PageNo = 0;
-    private int position;
     PullToRefreshListView lv_list;
     SelectExpertDataAdapter mExpertDataAdapter;
     ArrayList<ExpertEnterperiseData> arr_ExpertData = new ArrayList<>();
     ArrayList<ExpertEnterperiseData> arr_ExpertDataTmp = new ArrayList<>();
     static String Str_search = "";
 
-    public ExpertFragment(String strSearch) {
-        Str_search = strSearch;
-    }
 
 
-  /*  public static ExpertFragment newInstance(int position, String search) {
-        Str_search = search;
+    public static ExpertFragment newInstance( String strSearch) {
         ExpertFragment f = new ExpertFragment();
         Bundle b = new Bundle();
-        b.putInt(ARG_POSITION, position);
+        b.putString("strSearch", strSearch);
         f.setArguments(b);
         return f;
-    }*/
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        position = getArguments().getInt(ARG_POSITION);
-        Str_search = getArguments().getString(STR_SEARCH);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Str_search = getArguments().getString("strSearch");
+        }    if(TextUtils.isEmpty(Str_search))
+        {
+            Str_search="";
+        }
     }
 
     @Override

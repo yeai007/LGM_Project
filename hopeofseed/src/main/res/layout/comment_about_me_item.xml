@@ -95,14 +95,16 @@
                 android:text="用户"
                 android:textColor="#8DB6CD"
                 android:textSize="12sp" />
+
             <ImageView
                 android:id="@+id/img_unread"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:src="@drawable/img_message_count"
-                android:layout_marginTop="2dp" />
+                android:layout_marginTop="2dp"
+                android:src="@drawable/img_message_count" />
+
             <Button
                 android:id="@+id/btn_huifu"
                 android:layout_width="15dp"
@@ -126,7 +128,7 @@
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/tv_comment_content"
             android:layout_marginLeft="10dp"
             android:text="shijian"
             android:textColor="@color/text_content_color" />

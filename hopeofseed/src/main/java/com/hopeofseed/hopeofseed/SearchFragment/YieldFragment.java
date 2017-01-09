@@ -46,22 +46,34 @@ public class YieldFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     boolean isLoading = false;
     boolean isSearch = false;
 
-    public YieldFragment(String strSearch, String userId) {
-        Str_search = strSearch;
-        if (TextUtils.isEmpty(userId)) {
-            isSearch = true;
-        } else {
-            isSearch = false;
-            UserId = userId;
-        }
+    public static YieldFragment newInstance(String strSearch, String userId) {
+        YieldFragment f = new YieldFragment();
+        Bundle b = new Bundle();
+        b.putString("strSearch", strSearch);
+        b.putString("userId", userId);
+        f.setArguments(b);
+        return f;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Str_search = getArguments().getString(STR_SEARCH);
-        position = getArguments().getInt(ARG_POSITION);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Str_search = getArguments().getString("strSearch");
 
+            if (TextUtils.isEmpty(getArguments().getString("userId"))) {
+                isSearch = true;
+            } else {
+                isSearch = false;
+                UserId = getArguments().getString("userId");
+            }
+
+        }
+        if(TextUtils.isEmpty(Str_search))
+        {
+            Str_search="";
+        }
     }
 
     @Override

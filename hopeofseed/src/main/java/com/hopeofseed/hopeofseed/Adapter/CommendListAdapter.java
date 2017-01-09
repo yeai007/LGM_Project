@@ -151,7 +151,7 @@ public class CommendListAdapter extends BaseAdapter {
                 switch (user_role) {
                     case 0:
                         Glide.with(mContext)
-                                .load(R.drawable.corner_user_default).placeholder(R.drawable.corner_user_default)
+                                .load(R.drawable.corner_user_default).placeholder(R.drawable.corner_user_default) .dontAnimate()
                                 .centerCrop()
                                 .into(holder0.img_corner);
 /*                        if (userInfo.getAvatarFile() == null) {
@@ -162,14 +162,14 @@ public class CommendListAdapter extends BaseAdapter {
 
                         } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default)
+                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default)   .dontAnimate()
                                     .centerCrop()
                                     .into(holder0.img_user);
                      /*   }*/
                         break;
                     case 1:
                         Glide.with(mContext)
-                                .load(R.drawable.corner_distributor).placeholder(R.drawable.corner_distributor)
+                                .load(R.drawable.corner_distributor).placeholder(R.drawable.corner_distributor) .dontAnimate()
                                 .centerCrop()
                                 .into(holder0.img_corner);
 /*                        if (userInfo.getAvatarFile() == null) {
@@ -180,14 +180,14 @@ public class CommendListAdapter extends BaseAdapter {
 
                         } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default)
+                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default)  .dontAnimate()
                                     .centerCrop()
                                     .into(holder0.img_user);
                     /*    }*/
                         break;
                     case 2:
                         Glide.with(mContext)
-                                .load(R.drawable.corner_enterprise).placeholder(R.drawable.corner_enterprise)
+                                .load(R.drawable.corner_enterprise).placeholder(R.drawable.corner_enterprise).dontAnimate()
                                 .centerCrop()
                                 .into(holder0.img_corner);
 /*                        if (userInfo.getAvatarFile() == null) {
@@ -198,14 +198,14 @@ public class CommendListAdapter extends BaseAdapter {
 
                         } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default)
+                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default).dontAnimate()
                                     .centerCrop()
                                     .into(holder0.img_user);
                      /*   }*/
                         break;
                     case 3:
                         Glide.with(mContext)
-                                .load(R.drawable.corner_expert).placeholder(R.drawable.corner_expert)
+                                .load(R.drawable.corner_expert).placeholder(R.drawable.corner_expert).dontAnimate()
                                 .centerCrop()
                                 .into(holder0.img_corner);
 /*                        if (userInfo.getAvatarFile() == null) {
@@ -216,14 +216,14 @@ public class CommendListAdapter extends BaseAdapter {
 
                         } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default)
+                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default) .dontAnimate()
                                     .centerCrop()
                                     .into(holder0.img_user);
                       /*  }*/
                         break;
                     case 4:
                         Glide.with(mContext)
-                                .load(R.drawable.corner_author).placeholder(R.drawable.corner_author)
+                                .load(R.drawable.corner_author).placeholder(R.drawable.corner_author) .dontAnimate()
                                 .centerCrop()
                                 .into(holder0.img_corner);
 /*                        if (userInfo.getAvatarFile() == null) {
@@ -234,7 +234,7 @@ public class CommendListAdapter extends BaseAdapter {
 
                         } else {*/
                             Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default)
+                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default) .dontAnimate()
                                     .centerCrop()
                                     .into(holder0.img_user);
                      /*   }*/

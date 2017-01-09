@@ -112,11 +112,11 @@ public class SeedfriendDataAdapter extends RecyclerView.Adapter<SeedfriendDataAd
                         holder.tv_user_role.setText("【农友】");
                         holder.img_corner.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
-                                .load(R.drawable.corner_user_default).placeholder(R.drawable.corner_user_default)
+                                .load(R.drawable.corner_user_default).placeholder(R.drawable.corner_user_default).dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_corner);
                         Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default).dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
                         break;
@@ -125,11 +125,11 @@ public class SeedfriendDataAdapter extends RecyclerView.Adapter<SeedfriendDataAd
                         holder.img_corner.setVisibility(View.VISIBLE);
                         Log.e(TAG, "gotResult: ");
                         Glide.with(mContext)
-                                .load(R.drawable.corner_distributor).placeholder(R.drawable.corner_distributor)
+                                .load(R.drawable.corner_distributor).placeholder(R.drawable.corner_distributor).dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_corner);
                         Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default).dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
                         break;
@@ -137,11 +137,11 @@ public class SeedfriendDataAdapter extends RecyclerView.Adapter<SeedfriendDataAd
                         holder.tv_user_role.setText("【企业】");
                         holder.img_corner.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
-                                .load(R.drawable.corner_enterprise).placeholder(R.drawable.corner_enterprise)
+                                .load(R.drawable.corner_enterprise).placeholder(R.drawable.corner_enterprise).dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_corner);
                         Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default).dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
                         break;
@@ -149,11 +149,11 @@ public class SeedfriendDataAdapter extends RecyclerView.Adapter<SeedfriendDataAd
                         holder.tv_user_role.setText("【专家】");
                         holder.img_corner.setVisibility(View.VISIBLE);
                         Glide.with(mContext)
-                                .load(R.drawable.corner_expert).placeholder(R.drawable.corner_expert)
+                                .load(R.drawable.corner_expert).placeholder(R.drawable.corner_expert) .dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_corner);
                         Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default) .dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
                         break;
@@ -161,22 +161,22 @@ public class SeedfriendDataAdapter extends RecyclerView.Adapter<SeedfriendDataAd
                         holder.img_corner.setVisibility(View.VISIBLE);
                         holder.tv_user_role.setText("【机构】");
                         Glide.with(mContext)
-                                .load(R.drawable.corner_author).placeholder(R.drawable.corner_author)
+                                .load(R.drawable.corner_author).placeholder(R.drawable.corner_author) .dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_corner);
                         Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default)  .dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
                     case 6:
                         holder.tv_user_role.setText("【媒体】");
                         holder.img_corner.setVisibility(View.GONE);
                         Glide.with(mContext)
-                                .load(R.drawable.user_media).placeholder(R.drawable.user_media)
+                                .load(R.drawable.user_media).placeholder(R.drawable.user_media) .dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
                         Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.user_media)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.user_media)  .dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
                         break;
@@ -184,11 +184,11 @@ public class SeedfriendDataAdapter extends RecyclerView.Adapter<SeedfriendDataAd
                         holder.tv_user_role.setText("【管理员】");
                         holder.img_corner.setVisibility(View.GONE);
                         Glide.with(mContext)
-                                .load(R.drawable.user_system).placeholder(R.drawable.user_system)
+                                .load(R.drawable.user_system).placeholder(R.drawable.user_system).dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
                         Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.user_system)
+                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.user_system) .dontAnimate()
                                 .centerCrop()
                                 .into(holder.img_user_avatar);
                         break;

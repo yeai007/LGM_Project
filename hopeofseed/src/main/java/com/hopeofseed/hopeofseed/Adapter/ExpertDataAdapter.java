@@ -87,7 +87,7 @@ public class ExpertDataAdapter extends RecyclerView.Adapter<ExpertDataAdapter.Vi
 /*                if (!(userInfo.getAvatarFile() == null)) {*/
 
                     Glide.with(mContext)
-                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default)
+                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default) .dontAnimate()
                             .centerCrop()
                             .into(holder.img_user_avatar);
                /* }*/

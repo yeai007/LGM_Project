@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,27 +48,24 @@ public class AuthorFragment extends Fragment {
     static String Str_search = "";
     int PageNo = 0;
 
-    public AuthorFragment(String strSearch) {
-        Str_search = strSearch;
-    }
-
-/*
-    public static AuthorFragment newInstance(int position, String search) {
-        Str_search = search;
+    public static AuthorFragment newInstance(String strSearch) {
         AuthorFragment f = new AuthorFragment();
         Bundle b = new Bundle();
-        b.putInt(ARG_POSITION, position);
+        b.putString("strSearch", strSearch);
         f.setArguments(b);
         return f;
     }
-*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt(ARG_POSITION);
-        Str_search = getArguments().getString(STR_SEARCH);
-
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Str_search = getArguments().getString("strSearch");
+        }
+        if (TextUtils.isEmpty(Str_search)) {
+            Str_search = "";
+        }
     }
 
     @Override

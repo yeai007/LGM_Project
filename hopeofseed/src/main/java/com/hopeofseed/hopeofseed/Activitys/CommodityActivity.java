@@ -47,10 +47,6 @@ public class CommodityActivity extends AppCompatActivity implements View.OnClick
     CommodityData mCommodityData = new CommodityData();
     Banner banner;
     TextView apptitle;
-    /**
-     * ViewPager当前显示页的下标
-     */
-    private int position = 0;
     String[] images;
     ImageView img_guaranteed;
 
@@ -132,12 +128,16 @@ public class CommodityActivity extends AppCompatActivity implements View.OnClick
             } else {
                 img_guaranteed.setVisibility(View.GONE);
             }
-            apptitle.setText(mCommodityData.getCommodityTitle());
-            tv_title.setText(mCommodityData.getCommodityTitle());
+            apptitle.setText(mCommodityData.getCommodityName());
+            tv_title.setText("规格："+mCommodityData.getCommodityTitle());
             tv_name.setText(mCommodityData.getCommodityName());
             tv_variety.setText("【" + mCommodityData.getCommodityVariety() + "】");
             et_discribe.setText(mCommodityData.getCommodityDescribe());
-            tv_price.setText("￥ " + mCommodityData.getCommodityPrice());
+            if (TextUtils.isEmpty(mCommodityData.getCommodityPrice()) || mCommodityData.getCommodityPrice().equals("0")) {
+                tv_price.setText("￥ " +" 议价");
+            } else {
+                tv_price.setText("￥ " + mCommodityData.getCommodityPrice());
+            }
         }
     };
 

@@ -129,7 +129,7 @@ public class SelectEnterpriseAdapter extends RecyclerView.Adapter<SelectEnterpri
 
                 } else {*/
                     Glide.with(mContext)
-                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default)
+                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default) .dontAnimate()
                             .centerCrop()
                             .into(holder.img_user_avatar);
 /*                }*/

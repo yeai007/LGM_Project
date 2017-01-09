@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,6 +31,7 @@ public class FolderWindow extends PopupWindow {
     private ImageFolderAdapter adapter;
 
     private boolean isDismiss = false;
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public FolderWindow(Context context) {
         this.context = context;
         window = LayoutInflater.from(context).inflate(R.layout.window_folder, null);
@@ -46,6 +49,7 @@ public class FolderWindow extends PopupWindow {
         setPopupWindowTouchModal(this, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void initView() {
         adapter = new ImageFolderAdapter(context);
 
@@ -112,8 +116,9 @@ public class FolderWindow extends PopupWindow {
     }
     public class ItemDivider extends RecyclerView.ItemDecoration {
         private Drawable mDrawable;
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         public ItemDivider() {
-            mDrawable = context.getResources().getDrawable(R.drawable.item_divider);
+            mDrawable = context.getResources().getDrawable(R.drawable.item_divider,null);
         }
         @Override
         public void onDrawOver(Canvas c, RecyclerView parent) {

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,28 +44,35 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  * 种友
  */
 public class SeedfriendFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private static final String ARG_POSITION = "position";
-    private static final String STR_SEARCH = "STR_SEARCH";
-    private int position;
+
     SeedfriendDataAdapter mSeedfriendDataAdapter;
     ArrayList<UserDataNoRealm> arr_UserDataNoRealm = new ArrayList<>();
     ArrayList<UserDataNoRealm> arr_UserDataNoRealmTmp = new ArrayList<>();
-    static String Str_search = "";
+     String Str_search = "";
     int PageNo = 0;
     RecyclerView recy_list;
     private SwipeRefreshLayout mRefreshLayout;
     Handler mHandler = new Handler();
     boolean isLoading = false;
-
-    public SeedfriendFragment(String strSearch) {
-        Str_search = strSearch;
+    public static SeedfriendFragment newInstance( String strSearch) {
+        SeedfriendFragment f = new SeedfriendFragment();
+        Bundle b = new Bundle();
+        b.putString("strSearch", strSearch);
+        f.setArguments(b);
+        return f;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt(ARG_POSITION);
-        Str_search = getArguments().getString(STR_SEARCH);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Str_search = getArguments().getString("strSearch");
+        }
+        if(TextUtils.isEmpty(Str_search))
+        {
+            Str_search="";
+        }
     }
 
     @Override

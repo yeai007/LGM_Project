@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.JNXData.CommodityVarietyData;
 import com.hopeofseed.hopeofseed.R;
+import com.lgm.utils.ObjectUtil;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class Sp_VarietyAdapter extends BaseAdapter {
 
     public Sp_VarietyAdapter(Context pContext, List pList) {
         this.mContext = pContext;
-        this.mList = pList;
+        this.mList = ObjectUtil.cast(pList);
     }
 
     @Override

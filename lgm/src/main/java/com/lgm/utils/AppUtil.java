@@ -90,13 +90,13 @@ public class AppUtil {
         return pinfo;
     }
 
-    /**
+  /*  *//**
      * 判断某个界面是否在前台
      *
      * @param context
      * @return boolean
      * 判断当前应用程序处于前台还是后台
-     */
+     *//*
     public static boolean isApplicationBroughtToBackground(final Context context) {
         if (context == null) {
             return false;
@@ -111,7 +111,7 @@ public class AppUtil {
             }
         }
         return false;
-    }
+    }*/
 
     /**
      * 判断某个服务是否正在运行

@@ -58,8 +58,7 @@ import static com.hopeofseed.hopeofseed.R.drawable.corner_enterprise;
  * 修改时间：2016/9/26 16:30
  * 修改备注：
  */
-public class
-UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
+public class UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
     private static final String TAG = "UserActivity";
     ImageView img_user_avatar, img_corner;
     TextView tv_username, tv_follow_sum, tv_fans_sum, tv_address, appTitle;
@@ -298,7 +297,7 @@ UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallB
                 mUserInfo = userInfo;
                 if (userInfo.getAvatarFile() != null) {
                     Glide.with(getApplicationContext())
-                            .load(userInfo.getAvatarFile())
+                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.default_avater).dontAnimate()
                             .centerCrop()
                             .into(img_user_avatar);
                 }
@@ -333,18 +332,14 @@ UserActivity extends AppCompatActivity implements View.OnClickListener, NetCallB
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
         if (rspBaseBean.RequestSign.equals("GetIsFriend")) {
-            Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
             CommResultTmp mCommResultTmp = ObjectUtil.cast(rspBaseBean);
-            Log.e(TAG, "onSuccess: " + rspBaseBean.resultNote + mCommResultTmp.getDetail());
             isFriend = Integer.valueOf(mCommResultTmp.getDetail());
-            Log.e(TAG, "onSuccess:isFriend " + isFriend);
             mHandler.post(updateFollowedStatus);
         } else if (rspBaseBean.RequestSign.equals("AddNewFriend")) {
             CommResultTmp mCommResultTmp = ObjectUtil.cast(rspBaseBean);
-            Log.e(TAG, "onSuccess: " + rspBaseBean.resultNote + mCommResultTmp.getDetail());
             getIsFriend();
         } else {
-            Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
+
             mUserDataNoRealm = ((UserDataNoRealmTmp) ObjectUtil.cast(rspBaseBean)).getDetail().get(0);
             updateView();
         }

@@ -66,7 +66,7 @@ public class CommodityImageAdapter extends RecyclerView.Adapter<CommodityImageAd
 /*            if (arrImage.length > 0 ) {*/
                 Log.e(TAG, "onBindViewHolder: "+Const.IMG_URL + arrImage[0]);
                 Glide.with(mContext)
-                        .load(arrImage[0]).placeholder(R.drawable.no_have_img)
+                        .load(arrImage[0]).placeholder(R.drawable.no_have_img) .dontAnimate()
                         .centerCrop()
                         .into(holder.imageView);
        /*     }*/

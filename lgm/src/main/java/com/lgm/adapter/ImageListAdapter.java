@@ -177,9 +177,9 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void selectImage(ViewHolder holder, boolean isChecked) {
         holder.check.setSelected(isChecked);
         if (isChecked) {
-            holder.picture.setColorFilter(context.getResources().getColor(R.color.image_overlay2), PorterDuff.Mode.SRC_ATOP);
+            holder.picture.setColorFilter(R.color.image_overlay2, PorterDuff.Mode.SRC_ATOP);
         } else {
-            holder.picture.setColorFilter(context.getResources().getColor(R.color.image_overlay), PorterDuff.Mode.SRC_ATOP);
+            holder.picture.setColorFilter(R.color.image_overlay, PorterDuff.Mode.SRC_ATOP);
         }
     }
 

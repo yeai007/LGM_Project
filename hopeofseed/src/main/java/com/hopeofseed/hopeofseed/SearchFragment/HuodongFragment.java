@@ -31,8 +31,6 @@ import java.util.HashMap;
  * 产量
  */
 public class HuodongFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
-    private static final String ARG_POSITION = "position";
-    private static final String STR_SEARCH = "STR_SEARCH";
     private int position;
     RecyclerView recycler_list;
     HuodongListAdapter mAdapter;
@@ -42,26 +40,37 @@ public class HuodongFragment extends Fragment implements SwipeRefreshLayout.OnRe
     Handler mHandler = new Handler();
     int PageNo = 0;
     boolean isLoading = false;
-    boolean isSearch = false;
-    String UserId = "";
+    static boolean isSearch = false;
+    static String UserId = "";
     private SwipeRefreshLayout mRefreshLayout;
 
-    public HuodongFragment(String strSearch, String userId) {
-        Str_search = strSearch;
+
+    public static HuodongFragment newInstance(String strSearch, String userId) {
         if (TextUtils.isEmpty(userId)) {
             isSearch = true;
         } else {
             isSearch = false;
             UserId = userId;
         }
+        HuodongFragment f = new HuodongFragment();
+        Bundle b = new Bundle();
+        b.putString("STR_SEARCH", strSearch);
+        b.putString("userId", userId);
+        f.setArguments(b);
+        return f;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Str_search = getArguments().getString(STR_SEARCH);
-        position = getArguments().getInt(ARG_POSITION);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Str_search = getArguments().getString("STR_SEARCH");
+            position = getArguments().getInt("userId");
+        }    if(TextUtils.isEmpty(Str_search))
+        {
+            Str_search="";
+        }
     }
 
     @Override

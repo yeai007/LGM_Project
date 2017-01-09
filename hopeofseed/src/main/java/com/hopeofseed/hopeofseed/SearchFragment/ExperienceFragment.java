@@ -37,10 +37,6 @@ import java.util.HashMap;
  */
 public class ExperienceFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "ExperienceFragment";
-    private static final String ARG_POSITION = "position";
-    private static final String STR_SEARCH = "STR_SEARCH";
-
-    private int position;
     RecyclerView recy_list;
     static ExperienceDataAdapter mExperienceDataAdapter;
     static ArrayList<ExperienceData> arr_ExperienceData = new ArrayList<>();
@@ -52,23 +48,32 @@ public class ExperienceFragment extends Fragment implements SwipeRefreshLayout.O
     Handler mHandler = new Handler();
     boolean isLoading = false;
     boolean isSearch = false;
-
-    public ExperienceFragment(String strSearch, String userId) {
-        Str_search = strSearch;
-        if (TextUtils.isEmpty(userId)) {
-            isSearch = true;
-        } else {
-            isSearch = false;
-            UserId = userId;
-        }
+    public static ExperienceFragment newInstance( String strSearch, String userId) {
+        ExperienceFragment f = new ExperienceFragment();
+        Bundle b = new Bundle();
+        b.putString("strSearch", strSearch);
+        b.putString("userId", userId);
+        f.setArguments(b);
+        return f;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            Str_search = getArguments().getString("strSearch");
 
-        position = getArguments().getInt(ARG_POSITION);
-        Str_search = getArguments().getString(STR_SEARCH);
+            if (TextUtils.isEmpty(getArguments().getString("userId"))) {
+                isSearch = true;
+            } else {
+                isSearch = false;
+                UserId = getArguments().getString("userId");
+            }
+
+        }    if(TextUtils.isEmpty(Str_search))
+        {
+            Str_search="";
+        }
     }
 
     @Override

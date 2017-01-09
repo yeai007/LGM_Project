@@ -32,8 +32,6 @@ import java.util.HashMap;
  */
 public class CommdityFragment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "CommdityFragment";
-    private static final String ARG_POSITION = "position";
-    private int position;
     RecyclerView recy_list;
     CommodityRecycleListAdapter mCommodityRecycleListAdapter;
     ArrayList<CommodityData> arr_CommodityData = new ArrayList<>();
@@ -42,17 +40,21 @@ public class CommdityFragment extends Fragment implements View.OnClickListener, 
     Button btn_show_all;
     int PageNo = 0;
     private SwipeRefreshLayout mRefreshLayout;
-    String UserId = "";
-
-    public CommdityFragment(String userId) {
-        super();
-        UserId = userId;
+    static String UserId = "";
+    public static CommdityFragment newInstance(String userId) {
+        CommdityFragment f = new CommdityFragment();
+        Bundle b = new Bundle();
+        b.putString("userId",userId);
+        f.setArguments(b);
+        return f;
     }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt(ARG_POSITION);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            UserId = getArguments().getString("userId");
+        }
     }
 
     @Override

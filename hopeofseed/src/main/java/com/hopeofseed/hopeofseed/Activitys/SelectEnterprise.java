@@ -8,7 +8,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -41,14 +44,16 @@ import java.util.HashMap;
 
 import citypickerview.widget.CityPicker;
 
+import static com.hopeofseed.hopeofseed.R.id.lv_list;
+
 /**
  * Created by whisper on 2016/10/7.
  */
-public class SelectEnterprise extends AppCompatActivity implements View.OnClickListener, NetCallBack {
+public class SelectEnterprise extends AppCompatActivity implements View.OnClickListener, NetCallBack, SwipeRefreshLayout.OnRefreshListener {
     AutoCompleteTextView actv_busscropt;
     AutoTextViewAdapter mAutoTextDataAdapter;
     private static final String TAG = "SelectEnterprise";
-    PullToRefreshListView lv_list;
+    RecyclerView recycler_list;
     EnterpriseAdapter mEnterpriseAdapter;
     ArrayList<EnterpriseData> arr_EnterpriseData = new ArrayList<>();
     ArrayList<EnterpriseData> arr_EnterpriseDataTmp = new ArrayList<>();
@@ -59,6 +64,8 @@ public class SelectEnterprise extends AppCompatActivity implements View.OnClickL
     String StrSearch = "";
     private String StrProvince = "", StrCity = "", StrZone = "";
     CityPicker cityPicker;
+    boolean isLoading = false;
+    private SwipeRefreshLayout mRefreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,10 +82,15 @@ public class SelectEnterprise extends AppCompatActivity implements View.OnClickL
         TextView appTitle = (TextView) findViewById(R.id.apptitle);
         appTitle.setText("找企业");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
-        lv_list = (PullToRefreshListView) findViewById(R.id.lv_list);
-        mEnterpriseAdapter = new EnterpriseAdapter(getApplicationContext(), arr_EnterpriseData);
-        lv_list.setAdapter(mEnterpriseAdapter);
-        lv_list.setMode(PullToRefreshBase.Mode.BOTH);
+        recycler_list = (RecyclerView) findViewById(R.id.recycler_list);
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
+        //这个是下拉刷新出现的那个圈圈要显示的颜色
+        mRefreshLayout.setColorSchemeResources(
+                R.color.colorRed,
+                R.color.colorYellow,
+                R.color.colorGreen
+        );
+        mRefreshLayout.setOnRefreshListener(this);
         actv_busscropt = (AutoCompleteTextView) findViewById(R.id.actv_busscropt);
         mAutoTextDataAdapter = new AutoTextViewAdapter(getApplicationContext(), arrAutoData);
         actv_busscropt.setAdapter(mAutoTextDataAdapter);
@@ -149,41 +161,29 @@ public class SelectEnterprise extends AppCompatActivity implements View.OnClickL
     }
 
     private void initList() {
-
-        lv_list.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(SelectEnterprise.this);
+        recycler_list.setLayoutManager(layoutManager);
+        mEnterpriseAdapter = new EnterpriseAdapter(getApplicationContext(), arr_EnterpriseData);
+        recycler_list.setAdapter(mEnterpriseAdapter);
+//滚动监听，在滚动监听里面去实现加载更多的功能
+        recycler_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 
-                String str = DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-                // 下拉刷新 业务代码
-                if (refreshView.isShownHeader()) {
-                    lv_list.getLoadingLayoutProxy().setRefreshingLabel("正在刷新");
-                    lv_list.getLoadingLayoutProxy().setPullLabel("下拉刷新");
-                    lv_list.getLoadingLayoutProxy().setReleaseLabel("释放开始刷新");
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel("最后更新时间:" + str);
-                    PageNo = 0;
-                    getData();
-                }
-                // 上拉加载更多 业务代码
-                if (refreshView.isShownFooter()) {
-                    lv_list.getLoadingLayoutProxy().setRefreshingLabel("正在加载");
-                    lv_list.getLoadingLayoutProxy().setPullLabel("上拉加载更多");
-                    lv_list.getLoadingLayoutProxy().setReleaseLabel("释放加载更多");
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel("最后加载时间:" + str);
-                    PageNo = PageNo + 1;
-                    getData();
-                }
+                super.onScrolled(recyclerView, dx, dy);
 
-            }
-        });
-        lv_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), UserActivity.class);
-                intent.putExtra("userid", String.valueOf(arr_EnterpriseData.get(position - 1).getUser_id()));
-                intent.putExtra("UserRole",Integer.parseInt(String.valueOf(arr_EnterpriseData.get(position-1).getUser_role())));
-                startActivity(intent);
+                int lastVisibleItem = ((LinearLayoutManager) layoutManager).findLastVisibleItemPosition();
+                int totalItemCount = layoutManager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
+                    if (!isLoading) {//一个布尔的变量，默认是false
+                        Log.e(TAG, "onScrolled: loadingmaore");
+                        isLoading = true;
+                        PageNo = PageNo + 1;
+                        getData();
+                    }
+                }
             }
         });
     }
@@ -223,7 +223,7 @@ public class SelectEnterprise extends AppCompatActivity implements View.OnClickL
             EnterpriseDataTmp enterpriseDataTmp = ObjectUtil.cast(rspBaseBean);
             Log.e(TAG, "onSuccess: " + enterpriseDataTmp.toString());
             arr_EnterpriseDataTmp = enterpriseDataTmp.getDetail();
-            updateView();
+           mHandler.post(updateList);
         } else if (rspBaseBean.RequestSign.equals("GetCropAutoData")) {
             AutoDataTmp mAutoDataTmp = ObjectUtil.cast(rspBaseBean);
             arrAutoDataTmp = mAutoDataTmp.getDetail();
@@ -251,21 +251,23 @@ public class SelectEnterprise extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private void updateView() {
-        Message msg = updateViewHandle.obtainMessage();
-        msg.sendToTarget();
-    }
-
-
-    private Handler updateViewHandle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (PageNo == 0) {
-                arr_EnterpriseData.clear();
-            }
-            arr_EnterpriseData.addAll(arr_EnterpriseDataTmp);
-            mEnterpriseAdapter.notifyDataSetChanged();
-            lv_list.onRefreshComplete();
+Runnable updateList=new Runnable() {
+    @Override
+    public void run() {
+        if (PageNo == 0) {
+            arr_EnterpriseData.clear();
         }
-    };
+        arr_EnterpriseData.addAll(arr_EnterpriseDataTmp);
+        mEnterpriseAdapter.notifyDataSetChanged();
+        mRefreshLayout.setRefreshing(false);
+        isLoading = false;
+    }
+};
+
+    @Override
+    public void onRefresh() {
+        PageNo = 0;
+        getData();
+        isLoading = false;
+    }
 }

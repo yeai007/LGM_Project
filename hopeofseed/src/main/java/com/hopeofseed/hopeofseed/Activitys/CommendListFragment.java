@@ -19,10 +19,10 @@ import com.hopeofseed.hopeofseed.JNXData.CommentDataNew;
 
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommentDataNewTmp;
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.SearchFragment.NowFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 
 
 /**
@@ -45,6 +45,15 @@ public class CommendListFragment extends Fragment implements NetCallBack {
     String NewId;
 
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            NewId = getArguments().getString("newId");
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,9 +64,16 @@ public class CommendListFragment extends Fragment implements NetCallBack {
         return v;
     }
 
-    public CommendListFragment(String newId) {
-        super();
-        NewId = newId;
+    /*    public CommendListFragment(String newId) {
+            super();
+            NewId = newId;
+        }*/
+    public static CommendListFragment newInstance(String newId) {
+        CommendListFragment f = new CommendListFragment();
+        Bundle b = new Bundle();
+        b.putString("newId", newId);
+        f.setArguments(b);
+        return f;
     }
 
     private void getData() {

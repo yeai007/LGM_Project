@@ -125,10 +125,10 @@ public class DistributorDataAdapter extends RecyclerView.Adapter<DistributorData
                             .into(holder.img_user_avatar);
 
                 } else {*/
-                    Glide.with(mContext)
-                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default)
-                            .centerCrop()
-                            .into(holder.img_user_avatar);
+                Glide.with(mContext)
+                        .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default).dontAnimate()
+                        .centerCrop()
+                        .into(holder.img_user_avatar);
             /*    }*/
 
             }

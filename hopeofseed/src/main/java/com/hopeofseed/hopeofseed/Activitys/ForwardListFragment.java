@@ -42,9 +42,24 @@ public class ForwardListFragment extends Fragment implements NetCallBack {
     Handler mHandle = new Handler();
     String NewId;
 
-    public ForwardListFragment(String newId) {
+/*    public ForwardListFragment(String newId) {
         super();
         NewId = newId;
+    }*/
+    public static ForwardListFragment newInstance(String newId) {
+        ForwardListFragment f = new ForwardListFragment();
+        Bundle b = new Bundle();
+        b.putString("newId", newId);
+        f.setArguments(b);
+        return f;
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            NewId = getArguments().getString("newId");
+        }
     }
 
     @Nullable

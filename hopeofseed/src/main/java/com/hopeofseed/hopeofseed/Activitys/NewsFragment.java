@@ -131,6 +131,7 @@ public class NewsFragment extends Fragment implements NetCallBack, SwipeRefreshL
         add_new = (ImageView) v.findViewById(R.id.add_new);
         add_new.setOnClickListener(listener);
           (v.findViewById(R.id.btn_topright)).setOnClickListener(listener);
+        Const.GetShareData(getActivity());
         btn_topleft = (TextView) v.findViewById(R.id.btn_topleft);
         btn_topleft.setText(Const.UserLocation.replace("市", ""));
         btn_topleft.setOnClickListener(listener);

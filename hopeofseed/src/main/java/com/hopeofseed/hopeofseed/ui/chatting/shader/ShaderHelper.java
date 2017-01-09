@@ -24,6 +24,7 @@ import com.hopeofseed.hopeofseed.ui.chatting.utils.IdHelper;
 
 
 @SuppressWarnings("WeakerAccess")
+
 public abstract class ShaderHelper {
     private final static int ALPHA_MAX = 255;
 
@@ -64,7 +65,7 @@ public abstract class ShaderHelper {
     public boolean isSquare() {
         return square;
     }
-
+    @SuppressWarnings("ResourceType")
     public void init(Context context, AttributeSet attrs, int defStyle) {
         if(attrs != null){
             int[] declareStyleableArray = IdHelper.getResourceDeclareStyleableIntArray(context, "ShaderImageView");

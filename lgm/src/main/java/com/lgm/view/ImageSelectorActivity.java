@@ -209,7 +209,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
         });
     }
 
-
+    @SuppressWarnings("unchecked")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.e(TAG, "onActivityResult: "+RESULT_OK);

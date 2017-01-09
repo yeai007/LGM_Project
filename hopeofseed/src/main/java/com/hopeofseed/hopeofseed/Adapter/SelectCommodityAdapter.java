@@ -89,15 +89,20 @@ public class SelectCommodityAdapter extends BaseAdapter {
         }
         String[] arrImage = mData.getCommodityImgs().split(";");
         /*if (arrImage.length > 0 && (!TextUtils.isEmpty(arrImage[0]))) {*/
-            Log.e(TAG, "getView: " + Const.IMG_URL + arrImage[0]);
-            Glide.with(mContext)
-                    .load(Const.IMG_URL + arrImage[0])
-                    .centerCrop()
-                    .into(holder.img_show);
+        Log.e(TAG, "getView: " + Const.IMG_URL + arrImage[0]);
+        Glide.with(mContext)
+                .load(Const.IMG_URL + arrImage[0])
+                .centerCrop()
+                .into(holder.img_show);
         /*}*/
         holder.tv_name.setText(mData.getCommodityName());
-        holder.tv_content.setText(mData.getCommodityTitle());
-        holder.tv_price.setText(mData.getCommodityPrice());
+        holder.tv_content.setText(mData.getCommodityVariety());
+        if (TextUtils.isEmpty(mData.getCommodityPrice()) || mData.getCommodityPrice().equals("0")) {
+            holder.tv_price.setText("￥ " + " 议价");
+        } else {
+            holder.tv_price.setText("￥ " + mData.getCommodityPrice());
+        }
+/*        holder.tv_price.setText(mData.getCommodityPrice());*/
         // 监听checkBox并根据原来的状态来设置新的状态
         holder.check_item.setOnClickListener(new View.OnClickListener() {
 

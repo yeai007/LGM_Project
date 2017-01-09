@@ -63,7 +63,11 @@ public class MyCommodityRecycleListAdapter extends RecyclerView.Adapter<MyCommod
             holder.commodity_img.setImageResource(R.drawable.no_have_img);
         }*/
         holder.commodity_name.setText(itemData.getCommodityName());
-        holder.commodity_price.setText("￥" + itemData.getCommodityPrice());
+        if (TextUtils.isEmpty(itemData.getCommodityPrice()) || itemData.getCommodityPrice().equals("0")) {
+            holder.commodity_price.setText("￥ " +" 议价");
+        } else {
+            holder.commodity_price.setText("￥ " + itemData.getCommodityPrice());
+        }
         holder.item_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

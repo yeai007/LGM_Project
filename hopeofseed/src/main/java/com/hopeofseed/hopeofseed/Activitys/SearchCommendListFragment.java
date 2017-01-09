@@ -44,6 +44,23 @@ public class SearchCommendListFragment extends Fragment implements NetCallBack {
     Handler mHandle = new Handler();
     String InfoId, NewClass;
 
+    public static SearchCommendListFragment newInstance(String infoId, String newClass) {
+        SearchCommendListFragment f = new SearchCommendListFragment();
+        Bundle b = new Bundle();
+        b.putString("infoId", infoId);
+        b.putString("newClass", newClass);
+        f.setArguments(b);
+        return f;
+    }
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            InfoId = getArguments().getString("infoId");
+            NewClass = getArguments().getString("newClass");
+        }
+    }
 
     @Nullable
     @Override
@@ -55,11 +72,11 @@ public class SearchCommendListFragment extends Fragment implements NetCallBack {
         return v;
     }
 
-    public SearchCommendListFragment(String infoId, String newClass) {
+/*    public SearchCommendListFragment(String infoId, String newClass) {
         super();
         InfoId = infoId;
         NewClass = newClass;
-    }
+    }*/
 
     private void getData() {
         HashMap<String, String> opt_map = new HashMap<>();

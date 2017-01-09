@@ -31,7 +31,7 @@ public class Option {
                         // 设置下载的图片是否缓存在内存中
                         .cacheInMemory(false)
                         // 设置下载的图片是否缓存在SD卡中
-                        .cacheOnDisc(true)
+                        .cacheOnDisk(true)
                         // 保留Exif信息
                         .considerExifParams(true)
                         // 设置图片以如何的编码方式显示
@@ -54,11 +54,11 @@ public class Option {
             case 1:
                 //圆形图片
                 options = new DisplayImageOptions.Builder()
-                        .showStubImage(getLoadRes(loadRes))
+                        .showImageOnLoading(getLoadRes(loadRes))
                         //  .showImageForEmptyUri(R.mipmap.ic_launcher)
                         .showImageOnFail(getFailRes(failRes))
                         .cacheInMemory(true)
-                        .cacheOnDisc(true)
+                        .cacheOnDisk(true)
                         .bitmapConfig(Bitmap.Config.ARGB_8888)   //设置图片的解码类型
                         .displayer(new DisplayerRound(0))
                         .build();
