@@ -75,6 +75,12 @@ public class DistributorCommodity {
     private String DistributorLon;
     private String user_id;
     private String Distance;
+    /**
+     * UserAvatar : 675e8da40952fcbfa352783e9145248b.jpg
+     */
+
+    private String UserAvatar;
+
     public String getCommodityId() {
         return CommodityId;
     }
@@ -323,5 +329,13 @@ public class DistributorCommodity {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
     }
 }

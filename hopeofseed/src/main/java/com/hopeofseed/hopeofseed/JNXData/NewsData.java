@@ -59,8 +59,6 @@ public class NewsData extends RealmObject {
     private String user_role;
     private String user_field;
     private String user_role_id;
-    private String fllowed_count;
-    private String been_fllowed_count;
     @PrimaryKey
     private int id;
     private String title;
@@ -91,6 +89,11 @@ public class NewsData extends RealmObject {
      */
 
     private int zambiaCount;
+    /**
+     * UserAvatar : 675e8da40952fcbfa352783e9145248b.jpg
+     */
+
+    private String UserAvatar;
 
     public String getUser_id() {
         return user_id;
@@ -170,22 +173,6 @@ public class NewsData extends RealmObject {
 
     public void setUser_role_id(String user_role_id) {
         this.user_role_id = user_role_id;
-    }
-
-    public String getFllowed_count() {
-        return fllowed_count;
-    }
-
-    public void setFllowed_count(String fllowed_count) {
-        this.fllowed_count = fllowed_count;
-    }
-
-    public String getBeen_fllowed_count() {
-        return been_fllowed_count;
-    }
-
-    public void setBeen_fllowed_count(String been_fllowed_count) {
-        this.been_fllowed_count = been_fllowed_count;
     }
 
     public int getId() {
@@ -347,5 +334,13 @@ public class NewsData extends RealmObject {
 
     public void setZambiaCount(int zambiaCount) {
         this.zambiaCount = zambiaCount;
+    }
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
     }
 }

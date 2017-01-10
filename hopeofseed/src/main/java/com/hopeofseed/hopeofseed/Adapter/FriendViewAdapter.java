@@ -74,8 +74,7 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
         final FriendData itemData = mlist.get(position);
         holder.tv_name.setText(itemData.getNickname());
         holder.tv_address.setText(itemData.getUserProvince() + "  " + itemData.getUserCity() + "  " + itemData.getUserZone());
-
-        getUserJpushInfo(Const.JPUSH_PREFIX + itemData.getUser_id_1(), holder, Integer.parseInt(itemData.getUser_role()));
+        updateUserAvata(holder.img_corner,holder.img_user_avatar,Integer.parseInt(itemData.getUser_role()),itemData.getUserAvatar());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,172 +247,42 @@ public class FriendViewAdapter extends RecyclerView.Adapter<FriendViewAdapter.Vi
         hu.httpPost(Const.BASE_URL + "AddNewFriend.php", opt_map, CommResultTmp.class, this);
     }
 
-    private void getUserJpushInfo(String user_name, final ViewHolder holder, final int user_role) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                holder.img_corner.setVisibility(View.VISIBLE);
-                switch (user_role) {
-                    case 0:
-                        holder.tv_user_role.setText("【农友】");
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_user_default)  .placeholder(R.drawable.corner_user_default)  .dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_corner);
-/*                        Glide.with(mContext)
-                                .load(R.drawable.header_user_default)
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_user_default)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default)         .dontAnimate()
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                       /* }*/
-                        break;
-                    case 1:
-                        holder.tv_user_role.setText("【经销商】");
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_distributor)  .dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_corner);
-/*                        Glide.with(mContext)
-                                .load(R.drawable.header_distributor_default)
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_distributor_default)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()) .placeholder(R.drawable.header_distributor_default)   .dontAnimate()
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                      /*  }*/
-                        break;
-                    case 2:
-                        holder.tv_user_role.setText("【企业】");
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_enterprise) .dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_corner);
-/*                        Glide.with(mContext)
-                                .load(R.drawable.header_enterprise_default)
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_enterprise_default)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())    .placeholder(R.drawable.header_enterprise_default)   .dontAnimate()
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                    /*    }*/
-                        break;
-                    case 3:
-                        holder.tv_user_role.setText("【专家】");
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_expert)            .dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_corner);
-/*                        Glide.with(mContext)
-                                .load(R.drawable.header_expert_default)
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_expert_default)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())    .placeholder(R.drawable.header_expert_default)    .dontAnimate()
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-             /*           }*/
-                        break;
-                    case 4:
-                        holder.tv_user_role.setText("【机构】");
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_author).dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_corner);
-  /*                      Glide.with(mContext)
-                                .load(R.drawable.header_author_default)
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_author_default)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())     .placeholder(R.drawable.header_author_default)  .dontAnimate()
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                       /* }*/
-                    case 6:
-                        holder.tv_user_role.setText("【媒体】");
-                        holder.img_corner.setVisibility(View.GONE);
-   /*                     Glide.with(mContext)
-                                .load(R.drawable.user_media)
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.user_media)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())    .placeholder(R.drawable.user_media)    .dontAnimate()
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-     /*                   }*/
-                        break;
-                    case 5:
-                        holder.tv_user_role.setText("【管理员】");
-                        holder.img_corner.setVisibility(View.GONE);
-         /*               Glide.with(mContext)
-                                .load(R.drawable.user_system)
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.user_system)
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile())         .placeholder(R.drawable.user_system)      .dontAnimate()
-                                    .centerCrop()
-                                    .into(holder.img_user_avatar);
-                    /*    }*/
-                        break;
-                }
-
-            }
-        });
+    private void updateUserAvata(ImageView imageConner, ImageView ImageAvatar, int UserRole, String avatarURL) {
+        imageConner.setVisibility(View.VISIBLE);
+        avatarURL=Const.IMG_URL+avatarURL;
+        switch (UserRole) {
+            case 0:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_user_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 1:
+                Glide.with(mContext).load(R.drawable.corner_distributor).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 2:
+                Glide.with(mContext).load(R.drawable.corner_enterprise).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_enterprise_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 3:
+                Glide.with(mContext).load(R.drawable.corner_expert).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_expert_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 4:
+                Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_author_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 5:
+                imageConner.setVisibility(View.GONE);
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_media).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 6:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_system).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+        }
     }
+
+
+
 }

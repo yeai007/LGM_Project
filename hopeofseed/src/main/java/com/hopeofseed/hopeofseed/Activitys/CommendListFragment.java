@@ -16,10 +16,8 @@ import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.CommentDataNew;
-
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommentDataNewTmp;
 import com.hopeofseed.hopeofseed.R;
-import com.hopeofseed.hopeofseed.SearchFragment.NowFragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,17 +55,12 @@ public class CommendListFragment extends Fragment implements NetCallBack {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         final View v = inflater.inflate(R.layout.pager_list_forwar, null);
         initView(v);
         getData();
         return v;
     }
 
-    /*    public CommendListFragment(String newId) {
-            super();
-            NewId = newId;
-        }*/
     public static CommendListFragment newInstance(String newId) {
         CommendListFragment f = new CommendListFragment();
         Bundle b = new Bundle();

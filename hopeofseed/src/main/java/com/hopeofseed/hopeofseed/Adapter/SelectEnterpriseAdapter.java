@@ -70,7 +70,11 @@ public class SelectEnterpriseAdapter extends RecyclerView.Adapter<SelectEnterpri
                 mContext.startActivity(intent);
             }
         });
-        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), holder);
+
+        Glide.with(mContext)
+                .load(mData.getUserAvatar()).placeholder(R.drawable.header_enterprise_default) .dontAnimate()
+                .centerCrop()
+                .into(holder.img_user_avatar);
     }
 
     @Override
@@ -115,27 +119,4 @@ public class SelectEnterpriseAdapter extends RecyclerView.Adapter<SelectEnterpri
             }
         }
     };
-
-    private void getUserJpushInfo(String user_name, final ViewHolder holder) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-
-/*                if (userInfo.getAvatarFile() == null) {
-                    Glide.with(mContext)
-                            .load(R.drawable.header_enterprise_default).placeholder(R.drawable.no_have_img)
-                            .centerCrop()
-                            .into(holder.img_user_avatar);
-
-                } else {*/
-                    Glide.with(mContext)
-                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default) .dontAnimate()
-                            .centerCrop()
-                            .into(holder.img_user_avatar);
-/*                }*/
-
-            }
-        });
-    }
-
 }

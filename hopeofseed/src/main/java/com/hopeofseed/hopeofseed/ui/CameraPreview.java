@@ -9,7 +9,9 @@ import android.view.SurfaceView;
 import java.io.IOException;
 
 
-/** 摄像头预览界面控件 */
+/**
+ * 摄像头预览界面控件
+ */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
 
     private SurfaceHolder mHolder;
@@ -41,7 +43,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-        if (mCamera == null||mHolder.getSurface() == null){
+        if (mCamera == null || mHolder.getSurface() == null) {
             // preview surface does not exist
             return;
         }
@@ -49,7 +51,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // stop preview before making changes
         try {
             mCamera.stopPreview();
-        } catch (Exception e){
+        } catch (Exception e) {
             // ignore: tried to stop a non-existent preview
         }
 
@@ -60,13 +62,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         try {
             mCamera.setPreviewDisplay(mHolder);
             mCamera.setDisplayOrientation(90);
-            Camera.Parameters parameters=mCamera.getParameters();
+            Camera.Parameters parameters = mCamera.getParameters();
             parameters.set("orientation", "portrait");
             parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
             mCamera.setParameters(parameters);
             mCamera.startPreview();
 
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.d(TAG, "Error starting camera preview: " + e.getMessage());
         }
     }

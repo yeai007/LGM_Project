@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +31,8 @@ import com.lgm.utils.ObjectUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static com.hopeofseed.hopeofseed.R.id.lv_distributor;
+
 
 /**
  * 项目名称：LGM_Project
@@ -38,15 +43,19 @@ import java.util.HashMap;
  * 修改时间：2016/10/7 20:30
  * 修改备注：
  */
-public class AuthorListFragment extends Fragment implements NetCallBack {
+public class AuthorListFragment extends Fragment implements NetCallBack,SwipeRefreshLayout.OnRefreshListener  {
     private static final String TAG = "AuthorListFragment";
-    PullToRefreshListView lv_distributor;
     AuthorDataAdapter mAuthorDataAdapter;
     ArrayList<AuthorData> arrAuthorData = new ArrayList<>();
     ArrayList<AuthorData> arrAuthorDataTmp = new ArrayList<>();
     Handler mHandle = new Handler();
     int ClassId = 0;
-
+    RecyclerView recy_list;
+    private SwipeRefreshLayout mRefreshLayout;
+    int PageNo = 0;
+    Handler mHandler = new Handler();
+    boolean isLoading = false;
+    boolean isSearch = false;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,39 +67,43 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
     }
 
     private void initView(View v) {
-        lv_distributor = (PullToRefreshListView) v.findViewById(R.id.lv_list);
-        mAuthorDataAdapter = new AuthorDataAdapter(getActivity(), arrAuthorData);
-        lv_distributor.setAdapter(mAuthorDataAdapter);
-        lv_distributor.setOnItemClickListener(myListener);
-        initList();
-    }
-
-    private void initList() {
-        lv_distributor.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+        mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.layout_swipe_refresh);
+        //这个是下拉刷新出现的那个圈圈要显示的颜色
+        mRefreshLayout.setColorSchemeResources(
+                R.color.colorRed,
+                R.color.colorYellow,
+                R.color.colorGreen
+        );
+        mRefreshLayout.setOnRefreshListener(this);
+        recy_list = (RecyclerView) v.findViewById(R.id.recy_list);
+        final LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        recy_list.setLayoutManager(manager);
+        mAuthorDataAdapter = new AuthorDataAdapter(getContext(), arrAuthorData);
+        recy_list.setAdapter(mAuthorDataAdapter);
+        recy_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                String str = DateUtils.formatDateTime(getActivity(), System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-                // 下拉刷新 业务代码
-                if (refreshView.isShownHeader()) {
-                    lv_distributor.getLoadingLayoutProxy().setRefreshingLabel("正在刷新");
-                    lv_distributor.getLoadingLayoutProxy().setPullLabel("下拉刷新");
-                    lv_distributor.getLoadingLayoutProxy().setReleaseLabel("释放开始刷新");
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel("最后更新时间:" + str);
-                    getData();
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+                int totalItemCount = manager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
+                    if (!isLoading) {//一个布尔的变量，默认是false
+                        isLoading = true;
+                        PageNo = PageNo + 1;
+                        getData();
+                    } else {
+                        //当没有更多的数据的时候去掉加载更多的布局
+/*                        RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
+                        adapter.setIsNeedMore(false);
+                        adapter.notifyDataSetChanged();*/
+                    }
                 }
-                // 上拉加载更多 业务代码
-                if (refreshView.isShownFooter()) {
-                    lv_distributor.getLoadingLayoutProxy().setRefreshingLabel("正在加载");
-                    lv_distributor.getLoadingLayoutProxy().setPullLabel("上拉加载更多");
-                    lv_distributor.getLoadingLayoutProxy().setReleaseLabel("释放加载更多");
-                    refreshView.getLoadingLayoutProxy().setLastUpdatedLabel("最后加载时间:" + str);
-                    getData();
-                }
-
             }
         });
-    }
 
+    }
     private void getData() {
         Log.e(TAG, "getData: 获取经销商数据");
         HashMap<String, String> opt_map = new HashMap<>();
@@ -135,7 +148,8 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
             arrAuthorData.clear();
             arrAuthorData.addAll(arrAuthorDataTmp);
             mAuthorDataAdapter.notifyDataSetChanged();
-            lv_distributor.onRefreshComplete();
+            mRefreshLayout.setRefreshing(false);
+            isLoading = false;
         }
     };
 
@@ -148,6 +162,11 @@ public class AuthorListFragment extends Fragment implements NetCallBack {
     }
 
     public void refreshData() {
+        getData();
+    }
+    @Override
+    public void onRefresh() {
+        PageNo = 0;
         getData();
     }
 }

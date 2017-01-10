@@ -85,82 +85,53 @@ public class HuodongListAdapter extends RecyclerView.Adapter<HuodongListAdapter.
         holder.tv_content.setMaxLines(3);
         holder.tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
         updateTime(itemData.getHuodongCreateTime(), holder);
-        getUserJpushInfo(holder,position);
+        updateUserAvata(holder.img_corner, holder.img_user_avatar, Integer.parseInt(itemData.getUser_role()), itemData.getUserAvatar());
         holder.rel_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext.getApplicationContext(), NewsInfoNewActivity.class);
-                intent.putExtra("isInfo",true);
-                intent.putExtra("NewClass",7);
-                intent.putExtra("InfoId", ObjectUtil.RemoveOpenZero( itemData.getHuodongId()));
+                intent.putExtra("isInfo", true);
+                intent.putExtra("NewClass", 7);
+                intent.putExtra("InfoId", ObjectUtil.RemoveOpenZero(itemData.getHuodongId()));
                 mContext.startActivity(intent);
             }
         });
     }
 
-    private void getUserJpushInfo(ViewHolder holder, int position) {
-        final HuodongData itemData=mList.get(position);
-        ImageView img_corner = null;
-        ImageView img_user = null;
-        img_corner =holder.img_corner;
-        img_user = holder.img_user_avatar;
-        final ImageView finalImg_corner = img_corner;
-        final ImageView finalImg_user = img_user;
-        JMessageClient.getUserInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
-                //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
-                int user_role = Integer.parseInt(itemData.getUser_role());
-                switch (user_role) {
-                    case 0:
-                        Glide.with(mContext).load(R.drawable.corner_user_default).placeholder(R.drawable.corner_user_default).dontAnimate().centerCrop().into(finalImg_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_user_default).centerCrop().into(finalImg_user);
-                        } else {*/
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default).dontAnimate().centerCrop().into(finalImg_user);
-                      /*  }*/
-                        break;
-                    case 1:
-                        Glide.with(mContext).load(R.drawable.corner_distributor).placeholder(R.drawable.corner_distributor).dontAnimate().centerCrop().into(finalImg_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_distributor_default).centerCrop().into(finalImg_user);
-
-                        } else {*/
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(finalImg_user);
-                   /*     }*/
-                        break;
-                    case 2:
-                        Glide.with(mContext).load(R.drawable.corner_enterprise).placeholder(R.drawable.corner_enterprise).dontAnimate().centerCrop().into(finalImg_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_enterprise_default).centerCrop().into(finalImg_user);
-
-                        } else {*/
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default).dontAnimate().centerCrop().into(finalImg_user);
-                     /*   }*/
-                        break;
-                    case 3:
-                        Glide.with(mContext).load(R.drawable.corner_expert).placeholder(R.drawable.corner_expert).dontAnimate().centerCrop().into(finalImg_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_expert_default).centerCrop().into(finalImg_user);
-
-                        } else {*/
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default).dontAnimate().centerCrop().into(finalImg_user);
-                     /*   }*/
-                        break;
-                    case 4:
-                        Glide.with(mContext).load(R.drawable.corner_author).placeholder(R.drawable.corner_author).dontAnimate().centerCrop().into(finalImg_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_author_default).centerCrop().into(finalImg_user);
-
-                        } else {*/
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default).dontAnimate().centerCrop().into(finalImg_user);
-                    /*    }*/
-                        break;
-                }
-
-            }
-        });
+    private void updateUserAvata(ImageView imageConner, ImageView ImageAvatar, int UserRole, String avatarURL) {
+        imageConner.setVisibility(View.VISIBLE);
+        avatarURL = Const.IMG_URL + avatarURL;
+        switch (UserRole) {
+            case 0:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_user_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 1:
+                Glide.with(mContext).load(R.drawable.corner_distributor).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 2:
+                Glide.with(mContext).load(R.drawable.corner_enterprise).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_enterprise_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 3:
+                Glide.with(mContext).load(R.drawable.corner_expert).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_expert_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 4:
+                Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_author_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 5:
+                imageConner.setVisibility(View.GONE);
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_media).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 6:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_system).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+        }
     }
 
     private void updateTime(String huodongCreateTime, ViewHolder holder) {
@@ -200,7 +171,8 @@ public class HuodongListAdapter extends RecyclerView.Adapter<HuodongListAdapter.
         ImageView img_user_avatar, img_corner;
         TextView user_name, send_time, tv_title, tv_content;
         RecyclerView result_recycler;
-RelativeLayout rel_content;
+        RelativeLayout rel_content;
+
         public ViewHolder(View itemView) {
             super(itemView);
             img_user_avatar = (ImageView) itemView.findViewById(R.id.img_user_avatar);
@@ -210,7 +182,7 @@ RelativeLayout rel_content;
             tv_title = (TextView) itemView.findViewById(R.id.tv_title);
             tv_content = (TextView) itemView.findViewById(R.id.tv_content);
             result_recycler = (RecyclerView) itemView.findViewById(R.id.result_recycler);
-            rel_content=(RelativeLayout)itemView.findViewById(R.id.rel_content);
+            rel_content = (RelativeLayout) itemView.findViewById(R.id.rel_content);
         }
     }
 }

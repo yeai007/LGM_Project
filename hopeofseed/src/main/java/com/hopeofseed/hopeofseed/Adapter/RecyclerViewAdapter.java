@@ -191,10 +191,6 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         } else if (holder instanceof FooterViewHolder) {
 
         }
-        if (holder instanceof FooterViewHolder) {
-        } else {
-            getUserJpushInfo(holder, position);
-        }
     }
 
     @Override
@@ -261,7 +257,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
-        getUserJpushInfo(holder,position);
+        updateUserAvata((ImageView) holder.getView(R.id.img_corner), (ImageView) holder.getView(R.id.img_user_avatar), Integer.parseInt(mData.getUser_role()), mData.getUserAvatar());
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);
         holder.getView(R.id.rel_forward).setOnClickListener(this);
@@ -315,6 +311,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
+        updateUserAvata((ImageView) holder.getView(R.id.img_corner), (ImageView) holder.getView(R.id.img_user_avatar), Integer.parseInt(mData.getUser_role()), mData.getUserAvatar());
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);
         holder.getView(R.id.rel_forward).setOnClickListener(this);
@@ -368,6 +365,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
+        updateUserAvata((ImageView) holder.getView(R.id.img_corner), (ImageView) holder.getView(R.id.img_user_avatar), Integer.parseInt(mData.getUser_role()), mData.getUserAvatar());
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);
         holder.getView(R.id.rel_forward).setOnClickListener(this);
@@ -422,6 +420,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
+        updateUserAvata((ImageView) holder.getView(R.id.img_corner), (ImageView) holder.getView(R.id.img_user_avatar), Integer.parseInt(mData.getUser_role()), mData.getUserAvatar());
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);
         holder.getView(R.id.rel_forward).setOnClickListener(this);
@@ -476,6 +475,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
+        updateUserAvata((ImageView) holder.getView(R.id.img_corner), (ImageView) holder.getView(R.id.img_user_avatar), Integer.parseInt(mData.getUser_role()), mData.getUserAvatar());
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);
         holder.getView(R.id.rel_forward).setOnClickListener(this);
@@ -530,6 +530,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
+        updateUserAvata((ImageView) holder.getView(R.id.img_corner), (ImageView) holder.getView(R.id.img_user_avatar), Integer.parseInt(mData.getUser_role()), mData.getUserAvatar());
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);
         holder.getView(R.id.rel_forward).setOnClickListener(this);
@@ -584,6 +585,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
+        updateUserAvata((ImageView) holder.getView(R.id.img_corner), (ImageView) holder.getView(R.id.img_user_avatar), Integer.parseInt(mData.getUser_role()), mData.getUserAvatar());
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);
         holder.getView(R.id.rel_forward).setOnClickListener(this);
@@ -638,6 +640,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         NewsImageAdapter gridAdapter = new NewsImageAdapter(mContext, images);
         holder.resultRecyclerView.setAdapter(gridAdapter);
         updateTime(mData.getNewcreatetime(), holder);
+        updateUserAvata((ImageView) holder.getView(R.id.img_corner), (ImageView) holder.getView(R.id.img_user_avatar), Integer.parseInt(mData.getUser_role()), mData.getUserAvatar());
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);
         holder.getView(R.id.rel_forward).setOnClickListener(this);
@@ -686,6 +689,7 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
                 .centerCrop()
                 .into(((ImageView) holder.getView(R.id.img_zambia)));
         updateTime(mData.getNewcreatetime(), holder);
+        updateUserAvata((ImageView) holder.getView(R.id.img_corner), (ImageView) holder.getView(R.id.img_user_avatar), Integer.parseInt(mData.getUser_role()), mData.getUserAvatar());
         //*************************OnclickBegin*******************************************************
         holder.getView(R.id.rel_forward).setTag(mData);
         holder.getView(R.id.rel_forward).setOnClickListener(this);
@@ -1044,115 +1048,40 @@ public class RecyclerViewAdapter<T> extends RecyclerView.Adapter implements View
         }
     }
 
-    private void getUserJpushInfo(RecyclerView.ViewHolder holder, int position) {
-        final NewsData mData = ObjectUtil.cast(mList.get(position));
-        ImageView img_corner = null;
-        ImageView img_user = null;
-        if (holder instanceof ViewHolder0) {
-            img_corner = ((ImageView) ((ViewHolder0) holder).getView(R.id.img_corner));
-            img_user = ((ImageView) ((ViewHolder0) holder).getView(R.id.img_user_avatar));
-        } else if (holder instanceof ViewHolder1) {
-            img_corner = ((ImageView) ((ViewHolder1) holder).getView(R.id.img_corner));
-            img_user = ((ImageView) ((ViewHolder1) holder).getView(R.id.img_user_avatar));
-        } else if (holder instanceof ViewHolder2) {
-            img_corner = ((ImageView) ((ViewHolder2) holder).getView(R.id.img_corner));
-            img_user = ((ImageView) ((ViewHolder2) holder).getView(R.id.img_user_avatar));
-        } else if (holder instanceof ViewHolder3) {
-            img_corner = ((ImageView) ((ViewHolder3) holder).getView(R.id.img_corner));
-            img_user = ((ImageView) ((ViewHolder3) holder).getView(R.id.img_user_avatar));
-        } else if (holder instanceof ViewHolder4) {
-            img_corner = ((ImageView) ((ViewHolder4) holder).getView(R.id.img_corner));
-            img_user = ((ImageView) ((ViewHolder4) holder).getView(R.id.img_user_avatar));
-        } else if (holder instanceof ViewHolder5) {
-            img_corner = ((ImageView) ((ViewHolder5) holder).getView(R.id.img_corner));
-            img_user = ((ImageView) ((ViewHolder5) holder).getView(R.id.img_user_avatar));
-        } else if (holder instanceof ViewHolder6) {
-            img_corner = ((ImageView) ((ViewHolder6) holder).getView(R.id.img_corner));
-            img_user = ((ImageView) ((ViewHolder6) holder).getView(R.id.img_user_avatar));
-        } else if (holder instanceof ViewHolder7) {
-            img_corner = ((ImageView) ((ViewHolder7) holder).getView(R.id.img_corner));
-            img_user = ((ImageView) ((ViewHolder7) holder).getView(R.id.img_user_avatar));
-        } else if (holder instanceof ViewHolder8) {
-            img_corner = ((ImageView) ((ViewHolder8) holder).getView(R.id.img_corner));
-            img_user = ((ImageView) ((ViewHolder8) holder).getView(R.id.img_user_avatar));
+    private void updateUserAvata(ImageView imageConner, ImageView ImageAvatar, int UserRole, String avatarURL) {
+        imageConner.setVisibility(View.VISIBLE);
+        avatarURL=Const.IMG_URL+avatarURL;
+        switch (UserRole) {
+            case 0:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_user_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 1:
+                Glide.with(mContext).load(R.drawable.corner_distributor).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 2:
+                Glide.with(mContext).load(R.drawable.corner_enterprise).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_enterprise_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 3:
+                Glide.with(mContext).load(R.drawable.corner_expert).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_expert_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 4:
+                Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_author_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 5:
+                imageConner.setVisibility(View.GONE);
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_media).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 6:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_system).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
         }
-        final ImageView finalImg_corner = img_corner;
-        final ImageView finalImg_user = img_user;
-        JMessageClient.getUserInfo(Const.JPUSH_PREFIX + mData.getUser_id(), new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-
-                int user_role = Integer.parseInt(mData.getUser_role());
-                finalImg_corner.setVisibility(View.VISIBLE);
-                switch (user_role) {
-                    case 0:
-                        Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_user_default).centerCrop().into(finalImg_user);
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
-                        break;
-                    case 1:
-                        Glide.with(mContext).load(R.drawable.corner_distributor).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_distributor_default).centerCrop().into(finalImg_user);
-
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
-                        break;
-                    case 2:
-                        Glide.with(mContext).load(R.drawable.corner_enterprise).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_enterprise_default).centerCrop().into(finalImg_user);
-
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
-                        break;
-                    case 3:
-                        Glide.with(mContext).load(R.drawable.corner_expert).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_expert_default).centerCrop().into(finalImg_user);
-
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
-                        break;
-                    case 4:
-                        Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_author_default).centerCrop().into(finalImg_user);
-
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
-                        break;
-                    case 5:
-                        finalImg_corner.setVisibility(View.GONE);
-                        Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.user_media).centerCrop().into(finalImg_user);
-
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
-                        break;
-                    case 6:
-                        finalImg_corner.setVisibility(View.GONE);
-                        Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(finalImg_corner);
-                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.user_system).centerCrop().into(finalImg_user);
-
-                        } else {
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).centerCrop().into(finalImg_user);
-                        }
-                        break;
-                }
-
-            }
-        });
     }
 
     private void updateTime(String time, RecyclerView.ViewHolder holder) {

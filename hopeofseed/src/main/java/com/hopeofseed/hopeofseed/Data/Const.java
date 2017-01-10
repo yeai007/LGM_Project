@@ -65,6 +65,8 @@ public class Const {
         }
         editor.putString("UserLocation", Const.UserLocation);
         editor.putInt("AreaConfig", Const.AreaConfig);
+        editor.putString("LocLat",String.valueOf(Const.LocLat));
+        editor.putString("LocLng",String.valueOf(Const.LocLng));
         editor.commit();
         Log.e(TAG, "SetShareData: SetShareData Success");
     }
@@ -79,6 +81,8 @@ public class Const {
         Const.Zone = sharedPreferences.getString("Zone", "历城区");
         Const.UserLocation = sharedPreferences.getString("UserLocation", "济南市");
         Const.AreaConfig = sharedPreferences.getInt("AreaConfig", 0);
+        Const.LocLat=Double.parseDouble(sharedPreferences.getString("LocLat", "36.710348"));
+        Const.LocLng=Double.parseDouble(sharedPreferences.getString("LocLng", "117.086381"));
         Log.e(TAG, "GetShareData: " + Const.Province + Const.City + Const.Zone);
     }
 }

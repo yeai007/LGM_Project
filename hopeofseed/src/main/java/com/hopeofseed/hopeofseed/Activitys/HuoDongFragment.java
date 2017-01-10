@@ -36,7 +36,7 @@ import static android.content.ContentValues.TAG;
  * 修改时间：2016/12/13 10:21
  * 修改备注：
  */
-public class HuoDongFragment extends Fragment implements NetCallBack,SwipeRefreshLayout.OnRefreshListener {
+public class HuoDongFragment extends Fragment implements NetCallBack, SwipeRefreshLayout.OnRefreshListener {
     RecyclerView recycler_list;
     HuodongListAdapter mAdapter;
     ArrayList<HuodongData> mList = new ArrayList<>();
@@ -45,6 +45,7 @@ public class HuoDongFragment extends Fragment implements NetCallBack,SwipeRefres
     private SwipeRefreshLayout mRefreshLayout;
     int PageNo = 0;
     boolean isLoading = false;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -133,7 +134,7 @@ public class HuoDongFragment extends Fragment implements NetCallBack,SwipeRefres
 
     @Override
     public void onRefresh() {
-        PageNo=0;
+        PageNo = 0;
         getData();
     }
 }

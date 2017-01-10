@@ -63,7 +63,8 @@ public class SeedfriendDataAdapter extends RecyclerView.Adapter<SeedfriendDataAd
         final UserDataNoRealm mData = mlist.get(position);
         holder.tv_name.setText(mData.getNickname());
         holder.tv_address.setText(mData.getUserProvince() + " " + mData.getUserCity() + " " + mData.getUserZone());
-        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), holder, Integer.parseInt(mData.getUser_role()));
+
+        updateUserAvata(holder.img_corner, holder.img_user_avatar, Integer.parseInt(mData.getUser_role()), mData.getUserAvatar());
         holder.rel_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,99 +103,41 @@ public class SeedfriendDataAdapter extends RecyclerView.Adapter<SeedfriendDataAd
         }
     }
 
-    private void getUserJpushInfo(String user_name, final ViewHolder holder, final int user_role) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                holder.img_corner.setVisibility(View.VISIBLE);
-                switch (user_role) {
-                    case 0:
-                        holder.tv_user_role.setText("【农友】");
-                        holder.img_corner.setVisibility(View.VISIBLE);
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_user_default).placeholder(R.drawable.corner_user_default).dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_corner);
-                        Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default).dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        break;
-                    case 1:
-                        holder.tv_user_role.setText("【经销商】");
-                        holder.img_corner.setVisibility(View.VISIBLE);
-                        Log.e(TAG, "gotResult: ");
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_distributor).placeholder(R.drawable.corner_distributor).dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_corner);
-                        Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default).dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        break;
-                    case 2:
-                        holder.tv_user_role.setText("【企业】");
-                        holder.img_corner.setVisibility(View.VISIBLE);
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_enterprise).placeholder(R.drawable.corner_enterprise).dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_corner);
-                        Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default).dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        break;
-                    case 3:
-                        holder.tv_user_role.setText("【专家】");
-                        holder.img_corner.setVisibility(View.VISIBLE);
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_expert).placeholder(R.drawable.corner_expert) .dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_corner);
-                        Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default) .dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        break;
-                    case 4:
-                        holder.img_corner.setVisibility(View.VISIBLE);
-                        holder.tv_user_role.setText("【机构】");
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_author).placeholder(R.drawable.corner_author) .dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_corner);
-                        Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default)  .dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                    case 6:
-                        holder.tv_user_role.setText("【媒体】");
-                        holder.img_corner.setVisibility(View.GONE);
-                        Glide.with(mContext)
-                                .load(R.drawable.user_media).placeholder(R.drawable.user_media) .dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.user_media)  .dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        break;
-                    case 5:
-                        holder.tv_user_role.setText("【管理员】");
-                        holder.img_corner.setVisibility(View.GONE);
-                        Glide.with(mContext)
-                                .load(R.drawable.user_system).placeholder(R.drawable.user_system).dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        Glide.with(mContext)
-                                .load(userInfo.getAvatarFile()).placeholder(R.drawable.user_system) .dontAnimate()
-                                .centerCrop()
-                                .into(holder.img_user_avatar);
-                        break;
-                }
-
-            }
-        });
+    private void updateUserAvata(ImageView imageConner, ImageView ImageAvatar, int UserRole, String avatarURL) {
+        imageConner.setVisibility(View.VISIBLE);
+        avatarURL = Const.IMG_URL + avatarURL;
+        switch (UserRole) {
+            case 0:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_user_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 1:
+                Glide.with(mContext).load(R.drawable.corner_distributor).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 2:
+                Glide.with(mContext).load(R.drawable.corner_enterprise).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_enterprise_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 3:
+                Glide.with(mContext).load(R.drawable.corner_expert).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_expert_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 4:
+                Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_author_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 5:
+                imageConner.setVisibility(View.GONE);
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_media).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 6:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_system).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+        }
     }
+
+
 }

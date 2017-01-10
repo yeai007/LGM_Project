@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,17 +15,30 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hopeofseed.hopeofseed.Data.Const;
+import com.hopeofseed.hopeofseed.Http.HttpUtils;
+import com.hopeofseed.hopeofseed.Http.NetCallBack;
+import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.AppPermissions;
+import com.lgm.utils.ObjectUtil;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.api.BasicCallback;
+import me.shaohui.advancedluban.Luban;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
+import static android.content.ContentValues.TAG;
 import static com.hopeofseed.hopeofseed.Activitys.UserInfoFragment.UPDATE_USER_INFO;
 import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
 
@@ -34,7 +48,7 @@ import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
  *
  * @desc :更新用户头像
  */
-public class UpdateUserAvatar extends Activity implements View.OnClickListener {
+public class UpdateUserAvatar extends Activity implements View.OnClickListener, NetCallBack {
 
     private ProgressDialog mProgressDialog;
     private static int RESULT_LOAD_IMAGE = 1;
@@ -43,6 +57,11 @@ public class UpdateUserAvatar extends Activity implements View.OnClickListener {
     private String mPicturePath;
     public static Bitmap mBitmap;
     Button btn_topleft;
+
+
+    ArrayList<File> arrFile = new ArrayList<>();
+    pushFileResultTmp mCommResultTmp = new pushFileResultTmp();
+    Handler handler = new Handler();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,13 +88,13 @@ public class UpdateUserAvatar extends Activity implements View.OnClickListener {
 
     @PermissionGrant(REQUEST_CODE_FILES)
     public void requestFilesSuccess() {
-      //  Toast.makeText(this, "文件权限已经被开启!", Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(this, "文件权限已经被开启!", Toast.LENGTH_SHORT).show();
 
     }
 
     @PermissionDenied(REQUEST_CODE_FILES)
     public void requestFilesFailed() {
-         Toast.makeText(this, "文件权限已经被禁止!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "文件权限已经被禁止!", Toast.LENGTH_SHORT).show();
         finish();
     }
 
@@ -125,33 +144,33 @@ public class UpdateUserAvatar extends Activity implements View.OnClickListener {
                 mProgressDialog = ProgressDialog.show(UpdateUserAvatar.this, "提示：", "正在加载中。。。");
                 mProgressDialog.setCanceledOnTouchOutside(true);
                 if (mPicturePath != null) {
-                    File file = new File(mPicturePath);
-                    try {
-                        JMessageClient.updateUserAvatar(file, new BasicCallback() {
-                            @Override
-                            public void gotResult(int i, String s) {
-                                if (i == 0) {
-                                    mProgressDialog.dismiss();
-                                    Toast.makeText(getApplicationContext(), "修改成功", Toast.LENGTH_SHORT).show();
-                                    //数据是使用Intent返回
-                                    Intent intent = new Intent();
-                                    //设置返回数据
-                                    setResult(RESULT_OK, intent);
-                                    Intent intent_update_userinfo = new Intent();  //Itent就是我们要发送的内容
-                                    intent_update_userinfo.setAction(UPDATE_USER_INFO);   //设置你这个广播的action，只有和这个action一样的接受者才能接受者才能接收广播
-                                    sendBroadcast(intent_update_userinfo);   //发送广播
-                                    //关闭Activity
-                                    finish();
-                                } else {
-                                    mProgressDialog.dismiss();
-                                    Toast.makeText(getApplicationContext(), "修改失败", Toast.LENGTH_SHORT).show();
-                                    Log.i("UpdateUserAvatar", "JMessageClient.updateUserAvatar" + ", responseCode = " + i + " ; LoginDesc = " + s);
+                    final File file = new File(mPicturePath);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            arrFile.add(file);
+
+                            Luban.get(getApplicationContext()).setMaxSize(128)
+                                    .putGear(Luban.CUSTOM_GEAR)
+                                    .load(arrFile)                     // load all images
+                                    .asListObservable().doOnRequest(new Action1<Long>() {
+                                @Override
+                                public void call(Long aLong) {
                                 }
-                            }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                            })
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(new Action1<List<File>>() {
+                                        @Override
+                                        public void call(final List<File> fileList) {
+                                            for (int i = 0; i < fileList.size(); i++) {
+                                                Log.e(TAG, "call: " + fileList.get(i).getName());
+                                            }
+                                            Log.e(TAG, "call: " + fileList);
+                                            updateAvatar(fileList);
+                                        }
+                                    });
+                        }
+                    }).start();
                 } else {
                     mProgressDialog.dismiss();
                     Toast.makeText(UpdateUserAvatar.this, "请选择图片", Toast.LENGTH_SHORT).show();
@@ -159,4 +178,49 @@ public class UpdateUserAvatar extends Activity implements View.OnClickListener {
                 break;
         }
     }
+
+    private void updateAvatar(List<File> fileList) {
+        HashMap<String, String> opt_map = new HashMap<>();
+        opt_map.put("UserID", String.valueOf(Const.currentUser.user_id));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPostFiles(Const.BASE_URL + "UpdateUserAvatar.php", opt_map, fileList, pushFileResultTmp.class, this);
+    }
+
+    @Override
+    public void onSuccess(RspBaseBean rspBaseBean) {
+        mCommResultTmp = ObjectUtil.cast(rspBaseBean);
+        handler.post(resultPushFile);
+    }
+
+    @Override
+    public void onError(String error) {
+
+    }
+
+    @Override
+    public void onFail() {
+
+    }
+
+    /**
+     * uploadimg
+     */
+    Runnable resultPushFile = new Runnable() {
+        @Override
+        public void run() {
+            if (mCommResultTmp.getDetail().getContent().equals("上传成功")) {
+                Toast.makeText(getApplicationContext(), mCommResultTmp.getDetail().getContent(), Toast.LENGTH_SHORT).show();
+                mProgressDialog.dismiss();
+                Intent intent = new Intent();
+                setResult(120, intent);
+                finish();
+            } else {
+                Toast.makeText(getApplicationContext(), mCommResultTmp.getDetail().getContent(), Toast.LENGTH_SHORT).show();
+                mProgressDialog.dismiss();
+                Intent intent = new Intent();
+                setResult(120, intent);
+                finish();
+            }
+        }
+    };
 }

@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.HaveCommentNew;
 import com.hopeofseed.hopeofseed.Data.Const;
@@ -18,15 +17,9 @@ import com.hopeofseed.hopeofseed.JNXData.Commend2Data;
 import com.hopeofseed.hopeofseed.JNXData.CommendData;
 import com.hopeofseed.hopeofseed.R;
 import com.lgm.utils.DateTools;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-
-import cn.jpush.im.android.api.JMessageClient;
-import cn.jpush.im.android.api.callback.GetUserInfoCallback;
-import cn.jpush.im.android.api.model.UserInfo;
-
 import static com.bumptech.glide.gifdecoder.GifHeaderParser.TAG;
 
 /**
@@ -104,7 +97,8 @@ public class CommendListAdapter extends BaseAdapter {
         viewHolder.user_name.setText(mData.getNickname());
         viewHolder.tv_content.setText(mData.getComment());
         updateTime(mData.getRecordCreateTime(), viewHolder);
-        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), viewHolder, Integer.parseInt(mData.getUser_role()));
+        //getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), viewHolder, Integer.parseInt(mData.getUser_role()));
+        updateUserAvata(viewHolder.img_corner,viewHolder.img_user,Integer.parseInt(mData.getUser_role()),mData.getUserAvatar());
         return view;
     }
 
@@ -142,106 +136,42 @@ public class CommendListAdapter extends BaseAdapter {
         }
     }
 
-    private void getUserJpushInfo(String user_name, final ViewHolder holder0, final int user_role) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
-                //  Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
-                switch (user_role) {
-                    case 0:
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_user_default).placeholder(R.drawable.corner_user_default) .dontAnimate()
-                                .centerCrop()
-                                .into(holder0.img_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_user_default).placeholder(R.drawable.no_have_img)
-                                    .centerCrop()
-                                    .into(holder0.img_user);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default)   .dontAnimate()
-                                    .centerCrop()
-                                    .into(holder0.img_user);
-                     /*   }*/
-                        break;
-                    case 1:
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_distributor).placeholder(R.drawable.corner_distributor) .dontAnimate()
-                                .centerCrop()
-                                .into(holder0.img_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_distributor_default).placeholder(R.drawable.no_have_img)
-                                    .centerCrop()
-                                    .into(holder0.img_user);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default)  .dontAnimate()
-                                    .centerCrop()
-                                    .into(holder0.img_user);
-                    /*    }*/
-                        break;
-                    case 2:
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_enterprise).placeholder(R.drawable.corner_enterprise).dontAnimate()
-                                .centerCrop()
-                                .into(holder0.img_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_enterprise_default).placeholder(R.drawable.no_have_img)
-                                    .centerCrop()
-                                    .into(holder0.img_user);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default).dontAnimate()
-                                    .centerCrop()
-                                    .into(holder0.img_user);
-                     /*   }*/
-                        break;
-                    case 3:
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_expert).placeholder(R.drawable.corner_expert).dontAnimate()
-                                .centerCrop()
-                                .into(holder0.img_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_expert_default) .placeholder(R.drawable.no_have_img)
-                                    .centerCrop()
-                                    .into(holder0.img_user);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default) .dontAnimate()
-                                    .centerCrop()
-                                    .into(holder0.img_user);
-                      /*  }*/
-                        break;
-                    case 4:
-                        Glide.with(mContext)
-                                .load(R.drawable.corner_author).placeholder(R.drawable.corner_author) .dontAnimate()
-                                .centerCrop()
-                                .into(holder0.img_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext)
-                                    .load(R.drawable.header_author_default).placeholder(R.drawable.no_have_img)
-                                    .centerCrop()
-                                    .into(holder0.img_user);
-
-                        } else {*/
-                            Glide.with(mContext)
-                                    .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default) .dontAnimate()
-                                    .centerCrop()
-                                    .into(holder0.img_user);
-                     /*   }*/
-                        break;
-                }
-
-            }
-        });
+    private void updateUserAvata(ImageView imageConner, ImageView ImageAvatar, int UserRole, String avatarURL) {
+        imageConner.setVisibility(View.VISIBLE);
+        avatarURL=Const.IMG_URL+avatarURL;
+        switch (UserRole) {
+            case 0:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_user_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 1:
+                Glide.with(mContext).load(R.drawable.corner_distributor).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 2:
+                Glide.with(mContext).load(R.drawable.corner_enterprise).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_enterprise_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 3:
+                Glide.with(mContext).load(R.drawable.corner_expert).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_expert_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 4:
+                Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_author_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 5:
+                imageConner.setVisibility(View.GONE);
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_media).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 6:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_system).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+        }
     }
+
+
+
 }

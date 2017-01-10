@@ -90,14 +90,6 @@ public class NearExpertFragment extends Fragment implements NetCallBack {
         });
     }
 
-    private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent intent = new Intent(getActivity(), ExpertActivity.class);
-            intent.putExtra("ExpertId", String.valueOf(arrExpertData.get(i - 1).getExpertId()));
-            startActivity(intent);
-        }
-    };
 
     private void getData() {
         Log.e(TAG, "getData: 获取品种数据");

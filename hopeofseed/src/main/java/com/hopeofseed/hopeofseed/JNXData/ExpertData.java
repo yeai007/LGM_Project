@@ -47,8 +47,6 @@ public class ExpertData {
     private String user_role;
     private String user_field;
     private String user_role_id;
-    private String fllowed_count;
-    private String been_fllowed_count;
     private String ExpertId;
     private String ExpertName;
     private String ExpertPolitic;
@@ -60,6 +58,11 @@ public class ExpertData {
     private String ExpertCity;
     private String ExpertZone;
     private String ExpertAddressDetail;
+    /**
+     * UserAvatar : 675e8da40952fcbfa352783e9145248b.jpg
+     */
+
+    private String UserAvatar;
 
     public String getUser_id() {
         return user_id;
@@ -139,22 +142,6 @@ public class ExpertData {
 
     public void setUser_role_id(String user_role_id) {
         this.user_role_id = user_role_id;
-    }
-
-    public String getFllowed_count() {
-        return fllowed_count;
-    }
-
-    public void setFllowed_count(String fllowed_count) {
-        this.fllowed_count = fllowed_count;
-    }
-
-    public String getBeen_fllowed_count() {
-        return been_fllowed_count;
-    }
-
-    public void setBeen_fllowed_count(String been_fllowed_count) {
-        this.been_fllowed_count = been_fllowed_count;
     }
 
     public String getExpertId() {
@@ -243,5 +230,13 @@ public class ExpertData {
 
     public void setExpertAddressDetail(String ExpertAddressDetail) {
         this.ExpertAddressDetail = ExpertAddressDetail;
+    }
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
     }
 }

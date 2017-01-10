@@ -10,35 +10,6 @@ package com.hopeofseed.hopeofseed.JNXData;
  * 修改备注：
  */
 public class EnterpriseData {
-
-    /**
-     * user_id : 48
-     * user_name : sdxfzyyxgs123
-     * nickname : 山东祥丰种业有限公司
-     * user_mobile : 0537-6993888
-     * user_email :
-     * createtime : 2016-11-11 09:44:24
-     * user_permation : 0
-     * user_role : 2
-     * user_field :
-     * user_role_id : 3
-     * fllowed_count : 0
-     * been_fllowed_count : 0
-     * EnterpriseId : 0000000003
-     * EnterpriseName : 山东祥丰种业有限公司
-     * EnterpriseBusScrope : 小麦,大豆,玉米,棉花,花生
-     * EnterpriseLevel : 1
-     * EnterpriseTelephone : 0537-6993888
-     * EnterpriseProvince : 山东省
-     * EnterpriseCity : 济宁市
-     * EnterpriseZone : 嘉祥县
-     * EnterpriseAddressDetail : 嘉祥县建设北路49号
-     * EnterpriseFlag : 1
-     * EnterpriseIntroduce : 山东祥丰种业有限公司是一家集科研、生产、经营为一体的民营企业。注册资金3000万元，建筑面积13000平方米，拥有种子加工设备20台，新建3套种子生产线，种子检测设备齐全。公司下设：育种生产部，种子销售部，科技服务部，维权部;质检中心，财务部，办公室等近10个部门。本公司是国家在黄淮流域的优质专用大豆良种繁育生产加工储备中心和优质小麦繁育良种繁育加工储备中心，山东济宁农业产业化重点龙头企业。山东省和济宁市种子协会常务理事单位，中国大豆产业协会常务理事单位，山东省农科院科技示范基地单位。公司始终坚持;诚信为
-     * EnterpriseLat : 35.421505
-     * EnterpriseLon : 116.343502
-     */
-
     private String user_id;
     private String user_name;
     private String nickname;
@@ -49,8 +20,6 @@ public class EnterpriseData {
     private String user_role;
     private String user_field;
     private String user_role_id;
-    private String fllowed_count;
-    private String been_fllowed_count;
     private String EnterpriseId;
     private String EnterpriseName;
     private String EnterpriseBusScrope;
@@ -64,6 +33,7 @@ public class EnterpriseData {
     private String EnterpriseIntroduce;
     private String EnterpriseLat;
     private String EnterpriseLon;
+    private String UserAvatar;
 
     public String getUser_id() {
         return user_id;
@@ -143,22 +113,6 @@ public class EnterpriseData {
 
     public void setUser_role_id(String user_role_id) {
         this.user_role_id = user_role_id;
-    }
-
-    public String getFllowed_count() {
-        return fllowed_count;
-    }
-
-    public void setFllowed_count(String fllowed_count) {
-        this.fllowed_count = fllowed_count;
-    }
-
-    public String getBeen_fllowed_count() {
-        return been_fllowed_count;
-    }
-
-    public void setBeen_fllowed_count(String been_fllowed_count) {
-        this.been_fllowed_count = been_fllowed_count;
     }
 
     public String getEnterpriseId() {
@@ -263,5 +217,13 @@ public class EnterpriseData {
 
     public void setEnterpriseLon(String EnterpriseLon) {
         this.EnterpriseLon = EnterpriseLon;
+    }
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
     }
 }

@@ -3,6 +3,7 @@ package com.hopeofseed.hopeofseed.Activitys;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -159,7 +160,12 @@ public class SelectSeedFriend extends AppCompatActivity implements View.OnClickL
         LatLng llA = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
         Const.LocLat = bdLocation.getLatitude();
         Const.LocLng = bdLocation.getLongitude();
-
+        if (TextUtils.isEmpty(String.valueOf(Const.LocLat))) {
+            Const.LocLat = 36.710348;
+        }
+        if (TextUtils.isEmpty(String.valueOf(Const.LocLng))) {
+            Const.LocLng = 117.086381;
+        }
         getNearByData(llA);
         locationService.stop();
     }

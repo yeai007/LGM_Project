@@ -57,7 +57,6 @@ public class ExpertDataAdapter extends RecyclerView.Adapter<ExpertDataAdapter.Vi
         holder.tv_address.setText("地址： " + mData.getExpertProvince() + "  " + mData.getExpertCity() + "  " + mData.getExpertZone());
         holder.tv_danwei.setText(mData.getExpertAddressDetail());
         holder.tv_pol.setText(mData.getExpertPolitic());
-        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), holder);
         holder.item_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +67,10 @@ public class ExpertDataAdapter extends RecyclerView.Adapter<ExpertDataAdapter.Vi
                 mContext.startActivity(intent);
             }
         });
+        Glide.with(mContext)
+                .load(mData.getUserAvatar()).placeholder(R.drawable.header_expert_default) .dontAnimate()
+                .centerCrop()
+                .into(holder.img_user_avatar);
     }
 
     @Override
@@ -80,20 +83,7 @@ public class ExpertDataAdapter extends RecyclerView.Adapter<ExpertDataAdapter.Vi
         return mlist.size();
     }
 
-    private void getUserJpushInfo(String user_name, final ViewHolder holder) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-/*                if (!(userInfo.getAvatarFile() == null)) {*/
 
-                    Glide.with(mContext)
-                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default) .dontAnimate()
-                            .centerCrop()
-                            .into(holder.img_user_avatar);
-               /* }*/
-            }
-        });
-    }
 
     class ViewHolder extends RecyclerView.ViewHolder {
         TextView tv_name, tv_address, tv_danwei, tv_pol;

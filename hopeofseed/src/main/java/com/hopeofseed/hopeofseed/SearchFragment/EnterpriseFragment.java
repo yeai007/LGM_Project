@@ -143,6 +143,7 @@ public class EnterpriseFragment extends Fragment implements SwipeRefreshLayout.O
                     EnterpriseCommodityArray.setEnterpriseLat(itemEnterpriseCommodity.getEnterpriseLat());
                     EnterpriseCommodityArray.setEnterpriseLon(itemEnterpriseCommodity.getEnterpriseLon());
                     EnterpriseCommodityArray.setUser_id(itemEnterpriseCommodity.getUser_id());
+                    EnterpriseCommodityArray.setUserAvatar(itemEnterpriseCommodity.getUserAvatar());
                     CommodityDataNoUser itemCommodityData = new CommodityDataNoUser();
                     itemCommodityData.setCommodityId(itemEnterpriseCommodity.getCommodityId());
                     itemCommodityData.setCommodityTitle(itemEnterpriseCommodity.getCommodityTitle());
@@ -197,6 +198,7 @@ public class EnterpriseFragment extends Fragment implements SwipeRefreshLayout.O
                         EnterpriseCommodityArray.setEnterpriseLat(itemEnterpriseCommodity.getEnterpriseLat());
                         EnterpriseCommodityArray.setEnterpriseLon(itemEnterpriseCommodity.getEnterpriseLon());
                         EnterpriseCommodityArray.setUser_id(itemEnterpriseCommodity.getUser_id());
+                        EnterpriseCommodityArray.setUserAvatar(itemEnterpriseCommodity.getUserAvatar());
                         CommodityDataNoUser itemCommodityData = new CommodityDataNoUser();
                         itemCommodityData.setCommodityId(itemEnterpriseCommodity.getCommodityId());
                         itemCommodityData.setCommodityTitle(itemEnterpriseCommodity.getCommodityTitle());

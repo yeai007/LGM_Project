@@ -10,53 +10,6 @@ package com.hopeofseed.hopeofseed.JNXData;
  * 修改备注：
  */
 public class CommentAboutMeData {
-
-    /**
-     * user_id : 1124
-     * user_name : 15628801370
-     * nickname : 用户01370
-     * user_mobile :
-     * user_email :
-     * createtime : 2016-11-26 09:09:40
-     * user_permation : 0
-     * user_role : 1
-     * user_field :
-     * user_role_id : 3
-     * CommentRecrodId : 0000000087
-     * CommentNewId : 381
-     * CommentFromNewId : 381
-     * CommentUserId : 1124
-     * CommentComment : 评论外部
-     * CommentRecordCreateTime : 2016-12-05 15:57:12
-     * CommentFlag : 0
-     * CommentFromUserId : 0
-     * CommentFromNewCreateUser : 00000001124
-     * id : 0000000381
-     * title : 无图
-     * content : 无图
-     * keyword : KEYWORD
-     * marks : MARKS
-     * newcreatetime : 2016-12-05 15:36:29
-     * editid : 0
-     * flag : 0
-     * reviewid : 0
-     * related_person : 0
-     * createuser : 1124
-     * assimgurl :
-     * newclass : 0
-     * newclassname : 普通信息
-     * infoid : 0
-     * fromid : 0
-     * loclat : 4.9E-324
-     * loclng :
-     * NewsProvince : 山东省1
-     * NewsCity : 济南市1
-     * NewsZone : 历城区1
-     * ForwardComment :
-     * to_user_id :
-     * to_user_name :
-     */
-
     private String user_id;
     private String user_name;
     private String nickname;
@@ -105,6 +58,11 @@ public class CommentAboutMeData {
      */
 
     private int CommentIsRead;
+    /**
+     * UserAvatar : 675e8da40952fcbfa352783e9145248b.jpg
+     */
+
+    private String UserAvatar;
 
     public String getUser_id() {
         return user_id;
@@ -456,5 +414,13 @@ public class CommentAboutMeData {
 
     public void setCommentIsRead(int CommentIsRead) {
         this.CommentIsRead = CommentIsRead;
+    }
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
     }
 }

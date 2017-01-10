@@ -59,7 +59,10 @@ public class EnterpriseAdapter extends RecyclerView.Adapter<EnterpriseAdapter.Vi
         holder.tv_address.setText(mData.getEnterpriseProvince() + "  " + mData.getEnterpriseCity() + " " + mData.getEnterpriseZone());
         holder.tv_address_detail.setText(mData.getEnterpriseAddressDetail());
         holder.tv_name.setText(mData.getEnterpriseName());
-        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), holder);
+        Glide.with(mContext)
+                .load(mData.getUserAvatar()).placeholder(R.drawable.header_enterprise_default)
+                .centerCrop()
+                .into(holder.img_user_avatar);
         holder.rel_title.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,15 +100,4 @@ public class EnterpriseAdapter extends RecyclerView.Adapter<EnterpriseAdapter.Vi
         }
     }
 
-    private void getUserJpushInfo(String user_name, final ViewHolder holder) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                Glide.with(mContext)
-                        .load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default)
-                        .centerCrop()
-                        .into(holder.img_user_avatar);
-            }
-        });
-    }
 }

@@ -288,23 +288,6 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         }
         // finish();
     }
-
-
-    private void getUserJpushInfo(String user_name) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                mUserInfo = userInfo;
-                if (userInfo.getAvatarFile() != null) {
-                    Glide.with(getApplicationContext())
-                            .load(userInfo.getAvatarFile()).placeholder(R.drawable.default_avater).dontAnimate()
-                            .centerCrop()
-                            .into(img_user_avatar);
-                }
-            }
-        });
-    }
-
     private void AddOrDelFollowed() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
@@ -401,7 +384,11 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             tv_fans_sum.setText(mUserDataNoRealm.getBeen_fllowed_count());
             tv_address.setText(mUserDataNoRealm.getUserProvince() + " " + mUserDataNoRealm.getUserCity() + " " + mUserDataNoRealm.getUserZone());
             updateCorner();
-            getUserJpushInfo(Const.JPUSH_PREFIX + mUserDataNoRealm.getUser_id());
+
+            Glide.with(UserActivity.this)
+                    .load(mUserDataNoRealm.getUserAvatar()).placeholder(R.drawable.header_author_default).dontAnimate()
+                    .centerCrop()
+                    .into(img_user_avatar);
             getIsFriend();
         }
     };

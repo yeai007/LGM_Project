@@ -42,6 +42,7 @@ import cn.jpush.im.android.api.callback.GetUserInfoCallback;
 import cn.jpush.im.android.api.model.UserInfo;
 import io.realm.Realm;
 
+import static com.hopeofseed.hopeofseed.R.id.img_user;
 import static com.hopeofseed.hopeofseed.R.id.img_user_avatar;
 
 
@@ -60,7 +61,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
     private static final String TAG = "UserInfoFragment";
     private static int UPDATE_USER_AVATAR = 120;
     TextView tv_username, tv_follow_sum, tv_fans_sum, tv_word_sum;
-    RelativeLayout rel_follow, rel_fans, rel_friend_setting,rel_and;
+    RelativeLayout rel_follow, rel_fans, rel_friend_setting, rel_and;
     UserDataNoRealm mUserDataNoRealm = new UserDataNoRealm();
     TextView app_title;
     private UpdateBroadcastReceiver updateBroadcastReceiver;  //刷新列表广播
@@ -109,7 +110,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
         rel_expert.setOnClickListener(listener);
         RelativeLayout rel_push = (RelativeLayout) v.findViewById(R.id.rel_push);
         rel_push.setOnClickListener(listener);
-        RelativeLayout rel_report=(RelativeLayout)v.findViewById(R.id.rel_report);
+        RelativeLayout rel_report = (RelativeLayout) v.findViewById(R.id.rel_report);
         rel_report.setOnClickListener(listener);
         if (Integer.parseInt(Const.currentUser.user_role) == 0) {
             rel_expert.setVisibility(View.VISIBLE);
@@ -120,12 +121,12 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
         rel_fans.setOnClickListener(listener);
         rel_follow = (RelativeLayout) v.findViewById(R.id.rel_follow);
         rel_follow.setOnClickListener(listener);
-        rel_and=(RelativeLayout)v.findViewById(R.id.rel_and);
+        rel_and = (RelativeLayout) v.findViewById(R.id.rel_and);
         rel_and.setOnClickListener(listener);
         tv__avatar = (ImageView) v.findViewById(R.id.img_user_avatar);
         tv__avatar.setOnClickListener(listener);
         img_corner = (ImageView) v.findViewById(R.id.img_corner);
-        getUserJpushInfo(Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id));
+/*        getUserJpushInfo(Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id));*/
         mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.layout_swipe_refresh);
         //这个是下拉刷新出现的那个圈圈要显示的颜色
         mRefreshLayout.setColorSchemeResources(
@@ -135,20 +136,6 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
         );
         mRefreshLayout.setOnRefreshListener(this);
 
-    }
-
-    private void getUserJpushInfo(String user_name) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                if (userInfo.getAvatarFile() != null) {
-                    Glide.with(getActivity())
-                            .load(userInfo.getAvatarFile())
-                            .centerCrop()
-                            .into(tv__avatar);
-                }
-            }
-        });
     }
 
     private void updateCorner() {
@@ -295,7 +282,7 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_OK) {
-            getUserJpushInfo(Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id));
+            getData();
         }
     }
 
@@ -352,7 +339,11 @@ public class UserInfoFragment extends Fragment implements NetCallBack, SwipeRefr
             tv_username.setText(mUserDataNoRealm.getNickname());
             app_title.setText(mUserDataNoRealm.getNickname());
             updateCorner();
-            getUserJpushInfo(Const.JPUSH_PREFIX + mUserDataNoRealm.getUser_id());
+            Glide.with(UserInfoFragment.this)
+                    .load(Const.IMG_URL + mUserDataNoRealm.getUserAvatar()).placeholder(R.drawable.header_distributor_default).dontAnimate()
+                    .centerCrop()
+                    .into(tv__avatar);
+/*            getUserJpushInfo(Const.JPUSH_PREFIX + mUserDataNoRealm.getUser_id());*/
         }
     };
 

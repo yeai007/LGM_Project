@@ -154,6 +154,7 @@ public class DistributorFragment extends Fragment implements SwipeRefreshLayout.
                     distributorCommodityArray.setDistributorLon(itemDistributorCommodity.getDistributorLon());
                     distributorCommodityArray.setUser_id(itemDistributorCommodity.getUser_id());
                     distributorCommodityArray.setDistance(itemDistributorCommodity.getDistance());
+                    distributorCommodityArray.setUserAvatar(itemDistributorCommodity.getUserAvatar());
                     CommodityDataNoUser itemCommodityData = new CommodityDataNoUser();
                     itemCommodityData.setCommodityId(itemDistributorCommodity.getCommodityId());
                     itemCommodityData.setCommodityTitle(itemDistributorCommodity.getCommodityTitle());
@@ -211,6 +212,7 @@ public class DistributorFragment extends Fragment implements SwipeRefreshLayout.
                         distributorCommodityArray.setDistributorLon(itemDistributorCommodity.getDistributorLon());
                         distributorCommodityArray.setUser_id(itemDistributorCommodity.getUser_id());
                         distributorCommodityArray.setDistance(itemDistributorCommodity.getDistance());
+                        distributorCommodityArray.setUserAvatar(itemDistributorCommodity.getUserAvatar());
                         CommodityDataNoUser itemCommodityData = new CommodityDataNoUser();
                         itemCommodityData.setCommodityId(itemDistributorCommodity.getCommodityId());
                         itemCommodityData.setCommodityTitle(itemDistributorCommodity.getCommodityTitle());

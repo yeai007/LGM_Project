@@ -67,6 +67,11 @@ public class FriendData {
      */
 
     private String user_id_1;
+    /**
+     * UserAvatar : 675e8da40952fcbfa352783e9145248b.jpg
+     */
+
+    private String UserAvatar;
 
     public String getId() {
         return id;
@@ -242,5 +247,13 @@ public class FriendData {
 
     public void setUser_id_1(String user_id_1) {
         this.user_id_1 = user_id_1;
+    }
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
     }
 }

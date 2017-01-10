@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.hopeofseed.hopeofseed.Activitys.CompanyRegActivity;
 import com.hopeofseed.hopeofseed.Activitys.ForgetPassWordActivity;
 import com.hopeofseed.hopeofseed.Activitys.RegisterAcitivity;
@@ -202,6 +203,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         Const.currentUser.user_role_id = newdata.getUser_role_id();
         Const.currentUser.user_field = newdata.getUser_field();
         Const.currentUser.iscurrent = newdata.getIsCurrent();
+        Const.currentUser.UserAvatar = newdata.getUserAvatar();
         Log.e(TAG, "updateRealmData: " + Const.currentUser.toString());
         if (JPushInterface.isPushStopped(Application.getContext())) {
             JPushInterface.resumePush(Application.getContext());

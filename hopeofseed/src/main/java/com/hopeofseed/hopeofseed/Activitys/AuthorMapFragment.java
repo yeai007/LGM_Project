@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -158,12 +159,13 @@ public class AuthorMapFragment extends Fragment implements BDLocationListener, N
             int itemId = (int) key;
             itemdata = ObjectUtil.cast(entry.getValue());
             // 定义marker坐标点
+            if(!TextUtils.isEmpty(itemdata.getAuthorLat())&&!TextUtils.isEmpty(itemdata.getAuthorLon())){
             LatLng point = new LatLng(Double.parseDouble(itemdata.getAuthorLat()), Double.parseDouble(itemdata.getAuthorLon()));
             // 构建markerOption，用于在地图上添加marker
             OverlayOptions option = new MarkerOptions()//
                     .position(point)// 设置marker的位置
                     .icon(bdA).title(String.valueOf(itemId));// 设置marker的图标
-            overlayOptionses.add(option);
+            overlayOptionses.add(option);}
         }
         OverlayManager overlayManager = new OverlayManager(baiduMap) {
             @Override

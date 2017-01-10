@@ -51,8 +51,7 @@ public class AuthorData {
     private String user_role;
     private String user_field;
     private String user_role_id;
-    private String fllowed_count;
-    private String been_fllowed_count;
+
     private String Distance;
     private String AuthorId;
     private String AuthorName;
@@ -67,6 +66,11 @@ public class AuthorData {
     private String AuthorAddressDetail;
     private String AuthorLat;
     private String AuthorLon;
+    /**
+     * UserAvatar : 675e8da40952fcbfa352783e9145248b.jpg
+     */
+
+    private String UserAvatar;
 
     public String getUser_id() {
         return user_id;
@@ -147,23 +151,6 @@ public class AuthorData {
     public void setUser_role_id(String user_role_id) {
         this.user_role_id = user_role_id;
     }
-
-    public String getFllowed_count() {
-        return fllowed_count;
-    }
-
-    public void setFllowed_count(String fllowed_count) {
-        this.fllowed_count = fllowed_count;
-    }
-
-    public String getBeen_fllowed_count() {
-        return been_fllowed_count;
-    }
-
-    public void setBeen_fllowed_count(String been_fllowed_count) {
-        this.been_fllowed_count = been_fllowed_count;
-    }
-
     public String getDistance() {
         return Distance;
     }
@@ -274,5 +261,13 @@ public class AuthorData {
 
     public void setAuthorLon(String AuthorLon) {
         this.AuthorLon = AuthorLon;
+    }
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
     }
 }

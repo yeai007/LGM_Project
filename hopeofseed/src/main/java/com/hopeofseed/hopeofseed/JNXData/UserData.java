@@ -42,6 +42,12 @@ public class UserData extends RealmObject {
     private String user_field;
     private String user_role_id;
     private int iscurrent;
+    /**
+     * UserAvatar : 675e8da40952fcbfa352783e9145248b.jpg
+     */
+
+    private String UserAvatar;
+
     public int getIsCurrent() {
         return iscurrent;
     }
@@ -136,5 +142,13 @@ public class UserData extends RealmObject {
 
     public void setUser_role_id(String user_role_id) {
         this.user_role_id = user_role_id;
+    }
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
     }
 }

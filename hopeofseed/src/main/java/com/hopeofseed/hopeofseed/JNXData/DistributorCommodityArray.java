@@ -47,6 +47,11 @@ public class DistributorCommodityArray {
      */
 
     private ArrayList<CommodityDataNoUser> mCommodityData = new ArrayList<>();
+    /**
+     * UserAvatar : 675e8da40952fcbfa352783e9145248b.jpg
+     */
+
+    private String UserAvatar;
 
     public ArrayList<CommodityDataNoUser> getCommodityData() {
         return mCommodityData;
@@ -190,5 +195,13 @@ public class DistributorCommodityArray {
 
     public void setDistance(String distance) {
         this.Distance = distance;
+    }
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
     }
 }

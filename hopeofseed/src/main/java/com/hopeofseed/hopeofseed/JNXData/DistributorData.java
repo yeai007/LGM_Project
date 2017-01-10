@@ -11,34 +11,6 @@ package com.hopeofseed.hopeofseed.JNXData;
  */
 public class DistributorData {
 
-    /**
-     * user_id : 1124
-     * user_name : 15628801370
-     * nickname : 用户01370
-     * user_mobile :
-     * user_email :
-     * createtime : 2016-11-26 09:09:40
-     * user_permation : 0
-     * user_role : 1
-     * user_field :
-     * user_role_id : 3
-     * fllowed_count : 5
-     * been_fllowed_count : 3
-     * Distance : 300
-     * DistributorId : 0000000003
-     * DistributorName : 测试种业有限公司
-     * DistributorTrademark :
-     * DistributorLevel : 1
-     * DistributorTelephone : 123456789
-     * DistributorFlag : 1
-     * DistributorIntroduce : 亿丰种业
-     * DistributorProvince :
-     * DistributorCity :
-     * DistributorZone :
-     * DistributorAddressDetail : 工业北路
-     * DistributorLat : 36.710602
-     * DistributorLon : 117.089726
-     */
 
     private String user_id;
     private String user_name;
@@ -50,8 +22,6 @@ public class DistributorData {
     private String user_role;
     private String user_field;
     private String user_role_id;
-    private String fllowed_count;
-    private String been_fllowed_count;
     private String Distance;
     private String DistributorId;
     private String DistributorName;
@@ -66,6 +36,11 @@ public class DistributorData {
     private String DistributorAddressDetail;
     private String DistributorLat;
     private String DistributorLon;
+    /**
+     * UserAvatar : 675e8da40952fcbfa352783e9145248b.jpg
+     */
+
+    private String UserAvatar;
 
     public String getUser_id() {
         return user_id;
@@ -147,21 +122,6 @@ public class DistributorData {
         this.user_role_id = user_role_id;
     }
 
-    public String getFllowed_count() {
-        return fllowed_count;
-    }
-
-    public void setFllowed_count(String fllowed_count) {
-        this.fllowed_count = fllowed_count;
-    }
-
-    public String getBeen_fllowed_count() {
-        return been_fllowed_count;
-    }
-
-    public void setBeen_fllowed_count(String been_fllowed_count) {
-        this.been_fllowed_count = been_fllowed_count;
-    }
 
     public String getDistance() {
         return Distance;
@@ -273,5 +233,13 @@ public class DistributorData {
 
     public void setDistributorLon(String DistributorLon) {
         this.DistributorLon = DistributorLon;
+    }
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
     }
 }

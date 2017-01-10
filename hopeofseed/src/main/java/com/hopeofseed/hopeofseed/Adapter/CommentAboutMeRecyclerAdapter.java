@@ -93,15 +93,11 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
         updateTime(holder, itemData.getCommentRecordCreateTime());
         String[] arrImage = itemData.getAssimgurl().split(";");
         List<String> images = java.util.Arrays.asList(arrImage);
-/*        if (images.size() > 0) {*/
-            Glide.with(mContext)
+        Glide.with(mContext)
                     .load(Const.IMG_URL + images.get(0)) .placeholder(R.drawable.no_have_img)  .dontAnimate()
                     .centerCrop()
                     .into(holder.img_new);
-     /*   } else {
-        }*/
-        getJpushUserHead(holder, itemData);
-
+        updateUserAvata(holder.img_corner,holder.img_user_avatar,Integer.parseInt(itemData.getUser_role()),itemData.getUserAvatar());
         holder.rel_comment_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,57 +191,7 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
         }
     }
 
-    private void getJpushUserHead(ViewHolder holder, final CommentAboutMeData itemData) {
-        ImageView img_corner = holder.img_corner;
-        ImageView img_user = holder.img_user_avatar;
-        final ImageView finalImg_corner = img_corner;
-        final ImageView finalImg_user = img_user;
-        JMessageClient.getUserInfo(Const.JPUSH_PREFIX + itemData.getUser_id(), new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                //  Log.i("CreateGroupTextMsgActivity", "JMessageClient.createGroupTextMessage" + ", responseCode = " + i + " ; LoginDesc = " + s);
-                //     Log.e(TAG, "gotResult: " + userInfo.getUserName() + userInfo.getNickname());
-                int user_role = Integer.parseInt(itemData.getUser_role());
-                switch (user_role) {
-                    case 0:
-                        Glide.with(mContext).load(R.drawable.corner_user_default).dontAnimate().centerCrop().into(finalImg_corner);
-                        Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_user_default).dontAnimate().centerCrop().into(finalImg_user);
-                        break;
-                    case 1:
-                        Glide.with(mContext).load(R.drawable.corner_distributor).centerCrop().dontAnimate().into(finalImg_corner);
 
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(finalImg_user);
-
-                        break;
-                    case 2:
-                        Glide.with(mContext).load(R.drawable.corner_enterprise).dontAnimate().centerCrop().into(finalImg_corner);
-
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_enterprise_default).dontAnimate().centerCrop().into(finalImg_user);
-
-                        break;
-                    case 3:
-                        Glide.with(mContext).load(R.drawable.corner_expert).dontAnimate().centerCrop().into(finalImg_corner);
-/*                        if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_expert_default).centerCrop().into(finalImg_user);
-
-                        } else {*/
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_expert_default).dontAnimate().centerCrop().into(finalImg_user);
-                     /*   }*/
-                        break;
-                    case 4:
-                        Glide.with(mContext).load(R.drawable.corner_author).dontAnimate().centerCrop().into(finalImg_corner);
- /*                       if (userInfo.getAvatarFile() == null) {
-                            Glide.with(mContext).load(R.drawable.header_author_default).centerCrop().into(finalImg_user);
-
-                        } else {*/
-                            Glide.with(mContext).load(userInfo.getAvatarFile()).placeholder(R.drawable.header_author_default).dontAnimate().centerCrop().into(finalImg_user);
-                    /*    }*/
-                        break;
-                }
-
-            }
-        });
-    }
 
     public void updateRead(String itemId) {
         HashMap<String, String> opt_map = new HashMap<>();
@@ -253,4 +199,42 @@ public class CommentAboutMeRecyclerAdapter extends RecyclerView.Adapter<CommentA
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "UpdateCommentReadStatus.php", opt_map, null, null);
     }
+    private void updateUserAvata(ImageView imageConner, ImageView ImageAvatar, int UserRole, String avatarURL) {
+        imageConner.setVisibility(View.VISIBLE);
+        avatarURL=Const.IMG_URL+avatarURL;
+        switch (UserRole) {
+            case 0:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_user_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 1:
+                Glide.with(mContext).load(R.drawable.corner_distributor).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 2:
+                Glide.with(mContext).load(R.drawable.corner_enterprise).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_enterprise_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 3:
+                Glide.with(mContext).load(R.drawable.corner_expert).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_expert_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 4:
+                Glide.with(mContext).load(R.drawable.corner_author).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.header_author_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 5:
+                imageConner.setVisibility(View.GONE);
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_media).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 6:
+                Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_system).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+        }
+    }
+
+
+
 }

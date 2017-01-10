@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -144,10 +145,12 @@ public class SelectDistributor extends AppCompatActivity implements View.OnClick
         double longa = bdLocation.getLongitude();
         Const.LocLat = lati;
         Const.LocLng = longa;
-        //打印出当前位置
-        Log.i("TAG", "location.getAddrStr()=" + bdLocation.getAddrStr());
-        //打印出当前城市
-        Log.i("TAG", "location.getCity()=" + bdLocation.getCity());
+        if (TextUtils.isEmpty(String.valueOf(Const.LocLat))) {
+            Const.LocLat = 36.710348;
+        }
+        if (TextUtils.isEmpty(String.valueOf(Const.LocLng))) {
+            Const.LocLng = 117.086381;
+        }
         mDistributorListFragment.setUserLoc();
         mDistributorMapFragment.setUserLoc();
         locationService.stop();

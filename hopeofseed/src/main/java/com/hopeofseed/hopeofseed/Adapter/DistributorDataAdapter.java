@@ -82,6 +82,10 @@ public class DistributorDataAdapter extends RecyclerView.Adapter<DistributorData
             }
         });
         getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), holder);
+        Glide.with(mContext)
+                .load(mData.getUser_id()).placeholder(R.drawable.header_distributor_default).dontAnimate()
+                .centerCrop()
+                .into(holder.img_user_avatar);
     }
 
     @Override

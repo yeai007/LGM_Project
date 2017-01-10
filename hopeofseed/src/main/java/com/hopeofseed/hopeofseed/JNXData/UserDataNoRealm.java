@@ -37,6 +37,7 @@ public class UserDataNoRealm implements Parcelable {
      * UserLastLat :
      * UserLastLon :
      */
+
     private String user_id;
     private String user_name;
     private String nickname;
@@ -56,7 +57,11 @@ public class UserDataNoRealm implements Parcelable {
     private String UserLastLon;
     private String fllowed_count;
     private String been_fllowed_count;
+    /**
+     * UserAvatar : 675e8da40952fcbfa352783e9145248b.jpg
+     */
 
+    private String UserAvatar;
 
 
     public String getUser_id() {
@@ -274,4 +279,12 @@ public class UserDataNoRealm implements Parcelable {
             return new UserDataNoRealm[size];
         }
     };
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
+    }
 }

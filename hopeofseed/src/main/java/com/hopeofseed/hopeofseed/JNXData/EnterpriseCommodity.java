@@ -74,6 +74,11 @@ public class EnterpriseCommodity {
     private String EnterpriseLat;
     private String EnterpriseLon;
     private String user_id;
+    /**
+     * UserAvatar : 675e8da40952fcbfa352783e9145248b.jpg
+     */
+
+    private String UserAvatar;
 
     public String getCommodityId() {
         return CommodityId;
@@ -313,5 +318,13 @@ public class EnterpriseCommodity {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getUserAvatar() {
+        return UserAvatar;
+    }
+
+    public void setUserAvatar(String UserAvatar) {
+        this.UserAvatar = UserAvatar;
     }
 }

@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.JNXData.DistributorData;
 import com.hopeofseed.hopeofseed.R;
@@ -53,7 +55,8 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
         holder.tv_distributor_address.setText("地址：  " + itemData.getDistributorProvince() + "  " + itemData.getDistributorCity() + "  " + itemData.getDistributorZone());
         holder.tv_distributor_address_detail.setText("详细地址：  " + itemData.getDistributorAddressDetail());
         holder.tv_distance.setText(itemData.getDistance());
-        String strDistance="0";
+        Glide.with(mContext).load(itemData.getUserAvatar()).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(holder.img_user_avatar);
+        String strDistance = "0";
         int iDistance = Integer.parseInt(itemData.getDistance());
         if (iDistance > 1000) {
             double c = ObjectUtil.roundDouble((double) iDistance / (double) 1000, 2);
@@ -68,7 +71,7 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, UserActivity.class);
                 intent.putExtra("userid", itemData.getUser_id());
-                intent.putExtra("UserRole",Integer.parseInt(itemData.getUser_role()));
+                intent.putExtra("UserRole", Integer.parseInt(itemData.getUser_role()));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
             }
@@ -87,8 +90,9 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_distributor_name, tv_distributor_address, tv_distributor_address_detail,tv_distance;
+        TextView tv_distributor_name, tv_distributor_address, tv_distributor_address_detail, tv_distance;
         RelativeLayout item_view;
+        ImageView img_user_avatar;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -96,7 +100,8 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
             tv_distributor_address = (TextView) itemView.findViewById(R.id.tv_distributor_address);
             tv_distributor_address_detail = (TextView) itemView.findViewById(R.id.tv_distributor_address_detail);
             item_view = (RelativeLayout) itemView.findViewById(R.id.item_view);
-            tv_distance=(TextView)itemView.findViewById(R.id.tv_distance);
+            tv_distance = (TextView) itemView.findViewById(R.id.tv_distance);
+            img_user_avatar = (ImageView) itemView.findViewById(R.id.img_user_avatar);
         }
     }
 }

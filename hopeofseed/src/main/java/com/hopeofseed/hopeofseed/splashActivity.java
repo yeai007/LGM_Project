@@ -441,6 +441,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             Const.currentUser.createtime = results1.get(0).getCreatetime();
             Const.currentUser.user_permation = results1.get(0).getUser_permation();
             Const.currentUser.user_role = results1.get(0).getUser_role();
+            Const.currentUser.UserAvatar = results1.get(0).getUserAvatar();
             Log.e(TAG, "initUserData: " + Const.currentUser.user_id + Const.currentUser.user_name);
             JpushUtil jpushUtil = new JpushUtil(splashActivity.this);
             jpushUtil.initJpushUser();
@@ -504,20 +505,14 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
     public void onReceiveLocation(BDLocation bdLocation) {
         if (bdLocation == null)
             return;
-        //Receive Location
-        //经纬度
-        double lati = bdLocation.getLatitude();
-        double longa = bdLocation.getLongitude();
-        //打印出当前位置
-        Log.i("TAG", "location.getAddrStr()=" + bdLocation.getAddrStr());
-        //打印出当前城市
-        Log.i("TAG", "location.getCity()=" + bdLocation.getCity());
-        //返回码
-        int i = bdLocation.getLocType();
-        //LatLng llA = new LatLng(36.710353, 117.086401);
-        LatLng llA = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
         Const.LocLat = bdLocation.getLatitude();
         Const.LocLng = bdLocation.getLongitude();
+        if (TextUtils.isEmpty(String.valueOf(Const.LocLat))) {
+            Const.LocLat = 36.710348;
+        }
+        if (TextUtils.isEmpty(String.valueOf(Const.LocLng))) {
+            Const.LocLng = 117.086381;
+        }
         if (bdLocation.getCity() != null) {
             Const.Province = bdLocation.getProvince();
             Const.City = bdLocation.getCity();

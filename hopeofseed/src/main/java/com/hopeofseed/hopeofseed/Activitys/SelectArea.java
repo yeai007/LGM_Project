@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -235,11 +236,20 @@ public class SelectArea extends AppCompatActivity implements View.OnClickListene
         Const.LocLat = bdLocation.getLatitude();
         Const.LocLng = bdLocation.getLongitude();
         Const.Province = bdLocation.getProvince();
-        Const.City = bdLocation.getCity();
-        Const.Zone = bdLocation.getDistrict();
-        Const.UserLocation = bdLocation.getCity();
-        Log.e(TAG, "onReceiveLocation: " + Province + City + Const.Zone);
-        if (!Province.equals("")) {
+        if (TextUtils.isEmpty(String.valueOf(Const.LocLat))) {
+            Const.LocLat = 36.710348;
+        }
+        if (TextUtils.isEmpty(String.valueOf(Const.LocLng))) {
+            Const.LocLng = 117.086381;
+        }
+        if(!TextUtils.isEmpty(bdLocation.getCity()))   {
+        Const.City = bdLocation.getCity();   }
+        if(!TextUtils.isEmpty(bdLocation.getDistrict()))   {
+        Const.Zone = bdLocation.getDistrict();     }
+        if(!TextUtils.isEmpty( Const.UserLocation))   {
+        Const.UserLocation = bdLocation.getCity();     }
+
+        if (!TextUtils.isEmpty(Province)) {
             Const.SetShareData(getApplicationContext());
         }
         tv_now_local.setText(bdLocation.getCity());

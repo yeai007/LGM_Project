@@ -22,4 +22,5 @@ public class CurrentUser {
     public String user_role_id;
     public String user_field;
     public int iscurrent;
+    public String UserAvatar;
 }

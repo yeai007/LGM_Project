@@ -55,15 +55,6 @@ public class ExperienceAdapter extends RecyclerView.Adapter<ExperienceAdapter.Vi
         holder.tv_content.setSingleLine(false);
         holder.tv_content.setMaxLines(3);
         holder.tv_content.setEllipsize(TextUtils.TruncateAt.valueOf("END"));
-/*        holder.tv_name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext.getApplicationContext(), UserActivity.class);
-                intent.putExtra("userid", mData.getUser_id());
-                intent.putExtra("InfoId", mData.getExperienceId());
-                mContext.startActivity(intent);
-            }
-        });*/
         holder.item_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
