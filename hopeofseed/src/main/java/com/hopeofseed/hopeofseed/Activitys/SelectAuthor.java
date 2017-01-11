@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.hopeofseed.hopeofseed.Adapter.MainViewPagerAdapter;

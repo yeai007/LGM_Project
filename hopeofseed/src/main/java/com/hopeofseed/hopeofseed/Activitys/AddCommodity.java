@@ -208,7 +208,7 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
     AdapterView.OnItemSelectedListener spTitleListener_2 = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            Variety_2 = arrCommodityVarietyData_2.get(i).getVarietyname();
+            Variety_2 = arr_Variety_Data_2.get(i).getVarietyname();
             varietyid = arr_Variety_Data_2.get(i).getVarietyid();
         }
 

@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hopeofseed.hopeofseed.Activitys.PubishMainActivity;
 import com.hopeofseed.hopeofseed.R;
 
 /**
@@ -20,6 +21,19 @@ import com.hopeofseed.hopeofseed.R;
  */
 
 public class WeiboDialogUtils {
+    Context mContext;
+    static Dialog dialogUtils;
+    ;
+
+    public WeiboDialogUtils(Context context) {
+        super();
+        mContext = context;
+    }
+
+    public void showDialog(String showText) {
+        dialogUtils = WeiboDialogUtils.createLoadingDialog(mContext, "正在发送...");
+        dialogUtils.show();
+    }
 
     public static Dialog createLoadingDialog(Context context, String msg) {
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -45,22 +59,18 @@ public class WeiboDialogUtils {
         window.setGravity(Gravity.CENTER);
         window.setAttributes(lp);
         window.setWindowAnimations(R.style.PopWindowAnimStyle);
-        loadingDialog.show();
-
+        // loadingDialog.show();
         return loadingDialog;
     }
 
     /**
      * 关闭dialog
-     *
+     * <p>
      * http://blog.csdn.net/qq_21376985
-     *
-     * @param mDialogUtils
      */
-    public static void closeDialog(Dialog mDialogUtils) {
-        if (mDialogUtils != null && mDialogUtils.isShowing()) {
-            mDialogUtils.dismiss();
+    public  void closeDialog() {
+        if (dialogUtils != null && dialogUtils.isShowing()) {
+            dialogUtils.dismiss();
         }
     }
-
 }

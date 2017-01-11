@@ -544,9 +544,9 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
             sp_VarietyAdapter_2.notifyDataSetChanged();
             if (isSp2Select) {
                 Log.e(TAG, "onItemSelected: Variety_2onclick" + arrCommodityVarietyData_2.get(i).getVarietyname() + mCommodityData.getCommodityVariety_2());
-                for (int j = 0; j < arrCommodityVarietyData_2.size(); j++) {
-                    if (arrCommodityVarietyData_2.get(j).getVarietyname().trim().equals(mCommodityData.getCommodityVariety_2().trim())) {
-                        Log.e(TAG, "run: " + arrCommodityVarietyData_2.get(j) + mCommodityData.getCommodityVariety_2());
+                for (int j = 0; j < arr_Variety_Data_2.size(); j++) {
+                    if (arr_Variety_Data_2.get(j).getVarietyname().trim().equals(mCommodityData.getCommodityVariety_2().trim())) {
+                        Log.e(TAG, "run: " + arr_Variety_Data_2.get(j) + mCommodityData.getCommodityVariety_2());
                         sp_variety_2.setSelection(j);
                         break;
                     }
@@ -563,7 +563,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
     AdapterView.OnItemSelectedListener spTitleListener_2 = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            Variety_2 = arrCommodityVarietyData_2.get(i).getVarietyname();
+            Variety_2 = arr_Variety_Data_2.get(i).getVarietyname();
             varietyid = arr_Variety_Data_2.get(i).getVarietyid();
 /*            Log.e(TAG, "onItemSelected: Variety_2" + arrCommodityVarietyData_2.get(i).getVarietyname());*/
         }

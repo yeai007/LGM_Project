@@ -88,10 +88,9 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
         Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("维护");
         if (Const.currentUser.user_role.equals("2")) {
-          btn_topright.setVisibility(View.VISIBLE);
+            btn_topright.setVisibility(View.VISIBLE);
         }
         btn_topright.setOnClickListener(this);
-        
         btn_add_commodity = (Button) findViewById(R.id.btn_add_commodity);
         btn_add_commodity.setOnClickListener(this);
         catalogs.add("全部");
@@ -111,7 +110,6 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
         });
 
         recy_catas = (RecyclerView) findViewById(R.id.recy_catas);
-/*        recy_catas.getBackground().setAlpha(20);*/
         final GridLayoutManager manager1 = new GridLayoutManager(MyCommodity.this, 2);
         recy_catas.setLayoutManager(manager1);
         mStringGridListAdapter = new StringGridListAdapter(MyCommodity.this, arrStringVariety);

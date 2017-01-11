@@ -1,13 +1,16 @@
 package com.hopeofseed.hopeofseed.Activitys;
+
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.hopeofseed.hopeofseed.Adapter.ExperienceAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
@@ -16,8 +19,11 @@ import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.ExpertEnterperiseData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.ExpertEnterperiseDataTmp;
 import com.hopeofseed.hopeofseed.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static com.hopeofseed.hopeofseed.R.id.layout_swipe_refresh;
 import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
 
 /**
@@ -29,7 +35,7 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  * 修改时间：2016/10/9 19:39
  * 修改备注：
  */
-public class ExpertShareFragment extends Fragment implements NetCallBack {
+public class ExpertShareFragment extends Fragment implements NetCallBack, SwipeRefreshLayout.OnRefreshListener {
     RecyclerView recycler_list;
     android.os.Handler mHandler = new android.os.Handler();
     private String StrProvince, StrCity, StrZone, StrPolitic;
@@ -38,6 +44,7 @@ public class ExpertShareFragment extends Fragment implements NetCallBack {
     ArrayList<ExpertEnterperiseData> arrExperienceDataData = new ArrayList<>();
     ArrayList<ExpertEnterperiseData> arrExperienceDataTmp = new ArrayList<>();
     boolean isLoading = false;
+    private SwipeRefreshLayout mRefreshLayout;
 
     @Nullable
     @Override
@@ -60,6 +67,14 @@ public class ExpertShareFragment extends Fragment implements NetCallBack {
     }
 
     private void initView(View v) {
+        mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.layout_swipe_refresh);
+        //这个是下拉刷新出现的那个圈圈要显示的颜色
+        mRefreshLayout.setColorSchemeResources(
+                R.color.colorRed,
+                R.color.colorYellow,
+                R.color.colorGreen
+        );
+        mRefreshLayout.setOnRefreshListener(this);
         recycler_list = (RecyclerView) v.findViewById(R.id.recycler_list);
         recycler_list.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -93,6 +108,7 @@ public class ExpertShareFragment extends Fragment implements NetCallBack {
             }
         });
     }
+
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
         Log.e(TAG, "onSuccess: " + rspBaseBean.toString());
@@ -113,9 +129,13 @@ public class ExpertShareFragment extends Fragment implements NetCallBack {
     Runnable runnableNotifyList = new Runnable() {
         @Override
         public void run() {
-            arrExperienceDataData.clear();
+            if (PageNo == 0) {
+                arrExperienceDataData.clear();
+            }
             arrExperienceDataData.addAll(arrExperienceDataTmp);
             mExperienceAdapter.notifyDataSetChanged();
+            mRefreshLayout.setRefreshing(false);
+            isLoading = false;
         }
     };
 
@@ -123,6 +143,12 @@ public class ExpertShareFragment extends Fragment implements NetCallBack {
         StrProvince = citySelected[0];
         StrCity = citySelected[1];
         StrZone = citySelected[2];
+        getData();
+    }
+
+    @Override
+    public void onRefresh() {
+        PageNo = 0;
         getData();
     }
 }

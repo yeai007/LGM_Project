@@ -59,11 +59,14 @@ public class DistributorForCommodityAdapter extends RecyclerView.Adapter<Distrib
         mData = mlist.get(position);
         holder.tv_distributor_name.setText(mData.getDistributorName());
         holder.tv_address.setText(mData.getDistributorProvince() + " " + mData.getDistributorCity() + " " + mData.getDistributorZone() + "\n" + mData.getDistributorAddressDetail());
-        getUserJpushInfo(Const.JPUSH_PREFIX + mData.getUser_id(), holder);
+        Glide.with(mContext)
+                .load(mData.getUserAvatar()).placeholder(R.drawable.header_distributor_default).dontAnimate()
+                .centerCrop()
+                .into(holder.img_user);
         holder.btn_commodity_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Intent intent = new Intent(mContext, SettingCommodityActivity.class);
+                // Intent intent = new Intent(mContext, SettingCommodityActivity.class);
                 Intent intent = new Intent(mContext, CommodityForDistributorActivity.class);
                 intent.putExtra("DistributorId", mData.getDistributorId());
                 mContext.startActivity(intent);
@@ -90,18 +93,7 @@ public class DistributorForCommodityAdapter extends RecyclerView.Adapter<Distrib
             tv_distributor_name = (TextView) itemView.findViewById(R.id.tv_distributor_name);
             tv_address = (TextView) itemView.findViewById(R.id.tv_address);
             btn_commodity_setting = (TextView) itemView.findViewById(R.id.btn_commodity_setting);
+            img_user = (ImageView) itemView.findViewById(R.id.img_user);
         }
-    }
-
-    private void getUserJpushInfo(String user_name, final ViewHolder holder) {
-        JMessageClient.getUserInfo(user_name, new GetUserInfoCallback() {
-            @Override
-            public void gotResult(int i, String s, UserInfo userInfo) {
-                Glide.with(mContext)
-                        .load(userInfo.getAvatarFile())  .placeholder(R.drawable.header_distributor_default)    .dontAnimate()
-                        .centerCrop()
-                        .into(holder.img_user);
-            }
-        });
     }
 }

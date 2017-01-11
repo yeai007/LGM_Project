@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.mapapi.model.LatLng;
+import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.HomePageActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
@@ -124,7 +125,17 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         if (!cache.exists()) {
             cache.mkdirs();
         }
+        cachedThreadPool.execute(CleanImageCathe);
+        Glide.get(this).clearMemory();
     }
+
+    Runnable CleanImageCathe = new Runnable() {
+        @Override
+        public void run() {
+            Glide.get(splashActivity.this).clearDiskCache();
+        }
+    };
+
 
     private void initView() {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -203,7 +214,12 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
                 ConfigData itemData = arrConfigData.get(i);
                 if (itemData.getConfigName().equals("AppArea")) {
                     Const.GetShareData(splashActivity.this);
+                    Realm insertRealm = Realm.getDefaultInstance();
+                    RealmResults<AppAreaData> results_insert = insertRealm.where(AppAreaData.class).findAll();
                     if (!(Const.AreaConfig == Integer.parseInt(itemData.getConfigVersion()))) {
+                        AreaVersion = Integer.parseInt(itemData.getConfigVersion());
+                        getLastAreaData();
+                    } else if (results_insert.size() == 0) {
                         AreaVersion = Integer.parseInt(itemData.getConfigVersion());
                         getLastAreaData();
                     } else {

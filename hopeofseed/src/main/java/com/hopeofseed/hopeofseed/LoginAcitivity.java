@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.Activitys.CompanyRegActivity;
 import com.hopeofseed.hopeofseed.Activitys.ForgetPassWordActivity;
+import com.hopeofseed.hopeofseed.Activitys.PubishMainActivity;
 import com.hopeofseed.hopeofseed.Activitys.RegisterAcitivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
@@ -44,10 +45,9 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
     String TAG = "LoginActicity";
     TextView btn_login, btn_register, btn_register_company;
     String user_name, pass_word;
-    Realm myRealm = Realm.getDefaultInstance();
     Handler mHandle = new Handler();
     private String mError;
-    Dialog dialogUtils;
+    WeiboDialogUtils dialogUtils;
     TextView btn_forget;
 
     @Override
@@ -55,6 +55,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
+        dialogUtils = new WeiboDialogUtils(LoginAcitivity.this);
     }
 
     private void initView() {
@@ -77,7 +78,7 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
                 user_name = ((EditText) findViewById(R.id.et_username)).getText().toString();
                 pass_word = ((EditText) findViewById(R.id.et_password)).getText().toString();
                 if (isChecked(user_name, pass_word)) {
-                    dialogUtils = WeiboDialogUtils.createLoadingDialog(LoginAcitivity.this, "正在登录...");
+                    dialogUtils.showDialog("正在登录\n请稍候...");
                     UserLogin(user_name, pass_word, "0");
                 }
 
@@ -142,12 +143,12 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
     public void onError(String error) {
         mError = error;
         mHandle.post(rspResult);
-        WeiboDialogUtils.closeDialog(dialogUtils);
+        dialogUtils.closeDialog();
     }
 
     @Override
     public void onFail() {
-
+        dialogUtils.closeDialog();
     }
 
 

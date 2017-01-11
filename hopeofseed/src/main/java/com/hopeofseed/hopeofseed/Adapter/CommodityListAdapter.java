@@ -73,19 +73,16 @@ public class CommodityListAdapter extends RecyclerView.Adapter<CommodityListAdap
         final CommodityData itemData;
         itemData = mList.get(position);
         String[] arrImage = itemData.getCommodityImgs().split(";");
-/*        if (arrImage.length > 0 && (!TextUtils.isEmpty(arrImage[0]))) {*/
-            Glide.with(mContext)
-                    .load(Const.IMG_URL + arrImage[0])
-                    .placeholder(R.drawable.no_have_img)
-                    .centerCrop()
-                    .into(holder.img);
-/*        }*/
-
+        Glide.with(mContext)
+                .load(Const.IMG_URL + arrImage[0])
+                .placeholder(R.drawable.no_have_img)
+                .centerCrop()
+                .into(holder.img);
         holder.create_time.setText(DateTools.StringDateTimeToDate(itemData.getCreateTime()));
         holder.tv_name.setText(itemData.getCommodityName());
         holder.tv_content.setText(itemData.getCommodityVariety());
         if (TextUtils.isEmpty(itemData.getCommodityPrice()) || itemData.getCommodityPrice().equals("0")) {
-            holder.tv_price.setText("￥ " +" 议价");
+            holder.tv_price.setText("￥ " + " 议价");
         } else {
             holder.tv_price.setText("￥ " + itemData.getCommodityPrice());
         }

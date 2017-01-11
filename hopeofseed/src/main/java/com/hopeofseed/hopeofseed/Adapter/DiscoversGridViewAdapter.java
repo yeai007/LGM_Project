@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.SelectAuthor;
 import com.hopeofseed.hopeofseed.Activitys.SelectDistributor;
@@ -17,7 +18,9 @@ import com.hopeofseed.hopeofseed.Activitys.SelectExpert;
 import com.hopeofseed.hopeofseed.Activitys.SelectSeedFriend;
 import com.hopeofseed.hopeofseed.Activitys.SelectVarieties;
 import com.hopeofseed.hopeofseed.R;
+
 import java.util.ArrayList;
+
 import static com.hopeofseed.hopeofseed.Activitys.DiscoverFragment.SELECT_AUTHOR;
 import static com.hopeofseed.hopeofseed.Activitys.DiscoverFragment.SELECT_BUSINESS;
 import static com.hopeofseed.hopeofseed.Activitys.DiscoverFragment.SELECT_DISTRIBUTOR;
@@ -53,7 +56,7 @@ public class DiscoversGridViewAdapter extends RecyclerView.Adapter<DiscoversGrid
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-       // holder.img_content.setImageResource(R.drawable.img_group_default);
+        // holder.img_content.setImageResource(R.drawable.img_group_default);
         Glide.with(mContext)
                 .load(R.drawable.img_group_default).placeholder(R.drawable.img_group_default).dontAnimate()
                 .centerCrop()
@@ -62,39 +65,39 @@ public class DiscoversGridViewAdapter extends RecyclerView.Adapter<DiscoversGrid
         switch (position) {
             case SELECT_VARIETIES://找品种
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_search_crop) .placeholder(R.drawable.faxian_search_crop) .dontAnimate()
+                        .load(R.drawable.faxian_search_crop).placeholder(R.drawable.faxian_search_crop).dontAnimate()
                         .centerCrop()
-                        .into( holder.img_content);
+                        .into(holder.img_content);
                 break;
             case SELECT_DISTRIBUTOR://找经销商
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_near_distributor).placeholder(R.drawable.faxian_near_distributor) .dontAnimate()
+                        .load(R.drawable.faxian_near_distributor).placeholder(R.drawable.faxian_near_distributor).dontAnimate()
                         .centerCrop()
-                        .into( holder.img_content);
+                        .into(holder.img_content);
                 break;
             case SELECT_EXPERT://找专家
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_search_expert).placeholder(R.drawable.faxian_search_expert)  .dontAnimate()
+                        .load(R.drawable.faxian_search_expert).placeholder(R.drawable.faxian_search_expert).dontAnimate()
                         .centerCrop()
-                        .into( holder.img_content);
+                        .into(holder.img_content);
                 break;
             case SELECT_BUSINESS://找企业
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_search_busniss).placeholder(R.drawable.faxian_search_busniss)    .dontAnimate()
+                        .load(R.drawable.faxian_search_busniss).placeholder(R.drawable.faxian_search_busniss).dontAnimate()
                         .centerCrop()
-                        .into( holder.img_content);
+                        .into(holder.img_content);
                 break;
             case SELECT_AUTHOR://找机构
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_search_autor).placeholder(R.drawable.faxian_search_autor)   .dontAnimate()
+                        .load(R.drawable.faxian_search_autor).placeholder(R.drawable.faxian_search_autor).dontAnimate()
                         .centerCrop()
-                        .into( holder.img_content);
+                        .into(holder.img_content);
                 break;
             case SELECT_SEED_FRIEND://找种友
                 Glide.with(mContext)
-                        .load(R.drawable.faxian_near_friend).placeholder(R.drawable.faxian_near_friend)    .dontAnimate()
+                        .load(R.drawable.faxian_near_friend).placeholder(R.drawable.faxian_near_friend).dontAnimate()
                         .centerCrop()
-                        .into( holder.img_content);
+                        .into(holder.img_content);
                 break;
         }
         holder.item_view.setOnClickListener(new View.OnClickListener() {

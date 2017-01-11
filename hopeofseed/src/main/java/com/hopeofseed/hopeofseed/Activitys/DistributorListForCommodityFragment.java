@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static com.hopeofseed.hopeofseed.R.id.btn_search;
+import static com.hopeofseed.hopeofseed.R.id.layout_swipe_refresh;
+import static com.hopeofseed.hopeofseed.R.id.recy_list;
 import static com.hopeofseed.hopeofseed.R.id.tv_search;
 
 
@@ -43,13 +46,17 @@ import static com.hopeofseed.hopeofseed.R.id.tv_search;
  * 修改时间：2016/10/7 20:30
  * 修改备注：
  */
-public class DistributorListForCommodityFragment extends Fragment implements NetCallBack {
+public class DistributorListForCommodityFragment extends Fragment implements NetCallBack, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "DistributorListFragment";
     RecyclerView lv_distributor;
     DistributorForCommodityAdapter mDistributorForCommodityAdapter;
     ArrayList<DistributorData> arr_DistributorData = new ArrayList<>();
     ArrayList<DistributorData> arr_DistributorDataTmp = new ArrayList<>();
     Handler mHandler = new Handler();
+
+    private SwipeRefreshLayout mRefreshLayout;
+    int PageNo = 0;
+    boolean isLoading = false;
 
     @Nullable
     @Override
@@ -69,13 +76,38 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
     }
 
     private void initView(View v) {
+        mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.layout_swipe_refresh);
+        //这个是下拉刷新出现的那个圈圈要显示的颜色
+        mRefreshLayout.setColorSchemeResources(
+                R.color.colorRed,
+                R.color.colorYellow,
+                R.color.colorGreen
+        );
+        mRefreshLayout.setOnRefreshListener(this);
         lv_distributor = (RecyclerView) v.findViewById(R.id.lv_distributor);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         lv_distributor.setLayoutManager(linearLayoutManager);
         mDistributorForCommodityAdapter = new DistributorForCommodityAdapter(getContext(), arr_DistributorData);
         lv_distributor.setAdapter(mDistributorForCommodityAdapter);
-
+        //滚动监听，在滚动监听里面去实现加载更多的功能
+        lv_distributor.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = ((LinearLayoutManager) linearLayoutManager).findLastVisibleItemPosition();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
+                    if (!isLoading) {
+                        isLoading = true;
+                        PageNo = PageNo + 1;
+                        getData();
+                    }
+                }
+            }
+        });
     }
 
     private void initData() {
@@ -115,4 +147,9 @@ public class DistributorListForCommodityFragment extends Fragment implements Net
     };
 
 
+    @Override
+    public void onRefresh() {
+        PageNo = 0;
+        getData();
+    }
 }

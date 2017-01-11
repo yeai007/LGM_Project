@@ -86,13 +86,14 @@ public class AuthorDataAdapter extends RecyclerView.Adapter<AuthorDataAdapter.Vi
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img_user_avatar;
         TextView tv_name, tv_address;
-RelativeLayout rel_title;
+        RelativeLayout rel_title;
+
         public ViewHolder(View itemView) {
             super(itemView);
             tv_name = (TextView) itemView.findViewById(R.id.tv_name);
             tv_address = (TextView) itemView.findViewById(R.id.tv_address);
             img_user_avatar = (ImageView) itemView.findViewById(R.id.img_user_avatar);
-            rel_title=(RelativeLayout)itemView.findViewById(R.id.rel_title);
+            rel_title = (RelativeLayout) itemView.findViewById(R.id.rel_title);
         }
     }
 }

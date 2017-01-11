@@ -58,17 +58,16 @@ public class CommodityImageAdapter extends RecyclerView.Adapter<CommodityImageAd
         CommodityDataNoUser itemdata = new CommodityDataNoUser();
         itemdata = images.get(position);
         if (!(TextUtils.isEmpty(itemdata.getCommodityImgs()))) {
-            Log.e(TAG, "onBindViewHolder: "+itemdata.getCommodityImgs());
+            Log.e(TAG, "onBindViewHolder: " + itemdata.getCommodityImgs());
             String[] arrImage = itemdata.getCommodityImgs().split(";");
             for (int i = 0; i < arrImage.length; i++) {
                 arrImage[i] = Const.IMG_URL + arrImage[i];
             }
-/*            if (arrImage.length > 0 ) {*/
-                Log.e(TAG, "onBindViewHolder: "+Const.IMG_URL + arrImage[0]);
-                Glide.with(mContext)
-                        .load(arrImage[0]).placeholder(R.drawable.no_have_img) .dontAnimate()
-                        .centerCrop()
-                        .into(holder.imageView);
+            Log.e(TAG, "onBindViewHolder: " + Const.IMG_URL + arrImage[0]);
+            Glide.with(mContext)
+                    .load(arrImage[0]).placeholder(R.drawable.no_have_img).dontAnimate()
+                    .centerCrop()
+                    .into(holder.imageView);
        /*     }*/
         }
         holder.tv_commodity_name.setText(itemdata.getCommodityName());
@@ -84,12 +83,13 @@ public class CommodityImageAdapter extends RecyclerView.Adapter<CommodityImageAd
 
             }
         });
-        if(!TextUtils.isEmpty(itemdata.getOwnerClass())){
-        if (Integer.parseInt(itemdata.getOwnerClass()) == 2) {
-            holder.img_guaranteed.setVisibility(View.VISIBLE);
-        } else {
-            holder.img_guaranteed.setVisibility(View.GONE);
-        }}
+        if (!TextUtils.isEmpty(itemdata.getOwnerClass())) {
+            if (Integer.parseInt(itemdata.getOwnerClass()) == 2) {
+                holder.img_guaranteed.setVisibility(View.VISIBLE);
+            } else {
+                holder.img_guaranteed.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -98,14 +98,14 @@ public class CommodityImageAdapter extends RecyclerView.Adapter<CommodityImageAd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView,img_guaranteed;
+        ImageView imageView, img_guaranteed;
         TextView tv_commodity_name;
 
         public ViewHolder(View itemView) {
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.image);
             tv_commodity_name = (TextView) itemView.findViewById(R.id.tv_commodity_name);
-            img_guaranteed=(ImageView)itemView.findViewById(R.id.img_guaranteed);
+            img_guaranteed = (ImageView) itemView.findViewById(R.id.img_guaranteed);
         }
     }
 }

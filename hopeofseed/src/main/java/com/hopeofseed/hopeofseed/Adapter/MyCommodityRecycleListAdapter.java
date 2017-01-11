@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.CommoditySettingActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
@@ -53,15 +51,10 @@ public class MyCommodityRecycleListAdapter extends RecyclerView.Adapter<MyCommod
     public void onBindViewHolder(ViewHolder holder, int position) {
         final CommodityData itemData = mList.get(position);
         String[] arrImage = itemData.getCommodityImgs().split(";");
-       /* if (arrImage.length > 0 && (!TextUtils.isEmpty(arrImage[0]))) {*/
-            Log.e(TAG, "getView: " + Const.IMG_URL + arrImage[0]);
             Glide.with(mContext)
                     .load(Const.IMG_URL + arrImage[0]).placeholder(R.drawable.no_have_img)  .dontAnimate()
                     .centerCrop()
                     .into(holder.commodity_img);
-     /*   } else {
-            holder.commodity_img.setImageResource(R.drawable.no_have_img);
-        }*/
         holder.commodity_name.setText(itemData.getCommodityName());
         if (TextUtils.isEmpty(itemData.getCommodityPrice()) || itemData.getCommodityPrice().equals("0")) {
             holder.commodity_price.setText("￥ " +" 议价");

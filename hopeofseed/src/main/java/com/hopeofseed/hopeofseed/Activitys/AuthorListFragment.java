@@ -43,7 +43,7 @@ import static com.hopeofseed.hopeofseed.R.id.lv_distributor;
  * 修改时间：2016/10/7 20:30
  * 修改备注：
  */
-public class AuthorListFragment extends Fragment implements NetCallBack,SwipeRefreshLayout.OnRefreshListener  {
+public class AuthorListFragment extends Fragment implements NetCallBack, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "AuthorListFragment";
     AuthorDataAdapter mAuthorDataAdapter;
     ArrayList<AuthorData> arrAuthorData = new ArrayList<>();
@@ -55,7 +55,8 @@ public class AuthorListFragment extends Fragment implements NetCallBack,SwipeRef
     int PageNo = 0;
     Handler mHandler = new Handler();
     boolean isLoading = false;
-    boolean isSearch = false;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -104,28 +105,19 @@ public class AuthorListFragment extends Fragment implements NetCallBack,SwipeRef
         });
 
     }
+
     private void getData() {
         Log.e(TAG, "getData: 获取经销商数据");
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
         opt_map.put("LocLat", String.valueOf(Const.LocLat));
         opt_map.put("LocLng", String.valueOf(Const.LocLng));
-        opt_map.put("Range", "50000");
+        opt_map.put("Range", "500000");
         opt_map.put("ClassId", String.valueOf(ClassId));
+        opt_map.put("PageNo",String.valueOf(PageNo));
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetAuthorDataByClass.php", opt_map, AuthorDataTmp.class, this);
     }
-
-    private AdapterView.OnItemClickListener myListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Intent intent = new Intent(getActivity(), UserActivity.class);
-            intent.putExtra("userid", String.valueOf(arrAuthorData.get(i - 1).getUser_id()));
-            intent.putExtra("UserRole", Integer.parseInt(arrAuthorData.get(i - 1).getUser_role()));
-            startActivity(intent);
-        }
-    };
-
     @Override
     public void onSuccess(RspBaseBean rspBaseBean) {
         arrAuthorDataTmp = ((AuthorDataTmp) ObjectUtil.cast(rspBaseBean)).getDetail();
@@ -145,7 +137,9 @@ public class AuthorListFragment extends Fragment implements NetCallBack,SwipeRef
     Runnable updateList = new Runnable() {
         @Override
         public void run() {
-            arrAuthorData.clear();
+            if (PageNo == 0) {
+                arrAuthorData.clear();
+            }
             arrAuthorData.addAll(arrAuthorDataTmp);
             mAuthorDataAdapter.notifyDataSetChanged();
             mRefreshLayout.setRefreshing(false);
@@ -154,6 +148,7 @@ public class AuthorListFragment extends Fragment implements NetCallBack,SwipeRef
     };
 
     public void setUserLoc() {
+        PageNo = 0;
         getData();
     }
 
@@ -162,8 +157,10 @@ public class AuthorListFragment extends Fragment implements NetCallBack,SwipeRef
     }
 
     public void refreshData() {
+        PageNo = 0;
         getData();
     }
+
     @Override
     public void onRefresh() {
         PageNo = 0;

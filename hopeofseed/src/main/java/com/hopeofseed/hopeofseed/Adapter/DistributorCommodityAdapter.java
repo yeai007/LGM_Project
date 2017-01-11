@@ -68,17 +68,17 @@ public class DistributorCommodityAdapter extends RecyclerView.Adapter<Distributo
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final CommodityData itemData = mList.get(position);
         String[] arrImage = itemData.getCommodityImgs().split(";");
-            Glide.with(mContext)
-                    .load(Const.IMG_URL + arrImage[0]).dontAnimate()
-                    .placeholder(R.drawable.no_have_img)
-                    .centerCrop()
-                    .into(holder.img);
+        Glide.with(mContext)
+                .load(Const.IMG_URL + arrImage[0]).dontAnimate()
+                .placeholder(R.drawable.no_have_img)
+                .centerCrop()
+                .into(holder.img);
 
         holder.tv_name.setText(itemData.getCommodityName());
         holder.create_time.setText(DateTools.StringDateTimeToDate(itemData.getCreateTime()));
         holder.tv_content.setText(itemData.getCommodityVariety());
         if (TextUtils.isEmpty(itemData.getCommodityPrice()) || itemData.getCommodityPrice().equals("0")) {
-            holder.tv_price.setText("￥ " +" 议价");
+            holder.tv_price.setText("￥ " + " 议价");
         } else {
             holder.tv_price.setText("￥ " + itemData.getCommodityPrice());
         }
@@ -116,7 +116,7 @@ public class DistributorCommodityAdapter extends RecyclerView.Adapter<Distributo
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
-        TextView tv_name, tv_content, create_time,tv_price;
+        TextView tv_name, tv_content, create_time, tv_price;
         RelativeLayout item_view;
 
         public ViewHolder(View itemView) {
@@ -126,7 +126,7 @@ public class DistributorCommodityAdapter extends RecyclerView.Adapter<Distributo
             tv_content = (TextView) itemView.findViewById(R.id.tv_content);
             create_time = (TextView) itemView.findViewById(R.id.create_time);
             item_view = (RelativeLayout) itemView.findViewById(R.id.item_view);
-            tv_price=(TextView)itemView.findViewById(R.id.tv_price);
+            tv_price = (TextView) itemView.findViewById(R.id.tv_price);
         }
     }
 

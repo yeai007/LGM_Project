@@ -37,10 +37,12 @@ import cn.jpush.im.android.api.enums.MessageStatus;
 import cn.jpush.im.android.api.model.GroupInfo;
 import cn.jpush.im.android.api.model.UserInfo;
 
+import com.bumptech.glide.Glide;
 import com.hopeofseed.hopeofseed.Activitys.BrowserViewPagerActivity;
 import com.hopeofseed.hopeofseed.Activitys.UserActivity;
 import com.hopeofseed.hopeofseed.Application;
 import com.hopeofseed.hopeofseed.Data.Const;
+import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.ui.CircleImageView;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.DialogCreator;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.FileHelper;
@@ -48,6 +50,7 @@ import com.hopeofseed.hopeofseed.ui.chatting.utils.HandleResponseCode;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.IdHelper;
 import com.hopeofseed.hopeofseed.ui.chatting.utils.TimeFormat;
 import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
@@ -57,6 +60,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
 import cn.jpush.im.android.api.model.Conversation;
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.model.Message;
@@ -156,7 +160,7 @@ public class MsgListAdapter extends BaseAdapter {
     }
 
     private void reverse(List<Message> list) {
-        if (list.size() >0 ){
+        if (list.size() > 0) {
             Collections.reverse(list);
         }
     }
@@ -553,8 +557,12 @@ public class MsgListAdapter extends BaseAdapter {
 
         //显示头像
         if (holder.headIcon != null) {
-            if (userInfo != null && !TextUtils.isEmpty(userInfo.getAvatar())) {
-                userInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
+            /*if (userInfo != null && !TextUtils.isEmpty(userInfo.getAvatar())) {*/
+            if (userInfo != null) {
+
+                Glide.with(mContext).load(Const.BASE_URL + "getUserAvatar.php?UserId=" + userInfo.getUserName().replace("Jpush_", "")).placeholder(R.drawable.header_user_default).dontAnimate().into(holder.headIcon);
+                Log.e(TAG, "getView: "+Const.BASE_URL + "getUserAvatar.php?UserId=" + userInfo.getUserName().replace("Jpush_", ""));
+                /*userInfo.getAvatarBitmap(new GetAvatarBitmapCallback() {
                     @Override
                     public void gotResult(int status, String desc, Bitmap bitmap) {
                         if (status == 0) {
@@ -565,8 +573,9 @@ public class MsgListAdapter extends BaseAdapter {
                             HandleResponseCode.onHandle(mContext, status, false);
                         }
                     }
-                });
+                });*/
             } else {
+                Log.e(TAG, "getView: userinfo is null" );
                 holder.headIcon.setImageResource(IdHelper.getDrawable(mContext, "header_user_default"));
             }
 
@@ -575,7 +584,7 @@ public class MsgListAdapter extends BaseAdapter {
 
                 @Override
                 public void onClick(View arg0) {
-                   Intent intent = new Intent();
+                    Intent intent = new Intent();
                     if (msg.getDirect() == MessageDirect.send) {
                      /*   intent.putExtra(Application.TARGET_ID, mTargetId);
                         Log.i(TAG, "msg.getFromName() " + mTargetId);
@@ -583,7 +592,7 @@ public class MsgListAdapter extends BaseAdapter {
                         mContext.startActivity(intent);*/
                     } else {
                         String targetID = userInfo.getUserName();
-                        intent.putExtra("userid",targetID.replace(Const.JPUSH_PREFIX,""));
+                        intent.putExtra("userid", targetID.replace(Const.JPUSH_PREFIX, ""));
                         if (TextUtils.isEmpty(userInfo.getSignature())) {
                             intent.putExtra("UserRole", 0);
                         } else {
@@ -788,8 +797,7 @@ public class MsgListAdapter extends BaseAdapter {
             /**
              * 修改全部显示昵称
              * */
-            else
-            {
+            else {
                 holder.displayName.setVisibility(View.VISIBLE);
                 if (TextUtils.isEmpty(msg.getFromUser().getNickname())) {
                     holder.displayName.setText(msg.getFromUser().getUserName());
@@ -1059,7 +1067,7 @@ public class MsgListAdapter extends BaseAdapter {
                         showResendDialog(holder, msg);
                     } else {
                         Toast.makeText(mContext, mContext.getString(IdHelper.getString(mContext,
-                                        "jmui_sdcard_not_exist_toast")),
+                                "jmui_sdcard_not_exist_toast")),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -1103,7 +1111,7 @@ public class MsgListAdapter extends BaseAdapter {
                             public void onComplete(int status, String desc, File file) {
                                 if (status != 0) {
                                     Toast.makeText(mContext, IdHelper.getString(mContext,
-                                                    "jmui_voice_fetch_failed_toast"),
+                                            "jmui_voice_fetch_failed_toast"),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     Log.i("VoiceMessage", "reload success");
@@ -1182,7 +1190,7 @@ public class MsgListAdapter extends BaseAdapter {
         } catch (Exception e) {
             Toast.makeText(mContext, IdHelper.getString(mContext, "jmui_file_not_found_toast"),
                     Toast.LENGTH_SHORT).show();
-            VoiceContent vc = (VoiceContent)msg.getContent();
+            VoiceContent vc = (VoiceContent) msg.getContent();
             vc.downloadVoiceFile(msg, new DownloadCompletionCallback() {
                 @Override
                 public void onComplete(int status, String desc, File file) {
@@ -1195,7 +1203,7 @@ public class MsgListAdapter extends BaseAdapter {
                     }
                 }
             });
-        }  finally {
+        } finally {
             try {
                 if (mFIS != null) {
                     mFIS.close();
@@ -1230,7 +1238,7 @@ public class MsgListAdapter extends BaseAdapter {
 
         @Override
         public boolean onLongClick(View v) {
-            onContentLongClick((Integer)v.getTag(), v);
+            onContentLongClick((Integer) v.getTag(), v);
             return true;
         }
 

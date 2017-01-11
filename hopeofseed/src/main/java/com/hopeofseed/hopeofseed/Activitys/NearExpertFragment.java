@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -36,7 +37,7 @@ import static com.nostra13.universalimageloader.core.ImageLoader.TAG;
  * 修改时间：2016/10/9 19:39
  * 修改备注：
  */
-public class NearExpertFragment extends Fragment implements NetCallBack {
+public class NearExpertFragment extends Fragment implements NetCallBack , SwipeRefreshLayout.OnRefreshListener{
     RecyclerView recycler_list;
     ExpertDataAdapter mExpertDataAdapter;
     ArrayList<ExpertData> arrExpertData= new ArrayList<>();
@@ -45,7 +46,7 @@ public class NearExpertFragment extends Fragment implements NetCallBack {
     private int PageNo = 0;
     ArrayList<ExpertData> arrExpertDataTmp = new ArrayList<>();
     boolean isLoading = false;
-
+    private SwipeRefreshLayout mRefreshLayout;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,6 +57,14 @@ public class NearExpertFragment extends Fragment implements NetCallBack {
     }
 
     private void initView(View v) {
+        mRefreshLayout = (SwipeRefreshLayout) v.findViewById(R.id.layout_swipe_refresh);
+        //这个是下拉刷新出现的那个圈圈要显示的颜色
+        mRefreshLayout.setColorSchemeResources(
+                R.color.colorRed,
+                R.color.colorYellow,
+                R.color.colorGreen
+        );
+        mRefreshLayout.setOnRefreshListener(this);
         recycler_list = (RecyclerView) v.findViewById(R.id.recycler_list);
         recycler_list.setHasFixedSize(true);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -127,8 +136,9 @@ public class NearExpertFragment extends Fragment implements NetCallBack {
                 arrExpertData.clear();
             }
             arrExpertData.addAll(arrExpertDataTmp);
-            Log.e(TAG, "run: notity");
             mExpertDataAdapter.notifyDataSetChanged();
+            mRefreshLayout.setRefreshing(false);
+            isLoading = false;
         }
     };
 
@@ -136,6 +146,12 @@ public class NearExpertFragment extends Fragment implements NetCallBack {
         StrProvince = citySelected[0];
         StrCity = citySelected[1];
         StrZone = citySelected[2];
+        getData();
+    }
+
+    @Override
+    public void onRefresh() {
+        PageNo=0;
         getData();
     }
 }

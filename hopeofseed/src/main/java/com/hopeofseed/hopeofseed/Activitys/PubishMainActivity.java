@@ -2,6 +2,7 @@ package com.hopeofseed.hopeofseed.Activitys;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -38,6 +39,8 @@ import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
+import com.hopeofseed.hopeofseed.LoginAcitivity;
+import com.hopeofseed.hopeofseed.curView.WeiboDialogUtils;
 import com.hopeofseed.hopeofseed.ui.ShowImage;
 import com.hopeofseed.hopeofseed.Adapter.PublishImgsAdapter;
 import com.hopeofseed.hopeofseed.R;
@@ -132,6 +135,7 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
     private ArrayList<String> images = new ArrayList<>();
     GridAdapter gridAdapter;
     pushFileResultTmp mCommResultTmp;
+    WeiboDialogUtils dialogUtils;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -140,8 +144,10 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
         PrepareAppCompat();
         //    createdata();
         initView();
+        dialogUtils = new WeiboDialogUtils(PubishMainActivity.this);
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -236,6 +242,7 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
         btn_topright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialogUtils.showDialog("正在发送...");
                 if (checkInput()) {
                     try {
                         sendWordAndImg();
@@ -306,14 +313,17 @@ public class PubishMainActivity extends AppCompatActivity implements NetCallBack
     public void onSuccess(RspBaseBean rspBaseBean) {
         mCommResultTmp = ObjectUtil.cast(rspBaseBean);
         mHandler.post(resultPushFile);
+        dialogUtils.closeDialog();
     }
 
     @Override
     public void onError(String error) {
+        dialogUtils.closeDialog();
     }
 
     @Override
     public void onFail() {
+        dialogUtils.closeDialog();
     }
 
     Runnable resultPushFile = new Runnable() {
