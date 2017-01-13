@@ -104,7 +104,8 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
     pushFileResultTmp mCommResultTmp;
     String DelImage = "";
     pushFileResultTmp mCommResultTmp2 = new pushFileResultTmp();
-
+    ArrayList<CommodityVarietyData> arrCommodityVarietyData_1_tmp = new ArrayList<>();
+    ArrayList<CommodityVarietyData> arrCommodityVarietyData_2_tmp = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -316,6 +317,17 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
             // Log.e(TAG, "onSuccess: " + rspBaseBean);
             CommodityVarietyDataTmp mCommodityVarietyDataTmp = ObjectUtil.cast(rspBaseBean);
             arrCommodityVarietyData = mCommodityVarietyDataTmp.getDetail();
+
+            for (int i = 0; i < arrCommodityVarietyData.size(); i++) {
+                CommodityVarietyData variety = new CommodityVarietyData();
+                variety = arrCommodityVarietyData.get(i);
+                if (Integer.parseInt(variety.getVarietyclassid()) == 1) {
+                    arrCommodityVarietyData_1_tmp.add(variety);
+                }
+                if (Integer.parseInt(variety.getVarietyclassid()) > 1) {
+                    arrCommodityVarietyData_2_tmp.add(variety);
+                }
+            }
             mHandler.post(updateSpinner);
         } else if (rspBaseBean.RequestSign.equals("updateCommodity")) {
             mCommResultTmp = ObjectUtil.cast(rspBaseBean);
@@ -386,25 +398,12 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
     Runnable updateSpinner = new Runnable() {
         @Override
         public void run() {
-            ArrayList<CommodityVarietyData> arrCommodityVarietyData_1_tmp = new ArrayList<>();
-            ArrayList<CommodityVarietyData> arrCommodityVarietyData_2_tmp = new ArrayList<>();
-            for (int i = 0; i < arrCommodityVarietyData.size(); i++) {
-                CommodityVarietyData variety = new CommodityVarietyData();
-                variety = arrCommodityVarietyData.get(i);
-                if (Integer.parseInt(variety.getVarietyclassid()) == 1) {
-                    arrCommodityVarietyData_1_tmp.add(variety);
-                }
-                if (Integer.parseInt(variety.getVarietyclassid()) > 1) {
-                    arrCommodityVarietyData_2_tmp.add(variety);
-                }
-            }
+
             arrCommodityVarietyData_1.clear();
             arrCommodityVarietyData_1.addAll(arrCommodityVarietyData_1_tmp);
             arrCommodityVarietyData_2.clear();
             arrCommodityVarietyData_2.addAll(arrCommodityVarietyData_2_tmp);
-            Log.e(TAG, "handleMessage: " + arrCommodityVarietyData_1 + arrCommodityVarietyData_2);
             sp_VarietyAdapter_1.notifyDataSetChanged();
-            Log.e(TAG, "run: " + mCommodityData.getCommodityVariety_1() + mCommodityData.getCommodityVariety_2());
             for (int i = 0; i < arrCommodityVarietyData_1.size(); i++) {
                 if (arrCommodityVarietyData_1.get(i).getVarietyname().trim().equals(mCommodityData.getCommodityVariety_1().trim())) {
                     isSp2Select = true;

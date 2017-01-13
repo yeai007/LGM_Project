@@ -1,4 +1,4 @@
-package com.lgm.view;
+package com.hopeofseed.hopeofseed.curView;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -15,8 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
 
+import com.hopeofseed.hopeofseed.R;
 import com.isseiaoki.simplecropview.CropImageView;
-import com.lgm.R;
 import com.lgm.utils.CropUtil;
 import com.lgm.utils.FileUtils;
 

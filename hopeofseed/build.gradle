@@ -1,6 +1,21 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 android {
+    lintOptions {
+        //build release 版本 时 开启lint 检测
+        checkReleaseBuilds true
+        //lint 遇到 error 时继续 构建
+        abortOnError false
+
+    }
+    signingConfigs {
+        config {
+            keyAlias 'hopeofseed'
+            keyPassword 'devLGM123'
+            storeFile file('E:/AndroidStudioProjects/AndroidStudioStore/HopeOfSeed.jks')
+            storePassword 'devLGM123'
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion '23.0.3'
     defaultConfig {
@@ -10,11 +25,12 @@ android {
         versionCode 5
         versionName "1.0.4"
         multiDexEnabled true
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             //不显示log
-            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "LOG_RELEASE", "false"
             //是否混淆
             minifyEnabled false
             //Zipalign优化
@@ -41,20 +57,20 @@ android {
             jniLibs.srcDir("libs")
         }
     }
+    productFlavors {
+    }
 }
 buildscript {
     repositories {
         jcenter()
     }
     dependencies {
-        classpath "io.realm:realm-gradle-plugin:1.1.0"
+        classpath "io.realm:realm-gradle-plugin:2.2.2"
     }
 }
-apply plugin: 'com.neenbedankt.android-apt'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile fileTree(include: ['**.*'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:24.1.1'
     compile project(':lgm')
     compile project(':library')
@@ -66,6 +82,5 @@ dependencies {
     compile files('libs/Bughd_android_sdk_v1.3.7.jar')
     compile files('libs/picasso-2.4.0.jar')
     compile files('libs/pinyin4j-2.5.0.jar')
-    apt 'com.zhy:mpermission-compiler:1.0.0'
     compile 'com.zhy:mpermission-api:1.0.0'
 }

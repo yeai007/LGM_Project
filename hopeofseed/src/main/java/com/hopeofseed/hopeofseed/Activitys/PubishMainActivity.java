@@ -39,7 +39,7 @@ import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
-import com.hopeofseed.hopeofseed.LoginAcitivity;
+import com.hopeofseed.hopeofseed.curView.ImageSelectorActivity;
 import com.hopeofseed.hopeofseed.curView.WeiboDialogUtils;
 import com.hopeofseed.hopeofseed.ui.ShowImage;
 import com.hopeofseed.hopeofseed.Adapter.PublishImgsAdapter;
@@ -47,7 +47,7 @@ import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
 import com.lgm.utils.AppPermissions;
 import com.lgm.utils.ObjectUtil;
-import com.lgm.view.ImageSelectorActivity;
+
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
 import com.zhy.m.permission.PermissionGrant;

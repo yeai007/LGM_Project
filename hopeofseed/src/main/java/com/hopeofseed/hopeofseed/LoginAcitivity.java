@@ -183,6 +183,14 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
                 .findFirst();
         if (updateUserData != null) {
             updateUserData.setIsCurrent(0);
+            updateUserData.setUser_id(mUserDataTmp.getDetail().getUser_id());
+            updateUserData.setUser_name(mUserDataTmp.getDetail().getUser_name());
+            updateUserData.setUserAvatar(mUserDataTmp.getDetail().getUserAvatar());
+            updateUserData.setNickname(mUserDataTmp.getDetail().getNickname());
+            updateUserData.setUser_mobile(mUserDataTmp.getDetail().getUser_mobile());
+            updateUserData.setUser_permation(mUserDataTmp.getDetail().getUser_permation());
+            updateUserData.setUser_role(mUserDataTmp.getDetail().getUser_role());
+            updateUserData.setUser_role_id(mUserDataTmp.getDetail().getUser_role_id());
         }
         updateRealm.commitTransaction();
         /*******************************

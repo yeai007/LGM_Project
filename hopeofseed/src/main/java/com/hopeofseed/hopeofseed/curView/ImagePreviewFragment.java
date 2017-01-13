@@ -1,4 +1,4 @@
-package com.lgm.view;
+package com.hopeofseed.hopeofseed.curView;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -12,8 +12,11 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.hopeofseed.hopeofseed.R;
+
+
 import java.io.File;
-import com.lgm.R;
+
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**

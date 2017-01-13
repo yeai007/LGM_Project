@@ -8,8 +8,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.hopeofseed.hopeofseed.Adapter.CommodityDistributorAdapter;
@@ -23,6 +25,8 @@ import com.hopeofseed.hopeofseed.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static com.hopeofseed.hopeofseed.R.id.search_et_input;
 
 /**
  * 项目名称：LGM_Project
@@ -43,6 +47,7 @@ public class ThisCommodityDistributorActivity extends AppCompatActivity implemen
     ArrayList<DistributorData> arr_DistributorDataTmp = new ArrayList<>();
     CommodityDistributorAdapter commodityDistributorAdapter;
     String CommodityId;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,10 +99,12 @@ public class ThisCommodityDistributorActivity extends AppCompatActivity implemen
         TextView apptitle = (TextView) findViewById(R.id.apptitle);
         apptitle.setText("维护经销商");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
-        Button btn_topright=(Button)findViewById(R.id.btn_topright);
+        Button btn_topright = (Button) findViewById(R.id.btn_topright);
         btn_topright.setText("新添加");
         btn_topright.setVisibility(View.VISIBLE);
-btn_topright.setOnClickListener(this);    }
+        btn_topright.setOnClickListener(this);
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -110,6 +117,8 @@ btn_topright.setOnClickListener(this);    }
                 intent.putExtra("CommodityId", CommodityId);
                 startActivity(intent);
                 break;
+
+
         }
     }
 
@@ -117,6 +126,8 @@ btn_topright.setOnClickListener(this);    }
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("CommodityId", CommodityId);
         opt_map.put("PageNo", String.valueOf(PageNo));
+
+
         HttpUtils hu = new HttpUtils();
         hu.httpPost(Const.BASE_URL + "GetDistributorByCommodityId.php", opt_map, DistributorDataTmp.class, new NetCallBack() {
             @Override

@@ -2,6 +2,7 @@ package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +21,8 @@ import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import cn.jpush.im.android.api.JMessageClient;
 import cn.jpush.im.android.api.callback.GetUserInfoCallback;
@@ -37,6 +40,8 @@ import cn.jpush.im.android.api.model.UserInfo;
 public class DistributorDataAdapter extends RecyclerView.Adapter<DistributorDataAdapter.ViewHolder> {
     Context mContext;
     List<DistributorCommodityArray> mlist;
+    ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+    Handler mHandler = new Handler();
 
     public DistributorDataAdapter(Context context, ArrayList<DistributorCommodityArray> list) {
         super();
@@ -53,23 +58,41 @@ public class DistributorDataAdapter extends RecyclerView.Adapter<DistributorData
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final DistributorCommodityArray mData = mlist.get(position);
         CommodityImageAdapter gridAdapter = new CommodityImageAdapter(mContext, mData.getCommodityData());
         holder.resultRecyclerView.setAdapter(gridAdapter);
         holder.tv_name.setText(mData.getDistributorName());
         holder.tv_address.setText(mData.getDistributorProvince() + "  " + mData.getDistributorCity() + " " + mData.getDistributorZone());
-        String strDistance = "0";
-        int iDistance = Integer.parseInt(mData.getDistance());
-        if (iDistance > 1000) {
-            double c = ObjectUtil.roundDouble((double) iDistance / (double) 1000, 2);
 
-            strDistance = String.valueOf(c);
-            holder.tv_distance.setText(strDistance + "Km");
-        } else {
-            holder.tv_distance.setText(mData.getDistance() + "M");
-        }
 
+        cachedThreadPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                int iDistance = Integer.parseInt(mData.getDistance());
+                if (iDistance > 1000) {
+                    String strDistance = "0";
+                    double c = ObjectUtil.roundDouble((double) iDistance / (double) 1000, 2);
+                    strDistance = String.valueOf(c);
+
+                    final String finalStrDistance = strDistance;
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            holder.tv_distance.setText(finalStrDistance + "Km");
+                        }
+                    });
+                } else {
+                    mHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            holder.tv_distance.setText(mData.getDistance() + "M");
+                        }
+                    });
+
+                }
+            }
+        });
         holder.tv_distributor_address_detail.setText(mData.getDistributorAddressDetail());
         holder.item_view.setOnClickListener(new View.OnClickListener() {
             @Override

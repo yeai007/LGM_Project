@@ -87,9 +87,13 @@ public class CategoryTabStripNoPager extends HorizontalScrollView {
 
 
     public void setData(ArrayList<String> arrData) {
-        this.arrCropClass.clear();
-        this.arrCropClass.addAll(arrData);
-        notifyDataSetChanged();
+
+        if (arrData != null) {
+            this.arrCropClass.clear();
+            this.arrCropClass.addAll(arrData);
+            notifyDataSetChanged();
+        }
+
     }
 
     // 当附加在ViewPager适配器上的数据发生变化时,应该调用该方法通知CategoryTabStrip刷新数据

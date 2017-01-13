@@ -33,8 +33,13 @@ import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
+import com.hopeofseed.hopeofseed.util.UpdateUserAvatar;
+import com.lgm.utils.AppPermissions;
 import com.lgm.utils.ObjectUtil;
 import com.lgm.utils.TimeCountUtil;
+import com.zhy.m.permission.MPermissions;
+import com.zhy.m.permission.PermissionDenied;
+import com.zhy.m.permission.PermissionGrant;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +53,8 @@ import io.realm.Realm;
 import me.shaohui.advancedluban.Luban;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+
+import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
 
 /**
  * 项目名称：liguangming
@@ -87,6 +94,30 @@ public class CompanyRegActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.company_reg_activity);
         initView();
+        getPermation();
+    }
+
+    private void getPermation() {
+        MPermissions.requestPermissions(CompanyRegActivity.this, REQUEST_CODE_FILES, AppPermissions.getFilePermissions());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        MPermissions.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    @PermissionGrant(REQUEST_CODE_FILES)
+    public void requestFilesSuccess() {
+        //  Toast.makeText(this, "文件权限已经被开启!", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @PermissionDenied(REQUEST_CODE_FILES)
+    public void requestFilesFailed() {
+        Toast.makeText(this, "文件权限已经被禁止!", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     private void initView() {
@@ -326,7 +357,7 @@ public class CompanyRegActivity extends AppCompatActivity implements View.OnClic
             Log.e(TAG, "postCompanyUser: topost");
             HashMap<String, String> opt_map = new HashMap<>();
             opt_map.put("UserName", et_companyname.getText().toString().trim());
-            opt_map.put("PassWord", et_password.getText().toString().trim());
+            opt_map.put("PassWord", ObjectUtil.md5(et_password.getText().toString().trim()));
             opt_map.put("PhoneCode", et_phone.getText().toString().trim());
             opt_map.put("CompanyName", et_companyname.getText().toString().trim());
             opt_map.put("UserClass", ((UserClass) sp_userclass.getSelectedItem()).getName().trim());
@@ -393,7 +424,7 @@ public class CompanyRegActivity extends AppCompatActivity implements View.OnClic
             }
             Log.e(TAG, "onActivityResult: " + images.size());
             Glide.with(CompanyRegActivity.this)
-                    .load(new File(mPicturePath))
+                    .load(mPicturePath)
                     .centerCrop()
                     .into(img__BusinessLicense);
         }

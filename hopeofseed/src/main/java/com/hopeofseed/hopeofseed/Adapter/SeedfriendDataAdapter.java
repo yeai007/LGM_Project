@@ -133,6 +133,7 @@ public class SeedfriendDataAdapter extends RecyclerView.Adapter<SeedfriendDataAd
                 Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_media).dontAnimate().centerCrop().into(ImageAvatar);
                 break;
             case 6:
+                imageConner.setVisibility(View.GONE);
                 Glide.with(mContext).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
                 Glide.with(mContext).load(avatarURL).placeholder(R.drawable.user_system).dontAnimate().centerCrop().into(ImageAvatar);
                 break;

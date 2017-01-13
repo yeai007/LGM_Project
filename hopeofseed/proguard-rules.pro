@@ -18,9 +18,9 @@
 
 -optimizationpasses 5          # 指定代码的压缩级别
 -dontusemixedcaseclassnames   # 是否使用大小写混合
--dontpreverify           # 混淆时是否做预校验
+#-dontpreverify           # 混淆时是否做预校验
 -verbose                # 混淆时是否记录日志
-
+-keepattributes *Annotation*
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  # 混淆时所采用的算法
 
 -keep public class * extends android.app.Activity      # 保持哪些类不被混淆
@@ -50,43 +50,68 @@
 -keep class * implements android.os.Parcelable { # 保持 Parcelable 不被混淆
     public static final android.os.Parcelable$Creator *;
 }
-#jpush推送混淆
--dontwarn cn.jpush.**
--keepattributes  EnclosingMethod,Signature
--keep class cn.jpush.** { *; }
--keepclassmembers class ** {
-    public void onEvent*(**);
+-keepclassmembers class **.R$* {
+    public static <fields>;
 }
-#gson类
-#========================gson================================
--dontwarn com.google.**
--keep class com.google.gson.** {*;}
+-dontwarn android.support.**
+# 其他
+# Gson
+#-keepattributes Signature-keepattributes *Annotation*
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.stream.** { *; }
 
-#========================protobuf================================
-#-dontwarn com.google.**
--keep class com.google.protobuf.** {*;}
+#极光推送IM
+-dontoptimize
+-dontpreverify
+-dontwarn cn.jpush.**
+-keep class cn.jpush.** { *; }
+-dontwarn cn.jiguang.**
+-keep class cn.jiguang.** { *; }
+-keep class com.hopeofseed.hopeofseed.Receivers.**{*;}
+#百度地图
 -keep class com.baidu.** {*;}
 -keep class vi.com.** {*;}
 -dontwarn com.baidu.**
-
-#okhttp
--dontwarn okhttp3.**
--keep class okhttp3.**{*;}
-
-#okio
--dontwarn okio.**
--keep class okio.**{*;}
-
 #pinyin4j
--dontwarn net.soureceforge.pinyin4j.**
-#-libraryjars libs/pinyin4j-2.5.0.jar
--keep class net.sourceforge.pinyin4j.** { *;}
+-dontwarn demo.**
+-keep class demo.**{*;}
 
-#OkHttpDownloader
--keepattributes SourceFile,LineNumberTable
--keep class com.parse.*{ *; }
--dontwarn com.parse.**
+-dontwarn net.sourceforge.pinyin4j.**
+-keep class net.sourceforge.pinyin4j.**{*;}
+-keep class net.sourceforge.pinyin4j.format.**{*;}
+-keep class net.sourceforge.pinyin4j.format.exception.**{*;}
+#picasso
 -dontwarn com.squareup.picasso.**
--keepclasseswithmembernames class * {
-    native <methods>;
+-keep class com.squareup.picasso.* {*;}
+
+
+-dontwarn com.squareup.okhttp.**
+-keep class com.squareup.okhttp.** { *;}
+-keep interface com.squareup.okhttp.** { *; }
+
+-dontwarn okio.**
+#okhttp3
+-dontwarn com.squareup.okhttp3.**
+-keep class com.squareup.okhttp3.** { *;}
+-keep class okhttp3.** { *;}
+-keep class okio.** { *;}
+-dontwarn sun.security.**
+-keep class sun.security.** { *;}
+-dontwarn okio.**
+-dontwarn okhttp3.**
+
+#rxjava
+-dontwarn rx.**
+-keep class rx.** { *; }
+
+-dontwarn sun.misc.**
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+ long producerIndex;
+ long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+ rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+ rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }

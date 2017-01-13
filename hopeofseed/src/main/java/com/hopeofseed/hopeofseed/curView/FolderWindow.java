@@ -1,4 +1,4 @@
-package com.lgm.view;
+package com.hopeofseed.hopeofseed.curView;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -15,12 +15,15 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.PopupWindow;
-import com.lgm.adapter.ImageFolderAdapter;
+
+import com.hopeofseed.hopeofseed.Adapter.ImageFolderAdapter;
+import com.hopeofseed.hopeofseed.R;
 import com.lgm.model.LocalMediaFolder;
 import com.lgm.utils.ScreenUtils;
+
 import java.lang.reflect.Method;
 import java.util.List;
-import com.lgm.R;
+
 /**
  * Created by dee on 15/11/20.
  */

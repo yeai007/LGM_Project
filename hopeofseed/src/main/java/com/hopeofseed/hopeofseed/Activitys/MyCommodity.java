@@ -102,7 +102,6 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onSelect(int position) {
                 PageNo = 0;
-                Log.e(TAG, "updateSelect: " + position);
                 Str_search = arrStringVariety.get(position).getVariety();
                 PageNo = 0;
                 getData();
@@ -261,7 +260,6 @@ public class MyCommodity extends AppCompatActivity implements View.OnClickListen
             if (catalogs.size() > 0) {
                 tabs.setData(catalogs);
             }
-            //  Str_search = catalogs.get(0);
             arrStringVariety.clear();
             arrStringVariety.add(first);
             arrStringVariety.addAll(arrStringVarietyTmp);

@@ -96,16 +96,17 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
     Handler mHandler = new Handler();
     ArrayList<AppAreaData> arrAppAreaData = new ArrayList<>();
     ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
-
     int arrSize = 0, process = 0;
     ProgressBar progressBar1;
     TextView tv_process;
     RelativeLayout rel_process;
     int AreaVersion = 0;
+    WeiboDialogUtils dialogUtils;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
+        dialogUtils = new WeiboDialogUtils(splashActivity.this);
         /**
          * 检查是否联网
          * */
@@ -114,6 +115,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             Toast.makeText(splashActivity.this, "您未联网，请联网后使用!",
                     Toast.LENGTH_LONG).show();
         } else {
+            dialogUtils.showDialog("检查更新\n请稍候");
             /**
              * 检查配置文件更新
              * */
@@ -218,9 +220,11 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
                     RealmResults<AppAreaData> results_insert = insertRealm.where(AppAreaData.class).findAll();
                     if (!(Const.AreaConfig == Integer.parseInt(itemData.getConfigVersion()))) {
                         AreaVersion = Integer.parseInt(itemData.getConfigVersion());
+                        dialogUtils.showDialog("更新必要数据中\n请稍候");
                         getLastAreaData();
                     } else if (results_insert.size() == 0) {
                         AreaVersion = Integer.parseInt(itemData.getConfigVersion());
+                        dialogUtils.showDialog("更新必要数据中\n请稍候");
                         getLastAreaData();
                     } else {
                         checkUpdate();
@@ -261,7 +265,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
                 tv_process.setText(arrSize + "--" + process);
                 progressBar1.setMax(arrSize);
                 progressBar1.setProgress(process);
-                //Toast.makeText(getApplicationContext(), arrSize + "--" + process, Toast.LENGTH_SHORT).show();
+                dialogUtils.showDialog("更新必要数据中\n" + process + "/" + arrSize);
             }
         }
     };
@@ -270,6 +274,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         updateHelper.check(new OnUpdateListener() {
             @Override
             public void onStartCheck() {
+                dialogUtils.showDialog("检查版本更新\n" );
                 tv_log.setText("检查版本更新中");
             }
 
@@ -437,6 +442,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
 
     //跳转到主页
     private void goHome() {
+        dialogUtils.showDialog("正在登录\n请稍候" );
         initUserData();
         //  finish();
     }
@@ -461,9 +467,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
             Log.e(TAG, "initUserData: " + Const.currentUser.user_id + Const.currentUser.user_name);
             JpushUtil jpushUtil = new JpushUtil(splashActivity.this);
             jpushUtil.initJpushUser();
-         /*   Intent intent = new Intent(splashActivity.this, HomePageActivity.class);
-            startActivity(intent);*/
-            // finish();
+
             getIsVIP();
         }
     }

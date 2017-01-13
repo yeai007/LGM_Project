@@ -131,7 +131,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             if (mConv != null) {
                 UserInfo userInfo = (UserInfo) mConv.getTargetInfo();
                 if (TextUtils.isEmpty(userInfo.getNickname())) {
-                    mChatView.setChatTitle(userInfo.getUserName());
+                    mChatView.setChatTitle(userInfo.getNickname());
                 } else {
                     mChatView.setChatTitle(userInfo.getNickname());
                 }
@@ -139,7 +139,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 mConv = Conversation.createSingleConversation(mTargetId, mTargetAppKey);
                 UserInfo userInfo = (UserInfo) mConv.getTargetInfo();
                 if (TextUtils.isEmpty(userInfo.getNickname())) {
-                    mChatView.setChatTitle(userInfo.getUserName());
+                    mChatView.setChatTitle(userInfo.getNickname());
                 } else {
                     mChatView.setChatTitle(userInfo.getNickname());
                 }

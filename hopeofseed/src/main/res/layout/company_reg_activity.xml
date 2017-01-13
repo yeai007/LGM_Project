@@ -169,7 +169,7 @@
                 android:layout_toRightOf="@+id/tv_phone_code"
                 android:background="@drawable/bg_edittext"
                 android:gravity="center"
-                android:text="8512"
+                android:text=""
                 android:singleLine="true"
                 android:textColor="@color/text_content_color"
                 android:textSize="18sp" />
@@ -299,7 +299,8 @@
                 android:background="@drawable/bg_edittext"
                 android:gravity="center"
                 android:hint="请输入登录密码"
-                android:text="123456"
+                android:text=""
+                android:inputType="textPassword"
                 android:singleLine="true"
                 android:textColor="@color/text_content_color"
                 android:textSize="18sp" />
@@ -334,7 +335,8 @@
                 android:gravity="center"
                 android:hint="再次输入密码确认"
                 android:singleLine="true"
-                android:text="123456"
+                android:text=""
+                android:inputType="textPassword"
                 android:textColor="@color/text_content_color"
                 android:textSize="18sp" />
 

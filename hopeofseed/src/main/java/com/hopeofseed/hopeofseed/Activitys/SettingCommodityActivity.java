@@ -81,7 +81,7 @@ public class SettingCommodityActivity extends AppCompatActivity implements View.
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.setting_distributor_activity);
+        setContentView(R.layout.setting_distributor_commodity_activity);
         Intent intent = getIntent();
         DistributorId = intent.getStringExtra("DistributorId");
         initView();

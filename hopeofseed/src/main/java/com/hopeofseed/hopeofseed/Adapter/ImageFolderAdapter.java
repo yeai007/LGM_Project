@@ -1,4 +1,4 @@
-package com.lgm.adapter;
+package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
+import com.hopeofseed.hopeofseed.R;
 import com.lgm.model.LocalMedia;
 import com.lgm.model.LocalMediaFolder;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import com.lgm.R;
+
+
 /**
  * Created by dee on 15/11/20.
  */

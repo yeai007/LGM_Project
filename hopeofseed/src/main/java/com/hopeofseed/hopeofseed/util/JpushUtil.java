@@ -42,7 +42,8 @@ public class JpushUtil {
     Handler mHandler;
     private int user_id = 0;
     private boolean isRunning = false;
-
+    String userName;
+     String password = "jpush_123456";
     public JpushUtil(Context context) {
         super();
         this.mContext = context;
@@ -52,8 +53,8 @@ public class JpushUtil {
     public void initJpushUser() {
         isRunning = true;
         initCount = initCount + 1;
-        final String userName = Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim();
-        final String password = "jpush_123456";
+        userName = Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim();
+
         if (userName.equals(Const.JPUSH_PREFIX + "0")) {
             // Log.e(TAG, "initJpushUser: refresh initJpushUser" + Const.JPUSH_PREFIX + String.valueOf(Const.currentUser.user_id).trim());
             mHandler.postDelayed(init, 500);

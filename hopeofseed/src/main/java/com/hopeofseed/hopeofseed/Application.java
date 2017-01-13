@@ -70,11 +70,12 @@ public class Application extends android.app.Application {
     public static final String DELETE_MODE = "deleteMode";
     public static final String MEMBERS_COUNT = "membersCount";
     public static String PICTURE_DIR = "sdcard/JChatDemo/pictures/";
-/**
- * 权限获取回调
- * */
-public static final int REQUEST_CODE_LOCATION = 801;
+    /**
+     * 权限获取回调
+     */
+    public static final int REQUEST_CODE_LOCATION = 801;
     public static final int REQUEST_CODE_FILES = 802;
+
     /*************************************/
     @Override
     public void onCreate() {
@@ -83,15 +84,14 @@ public static final int REQUEST_CODE_LOCATION = 801;
 
         context = getApplicationContext();
         initHttpOkGo();
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this).name("myrealm.realm")
+        Realm.init(this);
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder().name("hopeofseed.realm")
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
         ImageLoaderUtil.initImageLoader(this);
-        Log.i("Application", "init");
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-       // initJpushLogin();
         /***
          * 初始化定位sdk，建议在Application中创建
          */

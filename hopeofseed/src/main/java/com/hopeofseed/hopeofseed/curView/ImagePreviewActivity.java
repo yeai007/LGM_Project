@@ -1,4 +1,4 @@
-package com.lgm.view;
+package com.hopeofseed.hopeofseed.curView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lgm.R;
+import com.hopeofseed.hopeofseed.R;
 import com.lgm.model.LocalMedia;
 import com.lgm.widget.PreviewViewPager;
 

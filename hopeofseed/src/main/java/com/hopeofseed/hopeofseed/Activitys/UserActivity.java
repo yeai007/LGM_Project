@@ -83,6 +83,14 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = getIntent();
         UserId = intent.getStringExtra("userid");
         UserRole = intent.getIntExtra("UserRole", 0);
+        JMessageClient.getUserInfo(Const.JPUSH_PREFIX + UserId, new GetUserInfoCallback() {
+            @Override
+            public void gotResult(int i, String s, UserInfo userInfo) {
+                if (i == 0) {
+                    mUserInfo = userInfo;
+                }
+            }
+        });
         Log.e(TAG, "onCreate: UserRole" + UserRole);
         initView();
         getData();
@@ -288,6 +296,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
         }
         // finish();
     }
+
     private void AddOrDelFollowed() {
         HashMap<String, String> opt_map = new HashMap<>();
         opt_map.put("UserId", String.valueOf(Const.currentUser.user_id));
@@ -383,59 +392,46 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
             tv_follow_sum.setText(mUserDataNoRealm.getFllowed_count());
             tv_fans_sum.setText(mUserDataNoRealm.getBeen_fllowed_count());
             tv_address.setText(mUserDataNoRealm.getUserProvince() + " " + mUserDataNoRealm.getUserCity() + " " + mUserDataNoRealm.getUserZone());
-            updateCorner();
-
-            Glide.with(UserActivity.this)
-                    .load(mUserDataNoRealm.getUserAvatar()).placeholder(R.drawable.header_author_default).dontAnimate()
-                    .centerCrop()
-                    .into(img_user_avatar);
+            updateUserAvata(img_corner, img_user_avatar, Integer.parseInt(mUserDataNoRealm.getUser_role()), mUserDataNoRealm.getUserAvatar());
             getIsFriend();
         }
     };
 
-    private void updateCorner() {
-        Log.e(TAG, "updateCorner:userclass " + mUserDataNoRealm.getUser_role());
-        img_corner.setVisibility(View.VISIBLE);
-        if (mUserDataNoRealm.getUser_role() != null) {
-            switch (Integer.parseInt(mUserDataNoRealm.getUser_role())) {
-                case 0:
-                    break;
-                case 1:
-                    //  img_corner.setImageResource(R.drawable.corner_distributor);
-                    Glide.with(getApplicationContext())
-                            .load(R.drawable.corner_distributor)
-                            .centerCrop()
-                            .into(img_corner);
-                    break;
-                case 2:
-                    //  img_corner.setImageResource(R.drawable.corner_enterprise);
-                    Glide.with(getApplicationContext())
-                            .load(corner_enterprise)
-                            .centerCrop()
-                            .into(img_corner);
-                    break;
-                case 3:
-                    // img_corner.setImageResource(corner_expert);
-                    Glide.with(getApplicationContext())
-                            .load(R.drawable.corner_expert)
-                            .centerCrop()
-                            .into(img_corner);
-                    break;
-                case 4:
-                    //img_corner.setImageResource(corner_enterprise);
-                    Glide.with(getApplicationContext())
-                            .load(corner_enterprise)
-                            .centerCrop()
-                            .into(img_corner);
-                    break;
-                case 5:
-                    img_corner.setVisibility(View.GONE);
-                    break;
-                case 6:
-                    img_corner.setVisibility(View.GONE);
-
-                    break;
-            }
+    private void updateUserAvata(ImageView imageConner, ImageView ImageAvatar, int UserRole, String avatarURL) {
+        imageConner.setVisibility(View.VISIBLE);
+        avatarURL = Const.IMG_URL + avatarURL;
+        switch (UserRole) {
+            case 0:
+                Glide.with(UserActivity.this).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(UserActivity.this).load(avatarURL).placeholder(R.drawable.header_user_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 1:
+                Glide.with(UserActivity.this).load(R.drawable.corner_distributor).centerCrop().into(imageConner);
+                Glide.with(UserActivity.this).load(avatarURL).placeholder(R.drawable.header_distributor_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 2:
+                Glide.with(UserActivity.this).load(R.drawable.corner_enterprise).centerCrop().into(imageConner);
+                Glide.with(UserActivity.this).load(avatarURL).placeholder(R.drawable.header_enterprise_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 3:
+                Glide.with(UserActivity.this).load(R.drawable.corner_expert).centerCrop().into(imageConner);
+                Glide.with(UserActivity.this).load(avatarURL).placeholder(R.drawable.header_expert_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 4:
+                Glide.with(UserActivity.this).load(R.drawable.corner_author).centerCrop().into(imageConner);
+                Glide.with(UserActivity.this).load(avatarURL).placeholder(R.drawable.header_author_default).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 5:
+                imageConner.setVisibility(View.GONE);
+                Glide.with(UserActivity.this).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(UserActivity.this).load(avatarURL).placeholder(R.drawable.user_media).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
+            case 6:
+                imageConner.setVisibility(View.GONE);
+                Glide.with(UserActivity.this).load(R.drawable.corner_user_default).centerCrop().into(imageConner);
+                Glide.with(UserActivity.this).load(avatarURL).placeholder(R.drawable.user_system).dontAnimate().centerCrop().into(ImageAvatar);
+                break;
         }
     }
+
 }

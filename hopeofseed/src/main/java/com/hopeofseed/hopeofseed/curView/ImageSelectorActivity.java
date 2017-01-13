@@ -1,4 +1,4 @@
-package com.lgm.view;
+package com.hopeofseed.hopeofseed.curView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,9 +14,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.lgm.R;
-import com.lgm.adapter.ImageFolderAdapter;
-import com.lgm.adapter.ImageListAdapter;
+import com.hopeofseed.hopeofseed.Adapter.ImageFolderAdapter;
+import com.hopeofseed.hopeofseed.Adapter.ImageListAdapter;
+import com.hopeofseed.hopeofseed.R;
 import com.lgm.model.LocalMedia;
 import com.lgm.model.LocalMediaFolder;
 import com.lgm.utils.FileUtils;
@@ -209,7 +209,7 @@ public class ImageSelectorActivity extends AppCompatActivity {
         });
     }
 
-    @SuppressWarnings("unchecked")
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.e(TAG, "onActivityResult: "+RESULT_OK);

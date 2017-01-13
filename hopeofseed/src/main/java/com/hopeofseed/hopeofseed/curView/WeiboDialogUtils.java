@@ -21,9 +21,9 @@ import com.hopeofseed.hopeofseed.R;
  */
 
 public class WeiboDialogUtils {
+    private static TextView tipTextView;
     Context mContext;
     static Dialog dialogUtils;
-    ;
 
     public WeiboDialogUtils(Context context) {
         super();
@@ -31,8 +31,17 @@ public class WeiboDialogUtils {
     }
 
     public void showDialog(String showText) {
-        dialogUtils = WeiboDialogUtils.createLoadingDialog(mContext, "正在发送...");
-        dialogUtils.show();
+        if (dialogUtils != null) {
+            tipTextView.setText(showText);
+            if (dialogUtils.isShowing()) {
+            } else {
+                dialogUtils.show();
+            }
+
+        } else {
+            dialogUtils = WeiboDialogUtils.createLoadingDialog(mContext, showText);
+            dialogUtils.show();
+        }
     }
 
     public static Dialog createLoadingDialog(Context context, String msg) {
@@ -40,7 +49,7 @@ public class WeiboDialogUtils {
         View v = inflater.inflate(R.layout.dialog_loading, null);// 得到加载view
         LinearLayout layout = (LinearLayout) v
                 .findViewById(R.id.dialog_loading_view);// 加载布局
-        TextView tipTextView = (TextView) v.findViewById(R.id.tipTextView);// 提示文字
+        tipTextView = (TextView) v.findViewById(R.id.tipTextView);// 提示文字
         tipTextView.setText(msg);// 设置加载信息
 
         Dialog loadingDialog = new Dialog(context, R.style.MyDialogStyle);// 创建自定义样式dialog
@@ -68,7 +77,7 @@ public class WeiboDialogUtils {
      * <p>
      * http://blog.csdn.net/qq_21376985
      */
-    public  void closeDialog() {
+    public void closeDialog() {
         if (dialogUtils != null && dialogUtils.isShowing()) {
             dialogUtils.dismiss();
         }

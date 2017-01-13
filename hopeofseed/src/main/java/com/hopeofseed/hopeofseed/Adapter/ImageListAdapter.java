@@ -1,4 +1,4 @@
-package com.lgm.adapter;
+package com.hopeofseed.hopeofseed.Adapter;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.lgm.R;
+import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.curView.ImageSelectorActivity;
+
 import com.lgm.model.LocalMedia;
-import com.lgm.view.ImageSelectorActivity;
+
 
 import java.io.File;
 import java.util.ArrayList;

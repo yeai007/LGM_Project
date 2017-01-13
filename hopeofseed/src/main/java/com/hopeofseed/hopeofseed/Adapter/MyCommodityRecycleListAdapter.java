@@ -52,7 +52,7 @@ public class MyCommodityRecycleListAdapter extends RecyclerView.Adapter<MyCommod
         final CommodityData itemData = mList.get(position);
         String[] arrImage = itemData.getCommodityImgs().split(";");
             Glide.with(mContext)
-                    .load(Const.IMG_URL + arrImage[0]).placeholder(R.drawable.no_have_img)  .dontAnimate()
+                    .load(Const.IMG_URL + arrImage[0]).placeholder(R.drawable.no_have_img).dontAnimate()
                     .centerCrop()
                     .into(holder.commodity_img);
         holder.commodity_name.setText(itemData.getCommodityName());

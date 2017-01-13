@@ -41,11 +41,12 @@ import com.hopeofseed.hopeofseed.JNXData.SortsData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.SortsDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.pushFileResultTmp;
 import com.hopeofseed.hopeofseed.R;
+import com.hopeofseed.hopeofseed.curView.ImageSelectorActivity;
 import com.hopeofseed.hopeofseed.ui.ShowImage;
 import com.hopeofseed.hopeofseed.util.GetImagePath;
 import com.lgm.utils.AppPermissions;
 import com.lgm.utils.ObjectUtil;
-import com.lgm.view.ImageSelectorActivity;
+
 import com.lgm.view.MessageUtil;
 import com.zhy.m.permission.MPermissions;
 import com.zhy.m.permission.PermissionDenied;
