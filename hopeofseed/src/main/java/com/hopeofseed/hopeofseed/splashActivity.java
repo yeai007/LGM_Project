@@ -24,22 +24,17 @@ import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
-import com.baidu.mapapi.model.LatLng;
 import com.bumptech.glide.Glide;
-import com.hopeofseed.hopeofseed.Activitys.HomePageActivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
 import com.hopeofseed.hopeofseed.Http.NetCallBack;
 import com.hopeofseed.hopeofseed.Http.RspBaseBean;
 import com.hopeofseed.hopeofseed.JNXData.AppAreaData;
 import com.hopeofseed.hopeofseed.JNXData.ConfigData;
-import com.hopeofseed.hopeofseed.JNXData.NewsData;
 import com.hopeofseed.hopeofseed.JNXData.UserData;
 import com.hopeofseed.hopeofseed.JNXDataTmp.AppAreaDataTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.CommResultTmp;
 import com.hopeofseed.hopeofseed.JNXDataTmp.ConfigDataTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.EnterpriseDataTmp;
-import com.hopeofseed.hopeofseed.JNXDataTmp.NewsDataTmp;
 import com.hopeofseed.hopeofseed.Services.LocationService;
 import com.hopeofseed.hopeofseed.curView.WeiboDialogUtils;
 import com.hopeofseed.hopeofseed.util.JpushUtil;
@@ -62,10 +57,8 @@ import cn.jpush.android.api.JPushInterface;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-import static com.hopeofseed.hopeofseed.Data.Const.AreaConfig;
 import static com.hopeofseed.hopeofseed.Data.Const.City;
 import static com.hopeofseed.hopeofseed.Data.Const.Province;
-import static com.hopeofseed.hopeofseed.R.id.actv_busscropt;
 
 /**
  * @FileName:smamoo.mgkj.smamootwo
@@ -274,7 +267,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
         updateHelper.check(new OnUpdateListener() {
             @Override
             public void onStartCheck() {
-                dialogUtils.showDialog("检查版本更新\n" );
+                dialogUtils.showDialog("检查版本更新\n");
                 tv_log.setText("检查版本更新中");
             }
 
@@ -442,7 +435,7 @@ public class splashActivity extends AppCompatActivity implements BDLocationListe
 
     //跳转到主页
     private void goHome() {
-        dialogUtils.showDialog("正在登录\n请稍候" );
+        dialogUtils.showDialog("正在登录\n请稍候");
         initUserData();
         //  finish();
     }

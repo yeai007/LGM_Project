@@ -129,11 +129,15 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
             mChatView.dismissRightBtn();
             mConv = JMessageClient.getSingleConversation(mTargetId, mTargetAppKey);
             if (mConv != null) {
-                UserInfo userInfo = (UserInfo) mConv.getTargetInfo();
-                if (TextUtils.isEmpty(userInfo.getNickname())) {
-                    mChatView.setChatTitle(userInfo.getNickname());
-                } else {
-                    mChatView.setChatTitle(userInfo.getNickname());
+                if (mConv.getTargetInfo() != null) {
+                    UserInfo userInfo = (UserInfo) mConv.getTargetInfo();
+                    if (userInfo != null) {
+                        if (TextUtils.isEmpty(userInfo.getNickname())) {
+                            mChatView.setChatTitle(userInfo.getNickname());
+                        } else {
+                            mChatView.setChatTitle(userInfo.getNickname());
+                        }
+                    }
                 }
             } else {
                 mConv = Conversation.createSingleConversation(mTargetId, mTargetAppKey);
@@ -286,7 +290,7 @@ public class ChatActivity extends BaseActivity implements View.OnClickListener, 
                 showSoftInputAndDismissMenu();
             } else {
                 //否则切换到语音输入
-               // MPermissions.requestPermissions(ChatActivity.this, REQUEST_CODE_RECORD_PERMISSIONS, AppPermissions.getRecordPermissions());
+                // MPermissions.requestPermissions(ChatActivity.this, REQUEST_CODE_RECORD_PERMISSIONS, AppPermissions.getRecordPermissions());
                 mChatView.notKeyBoard(mConv, mChatAdapter, mChatView);
                 if (mShowSoftInput) {
                     if (mImm != null) {

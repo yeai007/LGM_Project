@@ -2,6 +2,7 @@ package com.hopeofseed.hopeofseed.JNXData;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * 项目名称：liguangming
@@ -12,6 +13,7 @@ import io.realm.annotations.PrimaryKey;
  * 修改时间：2016/8/2 16:34
  * 修改备注：
  */
+@RealmClass
 public class UserData extends RealmObject {
 
 

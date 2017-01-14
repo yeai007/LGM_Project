@@ -103,7 +103,7 @@ public class HomePageActivity extends FragmentActivity {
 
     @PermissionGrant(REQUEST_CODE_LOCATION)
     public void requestLocationSuccess() {
-        //Toast.makeText(this, "GRANT ACCESS LOCATION!", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "GRANT ACCESS LOCATION!", Toast.LENGTH_SHORT).show();
     }
     @PermissionDenied(REQUEST_CODE_LOCATION)
     public void requestLocationFailed() {

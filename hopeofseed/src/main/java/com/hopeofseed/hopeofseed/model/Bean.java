@@ -2,12 +2,13 @@ package com.hopeofseed.hopeofseed.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * bean 类
  * Created by yetwish on 2015-05-11
  */
-
+@RealmClass
 public class Bean extends RealmObject {
 
     /**

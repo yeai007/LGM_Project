@@ -20,9 +20,9 @@
 -dontusemixedcaseclassnames   # 是否使用大小写混合
 #-dontpreverify           # 混淆时是否做预校验
 -verbose                # 混淆时是否记录日志
--keepattributes *Annotation*
--optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  # 混淆时所采用的算法
 
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*  # 混淆时所采用的算法
+-keepattributes Signature
 -keep public class * extends android.app.Activity      # 保持哪些类不被混淆
 -keep public class * extends android.app.Application   # 保持哪些类不被混淆
 -keep public class * extends android.app.Service       # 保持哪些类不被混淆
@@ -54,11 +54,16 @@
     public static <fields>;
 }
 -dontwarn android.support.**
+#保持注解不被混淆
+-keepattributes *Annotation*
+-keep class * extends java.lang.annotation.Annotation { *; }
 # 其他
+-keep class com.hopeofseed.hopeofseed.JNXData.**{*;}
+-keep class com.hopeofseed.hopeofseed.JNXDataTmp.**{*;}
 # Gson
 #-keepattributes Signature-keepattributes *Annotation*
--keep class sun.misc.Unsafe { *; }
--keep class com.google.gson.stream.** { *; }
+-keepattributes *Annotation* -keep class sun.misc.Unsafe { *; }
+-keepattributes *Annotation* -keep class com.google.gson.stream.** { *; }
 
 #极光推送IM
 -dontoptimize
@@ -115,3 +120,18 @@
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
  rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
+#MPermissions
+-dontwarn com.zhy.m.**
+-keep class com.zhy.m.** {*;}
+-keep interface com.zhy.m.** { *; }
+-keep class **$$PermissionProxy { *; }
+# Realm
+-keep class io.realm.annotations.RealmModule
+-keep @io.realm.annotations.RealmModule class *
+-keep class io.realm.internal.Keep
+-keep @io.realm.internal.Keep class * { *; }
+-dontwarn javax.**
+-dontwarn io.realm.**
+-keep class * extends io.realm.RealmObject
+-keep class io.realm.*Proxy{ *;}
+-keep class io.realm.ValidationList {* ;}

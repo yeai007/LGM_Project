@@ -1,6 +1,5 @@
 package com.hopeofseed.hopeofseed;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 import com.hopeofseed.hopeofseed.Activitys.CompanyRegActivity;
 import com.hopeofseed.hopeofseed.Activitys.ForgetPassWordActivity;
-import com.hopeofseed.hopeofseed.Activitys.PubishMainActivity;
 import com.hopeofseed.hopeofseed.Activitys.RegisterAcitivity;
 import com.hopeofseed.hopeofseed.Data.Const;
 import com.hopeofseed.hopeofseed.Http.HttpUtils;
@@ -74,7 +72,6 @@ public class LoginAcitivity extends AppCompatActivity implements View.OnClickLis
         Intent intent;
         switch (view.getId()) {
             case R.id.btn_login:
-
                 user_name = ((EditText) findViewById(R.id.et_username)).getText().toString();
                 pass_word = ((EditText) findViewById(R.id.et_password)).getText().toString();
                 if (isChecked(user_name, pass_word)) {

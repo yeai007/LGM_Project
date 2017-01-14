@@ -2,6 +2,7 @@ package com.hopeofseed.hopeofseed.JNXData;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.RealmClass;
 
 /**
  * 项目名称：LGM_Project
