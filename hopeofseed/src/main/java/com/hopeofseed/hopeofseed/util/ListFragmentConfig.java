@@ -2,6 +2,8 @@ package com.hopeofseed.hopeofseed.util;
 
 import android.os.Bundle;
 
+import com.hopeofseed.hopeofseed.Activitys.BreedOrganizationListFragment;
+import com.hopeofseed.hopeofseed.Adapter.BreedOrganizationAdapter;
 import com.hopeofseed.hopeofseed.JNXData.FragmentListDatas;
 import com.hopeofseed.hopeofseed.SearchFragment.AuthorFragment;
 import com.hopeofseed.hopeofseed.SearchFragment.CommdityFragment;
@@ -119,6 +121,11 @@ public class ListFragmentConfig {
                 ExperienceFragment mExperienceFragment1 =  ExperienceFragment.newInstance("", this.UserId);
                 mData.setMFragment(mExperienceFragment1);
                 mData.setFragmentName("典型经验");
+                break;
+            case 13:
+                BreedOrganizationListFragment mBreedOrganizationListFragment =  BreedOrganizationListFragment.newInstance("", this.UserId);
+                mData.setMFragment(mBreedOrganizationListFragment);
+                mData.setFragmentName("培育品种");
                 break;
         }
         return mData;

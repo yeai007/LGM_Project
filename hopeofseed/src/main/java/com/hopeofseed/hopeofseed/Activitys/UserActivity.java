@@ -115,7 +115,7 @@ public class UserActivity extends AppCompatActivity implements View.OnClickListe
              * 企业
              * */
             case 2:
-                fregments = new int[]{10, 11, 6, 8, 9};
+                fregments = new int[]{10, 11, 6, 8, 9,13};
                 break;
             /**
              * 机构

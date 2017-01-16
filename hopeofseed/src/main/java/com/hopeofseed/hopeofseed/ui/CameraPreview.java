@@ -13,10 +13,10 @@ import java.io.IOException;
  * 摄像头预览界面控件
  */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-
+    private static final String TAG = "CameraPreview";
     private SurfaceHolder mHolder;
     private Camera mCamera;
-    private static final String TAG = "CameraPreview";
+
 
     public CameraPreview(Context context, Camera camera) {
         super(context);

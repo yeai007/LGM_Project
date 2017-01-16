@@ -80,7 +80,8 @@ public class ListUserMenu {
                 item.setResId(R.drawable.push_more);
                 break;
             case 9:
-
+                item.setTitle("综合信息");
+                item.setResId(R.drawable.push_huodong);
                 break;
 
             case 10:

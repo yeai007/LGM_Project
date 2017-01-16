@@ -53,6 +53,8 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
 
     ArrayList<CropUserData> arrCropUserData = new ArrayList<>();
     ArrayList<CropUserData> arrCropUserDataTmp = new ArrayList<>();
+    TextView tv_no_breedorganization;
+    CropData mCropData = new CropData();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
     private void initView() {
         TextView Apptitle = (TextView) findViewById(R.id.apptitle);
         Apptitle.setText("品种详情");
+        tv_no_breedorganization = (TextView) findViewById(R.id.tv_no_breedorganization);
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
         tv_category2_content = (AutoSplitTextView) findViewById(R.id.tv_category2_content);
         tv_varietyname_content = (AutoSplitTextView) findViewById(R.id.tv_varietyname_content);
@@ -105,7 +108,7 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
     Runnable updateView = new Runnable() {
         @Override
         public void run() {
-            CropData mCropData = new CropData();
+
             mCropData = arr_CropDataTmp.get(0);
             breedOrganizationAdapter.notifyDataSetChanged();
             tv_category2_content.setText(mCropData.getCropCategory2());
@@ -158,6 +161,13 @@ public class CropActivity extends AppCompatActivity implements View.OnClickListe
             arrCropUserData.clear();
             arrCropUserData.addAll(arrCropUserDataTmp);
             breedOrganizationAdapter.notifyDataSetChanged();
+            if (arrCropUserData.size() == 0) {
+                if (!TextUtils.isEmpty(mCropData.getBreedOrganization())) {
+                    tv_no_breedorganization.setVisibility(View.VISIBLE);
+                    tv_no_breedorganization.setText(mCropData.getBreedOrganization());
+                }
+
+            }
         }
     };
 }

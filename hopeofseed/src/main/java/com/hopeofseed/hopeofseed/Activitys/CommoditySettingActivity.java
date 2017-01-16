@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,7 +76,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
     CommodityData mCommodityData = new CommodityData();
     AutoCompleteTextView et_variety;
     Handler mHandler = new Handler();
-    EditText et_name, et_title, et_price, et_discribe;
+    EditText et_name, et_title, et_price, et_discribe, et_order;
     RecyclerView result_recycler;
     private RecyclerView resultRecyclerView;
     private ArrayList<String> images = new ArrayList<>();
@@ -106,6 +107,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
     pushFileResultTmp mCommResultTmp2 = new pushFileResultTmp();
     ArrayList<CommodityVarietyData> arrCommodityVarietyData_1_tmp = new ArrayList<>();
     ArrayList<CommodityVarietyData> arrCommodityVarietyData_2_tmp = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,6 +168,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
         et_title = (EditText) findViewById(R.id.et_title);
         et_price = (EditText) findViewById(R.id.et_price);
         et_discribe = (EditText) findViewById(R.id.et_discribe);
+        et_order = (EditText) findViewById(R.id.et_order);
         resultRecyclerView = (RecyclerView) findViewById(R.id.result_recycler);
         resultRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         gridAdapter = new GridAdapter();
@@ -284,11 +287,11 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
         opt_map.put("commodity_describe", et_discribe.getText().toString().replace("\n", "\\n"));
         opt_map.put("commodity_variety", et_variety.getText().toString());
         opt_map.put("commodity_class", commodityclass);
+        opt_map.put("commodity_order", et_order.getText().toString().trim());
         opt_map.put("userid", String.valueOf(Const.currentUser.user_id));
         opt_map.put("OwnerClass", Const.currentUser.user_role);
         opt_map.put("Variety_1", Variety_1);
         opt_map.put("Variety_2", Variety_2);
-        Log.e(TAG, "updateThisData: " + DelImage);
         opt_map.put("DelImage", DelImage);
         HttpUtils hu = new HttpUtils();
         hu.httpPostFiles(Const.BASE_URL + "updateCommodity.php", opt_map, fileList, pushFileResultTmp.class, this);
@@ -371,6 +374,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
             et_title.setText(mCommodityData.getCommodityTitle());
             et_price.setText(mCommodityData.getCommodityPrice());
             et_discribe.setText(mCommodityData.getCommodityDescribe());
+            et_order.setText(String.valueOf(mCommodityData.getCommodityOrderNo()));
             String[] arrImage = mCommodityData.getCommodityImgs().split(";");
             images.clear();
             images.add("add");
@@ -447,7 +451,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
         public void onBindViewHolder(GridAdapter.ViewHolder holder, final int position) {
             if (images.get(position).equals("add")) {
                 Glide.with(CommoditySettingActivity.this)
-                        .load(R.drawable.add_img)      .dontAnimate()
+                        .load(R.drawable.add_img).dontAnimate()
                         .centerCrop()
                         .into(holder.imageView);
                 holder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -463,7 +467,7 @@ public class CommoditySettingActivity extends AppCompatActivity implements View.
                 Log.e(TAG, "onBindViewHolder: " + images.get(position));
 
                 Glide.with(CommoditySettingActivity.this)
-                        .load(images.get(position)) .placeholder(R.drawable.no_have_img)   .dontAnimate()
+                        .load(images.get(position)).placeholder(R.drawable.no_have_img).dontAnimate()
                         .centerCrop()
                         .into(holder.imageView);
                 holder.imageView.setOnClickListener(new View.OnClickListener() {

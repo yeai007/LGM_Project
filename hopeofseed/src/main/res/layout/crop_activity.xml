@@ -114,9 +114,16 @@
                     android:text="育种单位"
                     android:textColor="#ff6600"
                     android:textSize="15sp" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/tv_breedorganization"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/tv_no_breedorganization"
+                    android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="match_parent" />
             </LinearLayout>
 

@@ -12,6 +12,7 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/top"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -189,11 +190,40 @@
                     android:gravity="center_vertical|left" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/rel_order"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rel_price"
+                android:layout_marginTop="5dp"
+                android:background="#ffffff">
+
+                <TextView
+                    android:id="@+id/tv_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="#ffffff"
+                    android:gravity="center"
+                    android:hint="排序序号" />
+
+                <EditText
+                    android:id="@+id/et_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_order"
+                    android:background="@drawable/bg_edittext"
+                    android:digits="0123456789"
+                    android:gravity="center_vertical|left"
+                    android:inputType="number" />
+            </RelativeLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/result_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/rel_price" />
+                android:layout_below="@+id/rel_order" />
 
             <RelativeLayout
                 android:id="@+id/rel_discribe"

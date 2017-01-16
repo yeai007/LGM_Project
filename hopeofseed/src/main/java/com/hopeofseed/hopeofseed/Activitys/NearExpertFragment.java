@@ -3,6 +3,7 @@ package com.hopeofseed.hopeofseed.Activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -41,8 +42,9 @@ public class NearExpertFragment extends Fragment implements NetCallBack , SwipeR
     RecyclerView recycler_list;
     ExpertDataAdapter mExpertDataAdapter;
     ArrayList<ExpertData> arrExpertData= new ArrayList<>();
-    android.os.Handler mHandler = new android.os.Handler();
+
     private String StrProvince, StrCity, StrZone, StrPolitic;
+    Handler mHandler = new Handler();
     private int PageNo = 0;
     ArrayList<ExpertData> arrExpertDataTmp = new ArrayList<>();
     boolean isLoading = false;

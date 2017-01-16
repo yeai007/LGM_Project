@@ -71,6 +71,11 @@ public class CommodityData {
     private String OwnerClass;
     private String CommodityVariety_1;
     private String CommodityVariety_2;
+    /**
+     * CommodityOrderNo : 00000000000
+     */
+
+    private int CommodityOrderNo;
 
     public String getUser_id() {
         return user_id;
@@ -294,5 +299,13 @@ public class CommodityData {
 
     public void setCommodityVariety_2(String CommodityVariety_2) {
         this.CommodityVariety_2 = CommodityVariety_2;
+    }
+
+    public int getCommodityOrderNo() {
+        return CommodityOrderNo;
+    }
+
+    public void setCommodityOrderNo(int CommodityOrderNo) {
+        this.CommodityOrderNo = CommodityOrderNo;
     }
 }

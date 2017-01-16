@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.hopeofseed.hopeofseed.Activitys.CustomPushActivity;
 import com.hopeofseed.hopeofseed.Activitys.DistributorCountReportActivity;
 import com.hopeofseed.hopeofseed.Activitys.MyCommodity;
+import com.hopeofseed.hopeofseed.Activitys.PubishComprehensiveActivity;
 import com.hopeofseed.hopeofseed.Activitys.PubishHuoDongActivity;
 import com.hopeofseed.hopeofseed.Activitys.PubishMainActivity;
 import com.hopeofseed.hopeofseed.Activitys.PublishProblem;
@@ -120,6 +121,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                                                    }
                                                    if (itemData.getTitle().equals("更多")) {
                                                        ((pulishPopupRecyle) mPopupWindow).setNextPage();
+                                                   }
+                                                   if (itemData.getTitle().equals("综合信息")) {
+                                                       if (Const.isVip) {
+                                                           intent = new Intent(mContext, PubishComprehensiveActivity.class);
+                                                           intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                           mContext.startActivity(intent);
+                                                       } else {
+                                                           Toast.makeText(mContext, "您的会员已到期\n请升级", Toast.LENGTH_SHORT).show();
+                                                       }
                                                    }
                                                }
                                            }

@@ -71,7 +71,7 @@ import static com.hopeofseed.hopeofseed.Application.REQUEST_CODE_FILES;
  */
 public class AddCommodity extends AppCompatActivity implements View.OnClickListener, NetCallBack {
     private static final String TAG = "AddCommodity";
-    EditText et_name, et_title, et_discribe, et_price;
+    EditText et_name, et_title, et_discribe, et_price,et_order;
     CommodityData comodityData = new CommodityData();
     private RecyclerView resultRecyclerView;
     private ArrayList<String> images = new ArrayList<>();
@@ -136,6 +136,7 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
         et_title = (EditText) findViewById(R.id.et_title);
         et_discribe = (EditText) findViewById(R.id.et_discribe);
         et_price = (EditText) findViewById(R.id.et_price);
+        et_order=(EditText)findViewById(R.id.et_order);
         TextView appTitle = (TextView) findViewById(R.id.apptitle);
         appTitle.setText("添加商品");
         images.add("add");
@@ -307,6 +308,7 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
         opt_map.put("commodity_describe", et_discribe.getText().toString().replace("\n", "\\n"));
         opt_map.put("commodity_variety", et_variety.getText().toString());
         opt_map.put("commodity_class", commodityclass);
+        opt_map.put("commodity_order",et_order.getText().toString().trim());
         opt_map.put("userid", String.valueOf(Const.currentUser.user_id));
         opt_map.put("OwnerClass", Const.currentUser.user_role);
         opt_map.put("Variety_1", Variety_1);
@@ -463,7 +465,6 @@ public class AddCommodity extends AppCompatActivity implements View.OnClickListe
             arr_CropData.addAll(arr_CropDataTmp);
             Log.e(TAG, "handleMessage: updateview" + arr_CropData.size());
             mAutoTextDataAdapter.notifyDataSetChanged();
-
         }
     };
     private Handler updateSpinnerHandle = new Handler() {

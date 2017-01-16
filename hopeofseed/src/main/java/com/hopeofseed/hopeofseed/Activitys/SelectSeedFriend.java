@@ -1,49 +1,59 @@
 package com.hopeofseed.hopeofseed.Activitys;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.radar.RadarNearbyInfo;
-import com.baidu.mapapi.radar.RadarNearbyResult;
-import com.baidu.mapapi.radar.RadarNearbySearchOption;
-import com.baidu.mapapi.radar.RadarSearchError;
-import com.baidu.mapapi.radar.RadarSearchListener;
-import com.baidu.mapapi.radar.RadarSearchManager;
-import com.baidu.mapapi.radar.RadarUploadInfo;
-import com.baidu.mapapi.radar.RadarUploadInfoCallback;
-import com.hopeofseed.hopeofseed.Application;
+import com.hopeofseed.hopeofseed.Adapter.SeedfriendDataAdapter;
 import com.hopeofseed.hopeofseed.Data.Const;
+import com.hopeofseed.hopeofseed.Http.HttpUtils;
+import com.hopeofseed.hopeofseed.Http.NetCallBack;
+import com.hopeofseed.hopeofseed.Http.RspBaseBean;
+import com.hopeofseed.hopeofseed.JNXData.UserDataNoRealm;
+import com.hopeofseed.hopeofseed.JNXDataTmp.ExpertDataTmp;
+import com.hopeofseed.hopeofseed.JNXDataTmp.UserDataNoRealmTmp;
 import com.hopeofseed.hopeofseed.R;
-import com.hopeofseed.hopeofseed.Services.LocationService;
 import com.lgm.utils.ObjectUtil;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import citypickerview.widget.CityPicker;
 
 
 /**
  * Created by whisper on 2016/10/7.
  */
-public class SelectSeedFriend extends AppCompatActivity implements View.OnClickListener, RadarSearchListener, BDLocationListener, RadarUploadInfoCallback {
-    private LocationService locationService;
+public class SelectSeedFriend extends AppCompatActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "SelectSeedFriend";
-    RadarSearchManager mManager;
-    RadarUploadInfo infoAuto;
+    private String StrProvince, StrCity, StrZone;
+    Button go;
+    RecyclerView recycler_list;
+    Handler mHandler = new Handler();
+    private int PageNo = 0;
+    boolean isLoading = false;
+    private SwipeRefreshLayout mRefreshLayout;
+    SeedfriendDataAdapter mSeedfriendDataAdapter;
+    ArrayList<UserDataNoRealm> arr_UserDataNoRealm = new ArrayList<>();
+    ArrayList<UserDataNoRealm> arr_UserDataNoRealmTmp = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.select_seed_friend);
         initView();
-        initLocation();
+        initList();
+        getData();
 
     }
 
@@ -51,6 +61,43 @@ public class SelectSeedFriend extends AppCompatActivity implements View.OnClickL
         TextView appTitle = (TextView) findViewById(R.id.apptitle);
         appTitle.setText("找种友");
         (findViewById(R.id.btn_topleft)).setOnClickListener(this);
+        go = (Button) findViewById(R.id.go);
+        go.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CityPicker cityPicker = new CityPicker.Builder(SelectSeedFriend.this).textSize(20)
+                        .title("地址选择")
+                        .titleBackgroundColor("#5F9EA0")
+                        .onlyShowProvinceAndCity(false)
+                        .confirTextColor("#000000")
+                        .cancelTextColor("#000000")
+                        .province(Const.Province)
+                        .city(Const.City)
+                        .district(Const.Zone)
+                        .textColor(Color.parseColor("#000000"))
+                        .provinceCyclic(true)
+                        .cityCyclic(false)
+                        .districtCyclic(false)
+                        .visibleItemsCount(7)
+                        .itemPadding(10)
+                        .build();
+
+                cityPicker.show();
+                cityPicker.setOnCityItemClickListener(new CityPicker.OnCityItemClickListener() {
+                    @Override
+                    public void onSelected(String... citySelected) {
+                        go.setText("" + citySelected[0] + "  " + citySelected[1] + "  "
+                                + citySelected[2]);
+                        StrProvince = citySelected[0];
+                        StrCity = citySelected[1];
+                        StrZone = citySelected[2];
+                        PageNo = 0;
+                        getData();
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -62,138 +109,97 @@ public class SelectSeedFriend extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    @Override
-    public void onGetNearbyInfoList(RadarNearbyResult radarNearbyResult, RadarSearchError radarSearchError) {
-        if (!(radarSearchError == RadarSearchError.RADAR_NO_RESULT)) {
-            Log.i(TAG, "totalNum:" + radarNearbyResult.totalNum);  // 总结果个数
-            Log.i(TAG, "pageIndex:" + radarNearbyResult.pageIndex);    // 页码
-            Log.i(TAG, "pageNum:" + radarNearbyResult.pageNum);    // 总页数
-            Log.i(TAG, "infoList.size:" + radarNearbyResult.infoList.size());
-            Log.e(TAG, "onGetNearbyInfoList: " + radarSearchError.toString());
-            ArrayList<RadarNearbyInfo> arrRadarNearbyInfo = new ArrayList<>();
-            arrRadarNearbyInfo = ObjectUtil.cast(radarNearbyResult.infoList);
-            Log.e(TAG, "onGetNearbyInfoList: " + arrRadarNearbyInfo);
-        } else {
-            Log.e(TAG, "onGetNearbyInfoList: 获取数据失败" + radarSearchError);
+    private void getData() {
+        Log.e(TAG, "getData: 获取品种数据");
+        HashMap<String, String> opt_map = new HashMap<>();
+        if(TextUtils.isEmpty(StrProvince))
+        {StrProvince="";}
+        if(TextUtils.isEmpty(StrCity))
+        {StrCity="";}
+        if(TextUtils.isEmpty(StrZone))
+        {StrZone="";}
+        opt_map.put("StrProvince", StrProvince);
+        opt_map.put("StrCity", StrCity);
+        opt_map.put("StrZone", StrZone);
+        opt_map.put("PageNo", String.valueOf(PageNo));
+        HttpUtils hu = new HttpUtils();
+        hu.httpPost(Const.BASE_URL + "GetNearBySeedFriend.php", opt_map, UserDataNoRealmTmp.class, new NetCallBack() {
+            @Override
+            public void onSuccess(RspBaseBean rspBaseBean) {
+                UserDataNoRealmTmp mUserDataNoRealmTmp = ObjectUtil.cast(rspBaseBean);
+                arr_UserDataNoRealmTmp = mUserDataNoRealmTmp.getDetail();
+                mHandler.post(updateList);
+            }
+
+            @Override
+            public void onError(String error) {
+                mRefreshLayout.setRefreshing(false);
+                isLoading = false;
+            }
+
+            @Override
+            public void onFail() {
+                mRefreshLayout.setRefreshing(false);
+                isLoading = false;
+            }
+        });
+    }
+
+    Runnable updateList = new Runnable() {
+        @Override
+        public void run() {
+            if (PageNo == 0) {
+                arr_UserDataNoRealm.clear();
+            }
+            arr_UserDataNoRealm.addAll(arr_UserDataNoRealmTmp);
+            mSeedfriendDataAdapter.notifyDataSetChanged();
+            mRefreshLayout.setRefreshing(false);
+            isLoading = false;
         }
+    };
+
+    private void initList() {
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.layout_swipe_refresh);
+        //这个是下拉刷新出现的那个圈圈要显示的颜色
+        mRefreshLayout.setColorSchemeResources(
+                R.color.colorRed,
+                R.color.colorYellow,
+                R.color.colorGreen
+        );
+        mRefreshLayout.setOnRefreshListener(this);
+        recycler_list = (RecyclerView) findViewById(R.id.recycler_list);
+        final LinearLayoutManager manager = new LinearLayoutManager(SelectSeedFriend.this);
+        recycler_list.setLayoutManager(manager);
+        mSeedfriendDataAdapter = new SeedfriendDataAdapter(SelectSeedFriend.this, arr_UserDataNoRealm);
+        recycler_list.setAdapter(mSeedfriendDataAdapter);
+        //滚动监听，在滚动监听里面去实现加载更多的功能
+        recycler_list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = ((LinearLayoutManager) manager).findLastVisibleItemPosition();
+                int totalItemCount = manager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 1 && dy > 0) {
+                    if (!isLoading) {//一个布尔的变量，默认是false
+                        isLoading = true;
+                        PageNo = PageNo + 1;
+                        getData();
+                    } else {
+                        //当没有更多的数据的时候去掉加载更多的布局
+/*                        RecyclerViewAdapter adapter = (RecyclerViewAdapter) recy_news.getAdapter();
+                        adapter.setIsNeedMore(false);
+                        adapter.notifyDataSetChanged();*/
+                    }
+                }
+            }
+        });
     }
 
     @Override
-    public void onGetUploadState(RadarSearchError radarSearchError) {
-        // TODO Auto-generated method stub
-        if (radarSearchError == RadarSearchError.RADAR_NO_ERROR) {
-            //上传成功
-            Log.e(TAG, "onGetUploadState: 单次上传位置成功");
-            Toast.makeText(getApplicationContext(), "单次上传位置成功", Toast.LENGTH_LONG)
-                    .show();
-            LatLng llA = new LatLng(Const.LocLat, Const.LocLng);
-            RadarNearbySearchOption option = new RadarNearbySearchOption().centerPt(llA).pageNum(0).radius(90000);
-            //发起查询请求
-            mManager.nearbyInfoRequest(option);
-
-        } else {
-            //上传失败
-            Log.e(TAG, "onGetUploadState: 单次上传位置失败");
-            Toast.makeText(getApplicationContext(), radarSearchError.toString(), Toast.LENGTH_LONG)
-                    .show();
-        }
-    }
-
-    @Override
-    public void onGetClearInfoState(RadarSearchError radarSearchError) {
-
-    }
-
-    private void initLocation() {
-        // -----------location config ------------
-        locationService = ((Application) getApplication()).locationService;
-        //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
-        locationService.registerListener(this);
-        //注册监听
-        int type = getIntent().getIntExtra("from", 0);
-        if (type == 0) {
-            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-        } else if (type == 1) {
-            locationService.setLocationOption(locationService.getOption());
-        }
-        locationService.start();// 定位SDK
-    }
-
-    /***
-     * Stop location service
-     */
-    @Override
-    public void onStop() {
-        // TODO Auto-generated method stub
-        locationService.unregisterListener(this); //注销掉监听
-        //  locationService.stop(); //停止定位服务
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //移除监听
-        mManager.removeNearbyInfoListener(this);
-//清除用户信息
-        mManager.clearUserInfo();
-//释放资源
-        mManager.destroy();
-        mManager = null;
-    }
-
-    @Override
-    public void onReceiveLocation(BDLocation bdLocation) {
-        if (bdLocation == null)
-            return;
-        //Receive Location
-        //经纬度
-        double lati = bdLocation.getLatitude();
-        double longa = bdLocation.getLongitude();
-        //打印出当前位置
-        Log.i("TAG", "location.getAddrStr()=" + bdLocation.getAddrStr());
-        //打印出当前城市
-        Log.i("TAG", "location.getCity()=" + bdLocation.getCity());
-        //返回码
-        int i = bdLocation.getLocType();
-        //LatLng llA = new LatLng(36.710353, 117.086401);
-        LatLng llA = new LatLng(bdLocation.getLatitude(), bdLocation.getLongitude());
-        Const.LocLat = bdLocation.getLatitude();
-        Const.LocLng = bdLocation.getLongitude();
-        if (TextUtils.isEmpty(String.valueOf(Const.LocLat))) {
-            Const.LocLat = 36.710348;
-        }
-        if (TextUtils.isEmpty(String.valueOf(Const.LocLng))) {
-            Const.LocLng = 117.086381;
-        }
-        getNearByData(llA);
-        locationService.stop();
-    }
-
-    private void getNearByData(LatLng llA) {
-        Log.e(TAG, "getNearByData: " + llA.toString());
-        mManager = RadarSearchManager.getInstance();
-        //周边雷达设置监听
-        mManager.addNearbyInfoListener(this);
-        //周边雷达设置用户身份标识，id为空默认是设备标识
-        mManager.setUserID(String.valueOf(Const.currentUser.user_id));
-        //上传位置
-        RadarUploadInfo info = new RadarUploadInfo();
-        infoAuto = new RadarUploadInfo();
-        info.comments = Const.currentUser.user_name;
-        info.pt = llA;
-
-        infoAuto.comments = "1";
-        infoAuto.pt = llA;
-        // mManager.uploadInfoRequest(info);
-        mManager.startUploadAuto(SelectSeedFriend.this, 5000);
-    }
-
-
-    @Override
-    public RadarUploadInfo onUploadInfoCallback() {
-
-
-        return infoAuto;
+    public void onRefresh() {
+        PageNo = 0;
+        getData();
     }
 }

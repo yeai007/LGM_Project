@@ -605,6 +605,11 @@
             android:name=".Activitys.CommodityForDistributorActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".Activitys.PubishComprehensiveActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
