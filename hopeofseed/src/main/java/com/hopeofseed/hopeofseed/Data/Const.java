@@ -21,10 +21,10 @@ import cn.jpush.im.android.api.model.UserInfo;
  */
 public class Const {
     private static final String TAG = "Const";
-    public static final String BASE_URL = "http://zyg168.com/mobileinterface/";// 统一后台获取json数据接口前缀
+    public static final String BASE_URL = "http://bxu2343580168.my3w.com/mobileinterface/";// 统一后台获取json数据接口前缀
     public static CurrentUser currentUser = new CurrentUser();
-    public static final String IMG_URL = "http://zyg168.com/mobileinterface/upload/";
-    public static final String IMG_URL_FINAL = "http://zyg168.com/mobileinterface/images/";
+    public static final String IMG_URL = "http://bxu2343580168.my3w.com/mobileinterface/upload/";
+    public static final String IMG_URL_FINAL = "http://bxu2343580168.my3w.com/mobileinterface/images/";
     public static final String JPUSH_PREFIX = "Jpush_";
     public static String UserLocation = "";
     public static double LocLat;
